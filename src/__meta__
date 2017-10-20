@@ -1,0 +1,12 @@
+{
+    "files":[
+        {
+            "target": "b.js",
+            "source":{
+                "template": "template",
+                "list": ["body.js"]
+            }
+        }
+    ],
+    "remove":["body.js"]
+}

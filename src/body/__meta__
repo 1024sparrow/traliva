@@ -1,0 +1,17 @@
+{
+    "files":[
+        {
+            "target": "body.js",
+            "type": [],
+            "source":{
+                "template": "template",
+                "list":[
+                    "states.js",
+                    "widgets.js",
+                    "utils.js"
+                ]
+            }
+        }
+    ],
+    "remove":["."]
+}

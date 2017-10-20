@@ -1,0 +1,13 @@
+(function(){
+{%% _widgetbase.js %%}
+B._WidgetBase = _WidgetBase;
+
+{%% widget.js %%}
+B.Widget = Widget;
+
+{%% strip.js %%}
+B.Strip = Strip;
+
+{%% stack.js %%}
+B.Stack = Stack;
+})();

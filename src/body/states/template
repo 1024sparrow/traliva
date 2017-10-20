@@ -1,0 +1,13 @@
+(function(){
+{%% state_publisher.js %%}
+B.StatePublisher = StatePublisher;
+
+{%% state_subscriber.js %%}
+B.StateSubscriber = StateSubscriber;
+
+{%% state_debug_widget.js %%}
+B.StateDebugWidget = StateDebugWidget;
+
+{%% state_to_uri_wrapper.js %%}
+B.StateToUriWrapper = StateToUriWrapper;
+})();

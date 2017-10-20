@@ -1,0 +1,14 @@
+{
+    "files":[
+        {
+            "target":"utils.js",
+            "source":{
+                "template": "template",
+                "list":[
+                    "ajax.js",
+                    "checkvisible.js"
+                ]
+            }
+        }
+    ]
+}

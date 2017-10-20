@@ -1,0 +1,16 @@
+{
+    "files":[
+        {
+            "target":"states.js",
+            "source":{
+                "template": "template",
+                "list":[
+                    "state_publisher.js",
+                    "state_subscriber.js",
+                    "state_debug_widget.js",
+                    "state_to_uri_wrapper.js"
+                ]
+            }
+        }
+    ]
+}

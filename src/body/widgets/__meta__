@@ -1,0 +1,16 @@
+{
+    "files":[
+        {
+            "target":"widgets.js",
+            "source":{
+                "template": "template",
+                "list":[
+                    "_widgetbase.js",
+                    "widget.js",
+                    "strip.js",
+                    "stack.js"
+                ]
+            }
+        }
+    ]
+}

@@ -1,0 +1,9 @@
+var B;
+if (B)
+	console.log('epic fail');
+else {
+	B = {};
+    {%% states.js %%}
+    {%% widgets.js %%}
+    {%% utils.js %%}
+}

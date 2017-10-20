@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>70425 widgets</title>
+<script src="b.js"></script>
+<style>
+/*{border:1px solid green;}*/
+.b__splitter{background:#8f8;}
+.b__splitter:hover{background:#4a4;}
+</style>
+</head>
+<body>
+<script>
+
+//
+var eP = document.createElement('p');
+var ePText = document.createTextNode('dddddddddddeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeedddddddddddddddddd dddddddddddd');
+eP.appendChild(ePText);
+
+var wRoot = new B.Strip(B.Strip__Orient__hor);
+var wLeftHalf = new B.Widget(wRoot);
+wLeftHalf.setContent(undefined, '#ffa');
+
+var wRightHalf = new B.Stack(wRoot);
+	var wRightHalfContent = new B.Strip(B.Strip__Orient__vert, wRightHalf);
+		var wRightHalfTop = new B.Widget(wRightHalf);
+		wRightHalfTop.setContent(undefined, '#48f');
+
+		var wRightHalfBottom = new B.Widget(wRightHalf);
+		wRightHalfBottom.setContent(eP, '#048');
+
+		wRightHalfContent.addItem(wRightHalfTop);
+		wRightHalfContent.addItem(wRightHalfBottom, '50px');
+	wRightHalf.addItem(wRightHalfContent);
+	var wRightHalfWaiting = new B.Widget(wRightHalf);
+		wRightHalfWaiting.setContent(undefined, 'rgba(0,0,0,0.4)');
+		//wRightHalfWaiting.setContent(undefined, '#f00');
+	wRightHalf.addItem(wRightHalfWaiting);
+
+var wStub = new B.Widget(wRoot);
+wStub.setContent(undefined, '#400');
+
+var wStub2 = new B.Widget(wRoot);
+wStub2.setContent(undefined, '#888');
+
+//wRoot.addItem(wLeftHalf, '1part');
+wRoot.addItem(wLeftHalf, '200 px');
+wRoot.addSplitter();
+wRoot.addItem(wStub);
+wRoot.addItem(wRightHalf, '500px');
+wRoot.addItem(wStub2);
+	
+var cand = new B.Strip(B.Strip__Orient__vert, wLeftHalf);
+var candTop = new B.Widget(cand);
+candTop.setContent(undefined, '#fff');
+var candBottom = new B.Widget(cand);
+candBottom.setContent(undefined, '#000');
+cand.addItem(candTop);
+cand.addItem(candBottom);
+//wLeftHalf.setContent(cand);
+//wLeftHalf.setContent(eP);
+
+
+
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,7 @@
+(function(){
+{%% ajax.js %%}
+B.ajax = ajax;
+
+{%% checkvisible.js %%}
+B.checkVisible = checkVisible;
+})();
