@@ -1,12 +1,12 @@
 {
     "files":[
         {
-            "target": "b.js",
+            "target": "traliva.js",
             "source":{
                 "template": "template",
                 "list": ["body.js"]
             }
         }
     ],
-    "remove":["body.js"]
+    "remove":["body.js", "."]
 }
