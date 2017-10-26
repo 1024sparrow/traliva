@@ -9,5 +9,5 @@ B.StateSubscriber = StateSubscriber;
 B.StateDebugWidget = StateDebugWidget;
 
 {%% state_to_uri_wrapper.js %%}
-B.StateToUriWrapper = StateToUriWrapper;
+B.StateToUriMapper = StateToUriMapper;
 })();

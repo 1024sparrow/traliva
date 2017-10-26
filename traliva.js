@@ -324,7 +324,7 @@ StateToUriMapper.prototype.updateState = function(){
     return this._statesObj.initState;
 }
 
-B.StateToUriWrapper = StateToUriWrapper;
+B.StateToUriMapper = StateToUriMapper;
 })();
 
     (function(){
@@ -938,7 +938,6 @@ B.checkVisible = function(e) {
 	return !(rect.bottom < 0 || rect.top - viewHeight >= 0);
 }
 
-B.checkVisible = checkVisible;
 })();
 
 }

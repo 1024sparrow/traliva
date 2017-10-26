@@ -3,5 +3,4 @@
 B.ajax = ajax;
 
 {%% checkvisible.js %%}
-B.checkVisible = checkVisible;
 })();
