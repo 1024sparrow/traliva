@@ -16,14 +16,18 @@ StatePublisher.prototype.setState = function(state){//parameter is an Object
 	this.__state = state;
 	for (var i = 0 ; i < this.__subscribers.length ; i++){
 		var subscr = this.__subscribers[i];
-		subscr._state = state;
-		subscr.processStateChanges(state, true);
+        subscr.__d.state = state;
+        var s = subscr.__getSubstate(state);
+		subscr._state = s;
+		subscr.processStateChanges(s, true);
 	}
 };
 StatePublisher.prototype.registerSubscriber = function(subscr){
 	subscr.__m_publisher = this;
-	subscr._state = this.__state;
-	subscr.processStateChanges(this.__state, true);
+    subscr.__s.state = this.__state;
+    var s = subscr.__getSubstate(this.__state);
+	subscr._state = s;
+	subscr.processStateChanges(s, true);
 	this.__subscribers.push(subscr);
 };
 StatePublisher.prototype.unregisterSubscriber = function(subscr){
@@ -33,13 +37,15 @@ StatePublisher.prototype.unregisterSubscriber = function(subscr){
 	else
 		console.log("epic fail");
 };
-StatePublisher.prototype.processStateChanges = function(sender){
+StatePublisher.prototype._processStateChanges = function(sender){
 	this.__state = sender._state;
 	for (var i = 0 ; i < this.__subscribers.length ; i++){
 		var subscr = this.__subscribers[i];
 		if (subscr == sender)
 			continue;
-		subscr._state = this.__state;
-		subscr.processStateChanges(this.__state, false);
+        subscr.__d.state = this.__state;
+        var s = subscr.__getSubstate(this.__state);
+		subscr._state = s;
+		subscr.processStateChanges(s, false);
 	}
 };
