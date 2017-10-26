@@ -8,5 +8,5 @@
             }
         }
     ],
-    "remove":["body.js", "."]
+    "remove":["body.js", ".", "../traliva.js"]
 }
