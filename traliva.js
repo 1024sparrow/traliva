@@ -47,7 +47,7 @@ StatePublisher.prototype.setState = function(state){//parameter is an Object
 };
 StatePublisher.prototype.registerSubscriber = function(subscr){
 	subscr.__m_publisher = this;
-    subscr.__s.state = this.__state;
+    subscr.__d.state = this.__state;
     var s = subscr.__getSubstate(this.__state);
 	subscr._state = s;
 	subscr.processStateChanges(s, true);
@@ -75,7 +75,7 @@ StatePublisher.prototype._processStateChanges = function(sender){
 
 B.StatePublisher = StatePublisher;
 
-/****** class StateSubscriber ************************
+s/****** class StateSubscriber ************************
  */
 
 var StateSubscriber = function(){
