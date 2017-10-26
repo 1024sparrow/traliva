@@ -1,6 +1,16 @@
 'use strict'
 
-//Copyright (c) 2017, Борис Васильев.
+/*
+ * traliva <https://github.com/1024sparrow/traliva>
+ * JavaScript фреймворк для разработки клиентской части (front-end) web-приложений.
+ * JavaScript framework for front-end developing.
+ * 
+ * Авторское право (c) 2017, Борис Васильев.
+ * Публикуется под лицензией MIT.
+ *
+ * Copyright (c) 2017, Boris Vasilyev.
+ * Released under the MIT license.
+ */
 
 var B;
 if (B)
