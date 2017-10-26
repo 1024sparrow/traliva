@@ -75,7 +75,7 @@ StatePublisher.prototype._processStateChanges = function(sender){
 
 B.StatePublisher = StatePublisher;
 
-s/****** class StateSubscriber ************************
+/****** class StateSubscriber ************************
  */
 
 var StateSubscriber = function(){
