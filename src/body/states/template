@@ -1,4 +1,7 @@
 (function(){
+{%% substate_mapper.js %%}
+B.SubstateMapper = SubstateMapper;
+
 {%% state_publisher.js %%}
 B.StatePublisher = StatePublisher;
 

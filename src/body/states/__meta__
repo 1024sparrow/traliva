@@ -5,6 +5,7 @@
             "source":{
                 "template": "template",
                 "list":[
+                    "substate_mapper.js",
                     "state_publisher.js",
                     "state_subscriber.js",
                     "state_debug_widget.js",
