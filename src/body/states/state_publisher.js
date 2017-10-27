@@ -19,14 +19,17 @@ StatePublisher.prototype.setState = function(state){//parameter is an Object
         subscr.__d.state = state;
         var s = subscr.__getSubstate(state);
 		subscr._state = s;
+        console.log('process '+subscr.constructor.name + JSON.stringify(s));
 		subscr.processStateChanges(s, true);
 	}
 };
 StatePublisher.prototype.registerSubscriber = function(subscr){
+    console.log('register '+subscr.constructor.name);
 	subscr.__m_publisher = this;
     subscr.__d.state = this.__state;
     var s = subscr.__getSubstate(this.__state);
 	subscr._state = s;
+    console.log('process '+subscr.constructor.name + JSON.stringify(s));
 	subscr.processStateChanges(s, true);
 	this.__subscribers.push(subscr);
 };
@@ -38,7 +41,7 @@ StatePublisher.prototype.unregisterSubscriber = function(subscr){
 		console.log("epic fail");
 };
 StatePublisher.prototype._processStateChanges = function(sender){
-	this.__state = sender._state;
+	this.__state = sender.__d.state;
 	for (var i = 0 ; i < this.__subscribers.length ; i++){
 		var subscr = this.__subscribers[i];
 		if (subscr == sender)
@@ -46,6 +49,7 @@ StatePublisher.prototype._processStateChanges = function(sender){
         subscr.__d.state = this.__state;
         var s = subscr.__getSubstate(this.__state);
 		subscr._state = s;
+        console.log('process '+subscr.constructor.name + JSON.stringify(s));
 		subscr.processStateChanges(s, false);
 	}
 };

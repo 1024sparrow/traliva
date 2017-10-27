@@ -39,14 +39,17 @@ StatePublisher.prototype.setState = function(state){//parameter is an Object
         subscr.__d.state = state;
         var s = subscr.__getSubstate(state);
 		subscr._state = s;
+        console.log('process '+subscr.constructor.name + JSON.stringify(s));
 		subscr.processStateChanges(s, true);
 	}
 };
 StatePublisher.prototype.registerSubscriber = function(subscr){
+    console.log('register '+subscr.constructor.name);
 	subscr.__m_publisher = this;
     subscr.__d.state = this.__state;
     var s = subscr.__getSubstate(this.__state);
 	subscr._state = s;
+    console.log('process '+subscr.constructor.name + JSON.stringify(s));
 	subscr.processStateChanges(s, true);
 	this.__subscribers.push(subscr);
 };
@@ -58,7 +61,7 @@ StatePublisher.prototype.unregisterSubscriber = function(subscr){
 		console.log("epic fail");
 };
 StatePublisher.prototype._processStateChanges = function(sender){
-	this.__state = sender._state;
+	this.__state = sender.__d.state;
 	for (var i = 0 ; i < this.__subscribers.length ; i++){
 		var subscr = this.__subscribers[i];
 		if (subscr == sender)
@@ -66,6 +69,7 @@ StatePublisher.prototype._processStateChanges = function(sender){
         subscr.__d.state = this.__state;
         var s = subscr.__getSubstate(this.__state);
 		subscr._state = s;
+        console.log('process '+subscr.constructor.name + JSON.stringify(s));
 		subscr.processStateChanges(s, false);
 	}
 };
@@ -77,12 +81,12 @@ B.StatePublisher = StatePublisher;
 
 var StateSubscriber = function(){
 	//this._state = {};//empty state by default untill be set
-    this._state;//undefined untill be set
     this.__d = {
         substateMapper: undefined,
         substateMapperType: undefined,
-        state: undefined
+        state: {}
     }
+    this._state = this.__d.state;//undefined untill be set
 };
 /*
 Этот метод будет вызываться при любом изменении объекта состояния (не только косающихся подсостояния данного подписчика, если такое задано). Реализация данного метода должна начинаться с проверки, изменились ли те элементы объекта состояния, которые используются в данном подписчике.
@@ -114,6 +118,8 @@ StateSubscriber.prototype.useSubstate = function(substateMapper){
     return this;
 };
 StateSubscriber.prototype.__getSubstate = function(state){
+    if (!this.__d.substateMapper)
+        return this.__d.state;
     //Здесь ни в коем случае нельзя создавать объект. Мы должны вернуть или ссылку на объект, или undefined.
     var retVal;//undefined
     if (this.__d.substateMapperType === 'string'){
@@ -140,6 +146,7 @@ B.StateSubscriber = StateSubscriber;
 /****** class StateDebugWidget ***********************
  */
 var StateDebugWidget = function(divId){
+    StateSubscriber.call(this);
 	var eDiv = (typeof divId == 'string') ? document.getElementById(divId) : divId;
 	this.__eTextEdit = document.createElement("textarea");
 	this.__eTextEdit.setAttribute("rows", "16");

@@ -3,12 +3,12 @@
 
 var StateSubscriber = function(){
 	//this._state = {};//empty state by default untill be set
-    this._state;//undefined untill be set
     this.__d = {
         substateMapper: undefined,
         substateMapperType: undefined,
-        state: undefined
+        state: {}
     }
+    this._state = this.__d.state;//undefined untill be set
 };
 /*
 Этот метод будет вызываться при любом изменении объекта состояния (не только косающихся подсостояния данного подписчика, если такое задано). Реализация данного метода должна начинаться с проверки, изменились ли те элементы объекта состояния, которые используются в данном подписчике.
@@ -40,6 +40,8 @@ StateSubscriber.prototype.useSubstate = function(substateMapper){
     return this;
 };
 StateSubscriber.prototype.__getSubstate = function(state){
+    if (!this.__d.substateMapper)
+        return this.__d.state;
     //Здесь ни в коем случае нельзя создавать объект. Мы должны вернуть или ссылку на объект, или undefined.
     var retVal;//undefined
     if (this.__d.substateMapperType === 'string'){

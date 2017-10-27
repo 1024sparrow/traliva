@@ -1,6 +1,7 @@
 /****** class StateDebugWidget ***********************
  */
 var StateDebugWidget = function(divId){
+    StateSubscriber.call(this);
 	var eDiv = (typeof divId == 'string') ? document.getElementById(divId) : divId;
 	this.__eTextEdit = document.createElement("textarea");
 	this.__eTextEdit.setAttribute("rows", "16");
