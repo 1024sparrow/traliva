@@ -18,9 +18,6 @@ if (B)
 else {
 	B = {};
     (function(){
-{%% substate_mapper.js %%}
-B.SubstateMapper = SubstateMapper;
-
 /***** class StatePublisher **************************
  *
  * Не допускайте подписывания одного и того же подписчика более одного раза!
