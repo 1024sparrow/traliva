@@ -8,6 +8,6 @@ B.StateSubscriber = StateSubscriber;
 {%% state_debug_widget.js %%}
 B.StateDebugWidget = StateDebugWidget;
 
-{%% state_to_uri_wrapper.js %%}
+{%% state_to_uri_mapper.js %%}
 B.StateToUriMapper = StateToUriMapper;
 })();
