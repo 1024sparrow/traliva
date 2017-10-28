@@ -177,6 +177,7 @@ B.StateDebugWidget = StateDebugWidget;
 Регистрировать у StatePublisher-а в первую очередь - этот подписчик задаёт исходное состояние веб-приложения. Если нужно будет зарегистрировать несколько Маперов, то такой задачи передо мной не стояло, и вопрос остаётся открытым.
 */
 function StateToUriMapper(statesObj){
+    StateSubscriber.call(this);
     this._statesObj = statesObj;
     var uri = window.location.href;
     var a = uri.indexOf('//');
