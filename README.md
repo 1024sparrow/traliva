@@ -26,7 +26,7 @@
 
 ## Какой код должен быть
 
-
+```
 <html>
 ...
 <body>
@@ -34,7 +34,7 @@
 <script src="gameplay.js"></script>
 </body>
 </html>
-
+```
 Внутри gameplay.js делаем вызов Traliva.init();
 
 
