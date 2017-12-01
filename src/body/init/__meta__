@@ -1,0 +1,13 @@
+{
+    "files":[
+        {
+            "target":"init.js",
+            "source":{
+                "template": "template",
+                "list":[
+                    "widget_state_subscriber.js"
+                ]
+            }
+        }
+    ]
+}

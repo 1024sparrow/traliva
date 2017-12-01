@@ -62,7 +62,7 @@ function _WidgetBase(p_parentWidget, p_ifCutTails){
 		else if (!(p_parentWidget instanceof _WidgetBase)){
 			console.log('class ' + this.constructor.name +
 				': incorrect parent passed to constructor: ' + p_parentWidget.constructor.name +
-				'. Available types to use: HTMLDivElement and B._WidgetBase.');
+				'. Available types to use: HTMLDivElement and Traliva._WidgetBase.');
 		}
 	}
 	else{

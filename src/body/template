@@ -1,9 +1,12 @@
-var B;
-if (B)
+var Traliva;
+if (Traliva)
 	console.log('epic fail');
 else {
-	B = {};
+    (function(){
+	Traliva = {};
     {%% states.js %%}
     {%% widgets.js %%}
+    {%% init.js %%}
     {%% utils.js %%}
+    })();
 }

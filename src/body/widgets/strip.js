@@ -1,6 +1,6 @@
 //=========== STRIP ==============
-B.Strip__Orient__hor = 1;
-B.Strip__Orient__vert = 2;
+Traliva.Strip__Orient__hor = 1;
+Traliva.Strip__Orient__vert = 2;
 function Strip(p_orient, p_parentWidget, p_ifCutTails){
 	this.__orient = p_orient;
 	this.__items = [];
@@ -11,7 +11,7 @@ function Strip(p_orient, p_parentWidget, p_ifCutTails){
 	this._eTable = document.createElement('table');
 	this._eTable.style.border = 'none';
 	this._eTable.cellSpacing = '0';
-	if (this.__orient == B.Strip__Orient__hor){
+	if (this.__orient == Traliva.Strip__Orient__hor){
 		this._eRowSingle = this._eTable.insertRow(0);
 	}
 	_WidgetBase.call(this, p_parentWidget, p_ifCutTails);
@@ -30,7 +30,7 @@ Strip.prototype._onChildVisibilityChanged = function(wChild){
 	this.__updateSizes();
 }
 Strip.prototype.__updateSizes = function(){
-	var totalForParts = (this.__orient == B.Strip__Orient__hor) ? this.__w : this.__h;
+	var totalForParts = (this.__orient == Traliva.Strip__Orient__hor) ? this.__w : this.__h;
 	if (totalForParts < 0)
 		return;
 	var totalParts = 0;
@@ -60,7 +60,7 @@ Strip.prototype.__updateSizes = function(){
 		}
 
 		var item = this.__items[i];
-		if (this.__orient == B.Strip__Orient__hor)
+		if (this.__orient == Traliva.Strip__Orient__hor)
 			item.resize(tmpSize,this.__h);
 		else
 			item.resize(this.__w, tmpSize);
@@ -78,7 +78,7 @@ Strip.prototype.addItem = function(p_itemWidget, p_size){
 	var size = this._transformStringSize(p_size);
 
 	var eCell;
-	if (this.__orient == B.Strip__Orient__hor){
+	if (this.__orient == Traliva.Strip__Orient__hor){
 		eCell = this._eRowSingle.insertCell(this._eRowSingle.cells.length);
 	}
 	else {
@@ -96,12 +96,12 @@ Strip.prototype.addSplitter = function(){
 		console.log('impossible insert splitter into the start of a strip');
 		return;
 	}
-	var splitter = new B.Widget(this);
+	var splitter = new Traliva.Widget(this);
 	//Если стиль не установлен, то будет цвета подложки (сейчас это тёмно-серый #444)
 	//splitter.setContent(undefined, '#f00');//установка цвета по умолчанию
 	splitter._content.className = 'b__splitter';
 	splitter._content.style.cursor =
-		(this.__orient == B.Strip__Orient__hor) ? 'col-resize' : 'row-resize';
+		(this.__orient == Traliva.Strip__Orient__hor) ? 'col-resize' : 'row-resize';
 	splitter._content.addEventListener('mousedown', onMouseDown);
 	var splitterItemIndex = this.__sizes.length;
 	this.addItem(splitter, '8px');
@@ -115,12 +115,12 @@ Strip.prototype.addSplitter = function(){
 			console.log('impossible insert splitter into the end of a strip');
 			return;
 		}
-		splitter._splitterClientPos = (strip.__orient == B.Strip__Orient__hor) ?
+		splitter._splitterClientPos = (strip.__orient == Traliva.Strip__Orient__hor) ?
 			e.clientX : e.clientY;
 		strip._content.addEventListener('mousemove', onMouseMove);
 		strip._content.addEventListener('mouseup', onMouseUp);
 		splitter.__lastPos =
-			(strip.__orient == B.Strip__Orient__hor) ? e.clientX : e.clientY;
+			(strip.__orient == Traliva.Strip__Orient__hor) ? e.clientX : e.clientY;
 		splitter.__lastPos -= splitter._splitterClientPos;
 		splitter.__prevInitSize = Object.create(strip.__sizes[splitterItemIndex - 1]);
 		splitter.__nextInitSize = Object.create(strip.__sizes[splitterItemIndex + 1]);
@@ -132,7 +132,7 @@ Strip.prototype.addSplitter = function(){
 		applyPosition(splitter.__lastPos);
 	}
 	function onMouseMove(e){
-		var nowPos = (strip.__orient == B.Strip__Orient__hor) ? e.clientX : e.clientY;
+		var nowPos = (strip.__orient == Traliva.Strip__Orient__hor) ? e.clientX : e.clientY;
 		nowPos = nowPos - splitter._splitterClientPos;
 		applyPosition(nowPos);
 		splitter.__lastPos = nowPos;

@@ -1,6 +1,6 @@
 (function(){
 {%% ajax.js %%}
-B.ajax = ajax;
+Traliva.ajax = ajax;
 
 {%% checkvisible.js %%}
 })();

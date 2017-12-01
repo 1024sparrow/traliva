@@ -18,7 +18,7 @@ Caution: if some fields in parameter "p" absense, it will be added as undefined.
 */
 function ajax(p){
 	if (!p){
-		console.log("B.ajax(p). Available fileds for p: sourcePath, readyFunc(result), errorFunc(isNetworkProblem), timeout, dataToPost, mimetype*.");
+		console.log("Traliva.ajax(p). Available fileds for p: sourcePath, readyFunc(result), errorFunc(isNetworkProblem), timeout, dataToPost, mimetype*.");
 		return;
 	}
 	var sourcePath = p.sourcePath;
