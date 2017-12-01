@@ -35,7 +35,23 @@
 </body>
 </html>
 ```
-Внутри gameplay.js делаем вызов Traliva.init();
+Внутри gameplay.js делаем вызов
+```
+Traliva.init(o);
+```
+### Формат объекта, передаваемого в функцию Traliva.init()
+
+Передаваемый в функцию Traliva.init() объект должен иметь следующие поля:
+- get_layout
+    function(w,h,target), return layout_id(String)
+- layouts
+    {layout_id --> {..see layout object descriptition later..}}
+- states
+    {..see states object description later..}
+- widgets
+    {widget_id --> constructor function}
+- stateSubscribers
+    [..list of Traliva.StateSubscriber-s constructors..]
 
 
 ## Лицензия
