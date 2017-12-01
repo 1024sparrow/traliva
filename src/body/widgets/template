@@ -1,13 +1,13 @@
-(function(){
+//(function(){
 {%% _widgetbase.js %%}
-B._WidgetBase = _WidgetBase;
+Traliva._WidgetBase = _WidgetBase;
 
 {%% widget.js %%}
-B.Widget = Widget;
+Traliva.Widget = Widget;
 
 {%% strip.js %%}
-B.Strip = Strip;
+Traliva.Strip = Strip;
 
 {%% stack.js %%}
-B.Stack = Stack;
-})();
+Traliva.Stack = Stack;
+//})();
