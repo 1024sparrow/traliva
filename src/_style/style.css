@@ -1,0 +1,13 @@
+.traliva__stub_widget{
+    background-repeat: repeat;
+}
+.traliva__stub_widget__text{
+    display: inline-block;
+    color: yellow;
+    background: black;
+    padding: 2px 4px;
+    border: 1px solid yellow;
+    border-radius: 5px;
+}
+.traliva__stub_widget.bg-0-0-0{background-image: url("_widget_stub_bg/0-0-0.png");}
+.traliva__stub_widget.bg-1-0-0{background-image: url("_widget_stub_bg/1-0-0.png");}

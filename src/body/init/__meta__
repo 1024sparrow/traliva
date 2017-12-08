@@ -5,7 +5,8 @@
             "source":{
                 "template": "template",
                 "list":[
-                    "widget_state_subscriber.js"
+                    "widget_state_subscriber.js",
+                    "stub_widget.js"
                 ]
             }
         }

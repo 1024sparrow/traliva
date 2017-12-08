@@ -1,2 +1,5 @@
 {%% widget_state_subscriber.js %%}
 Traliva.WidgetStateSubscriber = WidgetStateSubscriber;
+
+{%% stub_widget.js %%}
+Traliva.StubWidget = StubWidget;

@@ -45,9 +45,9 @@ Widget.prototype.setContent = function(p_div, p_bgColor){
 			console.log(p_div);
 		}	
 	}
-	this._div.style.background = p_bgColor ? p_bgColor : 'rgba(0,0,0,0)';
-	//if (p_bgColor)
-	//	this._div.style.background = p_bgColor;
+	//this._div.style.background = p_bgColor ? p_bgColor : 'rgba(0,0,0,0)';
+	if (p_bgColor)
+		this._div.style.background = p_bgColor;
 }
 /*Widget.prototype.setContent = function(content){
 	if (typeof content == 'string'){//color

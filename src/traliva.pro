@@ -3,5 +3,6 @@ module.exports = {
     file:{
     },
     dir:{
+        deploy: 'build_scripts/deploy.sh'
     }
 }

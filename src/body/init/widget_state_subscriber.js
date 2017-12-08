@@ -6,5 +6,6 @@ function WidgetStateSubscriber(p_wContainer){
 }
 WidgetStateSubscriber.prototype = Object.create(StateSubscriber.prototype);
 WidgetStateSubscriber.prototype.constructor = WidgetStateSubscriber;
-WidgetStateSubscriber.processStateChanges = function(){
-}
+WidgetStateSubscriber.prototype.processStateChanges = function(){
+};
+WidgetStateSubscriber.prototype.destroy = function(){};//уничтожить созданный ранее DOM-элемент
