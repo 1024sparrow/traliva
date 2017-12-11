@@ -3,3 +3,6 @@ Traliva.WidgetStateSubscriber = WidgetStateSubscriber;
 
 {%% stub_widget.js %%}
 Traliva.StubWidget = StubWidget;
+
+
+{%% init.js %%}

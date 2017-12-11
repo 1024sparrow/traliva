@@ -6,7 +6,8 @@
                 "template": "template",
                 "list":[
                     "widget_state_subscriber.js",
-                    "stub_widget.js"
+                    "stub_widget.js",
+                    "init.js"
                 ]
             }
         }
