@@ -1,10 +1,15 @@
-function _WidgetBase(p_parentWidget, p_ifCutTails){
+/*
+p_scroll - (ориг. p_ifCutTails"обрубать концы" - bool-флаг; обрезать ли содержимое, если не умещается в отведённой области; если false, то в случае, когда контент не умещается, появляются полосы прокрутки)
+p_sroll - политика скрола. Строка. Возможные значения - 'v', 'h', 'vh' и ''(или undefined, по умолчанию)
+//
+*/
+function _WidgetBase(p_parentWidget, p_scroll){
     this.__onscrollOkFunc;
     this.__isVisible = true;
     this.__isMouseEventsBlocked = false;
     this.__wParent;//undefined if parent is not instance of _WidgetBase
 	//Обрубать хвосты по умолчанию (style.overflow='hidden')
-	var ifCutTails = (typeof p_ifCutTails == 'undefined') ? true : p_ifCutTails;
+	var ifCutTails = (typeof p_scroll == 'undefined') ? true : p_scroll;
 
 	if (p_parentWidget && p_parentWidget instanceof HTMLDivElement)
 		this._div = p_parentWidget;
@@ -12,17 +17,21 @@ function _WidgetBase(p_parentWidget, p_ifCutTails){
 		this._div = document.createElement('div');
         this.__wParent = p_parentWidget;
     }
-	this._div.style.overflow = ifCutTails ? 'hidden' : 'auto';
-    if (typeof ifCutTails === 'boolean')
-        this._div.style.overflow = ifCutTails ? 'hidden' : 'auto';
-    else if (typeof ifCutTails === 'string'){
-        var tmp = ifCutTails.indexOf('h') >= 0;
-        this._div.style.overflowX = tmp ? 'auto' : 'hidden';
-        tmp = ifCutTails.indexOf('v') >= 0;
-        this._div.style.overflowY = tmp ? 'auto' : 'hidden';
+
+    if ((!p_scroll) || (p_scroll == ''))
+        this._div.style.overflow = 'hidden';
+    else if (p_scroll == 'vh')
+        this._div.style.overflow = 'auto';
+    else if (p_scroll == 'v'){
+        this._div.style.overflowX = 'hidden';
+        this._div.style.overflowY = 'auto';
+    }
+    else if (p_scroll == 'h'){
+        this._div.style.overflowX = 'auto';
+        this._div.style.overflowY = 'hidden';
     }
     else
-        console.log('epic fail: incorrect parameter passed');
+        console.log('error: incorrect \'p_scroll\' passed: '+p_scroll);
 
 	this._div.onscroll = (function(self){
 		return function(e){

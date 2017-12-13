@@ -1,12 +1,14 @@
 //=========== WIDGET ==============
 //Если собираетесь устанавливать Виджет, а не DOM-элемент, в качестве содержимого,
 //не указывайте второй параметр (или указывайте true), чтобы не получилось скрола внутри скрола
-function Widget(p_parentWidget, p_ifCutTails){
+function Widget(p_parentWidget, p_scroll){
 	this._contentDiv = document.createElement('div');
 	this.__w;
 	this.__h;
 	this.__contentWidget;
-	_WidgetBase.call(this, p_parentWidget, p_ifCutTails);
+	_WidgetBase.call(this, p_parentWidget, p_scroll);
+
+    this._div.className = 'widget_div';//
 }
 Widget.prototype = Object.create(_WidgetBase.prototype);
 Widget.prototype.constructor = Widget;

@@ -386,13 +386,18 @@ Traliva.StateToUriMapper = StateToUriMapper;
 //})();
 
     //(function(){
-function _WidgetBase(p_parentWidget, p_ifCutTails){
+/*
+p_scroll - (ориг. p_ifCutTails"обрубать концы" - bool-флаг; обрезать ли содержимое, если не умещается в отведённой области; если false, то в случае, когда контент не умещается, появляются полосы прокрутки)
+p_sroll - политика скрола. Строка. Возможные значения - 'v', 'h', 'vh' и ''(или undefined, по умолчанию)
+//
+*/
+function _WidgetBase(p_parentWidget, p_scroll){
     this.__onscrollOkFunc;
     this.__isVisible = true;
     this.__isMouseEventsBlocked = false;
     this.__wParent;//undefined if parent is not instance of _WidgetBase
 	//Обрубать хвосты по умолчанию (style.overflow='hidden')
-	var ifCutTails = (typeof p_ifCutTails == 'undefined') ? true : p_ifCutTails;
+	var ifCutTails = (typeof p_scroll == 'undefined') ? true : p_scroll;
 
 	if (p_parentWidget && p_parentWidget instanceof HTMLDivElement)
 		this._div = p_parentWidget;
@@ -400,17 +405,21 @@ function _WidgetBase(p_parentWidget, p_ifCutTails){
 		this._div = document.createElement('div');
         this.__wParent = p_parentWidget;
     }
-	this._div.style.overflow = ifCutTails ? 'hidden' : 'auto';
-    if (typeof ifCutTails === 'boolean')
-        this._div.style.overflow = ifCutTails ? 'hidden' : 'auto';
-    else if (typeof ifCutTails === 'string'){
-        var tmp = ifCutTails.indexOf('h') >= 0;
-        this._div.style.overflowX = tmp ? 'auto' : 'hidden';
-        tmp = ifCutTails.indexOf('v') >= 0;
-        this._div.style.overflowY = tmp ? 'auto' : 'hidden';
+
+    if ((!p_scroll) || (p_scroll == ''))
+        this._div.style.overflow = 'hidden';
+    else if (p_scroll == 'vh')
+        this._div.style.overflow = 'auto';
+    else if (p_scroll == 'v'){
+        this._div.style.overflowX = 'hidden';
+        this._div.style.overflowY = 'auto';
+    }
+    else if (p_scroll == 'h'){
+        this._div.style.overflowX = 'auto';
+        this._div.style.overflowY = 'hidden';
     }
     else
-        console.log('epic fail: incorrect parameter passed');
+        console.log('error: incorrect \'p_scroll\' passed: '+p_scroll);
 
 	this._div.onscroll = (function(self){
 		return function(e){
@@ -585,12 +594,14 @@ Traliva._WidgetBase = _WidgetBase;
 //=========== WIDGET ==============
 //Если собираетесь устанавливать Виджет, а не DOM-элемент, в качестве содержимого,
 //не указывайте второй параметр (или указывайте true), чтобы не получилось скрола внутри скрола
-function Widget(p_parentWidget, p_ifCutTails){
+function Widget(p_parentWidget, p_scroll){
 	this._contentDiv = document.createElement('div');
 	this.__w;
 	this.__h;
 	this.__contentWidget;
-	_WidgetBase.call(this, p_parentWidget, p_ifCutTails);
+	_WidgetBase.call(this, p_parentWidget, p_scroll);
+
+    this._div.className = 'widget_div';//
 }
 Widget.prototype = Object.create(_WidgetBase.prototype);
 Widget.prototype.constructor = Widget;
@@ -662,7 +673,7 @@ Traliva.Widget = Widget;
 //=========== STRIP ==============
 Traliva.Strip__Orient__hor = 1;
 Traliva.Strip__Orient__vert = 2;
-function Strip(p_orient, p_parentWidget, p_ifCutTails){
+function Strip(p_orient, p_parentWidget, p_scroll){
 	this.__orient = p_orient;
 	this.__items = [];
 	this.__sizes = [];
@@ -675,7 +686,7 @@ function Strip(p_orient, p_parentWidget, p_ifCutTails){
 	if (this.__orient == Traliva.Strip__Orient__hor){
 		this._eRowSingle = this._eTable.insertRow(0);
 	}
-	_WidgetBase.call(this, p_parentWidget, p_ifCutTails);
+	_WidgetBase.call(this, p_parentWidget, p_scroll);
 }
 Strip.prototype = Object.create(_WidgetBase.prototype);
 Strip.prototype.constructor = Strip;
@@ -849,7 +860,7 @@ Strip.prototype.setItemSize = function(sizeMap){//usage example: wRoot.setItemSi
 
 Traliva.Strip = Strip;
 
-function Stack(p_parentWidget, p_ifCutTails){
+function Stack(p_parentWidget, p_scroll){
 	this.__items = [];
 	this.__zIndexCounter = 1;
     this._w = undefined;
@@ -857,7 +868,7 @@ function Stack(p_parentWidget, p_ifCutTails){
 
 	this._eStack = document.createElement('div');
 	this._eStack.style.position = 'relative';
-	_WidgetBase.call(this, p_parentWidget, p_ifCutTails);
+	_WidgetBase.call(this, p_parentWidget, p_scroll);
 }
 Stack.prototype = Object.create(_WidgetBase.prototype);
 Stack.prototype.constructor = Stack;
@@ -963,9 +974,76 @@ WidgetStateSubscriber.prototype.destroy = function(){};//уничтожить с
 
 Traliva.StubWidget = StubWidget;
 
-function construct_layout(p_oLayout, p_widgets, p_widgetScope){
+// p_widgets - конструкторы виджетов
+// p_widgetScope - здесь мы сохраняем наши виджеты
+function construct_layout(p_wParent, p_oLayout, p_widgets, p_widgetScope){
     console.log('construct_layout: ' + JSON.stringify(p_oLayout));
-    return 2;
+
+    var i, cand, w, type = typeof p_oLayout;
+    var retVal;
+    if (!p_oLayout){
+        // (пружинка)
+    }
+    if (type === 'string'){
+        if (p_widgetScope.hasOwnProperty(p_oLayout)){
+            console.log('error: идентификаторы пользовательских виджетов должны иметь уникальные значения');
+            return;// возможно, это зря. Особо не думал.
+        }
+        if (p_widgets.hasOwnProperty(p_oLayout)){
+            // вызываем конструктор..
+            // not implemented
+            console.log('not implemented');
+            return;
+        }
+        else{
+            // создаём виджет-заглушку
+            console.log('создаём заглушку');
+
+            w = new Widget(p_wParent);
+            cand = new StubWidget(w, p_oLayout);
+            p_widgetScope[p_oLayout] = cand;
+            return w;
+        }
+    }
+    else if (type === 'object'){
+        if (!p_oLayout.hasOwnProperty('type')){
+            console.log('error: incorrect layout description: \'type\' must be');
+            return;
+        }
+        type = p_oLayout.type;
+        if (type === 'strip'){
+            if (!p_oLayout.hasOwnProperty('orient')){
+                console.log('error: layout must have property \'orient\'');
+                return;
+            }
+            var orient;
+            if (p_oLayout.orient === 'h')
+                orient = Traliva.Strip__Orient__hor;
+            else if (p_oLayout.orient === 'v')
+                orient = Traliva.Strip__Orient__vert;
+            else{
+                console.log('error: incorrect value of a strip orientation. Possible values: \'h\',\'v\'.');
+                return;
+            }
+            retVal = new Strip(orient, p_wParent, p_oLayout.scroll);
+            for (i = 0 ; i < p_oLayout.items.length ; i++){
+                //console.log('item '+i);
+                cand = p_oLayout.items[i];
+                w = construct_layout(retVal, cand.widget, p_widgets, p_widgetScope);
+                if (!w)
+                    return; // error ocurred in internal self calling
+                retVal.addItem(w, cand.size);
+            }
+            return retVal;
+        }
+        else if (type === 'stack'){
+            console.log('not implemented');
+        }
+        else{
+            console.log('error: incorrect type of a layout item');
+        }
+    }
+    console.log('epic fail');
 }
 
 // Функция, разворачивающая сокращённую форму записи в полную
@@ -984,14 +1062,12 @@ function switchToLayout(layId){
         layId = undefined;
     }
     //отписываем все текущие виджеты
-    var newWidget;
     if (layId){
-        var content = construct_layout(d.o.layouts[layId], d.o.widgets, d.w);
+        var content = construct_layout(d.wRoot, d.o.layouts[layId], d.o.widgets, d.w);
         if (content){
-            d.w.root.setContent(content, '#f00');
+            d.wRoot.setContent(content);
         }
     }
-    d.w.root.setContent(newWidget);
     d.layout = layId;
 }
 
@@ -1005,9 +1081,10 @@ Traliva.init = function(o){
     var d = Traliva.__d = {};
     d.o = o;
     d.w = {};//widgets
-    d.w.root = new Widget();
+    d.wRoot = new Widget();
+    d.wRoot._div.className = 'wRoot';//
     d.curLayout = undefined;
-    d.w.root._onResized = function(d, f){return function(w,h){
+    d.wRoot._onResized = function(d, f){return function(w,h){
         var lay = d.o.get_layout(w,h,d.o.target);
         f(lay);
     };}(d, switchToLayout);

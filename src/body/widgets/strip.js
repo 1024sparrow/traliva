@@ -1,7 +1,7 @@
 //=========== STRIP ==============
 Traliva.Strip__Orient__hor = 1;
 Traliva.Strip__Orient__vert = 2;
-function Strip(p_orient, p_parentWidget, p_ifCutTails){
+function Strip(p_orient, p_parentWidget, p_scroll){
 	this.__orient = p_orient;
 	this.__items = [];
 	this.__sizes = [];
@@ -14,7 +14,7 @@ function Strip(p_orient, p_parentWidget, p_ifCutTails){
 	if (this.__orient == Traliva.Strip__Orient__hor){
 		this._eRowSingle = this._eTable.insertRow(0);
 	}
-	_WidgetBase.call(this, p_parentWidget, p_ifCutTails);
+	_WidgetBase.call(this, p_parentWidget, p_scroll);
 }
 Strip.prototype = Object.create(_WidgetBase.prototype);
 Strip.prototype.constructor = Strip;
