@@ -5,7 +5,24 @@ function fillParam(o){
 
 // Функция переключения лэйаутов
 function switchToLayout(layId){
-    console.log('switch to layout ' + layId);
+    //console.log('switch to layout ' + layId);
+    var d = Traliva.__d;
+    if (d.layout === layId)
+        return;
+    if (!d.o.layouts.hasOwnProperty(layId)){
+        console.log('Указанный лэйаут не описан');
+        layId = undefined;
+    }
+    //отписываем все текущие виджеты
+    var newWidget;
+    if (layId){
+        var content = construct_layout(d.o.layouts[layId], d.o.widgets, d.w);
+        if (content){
+            d.w.root.setContent(content, '#f00');
+        }
+    }
+    d.w.root.setContent(newWidget);
+    d.layout = layId;
 }
 
 Traliva.init = function(o){
@@ -21,7 +38,6 @@ Traliva.init = function(o){
     d.w.root = new Widget();
     d.curLayout = undefined;
     d.w.root._onResized = function(d, f){return function(w,h){
-        console.log('root resized');
         var lay = d.o.get_layout(w,h,d.o.target);
         f(lay);
     };}(d, switchToLayout);
