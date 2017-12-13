@@ -1,12 +1,12 @@
 //=========== WIDGET ==============
 //Если собираетесь устанавливать Виджет, а не DOM-элемент, в качестве содержимого,
 //не указывайте второй параметр (или указывайте true), чтобы не получилось скрола внутри скрола
-function Widget(p_parentWidget, p_scroll){
+function Widget(p_parentWidget, p_attr){
 	this._contentDiv = document.createElement('div');
 	this.__w;
 	this.__h;
 	this.__contentWidget;
-	_WidgetBase.call(this, p_parentWidget, p_scroll);
+	_WidgetBase.call(this, p_parentWidget, p_attr);
 
     this._div.className = 'widget_div';//
 }
@@ -17,6 +17,29 @@ Widget.prototype._onResized = function(w, h){
 	this.__h = h;
 	if (this.__contentWidget)
 		this.__contentWidget.resize(w,h);
+    // boris here: вызвать родительскую реализацию этого метода
+    //_WidgetBase.ptototype.
+
+//{{ Подгон размера под содержимое, если не указан автоскроллинг
+    var v, h;
+    h = v = true;
+    /*if (this._scroll === 'v')
+        h = true;
+    if (this._scroll === 'h')
+        v = true;
+    if (this._scroll === 'vh')
+        h = v = false;*/
+    if (v){
+        this._content.style.height = h + 'px';
+        this._content.style.maxHeight = h + 'px';
+        this._content.style.minHeight = h + 'px';
+    }
+    if (h){
+        this._content.style.width = w + 'px';
+        this._content.style.maxWidth = w + 'px';
+        this._content.style.minWidth = w + 'px';
+    }
+//}} Подгон размера под содержимое, если не указан автоскроллинг
 }
 Widget.prototype._createContentElem = function(){
 	return this._contentDiv;

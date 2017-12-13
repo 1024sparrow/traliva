@@ -1,4 +1,4 @@
-function Stack(p_parentWidget, p_scroll){
+function Stack(p_parentWidget, p_attr){
 	this.__items = [];
 	this.__zIndexCounter = 1;
     this._w = undefined;
@@ -6,7 +6,7 @@ function Stack(p_parentWidget, p_scroll){
 
 	this._eStack = document.createElement('div');
 	this._eStack.style.position = 'relative';
-	_WidgetBase.call(this, p_parentWidget, p_scroll);
+	_WidgetBase.call(this, p_parentWidget, p_attr);
 }
 Stack.prototype = Object.create(_WidgetBase.prototype);
 Stack.prototype.constructor = Stack;

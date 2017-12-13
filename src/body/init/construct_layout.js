@@ -50,6 +50,7 @@ function construct_layout(p_wParent, p_oLayout, p_widgets, p_widgetScope){
                 return;
             }
             retVal = new Strip(orient, p_wParent, p_oLayout.scroll);
+            retVal._div.className = 'strip';//
             for (i = 0 ; i < p_oLayout.items.length ; i++){
                 //console.log('item '+i);
                 cand = p_oLayout.items[i];

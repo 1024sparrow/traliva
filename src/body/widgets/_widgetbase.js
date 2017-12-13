@@ -1,6 +1,7 @@
 /*
 p_scroll - (ориг. p_ifCutTails"обрубать концы" - bool-флаг; обрезать ли содержимое, если не умещается в отведённой области; если false, то в случае, когда контент не умещается, появляются полосы прокрутки)
 p_sroll - политика скрола. Строка. Возможные значения - 'v', 'h', 'vh' и ''(или undefined, по умолчанию)
+Если в каком-то направлении нет автопрокрутки, в том направлении вступает в силу подгон размеров содержимого под размер виджета.
 //
 */
 function _WidgetBase(p_parentWidget, p_scroll){
@@ -8,6 +9,7 @@ function _WidgetBase(p_parentWidget, p_scroll){
     this.__isVisible = true;
     this.__isMouseEventsBlocked = false;
     this.__wParent;//undefined if parent is not instance of _WidgetBase
+    this._scroll = p_scroll;
 	//Обрубать хвосты по умолчанию (style.overflow='hidden')
 	var ifCutTails = (typeof p_scroll == 'undefined') ? true : p_scroll;
 
@@ -18,15 +20,15 @@ function _WidgetBase(p_parentWidget, p_scroll){
         this.__wParent = p_parentWidget;
     }
 
-    if ((!p_scroll) || (p_scroll == ''))
+    if ((!p_scroll) || (p_scroll === ''))
         this._div.style.overflow = 'hidden';
-    else if (p_scroll == 'vh')
+    else if (p_scroll === 'vh')
         this._div.style.overflow = 'auto';
-    else if (p_scroll == 'v'){
+    else if (p_scroll === 'v'){
         this._div.style.overflowX = 'hidden';
         this._div.style.overflowY = 'auto';
     }
-    else if (p_scroll == 'h'){
+    else if (p_scroll === 'h'){
         this._div.style.overflowX = 'auto';
         this._div.style.overflowY = 'hidden';
     }

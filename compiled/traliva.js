@@ -389,6 +389,7 @@ Traliva.StateToUriMapper = StateToUriMapper;
 /*
 p_scroll - (ориг. p_ifCutTails"обрубать концы" - bool-флаг; обрезать ли содержимое, если не умещается в отведённой области; если false, то в случае, когда контент не умещается, появляются полосы прокрутки)
 p_sroll - политика скрола. Строка. Возможные значения - 'v', 'h', 'vh' и ''(или undefined, по умолчанию)
+Если в каком-то направлении нет автопрокрутки, в том направлении вступает в силу подгон размеров содержимого под размер виджета.
 //
 */
 function _WidgetBase(p_parentWidget, p_scroll){
@@ -396,6 +397,7 @@ function _WidgetBase(p_parentWidget, p_scroll){
     this.__isVisible = true;
     this.__isMouseEventsBlocked = false;
     this.__wParent;//undefined if parent is not instance of _WidgetBase
+    this._scroll = p_scroll;
 	//Обрубать хвосты по умолчанию (style.overflow='hidden')
 	var ifCutTails = (typeof p_scroll == 'undefined') ? true : p_scroll;
 
@@ -406,15 +408,15 @@ function _WidgetBase(p_parentWidget, p_scroll){
         this.__wParent = p_parentWidget;
     }
 
-    if ((!p_scroll) || (p_scroll == ''))
+    if ((!p_scroll) || (p_scroll === ''))
         this._div.style.overflow = 'hidden';
-    else if (p_scroll == 'vh')
+    else if (p_scroll === 'vh')
         this._div.style.overflow = 'auto';
-    else if (p_scroll == 'v'){
+    else if (p_scroll === 'v'){
         this._div.style.overflowX = 'hidden';
         this._div.style.overflowY = 'auto';
     }
-    else if (p_scroll == 'h'){
+    else if (p_scroll === 'h'){
         this._div.style.overflowX = 'auto';
         this._div.style.overflowY = 'hidden';
     }
@@ -594,12 +596,12 @@ Traliva._WidgetBase = _WidgetBase;
 //=========== WIDGET ==============
 //Если собираетесь устанавливать Виджет, а не DOM-элемент, в качестве содержимого,
 //не указывайте второй параметр (или указывайте true), чтобы не получилось скрола внутри скрола
-function Widget(p_parentWidget, p_scroll){
+function Widget(p_parentWidget, p_attr){
 	this._contentDiv = document.createElement('div');
 	this.__w;
 	this.__h;
 	this.__contentWidget;
-	_WidgetBase.call(this, p_parentWidget, p_scroll);
+	_WidgetBase.call(this, p_parentWidget, p_attr);
 
     this._div.className = 'widget_div';//
 }
@@ -610,6 +612,29 @@ Widget.prototype._onResized = function(w, h){
 	this.__h = h;
 	if (this.__contentWidget)
 		this.__contentWidget.resize(w,h);
+    // boris here: вызвать родительскую реализацию этого метода
+    //_WidgetBase.ptototype.
+
+//{{ Подгон размера под содержимое, если не указан автоскроллинг
+    var v, h;
+    h = v = true;
+    /*if (this._scroll === 'v')
+        h = true;
+    if (this._scroll === 'h')
+        v = true;
+    if (this._scroll === 'vh')
+        h = v = false;*/
+    if (v){
+        this._content.style.height = h + 'px';
+        this._content.style.maxHeight = h + 'px';
+        this._content.style.minHeight = h + 'px';
+    }
+    if (h){
+        this._content.style.width = w + 'px';
+        this._content.style.maxWidth = w + 'px';
+        this._content.style.minWidth = w + 'px';
+    }
+//}} Подгон размера под содержимое, если не указан автоскроллинг
 }
 Widget.prototype._createContentElem = function(){
 	return this._contentDiv;
@@ -673,7 +698,7 @@ Traliva.Widget = Widget;
 //=========== STRIP ==============
 Traliva.Strip__Orient__hor = 1;
 Traliva.Strip__Orient__vert = 2;
-function Strip(p_orient, p_parentWidget, p_scroll){
+function Strip(p_orient, p_parentWidget, p_attr){
 	this.__orient = p_orient;
 	this.__items = [];
 	this.__sizes = [];
@@ -686,7 +711,7 @@ function Strip(p_orient, p_parentWidget, p_scroll){
 	if (this.__orient == Traliva.Strip__Orient__hor){
 		this._eRowSingle = this._eTable.insertRow(0);
 	}
-	_WidgetBase.call(this, p_parentWidget, p_scroll);
+	_WidgetBase.call(this, p_parentWidget, p_attr);
 }
 Strip.prototype = Object.create(_WidgetBase.prototype);
 Strip.prototype.constructor = Strip;
@@ -860,7 +885,7 @@ Strip.prototype.setItemSize = function(sizeMap){//usage example: wRoot.setItemSi
 
 Traliva.Strip = Strip;
 
-function Stack(p_parentWidget, p_scroll){
+function Stack(p_parentWidget, p_attr){
 	this.__items = [];
 	this.__zIndexCounter = 1;
     this._w = undefined;
@@ -868,7 +893,7 @@ function Stack(p_parentWidget, p_scroll){
 
 	this._eStack = document.createElement('div');
 	this._eStack.style.position = 'relative';
-	_WidgetBase.call(this, p_parentWidget, p_scroll);
+	_WidgetBase.call(this, p_parentWidget, p_attr);
 }
 Stack.prototype = Object.create(_WidgetBase.prototype);
 Stack.prototype.constructor = Stack;
@@ -1026,6 +1051,7 @@ function construct_layout(p_wParent, p_oLayout, p_widgets, p_widgetScope){
                 return;
             }
             retVal = new Strip(orient, p_wParent, p_oLayout.scroll);
+            retVal._div.className = 'strip';//
             for (i = 0 ; i < p_oLayout.items.length ; i++){
                 //console.log('item '+i);
                 cand = p_oLayout.items[i];
@@ -1086,6 +1112,7 @@ Traliva.init = function(o){
     d.curLayout = undefined;
     d.wRoot._onResized = function(d, f){return function(w,h){
         var lay = d.o.get_layout(w,h,d.o.target);
+        Widget.prototype._onResized.call(d.wRoot, w, h);
         f(lay);
     };}(d, switchToLayout);
 };

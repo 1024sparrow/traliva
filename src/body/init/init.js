@@ -38,6 +38,7 @@ Traliva.init = function(o){
     d.curLayout = undefined;
     d.wRoot._onResized = function(d, f){return function(w,h){
         var lay = d.o.get_layout(w,h,d.o.target);
+        Widget.prototype._onResized.call(d.wRoot, w, h);
         f(lay);
     };}(d, switchToLayout);
 };
