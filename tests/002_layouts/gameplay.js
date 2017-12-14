@@ -9,7 +9,8 @@ Traliva.init({
             orient: 'h',
             items:[
                 {widget: 'w1'},
-                {widget: 'w2'}
+                {widget: 'w2'},
+                {widget: 'w3'}
             ]
         },
         narrow:{
