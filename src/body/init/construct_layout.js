@@ -58,7 +58,6 @@ function construct_layout(p_wParent, p_oLayout, p_widgets, p_widgetScope, p_inne
                 return;
             }
             retVal = new Strip(orient, p_wParent, p_oLayout.scroll);
-            retVal._div.className = 'strip';//
             for (i = 0 ; i < p_oLayout.items.length ; i++){
                 //console.log('item '+i);
                 cand = p_oLayout.items[i];
@@ -71,6 +70,14 @@ function construct_layout(p_wParent, p_oLayout, p_widgets, p_widgetScope, p_inne
         else if (type === 'stack'){
             console.log('not implemented');
             //boris here: здесь мы должны подготовить retVal для типа 'stack'
+            retVal = new Stack(p_wParent, p_oLayout.scroll);
+            for (i = 0 ; i < p_oLayout.items.length ; i++){
+                cand = p_oLayout.items[i];
+                w = construct_layout(retVal, cand.widget, p_widgets, p_widgetScope, p_innerCall || used);
+                if (!w)
+                    return; // error ocurred in internal self calling
+                retVal.addItem(w);
+            }
         }
         else{
             console.log('error: incorrect type of a layout item');
