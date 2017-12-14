@@ -3,4 +3,5 @@
 Traliva.ajax = ajax;
 
 {%% checkvisible.js %%}
+{%% createelement.js %%}
 })();

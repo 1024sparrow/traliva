@@ -6,7 +6,8 @@
                 "template": "template",
                 "list":[
                     "ajax.js",
-                    "checkvisible.js"
+                    "checkvisible.js",
+                    "createelement.js"
                 ]
             }
         }
