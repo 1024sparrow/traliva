@@ -9,10 +9,10 @@ function construct_layout(p_wParent, p_oLayout, p_widgets, p_widgetScope){
         // (пружинка)
     }
     if (type === 'string'){
-        if (p_widgetScope.hasOwnProperty(p_oLayout)){
+        /*if (p_widgetScope.hasOwnProperty(p_oLayout)){
             console.log('error: идентификаторы пользовательских виджетов должны иметь уникальные значения');
             return;// возможно, это зря. Особо не думал.
-        }
+        }*/
         if (p_widgets.hasOwnProperty(p_oLayout)){
             // вызываем конструктор..
             // not implemented

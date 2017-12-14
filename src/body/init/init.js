@@ -13,8 +13,16 @@ function switchToLayout(layId){
         console.log('Указанный лэйаут не описан');
         layId = undefined;
     }
+    //if (d.layout){ // чистим за старым лэйаутом
+        // если при этом не валиден layId (который подчищает за предыдущим виджеты),
+        // то это косяк разработчика - оставляем последний валидный лэйаут
+
+        // а если layId валиден, то construct_layout подчищает за предыдущим лэйаутом
+
+        // итого: здесь мы ничего не делаем
+    //}
     //отписываем все текущие виджеты
-    if (layId){
+    if (layId){ // создаём новый лэйаут
         var content = construct_layout(d.wRoot, d.o.layouts[layId], d.o.widgets, d.w);
         if (content){
             d.wRoot.setContent(content);
