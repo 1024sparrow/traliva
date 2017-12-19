@@ -2,7 +2,7 @@
 // p_widgetScope - здесь мы сохраняем наши виджеты
 // в случае аварийного выхода (некорректные параметры) мы заботимся о корректном освобождении памяти и о снятии ненужных подписчиков
 function construct_layout(p_wParent, p_oLayout, p_widgets, p_widgetScope, p_innerCall){
-    console.log('construct_layout: ' + JSON.stringify(p_oLayout));
+    //console.log('construct_layout: ' + JSON.stringify(p_oLayout));
 
     var i, cand, w, type = typeof p_oLayout;
     var retVal;
@@ -68,8 +68,6 @@ function construct_layout(p_wParent, p_oLayout, p_widgets, p_widgetScope, p_inne
             }
         }
         else if (type === 'stack'){
-            console.log('not implemented');
-            //boris here: здесь мы должны подготовить retVal для типа 'stack'
             retVal = new Stack(p_wParent, p_oLayout.scroll);
             for (i = 0 ; i < p_oLayout.items.length ; i++){
                 cand = p_oLayout.items[i];

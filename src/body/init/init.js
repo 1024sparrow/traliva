@@ -49,4 +49,23 @@ Traliva.init = function(o){
         Widget.prototype._onResized.call(d.wRoot, w, h);
         f(lay);
     };}(d, switchToLayout);
+
+    d.publisher = new StatePublisher();
+    if (o.hasOwnProperty('tree')){
+        d.publisher.registerSubscriber(new StateToUriMapper({
+            initPath: o.initPath,
+            initState: o.initState,
+            tree: o.tree,
+            stringifyState: o.stringifyState
+        }));
+    }
+    var i, tmp, cand;
+    for (i = 0 ; i < o.stateSubscribers.length ; i++){
+        tmp = o.stateSubscribers[i];
+        if (typeof tmp === 'function')
+            cand = new tmp();
+        else
+            cand = (new tmp[0]()).substate(tmp[1]);
+        d.publisher.registerSubscriber(cand);
+    }
 };
