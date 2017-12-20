@@ -17,7 +17,7 @@ Traliva.init({
             type: 'strip',
             orient: 'v',
             items:[
-                {widget: 'w1'},
+                {widget: 'w1', size: '128px'},
                 {widget: 'w2'}
             ]
         }
