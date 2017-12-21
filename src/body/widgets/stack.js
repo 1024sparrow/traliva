@@ -36,11 +36,18 @@ Stack.prototype.addItem = function(p_itemWidget){
 	p_itemWidget._div.style.top = '0';
 	this._eStack.appendChild(p_itemWidget._div);
 	this.__items.push(p_itemWidget);
-    //boris here: должны отресайзить добавляемый виджет
     if (this._w)
         p_itemWidget.resize(this._w, this._h);
 
 	this.__zIndexCounter++;
+}
+Stack.prototype.removeItem = function(p_index){
+    if (p_index >= this.__items.length){
+        console.log('epic fail');
+        return;
+    }
+    this._eStack.removeChild(this.__items[p_index]._div);
+    this.__items.splice(p_index, 1);
 }
 Stack.prototype._onChildVisibilityChanged = function(wChild){
     var i, t, tmp;//t - top level widget index

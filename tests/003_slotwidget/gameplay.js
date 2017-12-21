@@ -12,23 +12,47 @@
 */
 
 var wSlot;
-var w1, w2;
+//var w1, w2;
 
 function onBnSet1Clicked(){
+    wSlot.setContent('w_1', createWidget1());
 }
 function onBnRem1Clicked(){
+    wSlot.removeContent('w_1');
 }
 function onBnSet2Clicked(){
+    wSlot.setContent('w_2', createWidget2());
 }
 function onBnRem2Clicked(){
+    wSlot.removeContent('w_2');
 }
 function onBnShow1Clicked(){
+    var w = wSlot.widget('w_1');
+    if (w)
+        w.setVisible(true);
+    else
+        console.log('widget "w_1" not set');
 }
 function onBnHide1Clicked(){
+    var w = wSlot.widget('w_1');
+    if (w)
+        w.setVisible(false);
+    else
+        console.log('widget "w_1" not set');
 }
 function onBnShow2Clicked(){
+    var w = wSlot.widget('w_2');
+    if (w)
+        w.setVisible(true);
+    else
+        console.log('widget "w_2" not set');
 }
 function onBnHide2Clicked(){
+    var w = wSlot.widget('w_2');
+    if (w)
+        w.setVisible(false);
+    else
+        console.log('widget "w_2" not set');
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~
 var wRoot = new Traliva.Strip(Traliva.Strip__Orient__hor);
@@ -98,16 +122,23 @@ wButtons.setContent(eButtons, '#fff');
 wRoot.addItem(wButtons, '128px');
 
 wSlot = new Traliva.SlotWidget(wRoot);
+wSlot._div.style.background = '#fff';
 wRoot.addItem(wSlot);
 //~~~~~~~~~~~~ widget 1 ~~~~~~~~~~~~
-var eWidget1 = document.createElement('div');
-eWidget1.innerHTML = '<p>1:</p><input type="text" value="abc"></input>';
-w1 = new Traliva.Widget(wSlot);
-w1.setContent(eWidget1);
-wSlot.addItem(w1);
+function createWidget1(){
+    var eWidget1 = document.createElement('div');
+    eWidget1.innerHTML = '<p>1:</p><input type="text" value="1111"></input>';
+    var w1 = new Traliva.Widget(wSlot);
+    w1.setContent(eWidget1);
+    return w1;
+    //wSlot.addItem(w1);
+}
 //~~~~~~~~~~~~ widget 2 ~~~~~~~~~~~~
-var eWidget2 = document.createElement('div');
-eWidget2.innerHTML = '<p>2:</p><input type="text" value="abc"></input>';
-w2 = new Traliva.Widget(wSlot);
-w2.setContent(eWidget2);
-wSlot.addItem(w2);
+function createWidget2(){
+    var eWidget2 = document.createElement('div');
+    eWidget2.innerHTML = '<p style="margin:128px 0 0 0">2:</p><input type="text" value="2222"></input>';
+    var w2 = new Traliva.Widget(wSlot);
+    w2.setContent(eWidget2);
+    return w2;
+    //wSlot.addItem(w2);
+}
