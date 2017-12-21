@@ -1,6 +1,23 @@
 // Функция, разворачивающая сокращённую форму записи в полную
 function fillParam(o){
     //not implemented
+    var t;
+    if (!o.hasOwnProperty('get_layout')){
+        o.get_layout = function(){return 'a'};
+        t = o.layouts;
+        o.layouts = {a:t};
+    }
+    if (!o.hasOwnProperty('states')){
+        o.states = {
+            initState: {},
+            initPath: '/'
+        }
+    }
+    if (!o.states.hasOwnProperty('stateSubscribers'))
+        o.states.stateSubscribers = [];
+
+    if (!o.hasOwnProperty('widgets'))
+        o.widgets = {};
 }
 
 // Функция переключения лэйаутов
@@ -60,8 +77,8 @@ Traliva.init = function(o){
         }));
     }
     var i, tmp, cand;
-    for (i = 0 ; i < o.stateSubscribers.length ; i++){
-        tmp = o.stateSubscribers[i];
+    for (i = 0 ; i < o.states.stateSubscribers.length ; i++){
+        tmp = o.states.stateSubscribers[i];
         if (typeof tmp === 'function')
             cand = new tmp();
         else
