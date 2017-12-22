@@ -49,7 +49,8 @@ StatePublisher.prototype._processStateChanges = function(sender){
         subscr.__d.state = this.__state;
         var s = subscr.__getSubstate(this.__state);
 		subscr._state = s;
-        //console.log('process '+subscr.constructor.name + JSON.stringify(s));
+        if (Traliva.debug && Traliva.debug.state)
+            console.log('process '+subscr.constructor.name + JSON.stringify(s));
 		subscr.processStateChanges(s, false);
 	}
 };

@@ -15,16 +15,16 @@ var StateSubscriber = function(){
 */
 StateSubscriber.prototype.processStateChanges = function(state, ifResetStateChain){
 	console.log("critical error: method processStateChanges must be reimplemented! class '"+this.constructor.name+"'");
-	//console.log("Class name: "+this.constructor);
+	console.log("Class name: "+this.constructor);//
 };
 StateSubscriber.prototype._registerStateChanges = function(){
 	if (this.__m_publisher)
 	{
 		this.__m_publisher._processStateChanges(this);
-//		console.log("xml subscriber : _registerStateChanges -> ok");
+		//console.log("xml subscriber : _registerStateChanges -> ok");
 	}
-//	else
-//		console.log("xml subscriber : _registerStateChanges -> aborted");
+	//else
+	//	console.log("xml subscriber : _registerStateChanges -> aborted");
 };
 StateSubscriber.prototype.useSubstate = function(substateMapper){
     /*

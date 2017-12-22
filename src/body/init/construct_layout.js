@@ -30,15 +30,15 @@ function construct_layout(p_wParent, p_oLayout, p_widgets, p_widgetScope, p_inne
                         cand = cand.useSubstate(i.substate);
                     //cand = new i[0](retVal).substate(i[1]);// согласно спецификации, если не конструктор, то массив из конструктора и (чего-то, описывающего подсостояние)
                 }
-                p_widgetScope[p_oLayout] = cand;
             }
             else{
                 // создаём виджет-заглушку
                 //console.log('создаётся виджет-заглушка для элемента лейаута с id = \''+p_oLayout+'\'');
                 retVal = new Widget(p_wParent);
                 cand = new StubWidget(retVal, p_oLayout);
-                p_widgetScope[p_oLayout] = cand;
             }
+            p_widgetScope[p_oLayout] = cand;
+            Traliva.__d.publisher.registerSubscriber(cand);
         }
         used[p_oLayout] = 1;
     }
@@ -94,7 +94,8 @@ function construct_layout(p_wParent, p_oLayout, p_widgets, p_widgetScope, p_inne
         // уничтожаем те виджеты, id которых не попали в used
         for (i in p_widgetScope){
             if (!used.hasOwnProperty(i)){
-                w = p_widgetScope[i].destroy();
+                Traliva.__d.publisher.unregisterSubscriber(p_widgetScope[i]);
+                w = p_widgetScope[i].destroy(); // w - DOM-элемент...
                 delete p_widgetScope[i];
             }
         }

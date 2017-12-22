@@ -1,4 +1,7 @@
 'use strict';
+Traliva.debug = {
+    state: true
+}
 
 // Класс виджета Button. Параметром конструктора передаётся id, который должен быть записан корневое свойство 'value'
 function Button(p_wContainer, p_options){// options: title, id, valueVarName - имя свойства, в которое сохранять значение
@@ -6,7 +9,6 @@ function Button(p_wContainer, p_options){// options: title, id, valueVarName - �
     var e = Traliva.createElement(p_options.title);
     e.className = 'bn';
     e.addEventListener('click', function(self, opt){return function(){
-        console.log('mode previous value: '+JSON.stringify(self._state));
         self._state[opt.valueVarName] = opt.id;
         self._registerStateChanges();
     };}(this, p_options));

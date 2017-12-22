@@ -58,6 +58,7 @@ Traliva.init = function(o){
     var d = Traliva.__d = {};
     d.o = o;
     d.w = {};//widgets
+
     d.wRoot = new Widget();
     d.wRoot._div.className = 'wRoot';//
     d.curLayout = undefined;
