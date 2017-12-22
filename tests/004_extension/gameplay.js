@@ -49,6 +49,12 @@ widgets:{
         constructor: Button,
         options: {id:'auth', title:'Авторизация', valueVarName:'mode'}
     }
+},
+extender:{
+    getUrl: function(extId){
+        return extId + '/gameplay.js';
+    },
+    substate: 'mode'
 }
 
 }); // Traliva.init()

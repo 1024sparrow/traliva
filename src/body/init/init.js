@@ -86,4 +86,10 @@ Traliva.init = function(o){
             cand = (new tmp[0]()).substate(tmp[1]);
         d.publisher.registerSubscriber(cand);
     }
+    if (o.hasOwnProperty('extender')){
+        var cand = new Догрузчик(o.extender.getUrl);
+        if (o.extender.hasOwnProperty('substate'))
+            cand = cand.useSubstate(o.extender.substate);
+        d.publisher.registerSubscriber(cand);
+    }
 };

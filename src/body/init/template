@@ -8,4 +8,5 @@ Traliva.StubWidget = StubWidget;
 Traliva.SlotWidget = SlotWidget;
 
 {%% construct_layout.js %%}
+{%% догрузчик.js %%}
 {%% init.js %%}

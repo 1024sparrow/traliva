@@ -9,6 +9,7 @@
                     "stub_widget.js",
                     "slot_widget.js",
                     "construct_layout.js",
+                    "догрузчик.js",
                     "init.js"
                 ]
             }
