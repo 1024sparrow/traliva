@@ -1,6 +1,26 @@
 'use strict';
+/*catalogue*/
 
 EXTERNAL = {
-    test2: 'ok',
-    qwe: 'rty'
+    layouts:{
+        canvas:{
+            type: 'strip',
+            orient: 'h',
+            items:[
+                {
+                    size: '256px',
+                    widget:'a'
+                },
+                {
+                    widget: 'b'
+                }
+            ]
+        }
+    },
+    widgets:{
+    },
+    states:{
+    },
+    //extender
+    hideWidgets: true
 };

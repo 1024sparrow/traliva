@@ -36,7 +36,7 @@ layouts:{
             }
         },
         {
-            widget: 'ads'
+            widget: 'canvas'
         }
     ]
 },

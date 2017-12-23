@@ -18,9 +18,9 @@ function construct_layout(p_wParent, p_oLayout, p_widgets, p_widgetScope, p_inne
         if (p_widgetScope.hasOwnProperty(p_oLayout))
             retVal = p_widgetScope[p_oLayout].__WidgetStateSubscriber.wContainer;
         else{
+            retVal = new Widget(p_wParent);
             if (p_widgets.hasOwnProperty(p_oLayout)){
                 // вызываем конструктор..
-                retVal = new Widget(p_wParent);
                 i = p_widgets[p_oLayout];
                 if (typeof i === 'function')
                     cand = new i(retVal);
@@ -34,9 +34,10 @@ function construct_layout(p_wParent, p_oLayout, p_widgets, p_widgetScope, p_inne
             else{
                 // создаём виджет-заглушку
                 //console.log('создаётся виджет-заглушка для элемента лейаута с id = \''+p_oLayout+'\'');
-                retVal = new Widget(p_wParent);
                 cand = new StubWidget(retVal, p_oLayout);
             }
+            //retVal.setContent(cand);cand - не виджет, а его представитель из мира Подписчиков
+            Traliva.__d.widgets[p_oLayout] = retVal;
             p_widgetScope[p_oLayout] = cand;
             Traliva.__d.publisher.registerSubscriber(cand);
         }
