@@ -88,7 +88,13 @@ Traliva.init = function(o){
         d.publisher.registerSubscriber(cand);
     }
     if (o.hasOwnProperty('extender')){
-        var cand = new Догрузчик(o.extender.getUrl);
+        d.extender = {
+            o: undefined,
+            w: {}, // WidgetStateSubscriber
+            widgets: {}, // _WidgetBase
+            extender: undefined
+        };
+        var cand = new Догрузчик(o.extender.getUrl, d.extender);
         if (o.extender.hasOwnProperty('substate'))
             cand = cand.useSubstate(o.extender.substate);
         d.publisher.registerSubscriber(cand);

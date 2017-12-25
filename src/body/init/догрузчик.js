@@ -1,8 +1,10 @@
 /* Предполагается, что использоваться будет с подсостоянием */
-function Догрузчик(p_getUrl, p_parent){
+//function Догрузчик(p_getUrl, p_parent, p_scope){
+function Догрузчик(p_getUrl, p_scope){
     StateSubscriber.call(this);
     this._extId = undefined;
     this._getUrl = p_getUrl;
+    this._scope = p_scope;
 }
 Догрузчик.prototype = Object.create(StateSubscriber.prototype);
 Догрузчик.prototype.constructor = Догрузчик;
@@ -58,11 +60,21 @@ function Догрузчик(p_getUrl, p_parent){
             console.log('epic fail: ' + i);
             continue;
         }
-        content = construct_layout(slotWidget, o.layouts[i], o.widgets, d.w);//
+        content = construct_layout(slotWidget, o.layouts[i], o.widgets, this._scope);//
         if (content){
             slotWidget.setContent(content);
         }
         console.log('test: ' + typeof content);//
+    }
+
+    //states
+    if (o.hasOwnProperty('states')){
+        this._scope.states = o.states;
+    }
+
+    //extender
+    if (o.hasOwnProperty('extender')){
+        this._scope.extender = o.extender;
     }
 }
 Догрузчик.prototype.fail = function(p_reason){
