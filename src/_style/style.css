@@ -226,3 +226,24 @@
 .traliva__stub_widget.bg-6-4-3{background-image: url("_widget_stub_bg/6-4-3.png");}
 .traliva__stub_widget.bg-6-4-4{background-image: url("_widget_stub_bg/6-4-4.png");}
 .traliva__stub_widget.bg-6-4-5{background-image: url("_widget_stub_bg/6-4-5.png");}
+
+/*debug panel and widgets*/
+.traliva__debug_panel{
+    background: #000;
+    border-bottom: 1px solid #48f;
+}
+.traliva__debug_panel__bn_back{
+    background-image: url("debug_bn_back.png");
+    cursor: pointer;
+}
+.traliva__debug_panel__bn_back:hover{
+    border: 1px solid #afa;
+}
+.traliva__debug_panel__bn_forward{
+    background-image: url("debug_bn_forward.png");
+    cursor: pointer;
+}
+.traliva__debug_panel__bn_enter{
+    background-image: url("debug_bn_enter.png");
+    cursor: pointer;
+}

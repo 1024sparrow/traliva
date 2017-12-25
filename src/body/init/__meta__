@@ -5,6 +5,7 @@
             "source":{
                 "template": "template",
                 "list":[
+                    "debug.js",
                     "widget_state_subscriber.js",
                     "stub_widget.js",
                     "slot_widget.js",

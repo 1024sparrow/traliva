@@ -80,7 +80,7 @@ function _WidgetBase(p_parentWidget, p_scroll){
 		var eBody = document.getElementsByTagName('body')[0];
 		eBody.style.overflow = "hidden";
 		eBody.style.margin = '0';
-		this._div.style.background='#444';
+		//this._div.style.background='#444';
 		this._div.style.margin = '0';
 		eBody.appendChild(this._div);
 

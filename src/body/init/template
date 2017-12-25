@@ -1,3 +1,5 @@
+{%% debug.js %%}
+
 {%% widget_state_subscriber.js %%}
 Traliva.WidgetStateSubscriber = WidgetStateSubscriber;
 
