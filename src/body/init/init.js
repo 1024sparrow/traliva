@@ -57,7 +57,8 @@ Traliva.init = function(o){
     fillParam(o);
     var d = Traliva.__d = {};
     d.o = o;
-    d.w = {};//widgets
+    d.w = {};//widgets (WidgetStateSubscriber)
+    d.widgets = {};//key: widgetId, value: widget (_WidgetBase)
 
     d.wRoot = new Widget();
     d.wRoot._div.className = 'wRoot';//
