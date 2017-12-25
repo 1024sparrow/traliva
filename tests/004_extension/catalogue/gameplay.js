@@ -1,6 +1,12 @@
 'use strict';
 
 EXTERNAL = {
-    test2: 'ok',
-    qwe: 'rty'
+    layouts:{
+    },
+    widgets:{
+    },
+    states:{
+    },
+    //extender: .. ,
+    hideWidgets: true // возможные значения: true ; false ; ['widget_1', ...] .
 };
