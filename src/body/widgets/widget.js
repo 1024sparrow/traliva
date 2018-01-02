@@ -8,7 +8,7 @@ function Widget(p_parentWidget, p_attr){
 	this.__contentWidget;
 	_WidgetBase.call(this, p_parentWidget, p_attr);
 
-    this._div.className = 'widget_div';//
+    //this._div.className = 'widget_div';//
 }
 Widget.prototype = Object.create(_WidgetBase.prototype);
 Widget.prototype.constructor = Widget;

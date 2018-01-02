@@ -13,7 +13,6 @@ function Button(p_wContainer, p_options){// options: title, color('#f00'), value
     e.style.textAlign = 'center';
     //e.style.cursor = 'pointer';
     e.addEventListener('click', function(self, opt){return function(){
-        console.log('1111');
         self._state[opt.valueVarName] = !self._state[opt.valueVarName];
         self._registerStateChanges();
     };}(this, p_options));
@@ -66,26 +65,53 @@ function DebugStatesWidget(p_wContainer, p_wExtender, p_wStates){
     this._wContainer = p_wContainer;
     this._wContainer.setVisible(false);
     this._enabled = false;
+    p_wContainer._div.className = 'traliva__debug_panel__states';
+
+    this.DebugStatesWidget = {
+        publisher: new StatePublisher()
+    };
+    this.DebugStatesWidget.publisher.registerSubscriber(new DebugStatesExtenderWidget(p_wExtender));
+    this.DebugStatesWidget.publisher.registerSubscriber(new DebugStatesStatesWidget(p_wStates));
 }
 DebugStatesWidget.prototype = Object.create(StateSubscriber.prototype);
 DebugStatesWidget.prototype.constructor = DebugStatesWidget;
 DebugStatesWidget.prototype.processStateChanges = function(s){
-    if (s.show_states != this._enabled){
+    if (s.show_states !== this._enabled){
         this._wContainer.setVisible(s.show_states);
         this._enabled = s.show_states;
     }
+    this.DebugStatesWidget.publisher.setState(s);
 }
 
 function DebugStatesStatesWidget(p_wContainer){
     StateSubscriber.call(this);
+    p_wContainer._div.className = 'traliva__debug_panel__states_states';
+    var wStrip = new Strip(Traliva.Strip__Orient__hor, p_wContainer);
+    var wLeft = new Widget(p_wContainer);
+    this.eState = document.createElement('textarea');
+    var wRight = new Strip(Traliva.Strip__Orient__vert, wStrip);
+    var wBnApply = new Widget(wRight);
+    wBnApply._div.className = 'traliva__debug_panel__apply_state_button';
+    wBnApply.setContent(Traliva.createElement('Применить'));
+    wBnApply.addEventListener('click', (function(self){return function(){
+        self._state = JSON.parse(self.eState.value);
+        self._registerStateChanges();
+    }})(this));
+    wRight.addItem(wBnApply, '16px');
+    wRight.addItem(new Widget(wRight));
+    wStrip.addItem(wLeft);
+    wStrip.addItem(wRight, '128px');
+    p_wContainer.setContent(wStrip);
 }
 DebugStatesStatesWidget.prototype = Object.create(StateSubscriber.prototype);
 DebugStatesStatesWidget.prototype.constructor = DebugStatesStatesWidget;
 DebugStatesStatesWidget.prototype.processStateChanges = function(s){
+    this.eState.value = JSON.stringify(s, undefined, 2);
 }
 
 function DebugStatesExtenderWidget(p_wContainer){
     StateSubscriber.call(this);
+    p_wContainer._div.className = 'traliva__debug_panel__states_extender';
 }
 DebugStatesExtenderWidget.prototype = Object.create(StateSubscriber.prototype);
 DebugStatesExtenderWidget.prototype.constructor = DebugStatesExtenderWidget;

@@ -19,17 +19,20 @@ StatePublisher.prototype.setState = function(state){//parameter is an Object
         subscr.__d.state = state;
         var s = subscr.__getSubstate(state);
 		subscr._state = s;
-        //console.log('process '+subscr.constructor.name + JSON.stringify(s));
+        if (Traliva.debug && Traliva.debug.states)
+            console.log('process '+subscr.constructor.name + JSON.stringify(s));
 		subscr.processStateChanges(s, true);
 	}
 };
 StatePublisher.prototype.registerSubscriber = function(subscr){
-    //console.log('register '+subscr.constructor.name);
+    if (Traliva.debug && Traliva.debug.states)
+        console.log('register '+subscr.constructor.name);
 	subscr.__m_publisher = this;
     subscr.__d.state = this.__state;
     var s = subscr.__getSubstate(this.__state);
 	subscr._state = s;
-    //console.log('process '+subscr.constructor.name + JSON.stringify(s));
+    if (Traliva.debug && Traliva.debug.states)
+        console.log('process '+subscr.constructor.name + JSON.stringify(s));
 	subscr.processStateChanges(s, true);
 	this.__subscribers.push(subscr);
 };
@@ -49,8 +52,11 @@ StatePublisher.prototype._processStateChanges = function(sender){
         subscr.__d.state = this.__state;
         var s = subscr.__getSubstate(this.__state);
 		subscr._state = s;
-        if (Traliva.debug && Traliva.debug.state)
+        if (Traliva.debug && Traliva.debug.states)
             console.log('process '+subscr.constructor.name + JSON.stringify(s));
 		subscr.processStateChanges(s, false);
 	}
+    if (Traliva.debug && Traliva.debug.states){
+        console.log('--');
+    }
 };
