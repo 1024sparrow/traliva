@@ -1,24 +1,20 @@
 function Button(p_wContainer, p_options){// options: title, color('#f00'), valueVarName - имя свойства, в которое сохранять значение
     StateSubscriber.call(this);
-    var e = Traliva.createElement(p_options.title);
-    p_wContainer._onResized = function(w,h){
-        e.style.width = (w - 12) + 'px';
-        e.style.height = (h - 12) + 'px';
-    };
-    e.className = 'traliva__debug_panel__bn';
+    var e = Traliva.createElement('<div class="traliva__debug_panel__bn" traliva="bnStates">' + p_options.title + '</div>', this);
+    /*p_wContainer._onResized = (function(e){function(w,h){
+        e.style.width = w + 'px';
+        e.style.height = h + 'px';
+    };})(this.bnStates);*/
+    //e.className = 'traliva__debug_panel__bn';
     //e.style.margin = '6px';
-    e.style.margin = 0;
-    e.style.border = '1px solid ' + p_options.color;
-    e.style.borderRadius = '5px';
-    e.style.color = p_options.color;
-    e.style.textAlign = 'center';
-    e.style.cursor = 'pointer';
-    e.addEventListener('click', function(self, opt){return function(){
+    this.bnStates.style.border = '1px solid ' + p_options.color;
+    this.bnStates.style.color = p_options.color;
+    this.bnStates.addEventListener('click', function(self, opt){return function(){
         self._state[opt.valueVarName] = !self._state[opt.valueVarName];
         self._registerStateChanges();
     };}(this, p_options));
     p_wContainer.setContent(e);
-    p_wContainer._div.style.margin = '6px 2px';
+    //p_wContainer._div.style.margin = '6px 2px';
 }
 Button.prototype = Object.create(Traliva.StateSubscriber.prototype);
 Button.prototype.constructor = Button;
@@ -34,7 +30,7 @@ function DebugPanelUrlWidget(p_wContainer){
     this._bnForward._div.className = 'traliva__debug_panel__bn_forward';
     this._leUrl = new Widget(p_wContainer);
     var scope = {};
-    var leUrl = Traliva.createElement('<input type="text" value="1234" traliva="le"></input>', scope, '__debug_panel_url');
+    var leUrl = Traliva.createElement('<input type="text" value="1234" traliva="le"></input>', scope, '__debug_panel_url');//boris here
     this._leUrl._onResized = function(w, h){
         //leUrl.style.width = w + 'px';
         scope.le.style.width = (w - 12) + 'px';
