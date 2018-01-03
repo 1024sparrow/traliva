@@ -232,6 +232,10 @@
     background: #000;
     border-bottom: 1px solid #48f;
 }
+.traliva__debug_panel *{
+    font-family: Play;
+    font-size: 16px;
+}
 .traliva__debug_panel__bn_back{
     background-image: url("debug_bn_back.png");
     cursor: pointer;
@@ -265,4 +269,10 @@
     text-align: center;
     cursor: pointer;
     padding: 10px;
+    margin: 5px;
+    font-family: Play;
+    font-size: 16px;
+}
+.traliva__debug_panel__apply_state_button:hover{
+    background: #222;
 }

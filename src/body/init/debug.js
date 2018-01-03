@@ -5,13 +5,14 @@ function Button(p_wContainer, p_options){// options: title, color('#f00'), value
         e.style.width = (w - 12) + 'px';
         e.style.height = (h - 12) + 'px';
     };
+    e.className = 'traliva__debug_panel__bn';
     //e.style.margin = '6px';
     e.style.margin = 0;
     e.style.border = '1px solid ' + p_options.color;
     e.style.borderRadius = '5px';
     e.style.color = p_options.color;
     e.style.textAlign = 'center';
-    //e.style.cursor = 'pointer';
+    e.style.cursor = 'pointer';
     e.addEventListener('click', function(self, opt){return function(){
         self._state[opt.valueVarName] = !self._state[opt.valueVarName];
         self._registerStateChanges();
@@ -89,15 +90,24 @@ function DebugStatesStatesWidget(p_wContainer){
     var wStrip = new Strip(Traliva.Strip__Orient__hor, p_wContainer);
     var wLeft = new Widget(p_wContainer);
     this.eState = document.createElement('textarea');
+    this.eState.resize = 'none';
+    this.eState.style.background = '#000';
+    this.eState.style.border = 'none';
+    this.eState.style.color = '#48f';
+    wLeft.setContent(this.eState);
+    wLeft._onResized = (function(e){return function(w,h){
+        e.style.width = w + 'px';
+        e.style.height = h + 'px';
+    };})(this.eState);
     var wRight = new Strip(Traliva.Strip__Orient__vert, wStrip);
     var wBnApply = new Widget(wRight);
-    wBnApply._div.className = 'traliva__debug_panel__apply_state_button';
-    wBnApply.setContent(Traliva.createElement('Применить'));
-    wBnApply.addEventListener('click', (function(self){return function(){
+    //wBnApply._div.className = 'traliva__debug_panel__apply_state_button';
+    wBnApply.setContent(Traliva.createElement('<div class="traliva__debug_panel__apply_state_button">Применить</div>'));
+    wBnApply._div.addEventListener('click', (function(self){return function(){
         self._state = JSON.parse(self.eState.value);
         self._registerStateChanges();
     }})(this));
-    wRight.addItem(wBnApply, '16px');
+    wRight.addItem(wBnApply, '48px');
     wRight.addItem(new Widget(wRight));
     wStrip.addItem(wLeft);
     wStrip.addItem(wRight, '128px');
