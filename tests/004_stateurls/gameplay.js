@@ -13,7 +13,12 @@ Traliva.init({
     widgets:{
         w1:{
             constructor: TralivaKit.Button,
-            options: {title: 'Нажмите здесь', togglable: true, valueVarName: 'enabled'}
+            options: {title: 'Нажмите здесь', activeVarName: 'active'}
+        }
+    },
+    states:{
+        initState:{
+            active: false
         }
     }
 });
