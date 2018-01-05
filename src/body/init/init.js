@@ -114,14 +114,16 @@ Traliva.init = function(o){
         f(lay);
     };}(d, switchToLayout);
 
-    if (o.hasOwnProperty('tree')){
+    if (o.states.hasOwnProperty('tree')){
         d.publisher.registerSubscriber(new StateToUriMapper({
-            initPath: o.initPath,
-            initState: o.initState,
-            tree: o.tree,
-            stringifyState: o.stringifyState
+            initPath: o.states.initPath,
+            initState: o.states.initState,
+            tree: o.states.tree,
+            stringifyState: o.states.stringifyState
         }));
     }
+    else if (o.states.hasOwnProperty('initState'))
+        d.publisher.setState(o.states.initState);
     for (i = 0 ; i < o.states.stateSubscribers.length ; i++){
         tmp = o.states.stateSubscribers[i];
         if (typeof tmp === 'function')

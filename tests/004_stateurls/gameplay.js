@@ -18,7 +18,7 @@ Traliva.init({
     },
     states:{
         initState:{
-            active: false
+            active: true
         }
     }
 });
