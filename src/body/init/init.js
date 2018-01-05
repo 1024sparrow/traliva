@@ -65,7 +65,7 @@ Traliva.init = function(o){
     d.publisher = new StatePublisher();
     if (Traliva.debug){
         d.__debug = {
-            publisher: new StatePublisher()
+            publisher: new StatePublisherNoDebug()
         };
         cand = {
             show_states: false
@@ -93,7 +93,7 @@ Traliva.init = function(o){
         __wDebugCanvas.addItem(cand);
         d.wRoot = cand;
         if (Traliva.debug.hasOwnProperty('states')){
-            var __wDebugStates = new Strip(__wDebugCanvas);
+            var __wDebugStates = new Strip(Traliva.Strip__Orient__vert, __wDebugCanvas);
             __wDebugCanvas.addItem(__wDebugStates);
             var __wDebugStatesExtender = new Widget(__wDebugStates);
             __wDebugStates.addItem(__wDebugStatesExtender, '64px');

@@ -20,7 +20,7 @@ StatePublisher.prototype.setState = function(state){//parameter is an Object
         var s = subscr.__getSubstate(state);
 		subscr._state = s;
         if (Traliva.debug && Traliva.debug.states)
-            console.log('process '+subscr.constructor.name + JSON.stringify(s));
+            this.__debugState(subscr, s);
 		subscr.processStateChanges(s, true);
 	}
 };
@@ -32,7 +32,7 @@ StatePublisher.prototype.registerSubscriber = function(subscr){
     var s = subscr.__getSubstate(this.__state);
 	subscr._state = s;
     if (Traliva.debug && Traliva.debug.states)
-        console.log('process '+subscr.constructor.name + JSON.stringify(s));
+        this.__debugState(subscr, s);
 	subscr.processStateChanges(s, true);
 	this.__subscribers.push(subscr);
 };
@@ -53,10 +53,26 @@ StatePublisher.prototype._processStateChanges = function(sender){
         var s = subscr.__getSubstate(this.__state);
 		subscr._state = s;
         if (Traliva.debug && Traliva.debug.states)
-            console.log('process '+subscr.constructor.name + JSON.stringify(s));
+            this.__debugState(subscr, s);
 		subscr.processStateChanges(s, false);
 	}
     if (Traliva.debug && Traliva.debug.states){
         console.log('--');
     }
 };
+StatePublisher.prototype.__debugState = function(p_subscriber, p_state, p_action){
+    if (this._nodebug)
+        return;
+    if (p_action)
+        console.log(p_action + ' ' + p_subscriber.constructor.name + ': ' + JSON.stringify(p_state));
+    else{
+        console.log('process ' + p_subscriber.constructor.name + ': ' + JSON.stringify(p_state));
+        Traliva.__d.__debug.debugStatesStatesWidget.processState(p_subscriber, p_state);
+    }
+};
+function StatePublisherNoDebug(){
+    StatePublisher.call(this);
+    this._nodebug = true;
+}
+StatePublisherNoDebug.prototype = Object.create(StatePublisher.prototype);
+StatePublisherNoDebug.prototype.constructor = StatePublisherNoDebug;

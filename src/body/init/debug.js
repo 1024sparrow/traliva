@@ -65,10 +65,12 @@ function DebugStatesWidget(p_wContainer, p_wExtender, p_wStates){
     p_wContainer._div.className = 'traliva__debug_panel__states';
 
     this.DebugStatesWidget = {
-        publisher: new StatePublisher()
+        publisher: new StatePublisherNoDebug()
     };
     this.DebugStatesWidget.publisher.registerSubscriber(new DebugStatesExtenderWidget(p_wExtender));
-    this.DebugStatesWidget.publisher.registerSubscriber(new DebugStatesStatesWidget(p_wStates));
+    var tmp = new DebugStatesStatesWidget(p_wStates);
+    Traliva.__d.__debug.debugStatesStatesWidget = tmp;
+    this.DebugStatesWidget.publisher.registerSubscriber(tmp);
 }
 DebugStatesWidget.prototype = Object.create(StateSubscriber.prototype);
 DebugStatesWidget.prototype.constructor = DebugStatesWidget;
@@ -112,7 +114,10 @@ function DebugStatesStatesWidget(p_wContainer){
 DebugStatesStatesWidget.prototype = Object.create(StateSubscriber.prototype);
 DebugStatesStatesWidget.prototype.constructor = DebugStatesStatesWidget;
 DebugStatesStatesWidget.prototype.processStateChanges = function(s){
-    this.eState.value = JSON.stringify(s, undefined, 2);
+    //this.eState.value = JSON.stringify(s, undefined, 2);
+}
+DebugStatesStatesWidget.prototype.processState = function(p_subscriber, p_state){
+    this.eState.value = JSON.stringify(p_state, undefined, 2);
 }
 
 function DebugStatesExtenderWidget(p_wContainer){
