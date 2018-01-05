@@ -14,7 +14,8 @@ StatePublisher.prototype.state = function(){
 };
 StatePublisher.prototype.setState = function(state){//parameter is an Object
 	this.__state = state;
-    console.log('set state: '+JSON.stringify(state));
+    if (!this._nodebug)
+        console.log('set state: '+JSON.stringify(state));
 	for (var i = 0 ; i < this.__subscribers.length ; i++){
 		var subscr = this.__subscribers[i];
         subscr.__d.state = state;
