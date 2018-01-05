@@ -102,8 +102,18 @@ function DebugStatesStatesWidget(p_wContainer){
     //wBnApply._div.className = 'traliva__debug_panel__apply_state_button';
     wBnApply.setContent(Traliva.createElement('<div class="traliva__debug_panel__apply_state_button">Применить</div>'));
     wBnApply._div.addEventListener('click', (function(self){return function(){
-        self._state = JSON.parse(self.eState.value);
-        self._registerStateChanges();
+        var s;
+        try{
+            s = JSON.parse(self.eState.value);
+            self.lastValidState = s;
+        }
+        catch(e){
+            alert('Ошибка: '+e);
+            if (confirm('Откатить изменения?'))
+                self.eState.value = JSON.stringify(self.lastValidState, undefined, 2);
+        }
+        if (s)
+            Traliva.__d.publisher.setState(s);
     }})(this));
     wRight.addItem(wBnApply, '48px');
     wRight.addItem(new Widget(wRight));
@@ -117,6 +127,7 @@ DebugStatesStatesWidget.prototype.processStateChanges = function(s){
     //this.eState.value = JSON.stringify(s, undefined, 2);
 }
 DebugStatesStatesWidget.prototype.processState = function(p_subscriber, p_state){
+    this.lastValidState = p_state;
     this.eState.value = JSON.stringify(p_state, undefined, 2);
 }
 
