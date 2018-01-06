@@ -9,8 +9,7 @@ function fillParam(o){
     }
     if (!o.hasOwnProperty('states')){
         o.states = {
-            initState: {},
-            initPath: '/'
+            initState: {}
         }
     }
     if (!o.states.hasOwnProperty('stateSubscribers'))
