@@ -55,6 +55,7 @@ extender:{
         return extId + '/gameplay.js';
     },
     substate: 'mode'
+    //ifSave: false
 }
 
 }); // Traliva.init()

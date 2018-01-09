@@ -1,5 +1,9 @@
 'use strict';
 
+Traliva.debug = {
+    states: true,
+    url: 'traliva.ru'
+}
 Traliva.init({
     target: 'web',
     get_layout: function(w,h,t){return w > h ? 'wide' : 'narrow'},

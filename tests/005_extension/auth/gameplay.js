@@ -14,7 +14,7 @@ EXTERNAL = {
                     widget: 'bb'
                 },
                 {
-                    widget: 'cc'
+                    widget: 'canvas'//тест на отсутвие конфликтов с виджетом с таким же идентификатором в продолжении более другого уровня (на верхнем уровне у нас 'canvas')
                 }
             ]
         }
@@ -22,7 +22,7 @@ EXTERNAL = {
     widgets:{
     },
     states:{
-    },
+    }
     //extender
-    hideWidgets: true
+    //hideWidgets: true
 }

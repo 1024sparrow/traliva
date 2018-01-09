@@ -226,3 +226,71 @@
 .traliva__stub_widget.bg-6-4-3{background-image: url("_widget_stub_bg/6-4-3.png");}
 .traliva__stub_widget.bg-6-4-4{background-image: url("_widget_stub_bg/6-4-4.png");}
 .traliva__stub_widget.bg-6-4-5{background-image: url("_widget_stub_bg/6-4-5.png");}
+
+/*debug panel and widgets*/
+.traliva__debug_panel{
+    background: #000;
+    border-bottom: 1px solid #48f;
+}
+.traliva__debug_panel *{
+    font-family: Play;
+    font-size: 16px;
+}
+.traliva__debug_panel__bn{
+    /**/
+    /*width: 100%;*/
+    /*height: 100%;*/
+    margin: 5px;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+}
+.traliva__debug_panel__bn:hover{
+    background: #222;
+}
+.traliva__debug_panel__bn_back{
+    background-image: url("debug_bn_back.png");
+    cursor: pointer;
+}
+.traliva__debug_panel__bn_back:hover{
+    background-image: url("debug_bn_back_hover.png");
+}
+.traliva__debug_panel__bn_forward{
+    background-image: url("debug_bn_forward.png");
+    cursor: pointer;
+}
+.traliva__debug_panel__bn_forwardi:hover{
+    background-image: url("debug_bn_forward_hover.png");
+}
+.traliva__debug_panel__bn_enter{
+    background-image: url("debug_bn_enter.png");
+    cursor: pointer;
+}
+.traliva__debug_panel__bn_enter:hover{
+    background-image: url("debug_bn_enter_hover.png");
+}
+.traliva__debug_panel__states{
+    background: #000;
+    /*background: rgba(0,0,0,0.2);*/
+}
+.traliva__debug_panel__states_states{
+    /*border-bottom: 1px solid #48f;*/
+}
+.traliva__debug_panel__states_extender{
+    color: #ffa;
+    border-bottom: 1px solid #ffa;
+}
+.traliva__debug_panel__apply_state_button{
+    color: #48f;
+    border: 1px solid #48f;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    padding: 10px;
+    margin: 5px;
+    font-family: Play;
+    font-size: 16px;
+}
+.traliva__debug_panel__apply_state_button:hover{
+    background: #222;
+}

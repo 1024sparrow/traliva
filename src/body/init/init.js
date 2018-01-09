@@ -9,8 +9,7 @@ function fillParam(o){
     }
     if (!o.hasOwnProperty('states')){
         o.states = {
-            initState: {},
-            initPath: '/'
+            initState: {}
         }
     }
     if (!o.states.hasOwnProperty('stateSubscribers'))
@@ -60,7 +59,52 @@ Traliva.init = function(o){
     d.w = {};//widgets (WidgetStateSubscriber)
     d.widgets = {};//key: widgetId, value: widget (_WidgetBase)
 
-    d.wRoot = new Widget();
+    var i, tmp, cand;
+
+    d.publisher = new StatePublisher();
+    if (Traliva.debug){
+        d.__debug = {
+            publisher: new StatePublisherNoDebug()
+        };
+        cand = {
+            show_states: false
+        };
+        if (Traliva.debug.hasOwnProperty('url')){
+            cand.url = Traliva.debug.url;
+        }
+        d.__debug.publisher.setState(cand);
+
+        d.__debug.wRoot = new Strip(Traliva.Strip__Orient__vert);
+        var __wDebugPanel = new Strip(Traliva.Strip__Orient__hor, d.__debug.wRoot);
+            __wDebugPanel._div.className = 'traliva__debug_panel';
+            var __wDebugPanelBnStates = new Widget(__wDebugPanel);
+            __wDebugPanel.addItem(__wDebugPanelBnStates, '128px');
+            d.__debug.publisher.registerSubscriber(new Button(__wDebugPanelBnStates, {valueVarName: 'show_states', color: '#48f', title: 'Состояние'}));
+            if (Traliva.debug.hasOwnProperty('url')){
+                var __wDebugPanelUrl = new Widget(__wDebugPanel);
+                __wDebugPanel.addItem(__wDebugPanelUrl);
+                d.__debug.publisher.registerSubscriber(new DebugPanelUrlWidget(__wDebugPanelUrl));
+            }
+        d.__debug.wRoot.addItem(__wDebugPanel, '32px');
+        var __wDebugCanvas = new Stack(d.__debug.wRoot);
+        d.__debug.wRoot.addItem(__wDebugCanvas);
+        cand = new Widget(__wDebugCanvas);
+        __wDebugCanvas.addItem(cand);
+        d.wRoot = cand;
+        if (Traliva.debug.hasOwnProperty('states')){
+            var __wDebugStates = new Strip(Traliva.Strip__Orient__vert, __wDebugCanvas);
+            __wDebugCanvas.addItem(__wDebugStates);
+            var __wDebugStatesExtender = new Widget(__wDebugStates);
+            __wDebugStates.addItem(__wDebugStatesExtender, '64px');
+            var __wDebugStatesStates = new Widget(__wDebugStates);
+            __wDebugStates.addItem(__wDebugStatesStates);
+            d.__debug.publisher.registerSubscriber(new DebugStatesWidget(__wDebugStates, __wDebugStatesExtender, __wDebugStatesStates));
+            __wDebugCanvas.addItem(__wDebugStates);
+        }
+    }
+    else
+        d.wRoot = new Widget();
+    
     d.wRoot._div.className = 'wRoot';//
     d.curLayout = undefined;
     d.wRoot._onResized = function(d, f){return function(w,h){
@@ -69,16 +113,16 @@ Traliva.init = function(o){
         f(lay);
     };}(d, switchToLayout);
 
-    d.publisher = new StatePublisher();
-    if (o.hasOwnProperty('tree')){
+    if (o.states.hasOwnProperty('tree')){
         d.publisher.registerSubscriber(new StateToUriMapper({
-            initPath: o.initPath,
-            initState: o.initState,
-            tree: o.tree,
-            stringifyState: o.stringifyState
+            initPath: o.states.initPath,
+            initState: o.states.initState,
+            tree: o.states.tree,
+            stringifyState: o.states.stringifyState
         }));
     }
-    var i, tmp, cand;
+    else if (o.states.hasOwnProperty('initState'))
+        d.publisher.setState(o.states.initState);
     for (i = 0 ; i < o.states.stateSubscribers.length ; i++){
         tmp = o.states.stateSubscribers[i];
         if (typeof tmp === 'function')
@@ -88,7 +132,13 @@ Traliva.init = function(o){
         d.publisher.registerSubscriber(cand);
     }
     if (o.hasOwnProperty('extender')){
-        var cand = new Догрузчик(o.extender.getUrl);
+        d.extender = {
+            o: undefined,
+            w: {}, // WidgetStateSubscriber
+            widgets: {}, // _WidgetBase
+            extender: undefined
+        };
+        var cand = new Догрузчик(o.extender.getUrl, d.extender);
         if (o.extender.hasOwnProperty('substate'))
             cand = cand.useSubstate(o.extender.substate);
         d.publisher.registerSubscriber(cand);

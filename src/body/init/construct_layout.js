@@ -64,16 +64,20 @@ function construct_layout(p_wParent, p_oLayout, p_widgets, p_widgetScope, p_inne
                 return;
             }
             retVal = new Strip(orient, p_wParent, p_oLayout.scroll);
-            for (i = 0 ; i < p_oLayout.items.length ; i++){
-                //console.log('item '+i);
-                cand = p_oLayout.items[i];
-                if (cand.widget)
-                    w = construct_layout(retVal, cand.widget, p_widgets, p_widgetScope, p_innerCall || used);
-                else
-                    w = new Widget(retVal);
-                if (!w)
-                    return; // error ocurred in internal self calling
-                retVal.addItem(w, cand.size);
+            if (p_oLayout.hasOwnProperty('items')){
+                for (i = 0 ; i < p_oLayout.items.length ; i++){
+                    //console.log('item '+i);
+                    cand = p_oLayout.items[i];
+                    if (typeof cand === 'string')
+                        cand = {widget: cand};
+                    if (cand.widget)
+                        w = construct_layout(retVal, cand.widget, p_widgets, p_widgetScope, p_innerCall || used);
+                    else
+                        w = new Widget(retVal);
+                    if (!w)
+                        return; // error ocurred in internal self calling
+                    retVal.addItem(w, cand.size);
+                }
             }
         }
         else if (type === 'stack'){
