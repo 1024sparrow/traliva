@@ -259,7 +259,7 @@
     background-image: url("debug_bn_forward.png");
     cursor: pointer;
 }
-.traliva__debug_panel__bn_forwardi:hover{
+.traliva__debug_panel__bn_forward:hover{
     background-image: url("debug_bn_forward_hover.png");
 }
 .traliva__debug_panel__bn_enter{
