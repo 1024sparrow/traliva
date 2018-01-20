@@ -52,9 +52,42 @@ widgets:{
     }
 },
 states:{
-    initState:{
+    /*initState:{
         value1: '1',
         value2: 2
+    },*/
+    tree:{
+        _default:{
+            processor:function(s){
+                console.log('* in root');
+            }
+        },
+        download:{
+            in:function(s){
+                console.log('* in download');
+            },
+            out:function(s){
+                console.log('* out download');
+            }
+        },
+        documentation:{
+            in:function(s){
+                console.log('* in documentation');
+            },
+            out:function(s){
+                console.log('* out documentation');
+            }
+        }
+    },
+    initPath:'/',
+    stringifyState:function(s){
+        if (s.state === 1)
+            return '1/';
+        else if (s.state === 2)
+            return '2/';
+        return '/';
+    },
+    _prev_values:{
     }
 },
 extender:{

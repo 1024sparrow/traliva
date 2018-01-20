@@ -47,9 +47,9 @@ StateToUriMapper.prototype.processStateChanges = function(s){
     cand += this._statesObj.stringifyState(this._state, ifReplaceBoolRetVal);
     if (cand != window.location.href){
         if (this.isVirgin || ifReplaceBoolRetVal.b)
-            history.replaceState({}, '', cand);
+            Traliva.history.replaceState({}, '', cand);
         else
-            history.pushState({}, '', cand);
+            Traliva.history.pushState({}, '', cand);
     }
     //if (this.isVirgin){
     if (true){

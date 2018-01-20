@@ -45,7 +45,11 @@ function DebugPanelUrlWidget(p_wContainer){
         scope.le.style.width = (w - 12) + 'px';
         scope.le.style.height = (h - 12) + 'px';
     };
-    scope.le.value = 'http://' + Traliva.debug.url + '/';
+    var a = 'http://' + Traliva.debug.url;
+    scope.le.value = a + '/';
+    Traliva.history._updateUrl = (function(p_prefix, p_le){return function(p_url){
+        p_le.value = p_prefix + p_url;
+    };})(a, scope.le);
     this._leUrl.setContent(leUrl);
     this._bnEnter = new Widget(p_wContainer);
     this._bnEnter._div.className = 'traliva__debug_panel__bn_enter';

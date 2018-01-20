@@ -11,7 +11,8 @@
                     "slot_widget.js",
                     "construct_layout.js",
                     "догрузчик.js",
-                    "init.js"
+                    "init.js",
+                    "history.js"
                 ]
             }
         }
