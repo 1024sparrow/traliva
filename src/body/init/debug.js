@@ -40,17 +40,12 @@ function DebugPanelUrlWidget(p_wContainer){
     this._bnForward._div.className = 'traliva__debug_panel__bn_forward';
     this._leUrl = new Widget(p_wContainer);
     var scope = {};
-    var leUrl = Traliva.createElement('<input type="text" value="1234" traliva="le"></input>', scope, '__debug_panel_url');//boris here
+    var leUrl = Traliva.createElement('<input type="text" traliva="le"></input>', scope, '__debug_panel_url');//boris here
     this._leUrl._onResized = function(w, h){
-        //leUrl.style.width = w + 'px';
         scope.le.style.width = (w - 12) + 'px';
         scope.le.style.height = (h - 12) + 'px';
-        //scope.le.style.margin = '3px';
-        scope.le.style.background = '#000';
-        scope.le.style.color = '#afa';
-        scope.le.style.border = '1px solid #afa';
-        scope.le.style.borderRadius = '5px';
     };
+    scope.le.value = 'http://' + Traliva.debug.url + '/';
     this._leUrl.setContent(leUrl);
     this._bnEnter = new Widget(p_wContainer);
     this._bnEnter._div.className = 'traliva__debug_panel__bn_enter';

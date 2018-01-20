@@ -1,6 +1,7 @@
 'use strict';
 Traliva.debug = {
-    state: true
+    state: true,
+    url: 'boris.com'
 }
 
 // Класс виджета Button. Параметром конструктора передаётся id, который должен быть записан корневое свойство 'value'

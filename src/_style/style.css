@@ -294,3 +294,10 @@
 .traliva__debug_panel__apply_state_button:hover{
     background: #222;
 }
+.__debug_panel_url > input{
+    margin-top: 5px;
+    background: #000;
+    color: #afa;
+    border: 1px solid #afa;
+    border-radius: 5px;
+}
