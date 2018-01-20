@@ -62,6 +62,16 @@ Traliva.init = function(o){
     var i, tmp, cand;
 
     d.publisher = new StatePublisher();
+    if (o.states.hasOwnProperty('tree')){
+        d.publisher.registerSubscriber(new StateToUriMapper({
+            initPath: o.states.initPath,
+            initState: o.states.initState,
+            tree: o.states.tree,
+            stringifyState: o.states.stringifyState
+        }));
+    }
+    else if (o.states.hasOwnProperty('initState'))
+        d.publisher.setState(o.states.initState);
     if (Traliva.debug){
         d.__debug = {
             publisher: new StatePublisherNoDebug()
@@ -113,16 +123,6 @@ Traliva.init = function(o){
         f(lay);
     };}(d, switchToLayout);
 
-    if (o.states.hasOwnProperty('tree')){
-        d.publisher.registerSubscriber(new StateToUriMapper({
-            initPath: o.states.initPath,
-            initState: o.states.initState,
-            tree: o.states.tree,
-            stringifyState: o.states.stringifyState
-        }));
-    }
-    else if (o.states.hasOwnProperty('initState'))
-        d.publisher.setState(o.states.initState);
     for (i = 0 ; i < o.states.stateSubscribers.length ; i++){
         tmp = o.states.stateSubscribers[i];
         if (typeof tmp === 'function')

@@ -50,6 +50,12 @@ widgets:{
         options: {id:'auth', title:'Авторизация', valueVarName:'mode'}
     }
 },
+states:{
+    initState:{
+        value1: '1',
+        value2: 2
+    }
+},
 extender:{
     getUrl: function(extId){
         return extId + '/gameplay.js';

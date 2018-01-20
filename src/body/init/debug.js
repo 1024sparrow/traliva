@@ -104,6 +104,7 @@ function DebugStatesStatesWidget(p_wContainer){
     this.eState.style.background = '#000';
     this.eState.style.border = 'none';
     this.eState.style.color = '#48f';
+    this.eState.value = JSON.stringify(Traliva.__d.publisher.state(), undefined, 2);
     wLeft.setContent(this.eState);
     wLeft._onResized = (function(e){return function(w,h){
         e.style.width = w + 'px';
