@@ -30,7 +30,12 @@ StatePublisher.prototype.registerSubscriber = function(subscr){
     if (Traliva.debug && Traliva.debug.states)
         console.log('register '+subscr.constructor.name);
 	subscr.__m_publisher = this;
-    subscr.__d.state = this.__state;
+    try{
+        subscr.__d.state = this.__state;
+    }
+    catch(e){
+        console.error('В конструкторе класса подписчика \'' + subscr.constructor.name + '\'вы забыли вызвать конструктор базового класса');
+    }
     var s = subscr.__getSubstate(this.__state);
 	subscr._state = s;
     if (Traliva.debug && Traliva.debug.states)

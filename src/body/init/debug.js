@@ -1,3 +1,12 @@
+function DebugConsole(){
+    StateSubscriber.call(this);
+}
+DebugConsole.prototype = Object.create(StateSubscriber.prototype);
+DebugConsole.prototype.constructor = DebugConsole.prototype;
+DebugConsole.prototype.processStateChanges = function(s){
+    console.log('%cDEBUG:%c ' + JSON.stringify(s), 'color: #afa', 'color: #f80');
+}
+
 function Button(p_wContainer, p_options){// options: title, color('#f00'), valueVarName - имя свойства, в которое сохранять значение
     StateSubscriber.call(this);
     var e = Traliva.createElement('<div class="traliva__debug_panel__bn" traliva="bnStates">' + p_options.title + '</div>', this);
@@ -22,6 +31,7 @@ Button.prototype.processStateChanges = function(s){
 }
 
 function DebugPanelUrlWidget(p_wContainer){
+    p_wContainer._div.className = 'debug_panel';
     StateSubscriber.call(this);
     //p_wContainer._div.style.background = '#f00';
     this._bnBack = new Widget(p_wContainer);
@@ -58,6 +68,7 @@ DebugPanelUrlWidget.prototype.processStateChanges = function(s){
 }
 
 function DebugStatesWidget(p_wContainer, p_wExtender, p_wStates){
+    p_wContainer._div.className = 'debug_states';
     StateSubscriber.call(this);
     this._wContainer = p_wContainer;
     this._wContainer.setVisible(false);
@@ -83,6 +94,7 @@ DebugStatesWidget.prototype.processStateChanges = function(s){
 }
 
 function DebugStatesStatesWidget(p_wContainer){
+    p_wContainer._div.className = 'debug_states_states';
     StateSubscriber.call(this);
     p_wContainer._div.className = 'traliva__debug_panel__states_states';
     var wStrip = new Strip(Traliva.Strip__Orient__hor, p_wContainer);
@@ -132,6 +144,7 @@ DebugStatesStatesWidget.prototype.processState = function(p_subscriber, p_state)
 }
 
 function DebugStatesExtenderWidget(p_wContainer){
+    p_wContainer._div.className = 'debug_states_extender';
     StateSubscriber.call(this);
     p_wContainer._div.className = 'traliva__debug_panel__states_extender';
 }

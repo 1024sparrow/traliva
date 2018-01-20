@@ -91,9 +91,8 @@ Traliva.init = function(o){
         cand = new Widget(__wDebugCanvas);
         __wDebugCanvas.addItem(cand);
         d.wRoot = cand;
-        if (Traliva.debug.hasOwnProperty('states')){
+        if (Traliva.debug.hasOwnProperty('state')){
             var __wDebugStates = new Strip(Traliva.Strip__Orient__vert, __wDebugCanvas);
-            __wDebugCanvas.addItem(__wDebugStates);
             var __wDebugStatesExtender = new Widget(__wDebugStates);
             __wDebugStates.addItem(__wDebugStatesExtender, '64px');
             var __wDebugStatesStates = new Widget(__wDebugStates);
@@ -101,6 +100,7 @@ Traliva.init = function(o){
             d.__debug.publisher.registerSubscriber(new DebugStatesWidget(__wDebugStates, __wDebugStatesExtender, __wDebugStatesStates));
             __wDebugCanvas.addItem(__wDebugStates);
         }
+        d.__debug.publisher.registerSubscriber(new DebugConsole());
     }
     else
         d.wRoot = new Widget();
