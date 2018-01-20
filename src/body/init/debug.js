@@ -100,7 +100,8 @@ function DebugStatesStatesWidget(p_wContainer){
     var wStrip = new Strip(Traliva.Strip__Orient__hor, p_wContainer);
     var wLeft = new Widget(p_wContainer);
     this.eState = document.createElement('textarea');
-    this.eState.resize = 'none';
+    this.eState.spellcheck = false;
+    this.eState.style.resize = 'none';
     this.eState.style.background = '#000';
     this.eState.style.border = 'none';
     this.eState.style.color = '#48f';
