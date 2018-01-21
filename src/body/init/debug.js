@@ -62,6 +62,8 @@ function DebugPanelUrlWidget(p_wContainer){
     this._bnEnter._div.className = 'traliva__debug_panel__bn_enter';
     this._bnEnter._div.addEventListener('click', (function(h, le, p_prefix){return function(){
         var cand = le.value;
+        if (cand[cand.length - 1] !== '/')
+            cand += '/';
         if (cand.indexOf(p_prefix) < 0)
             h._goCurrent();
         else{
