@@ -14,14 +14,15 @@ function StateToUriMapper(statesObj){
     var b = uri.indexOf('/', a + ac);
     b += statesObj.initPath.length;
     this.initPath = uri.substr(0, b);
-    if (this.initPath.substr(0, 7) == 'file://'){
-        console.log('Активирован режим локального файла.');
+    if (this.initPath.substr(0, 7) === 'file://'){
+        /*console.log('Активирован режим локального файла.');
         var i = b;
         while(i >= 0){
             b = i;
             i = uri.indexOf('/', i+1);
         }
-        this.initPath = uri.substr(0, b + 1);
+        this.initPath = uri.substr(0, b);*/
+        this.initPath = '';
     }
     //console.log(this.initPath);
     this.isVirgin = true;
@@ -45,7 +46,7 @@ StateToUriMapper.prototype.processStateChanges = function(s){
     this._isStateChangeProcessing = true;
     var ifReplaceBoolRetVal = {b:true};
     cand += this._statesObj.stringifyState(this._state, ifReplaceBoolRetVal);
-    if (cand != window.location.href){
+    if (cand !== ((this.initPath === '/') ? Traliva.history._current() : window.location.href)){
         if (this.isVirgin || ifReplaceBoolRetVal.b)
             Traliva.history.replaceState({}, '', cand);
         else

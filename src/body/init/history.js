@@ -13,7 +13,7 @@ Traliva.history = {
         this._updateUrl(p_path)
     },
     pushState: function(p_a, p_b, p_path){
-        console.log('%cpushState(url) --> '+p_path, '#faa');
+        console.log('%cpushState(url) --> '+p_path, 'color: #faa');
         this.__currentIndex++;
         if (this.__currentIndex < this.__paths.length)
             this.__paths[this.__currentIndex] = p_path;
@@ -32,6 +32,12 @@ Traliva.history = {
             this.__currentIndex--;
             this._updateUrl(this.__paths[this.__currentIndex])
         }
+    },
+    _goCurrent: function(){
+        this._updateUrl(this.__paths[this.__currentIndex]);
+    },
+    _current: function(){
+        return this.__paths[this.__currentIndex];
     },
     // сюда в классе виджета,отображающего URL в отладочной панели, должна быть записана функция, обновляющая URL в отладочной панели.
     _updateUrl: function(){console.log('oops..');}

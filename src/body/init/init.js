@@ -93,7 +93,10 @@ Traliva.init = function(o){
             if (Traliva.debug.hasOwnProperty('url')){
                 var __wDebugPanelUrl = new Widget(__wDebugPanel);
                 __wDebugPanel.addItem(__wDebugPanelUrl);
-                d.__debug.publisher.registerSubscriber(new DebugPanelUrlWidget(__wDebugPanelUrl));
+                if (o.hasOwnProperty('states') && o.states.hasOwnProperty('tree'))
+                    d.__debug.publisher.registerSubscriber(new DebugPanelUrlWidget(__wDebugPanelUrl));
+                else
+                    __wDebugPanelUrl.setContent(Traliva.createElement('<p>URL: дерево переходов не задано</p>'));
             }
         d.__debug.wRoot.addItem(__wDebugPanel, '32px');
         var __wDebugCanvas = new Stack(d.__debug.wRoot);

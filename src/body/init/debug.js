@@ -36,8 +36,14 @@ function DebugPanelUrlWidget(p_wContainer){
     //p_wContainer._div.style.background = '#f00';
     this._bnBack = new Widget(p_wContainer);
     this._bnBack._div.className = 'traliva__debug_panel__bn_back';
+    this._bnBack._div.addEventListener('click', (function(h){return function(){
+        h._goBack();
+    };})(Traliva.history));
     this._bnForward = new Widget(p_wContainer);
     this._bnForward._div.className = 'traliva__debug_panel__bn_forward';
+    this._bnForward._div.addEventListener('click', (function(h){return function(){
+        h._goNext();
+    };})(Traliva.history));
     this._leUrl = new Widget(p_wContainer);
     var scope = {};
     var leUrl = Traliva.createElement('<input type="text" traliva="le"></input>', scope, '__debug_panel_url');//boris here
@@ -48,11 +54,20 @@ function DebugPanelUrlWidget(p_wContainer){
     var a = 'http://' + Traliva.debug.url;
     scope.le.value = a + '/';
     Traliva.history._updateUrl = (function(p_prefix, p_le){return function(p_url){
+        console.log('%cURL изменён: ' + p_prefix + p_url, 'color: #ffa');
         p_le.value = p_prefix + p_url;
     };})(a, scope.le);
     this._leUrl.setContent(leUrl);
     this._bnEnter = new Widget(p_wContainer);
     this._bnEnter._div.className = 'traliva__debug_panel__bn_enter';
+    this._bnEnter._div.addEventListener('click', (function(h, le, p_prefix){return function(){
+        var cand = le.value;
+        if (cand.indexOf(p_prefix) < 0)
+            h._goCurrent();
+        else{
+            h.pushState({}, '', cand.slice(p_prefix.length));
+        }
+    };})(Traliva.history, scope.le, a));
 
     this._layout = new Strip(Traliva.Strip__Orient__hor, p_wContainer);
     this._layout.addItem(this._bnBack, '32px');
