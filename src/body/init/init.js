@@ -63,12 +63,13 @@ Traliva.init = function(o){
 
     d.publisher = new StatePublisher();
     if (o.states.hasOwnProperty('tree')){
-        d.publisher.registerSubscriber(new StateToUriMapper({
+        d.stateToUriMapper = new StateToUriMapper({
             initPath: o.states.initPath,
             initState: o.states.initState,
             tree: o.states.tree,
             stringifyState: o.states.stringifyState
-        }));
+        });
+        d.publisher.registerSubscriber(d.stateToUriMapper);
     }
     else if (o.states.hasOwnProperty('initState'))
         d.publisher.setState(o.states.initState);

@@ -14,15 +14,14 @@ function StateToUriMapper(statesObj){
     var b = uri.indexOf('/', a + ac);
     b += statesObj.initPath.length;
     this.initPath = uri.substr(0, b);
+    this._debugMode = false;
     if (this.initPath.substr(0, 7) === 'file://'){
-        /*console.log('Активирован режим локального файла.');
-        var i = b;
-        while(i >= 0){
-            b = i;
-            i = uri.indexOf('/', i+1);
+        if (Traliva.__d.o.hasOwnProperty('states') && Traliva.__d.o.states.hasOwnProperty('tree')){
+            this.debugMode = true;
+            this.initPath = '';
         }
-        this.initPath = uri.substr(0, b);*/
-        this.initPath = '';
+        else
+            console.error('Запуск маппера URL в состояние из файловой системы возможен только при активированном режиме отладки \'url\'');
     }
     //console.log(this.initPath);
     this.isVirgin = true;
@@ -34,10 +33,12 @@ StateToUriMapper.prototype = Object.create(StateSubscriber.prototype);
 StateToUriMapper.prototype.constructor = StateToUriMapper;
 StateToUriMapper.prototype.processStateChanges = function(s){
     if (this.isVirgin){
-        window.onpopstate = (function(self){return function(){
-            self._state = self.updateState();
-            self._registerStateChanges();
-        };})(this);
+        if (!this.debugMode){
+            window.onpopstate = (function(self){return function(){
+                self._state = self.updateState();
+                self._registerStateChanges();
+            };})(this);
+        }
         this._state = this.updateState();
         this._registerStateChanges();
     }
@@ -46,7 +47,7 @@ StateToUriMapper.prototype.processStateChanges = function(s){
     this._isStateChangeProcessing = true;
     var ifReplaceBoolRetVal = {b:true};
     cand += this._statesObj.stringifyState(this._state, ifReplaceBoolRetVal);
-    if (cand !== ((this.initPath === '/') ? Traliva.history._current() : window.location.href)){
+    if (cand !== (this.debugMode ? Traliva.history._current() : window.location.href)){
         if (this.isVirgin || ifReplaceBoolRetVal.b)
             Traliva.history.replaceState({}, '', cand);
         else
@@ -55,19 +56,27 @@ StateToUriMapper.prototype.processStateChanges = function(s){
     //if (this.isVirgin){
     if (true){
         //После того как сетевой путь был продлён согласно дефолтному состоянию, надо сохранить массив, чтобы мы как быдто по этому полному пути зашли.
-        var tmp = window.location.href.substr(this.initPath.length);
-        if (tmp[tmp.length - 1] == '/')
+        var tmp = this.debugMode ? Traliva.history._current() : window.location.href;
+        var tmp = tmp.substr(this.initPath.length);
+        if (tmp[tmp.length - 1] === '/')
             tmp = tmp.slice(0, tmp.length - 1);
         this._prevAr = tmp.length > 0 ? tmp.split('/') : [];
     }
     this._isStateChangeProcessing = false;
     this.isVirgin = false;
 }
+//вызывается только в режиме отладки
+StateToUriMapper.prototype.updateForUrl = function(p_url){
+    this._state = this.updateState();
+    this._registerStateChanges();
+}
 StateToUriMapper.prototype.updateState = function(){
     //if (this._isStateChangeProcessing)
     //    return;
 
-    var tmp = window.location.href.substr(this.initPath.length);
+    var tmp = this.debugMode ? Traliva.history._current() : window.location.href;
+    tmp = tmp.substr(this.initPath.length);
+    console.log('qq: '+tmp);
     if (tmp[tmp.length - 1] == '/')
         tmp = tmp.slice(0, tmp.length - 1);
     var i, i1, i2, tmpOld, p, pOld, ok, cand;
