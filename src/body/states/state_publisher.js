@@ -21,14 +21,14 @@ StatePublisher.prototype.setState = function(state){//parameter is an Object
         subscr.__d.state = state;
         var s = subscr.__getSubstate(state);
 		subscr._state = s;
-        if (Traliva.debug && Traliva.debug.states)
+        if (Traliva.debug && Traliva.debug.state)
             this.__debugState(subscr, s);
 		subscr.processStateChanges(s, true);
 	}
 };
 StatePublisher.prototype.registerSubscriber = function(subscr){
-    if (Traliva.debug && Traliva.debug.states)
-        console.log('register '+subscr.constructor.name);
+    if (Traliva.debug && Traliva.debug.state)
+        console.log('%cregister '+subscr.constructor.name, 'color:#ffa');
 	subscr.__m_publisher = this;
     try{
         subscr.__d.state = this.__state;
@@ -38,12 +38,14 @@ StatePublisher.prototype.registerSubscriber = function(subscr){
     }
     var s = subscr.__getSubstate(this.__state);
 	subscr._state = s;
-    if (Traliva.debug && Traliva.debug.states)
+    if (Traliva.debug && Traliva.debug.state)
         this.__debugState(subscr, s);
 	subscr.processStateChanges(s, true);
 	this.__subscribers.push(subscr);
 };
 StatePublisher.prototype.unregisterSubscriber = function(subscr){
+    if (Traliva.debug && Traliva.debug.state)
+        console.log('%cunregister '+subscr.constructor.name, 'color:#ffa');
 	var index = this.__subscribers.indexOf(subscr);
 	if (index > -1)
 		this.__subscribers.splice(index, 1);
@@ -59,21 +61,21 @@ StatePublisher.prototype._processStateChanges = function(sender){
         subscr.__d.state = this.__state;
         var s = subscr.__getSubstate(this.__state);
 		subscr._state = s;
-        if (Traliva.debug && Traliva.debug.states)
+        if (Traliva.debug && Traliva.debug.state)
             this.__debugState(subscr, s);
 		subscr.processStateChanges(s, false);
 	}
-    if (Traliva.debug && Traliva.debug.states){
-        console.log('--');
-    }
+    //if (Traliva.debug && Traliva.debug.state){
+    //    console.log('--');
+    //}
 };
 StatePublisher.prototype.__debugState = function(p_subscriber, p_state, p_action){
     if (this._nodebug)
         return;
     if (p_action)
-        console.log(p_action + ' ' + p_subscriber.constructor.name + ': ' + JSON.stringify(p_state));
+        console.log('%c' + p_action + ' ' + p_subscriber.constructor.name + ': ' + JSON.stringify(p_state), 'color:#ffa');
     else{
-        console.log('process ' + p_subscriber.constructor.name + ': ' + JSON.stringify(p_state));
+        console.log('%cprocess ' + p_subscriber.constructor.name + ': ' + JSON.stringify(p_state), 'color:#ffa');
         Traliva.__d.__debug.debugStatesStatesWidget.processState(p_subscriber, p_state);
     }
 };
