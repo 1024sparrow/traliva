@@ -68,14 +68,20 @@ function construct_layout(p_wParent, p_oLayout, p_widgets, p_widgetScope, p_inne
                 for (i = 0 ; i < p_oLayout.items.length ; i++){
                     //console.log('item '+i);
                     cand = p_oLayout.items[i];
-                    if (typeof cand === 'string')
+                    if (typeof cand === 'string'){
                         cand = {widget: cand};
-                    if (cand.widget)
+                    }
+                    if (cand.widget){
                         w = construct_layout(retVal, cand.widget, p_widgets, p_widgetScope, p_innerCall || used);
-                    else
+                    }
+                    else{
                         w = new Widget(retVal);
-                    if (!w)
+                    }
+                    if (!w){
+                        console.error('oops');
                         return; // error ocurred in internal self calling
+                    }
+                    console.log('widget added to layout');
                     retVal.addItem(w, cand.size);
                 }
             }
@@ -85,8 +91,10 @@ function construct_layout(p_wParent, p_oLayout, p_widgets, p_widgetScope, p_inne
             for (i = 0 ; i < p_oLayout.items.length ; i++){
                 cand = p_oLayout.items[i];
                 w = construct_layout(retVal, cand.widget, p_widgets, p_widgetScope, p_innerCall || used);
-                if (!w)
+                if (!w){
+                    console.error('oops');
                     return; // error ocurred in internal self calling
+                }
                 retVal.addItem(w);
             }
         }
