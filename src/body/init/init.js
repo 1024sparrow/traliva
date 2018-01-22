@@ -58,6 +58,10 @@ Traliva.init = function(o){
     d.o = o;
     d.w = {};//widgets (WidgetStateSubscriber)
     d.widgets = {};//key: widgetId, value: widget (_WidgetBase)
+    if (o.hasOwnProperty('initApi')){
+        Traliva.api = {};
+        o.initApi(o.target, Traliva.api);
+    }
 
     var i, tmp, cand;
 
