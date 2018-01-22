@@ -7,6 +7,15 @@ function Widget(p_parentWidget, p_attr){
 	this.__h;
 	this.__contentWidget;
 	_WidgetBase.call(this, p_parentWidget, p_attr);
+    if (Traliva.hasOwnProperty('debug') && Traliva.debug){
+        (function(self){
+            StubWidget__stubWidgetCount++;
+            var e = document.createElement('div');
+            e.className = 'traliva__stub_widget ' + StubWidget__getBgByNum(StubWidget__stubWidgetCount);
+            e.style.height = '100%';
+            self.setContent(e);
+        })(this);
+    }
 
     //this._div.className = 'widget_div';//
 }
