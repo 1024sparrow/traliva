@@ -43,7 +43,7 @@ function switchToLayout(layId){
         for (i in Traliva.widgets){
             delete Traliva.widgets[i];
         }
-        var content = construct_layout(d.wRoot, d.o.layouts[layId], d.o.widgets, d.w);
+        var content = construct_layout(d.wRoot, d.o.layouts[layId], undefined, d.o.widgets, d.w);
         if (content){
             d.wRoot.setContent(content);
         }

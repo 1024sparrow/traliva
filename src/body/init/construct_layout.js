@@ -1,7 +1,7 @@
 // p_widgets - конструкторы виджетов
 // p_widgetScope - здесь мы сохраняем наши виджеты
 // в случае аварийного выхода (некорректные параметры) мы заботимся о корректном освобождении памяти и о снятии ненужных подписчиков
-function construct_layout(p_wParent, p_oLayout, p_widgets, p_widgetScope, p_innerCall){
+function construct_layout(p_wParent, p_oLayout, p_defaultBackground, p_widgets, p_widgetScope, p_innerCall){
     console.log('construct_layout: ' + JSON.stringify(p_oLayout));
 
     var i, cand, w, type = typeof p_oLayout;
@@ -70,7 +70,7 @@ function construct_layout(p_wParent, p_oLayout, p_widgets, p_widgetScope, p_inne
                         cand = {widget: cand};
                     }
                     if (cand.widget){
-                        w = construct_layout(retVal, cand.widget, p_widgets, p_widgetScope, p_innerCall || used);
+                        w = construct_layout(retVal, cand.widget, p_oLayout.bg || p_defaultBackground, p_widgets, p_widgetScope, p_innerCall || used);
                     }
                     else{
                         w = new Widget(retVal);
@@ -86,7 +86,7 @@ function construct_layout(p_wParent, p_oLayout, p_widgets, p_widgetScope, p_inne
             retVal = new Stack(p_wParent, p_oLayout.scroll);
             for (i = 0 ; i < p_oLayout.items.length ; i++){
                 cand = p_oLayout.items[i];
-                w = construct_layout(retVal, cand.widget, p_widgets, p_widgetScope, p_innerCall || used);
+                w = construct_layout(retVal, cand.widget, p_oLayout.bg || p_defaultBackground, p_widgets, p_widgetScope, p_innerCall || used);
                 if (!w)
                     console.error('oops'); // error ocurred in internal self calling
                 retVal.addItem(w);
@@ -96,6 +96,12 @@ function construct_layout(p_wParent, p_oLayout, p_widgets, p_widgetScope, p_inne
             console.error('error: incorrect type of a layout item');
         }
     }
+    if (p_oLayout.hasOwnProperty('bg')){
+        cand = (p_oLayout.bg.length) ? p_oLayout.bg : p_defaultBackground;
+        if (cand)
+            retVal._div.style.background = cand;
+    }
+
     if (!p_innerCall){
         // уничтожаем те виджеты, id которых не попали в used
         for (i in p_widgetScope){

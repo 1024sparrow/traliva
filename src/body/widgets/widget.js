@@ -7,7 +7,7 @@ function Widget(p_parentWidget, p_attr){
 	this.__h;
 	this.__contentWidget;
 	_WidgetBase.call(this, p_parentWidget, p_attr);
-    if (Traliva.hasOwnProperty('debug') && Traliva.debug){
+    if (Traliva.hasOwnProperty('debug') && Traliva.debug.uninitialized_colored){
         (function(self){
             StubWidget__stubWidgetCount++;
             var e = document.createElement('div');
