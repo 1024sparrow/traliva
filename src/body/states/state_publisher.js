@@ -19,13 +19,13 @@ StatePublisher.prototype.setState = function(state){//parameter is an Object
 	for (var i = 0 ; i < this.__subscribers.length ; i++){
 		var subscr = this.__subscribers[i];
         subscr.__d.state = state;
-        console.log('%csetState: '+JSON.stringify(this.__state), 'color: #f00');//<--
+        //console.log('%csetState: '+JSON.stringify(this.__state), 'color: #f00');//<--
         var s = subscr.__getSubstate(state);
 		subscr._state = s;
         if (Traliva.debug && Traliva.debug.state)
             this.__debugState(subscr, s);
 		subscr.processStateChanges(s, true);
-        console.log('%c> setState: '+JSON.stringify(this.__state), 'color: #f00');//<--
+        //console.log('%c> setState: '+JSON.stringify(this.__state), 'color: #f00');//<--
 	}
 };
 StatePublisher.prototype.registerSubscriber = function(subscr){
@@ -38,14 +38,14 @@ StatePublisher.prototype.registerSubscriber = function(subscr){
     catch(e){
         console.error('В конструкторе класса подписчика \'' + subscr.constructor.name + '\'вы забыли вызвать конструктор базового класса');
     }
-    console.log('%csetState: '+JSON.stringify(this.__state), 'color: #f00');//<--
+    //console.log('%csetState: '+JSON.stringify(this.__state), 'color: #f00');//<--
     var s = subscr.__getSubstate(this.__state);
 	subscr._state = s;
     if (Traliva.debug && Traliva.debug.state)
         this.__debugState(subscr, s);
 	subscr.processStateChanges(s, true);
 	this.__subscribers.push(subscr);
-    console.log('%c> setState: '+JSON.stringify(this.__state), 'color: #f00');//<--
+    //console.log('%c> setState: '+JSON.stringify(this.__state), 'color: #f00');//<--
 };
 StatePublisher.prototype.unregisterSubscriber = function(subscr){
     if (Traliva.debug && Traliva.debug.state)
@@ -63,12 +63,12 @@ StatePublisher.prototype._processStateChanges = function(sender){
 		if (subscr == sender)
 			continue;
         subscr.__d.state = this.__state;
-        console.log('%csetState: '+JSON.stringify(this.__state), 'color: #f00');//<--
+        //console.log('%csetState: '+JSON.stringify(this.__state), 'color: #f00');//<--
         var s = subscr.__getSubstate(this.__state);
 		subscr._state = s;
         if (Traliva.debug && Traliva.debug.state)
             this.__debugState(subscr, s);
-        console.log('%c> setState: '+JSON.stringify(this.__state), 'color: #f00');//<--
+        //console.log('%c> setState: '+JSON.stringify(this.__state), 'color: #f00');//<--
 		subscr.processStateChanges(s, false);
 	}
     //if (Traliva.debug && Traliva.debug.state){
