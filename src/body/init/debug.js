@@ -118,7 +118,7 @@ function DebugStatesStatesWidget(p_wContainer){
     this.eState = document.createElement('textarea');
     this.eState.spellcheck = false;
     this.eState.style.resize = 'none';
-    this.eState.style.background = '#000';
+    this.eState.style.background = 'rgba(0,0,0,0.1)';
     this.eState.style.border = 'none';
     this.eState.style.color = '#48f';
     this.eState.value = JSON.stringify(Traliva.__d.publisher.state(), undefined, 2);

@@ -229,6 +229,7 @@
 
 /*debug panel and widgets*/
 .traliva__debug_panel{
+    color: #ffa;/*на время обкатки отладочной панели*/
     background: #000;
     border-bottom: 1px solid #48f;
 }
@@ -270,8 +271,8 @@
     background-image: url("debug_bn_enter_hover.png");
 }
 .traliva__debug_panel__states{
-    background: #000;
-    /*background: rgba(0,0,0,0.2);*/
+    //background: #000;
+    background: rgba(0,0,0,0.9);
 }
 .traliva__debug_panel__states_states{
     /*border-bottom: 1px solid #48f;*/
