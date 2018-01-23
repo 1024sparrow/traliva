@@ -3,6 +3,9 @@
 {%% widget_state_subscriber.js %%}
 Traliva.WidgetStateSubscriber = WidgetStateSubscriber;
 
+{%% logics_state_subscriber.js %%}
+Traliva.LogicsStateSubscriber = LogicsStateSubscriber;
+
 {%% stub_widget.js %%}
 Traliva.StubWidget = StubWidget;
 

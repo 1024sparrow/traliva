@@ -38,7 +38,11 @@ function switchToLayout(layId){
         // итого: здесь мы ничего не делаем
     //}
     //отписываем все текущие виджеты
+    var i;
     if (layId){ // создаём новый лэйаут
+        for (i in Traliva.widgets){
+            delete Traliva.widgets[i];
+        }
         var content = construct_layout(d.wRoot, d.o.layouts[layId], d.o.widgets, d.w);
         if (content){
             d.wRoot.setContent(content);
@@ -63,6 +67,7 @@ Traliva.init = function(o){
         Traliva.api = {};
         o.initApi(o.target, Traliva.api);
     }
+    d.logics = [];//сюда будут сохраняться экземпляры LogicsStateSubscriber, чтобы у них вызывать метод initializeGui()
 
     var i, tmp, cand;
 
@@ -130,14 +135,19 @@ Traliva.init = function(o){
         var lay = d.o.get_layout(w,h,d.o.target);
         Widget.prototype._onResized.call(d.wRoot, w, h);
         f(lay);
+        for (var i = 0 ; i < d.logics.length ; i++){
+            d.logics[i].initializeGui(d.o.target, lay);
+        }
     };}(d, switchToLayout);
 
     for (i = 0 ; i < o.states.stateSubscribers.length ; i++){
         tmp = o.states.stateSubscribers[i];
+        console.log('Создаётся экземпляр подписчика ' + tmp.name);
         if (typeof tmp === 'function')
             cand = new tmp();
         else
             cand = (new tmp[0]()).substate(tmp[1]);
+        d.logics.push(cand);
         d.publisher.registerSubscriber(cand);
     }
     if (o.hasOwnProperty('extender')){

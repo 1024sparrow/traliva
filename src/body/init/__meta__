@@ -7,6 +7,7 @@
                 "list":[
                     "debug.js",
                     "widget_state_subscriber.js",
+                    "logics_state_subscriber.js",
                     "stub_widget.js",
                     "slot_widget.js",
                     "construct_layout.js",
