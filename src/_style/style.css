@@ -270,6 +270,10 @@
 .traliva__debug_panel__bn_enter:hover{
     background-image: url("debug_bn_enter_hover.png");
 }
+.traliva__debug_panel__error{
+    margin: 8px;
+    color: #afa;
+}
 .traliva__debug_panel__states{
     //background: #000;
     background: rgba(0,0,0,0.9);
