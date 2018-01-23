@@ -15,6 +15,10 @@ function construct_layout(p_wParent, p_oLayout, p_widgets, p_widgetScope, p_inne
             console.log('error: идентификаторы пользовательских виджетов должны иметь уникальные значения');
             return;// возможно, это зря. Особо не думал.
         }*/
+        if (p_oLayout.hasOwnProperty('id')){
+            if (Traliva.widgets.hasOwnProperty(p_oLayout.id))
+                console.error('Обнаружено дублирование идентификаторов виджетов. Идентификатор конфликта - ' + p_oLayout.id);
+        }
         if (p_widgetScope.hasOwnProperty(p_oLayout))
             retVal = p_widgetScope[p_oLayout].__WidgetStateSubscriber.wContainer;
         else{
@@ -44,25 +48,19 @@ function construct_layout(p_wParent, p_oLayout, p_widgets, p_widgetScope, p_inne
         used[p_oLayout] = 1;
     }
     else if (type === 'object'){
-        if (!p_oLayout.hasOwnProperty('type')){
-            console.log('error: incorrect layout description: \'type\' must be');
-            return;
-        }
+        if (!p_oLayout.hasOwnProperty('type'))
+            console.error('error: incorrect layout description: \'type\' must be');
         type = p_oLayout.type;
         if (type === 'strip'){
-            if (!p_oLayout.hasOwnProperty('orient')){
-                console.log('error: layout must have property \'orient\'');
-                return;
-            }
+            if (!p_oLayout.hasOwnProperty('orient'))
+                console.error('error: layout must have property \'orient\'');
             var orient;
             if (p_oLayout.orient === 'h')
                 orient = Traliva.Strip__Orient__hor;
             else if (p_oLayout.orient === 'v')
                 orient = Traliva.Strip__Orient__vert;
-            else{
-                console.log('error: incorrect value of a strip orientation. Possible values: \'h\',\'v\'.');
-                return;
-            }
+            else
+                console.error('error: incorrect value of a strip orientation. Possible values: \'h\',\'v\'.');
             retVal = new Strip(orient, p_wParent, p_oLayout.scroll);
             if (p_oLayout.hasOwnProperty('items')){
                 for (i = 0 ; i < p_oLayout.items.length ; i++){
@@ -77,10 +75,8 @@ function construct_layout(p_wParent, p_oLayout, p_widgets, p_widgetScope, p_inne
                     else{
                         w = new Widget(retVal);
                     }
-                    if (!w){
-                        console.error('oops');
-                        return; // error ocurred in internal self calling
-                    }
+                    if (!w)
+                        console.error('oops');// error ocurred in internal self calling
                     console.log('widget added to layout');
                     retVal.addItem(w, cand.size);
                 }
@@ -91,16 +87,13 @@ function construct_layout(p_wParent, p_oLayout, p_widgets, p_widgetScope, p_inne
             for (i = 0 ; i < p_oLayout.items.length ; i++){
                 cand = p_oLayout.items[i];
                 w = construct_layout(retVal, cand.widget, p_widgets, p_widgetScope, p_innerCall || used);
-                if (!w){
-                    console.error('oops');
-                    return; // error ocurred in internal self calling
-                }
+                if (!w)
+                    console.error('oops'); // error ocurred in internal self calling
                 retVal.addItem(w);
             }
         }
         else{
-            console.log('error: incorrect type of a layout item');
-            return;
+            console.error('error: incorrect type of a layout item');
         }
     }
     if (!p_innerCall){
@@ -112,6 +105,9 @@ function construct_layout(p_wParent, p_oLayout, p_widgets, p_widgetScope, p_inne
                 delete p_widgetScope[i];
             }
         }
+    }
+    if (p_oLayout.hasOwnProperty('id')){
+        Traliva.widgets[p_oLayout.id] = retVal;
     }
     return retVal; // возврат из функции должен быть здесь
 }

@@ -54,6 +54,7 @@ Traliva.init = function(o){
     }
     console.log('начинаю инициализацию');
     fillParam(o);
+    Traliva.widgets = {};//сюда будут записываться указатели на сгенерированые виджеты для доступа из кода, описанного в o.states.stateSubscribers, по идентификатору виджета
     var d = Traliva.__d = {};
     d.o = o;
     d.w = {};//widgets (WidgetStateSubscriber)
