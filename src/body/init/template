@@ -15,4 +15,5 @@ Traliva.SlotWidget = SlotWidget;
 {%% construct_layout.js %%}
 {%% history.js %%}
 {%% догрузчик.js %%}
+{%% fill_param.js %%}
 {%% init.js %%}

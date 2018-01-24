@@ -1,24 +1,3 @@
-// Функция, разворачивающая сокращённую форму записи в полную
-function fillParam(o){
-    //not implemented
-    var t;
-    if (!o.hasOwnProperty('get_layout')){
-        o.get_layout = function(){return 'a'};
-        t = o.layouts;
-        o.layouts = {a:t};
-    }
-    if (!o.hasOwnProperty('states')){
-        o.states = {
-            initState: {}
-        }
-    }
-    if (!o.states.hasOwnProperty('stateSubscribers'))
-        o.states.stateSubscribers = [];
-
-    if (!o.hasOwnProperty('widgets'))
-        o.widgets = {};
-}
-
 // Функция переключения лэйаутов
 function switchToLayout(layId){
     //console.log('switch to layout ' + layId);
@@ -56,8 +35,15 @@ Traliva.init = function(o){
         console.log('Пресечена попытка повторного вызова Traliva.init().');
         return;
     }
+
+    var i, tmp, cand;
+
     console.log('начинаю инициализацию');
-    fillParam(o);
+    tmp = fillParam(o);
+    if (typeof tmp === 'string'){
+        console.error('В Traliva.init() передан некорректный объект: ' + tmp);
+        return;
+    }
     Traliva.widgets = {};//сюда будут записываться указатели на сгенерированые виджеты для доступа из кода, описанного в o.states.stateSubscribers, по идентификатору виджета
     var d = Traliva.__d = {};
     d.o = o;
@@ -68,8 +54,6 @@ Traliva.init = function(o){
         o.initApi(o.target, Traliva.api);
     }
     d.logics = [];//сюда будут сохраняться экземпляры LogicsStateSubscriber, чтобы у них вызывать метод initializeGui()
-
-    var i, tmp, cand;
 
     d.publisher = new StatePublisher();
     if (o.states.hasOwnProperty('tree')){

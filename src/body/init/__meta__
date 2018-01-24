@@ -12,6 +12,7 @@
                     "slot_widget.js",
                     "construct_layout.js",
                     "догрузчик.js",
+                    "fill_param.js",
                     "init.js",
                     "history.js"
                 ]
