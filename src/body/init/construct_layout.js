@@ -86,6 +86,8 @@ function construct_layout(p_wParent, p_oLayout, p_defaultBackground, p_widgets, 
             retVal = new Stack(p_wParent, p_oLayout.scroll);
             for (i = 0 ; i < p_oLayout.items.length ; i++){
                 cand = p_oLayout.items[i];
+                if (typeof cand === 'string' || cand.hasOwnProperty('type'))
+                    cand = {widget: cand};
                 w = construct_layout(retVal, cand.widget, p_oLayout.bg || p_defaultBackground, p_widgets, p_widgetScope, p_innerCall || used);
                 if (!w)
                     console.error('oops'); // error ocurred in internal self calling
