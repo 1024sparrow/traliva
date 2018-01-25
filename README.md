@@ -31,5 +31,5 @@
 
 ## Лицензия
 
-Copyright © 2017 [Васильев Борис](https://github.com/1024sparrow)
+Copyright © 2017-2018 [Васильев Борис](https://github.com/1024sparrow)
 Публикуется под лицензией [MIT license](https://github.com/1024sparrow/traliva/blob/master/LICENSE).
