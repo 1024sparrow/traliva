@@ -20,7 +20,7 @@ StateSubscriber.prototype.processStateChanges = function(state, ifResetStateChai
 StateSubscriber.prototype._registerStateChanges = function(){
 	if (this.__m_publisher)
 	{
-		this.__m_publisher._processStateChanges(this);
+		this.__m_publisher._processStateChanges(this, true);
 		//console.log("xml subscriber : _registerStateChanges -> ok");
 	}
 	//else

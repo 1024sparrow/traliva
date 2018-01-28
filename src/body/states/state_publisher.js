@@ -8,6 +8,9 @@
 var StatePublisher = function(){
 	this.__state = {};//empty state by default untill be set
 	this.__subscribers = [];
+    this.__recursionLevel = 0;// <-- количество вложенных вызовов processStateChanges.
+    //                      фиксируем для того, чтобы остановить гонку состояний раньше,
+    //                      чем это сделает браузер
 };
 StatePublisher.prototype.state = function(){
 	return this.__state;
@@ -56,8 +59,17 @@ StatePublisher.prototype.unregisterSubscriber = function(subscr){
 	else
 		console.log("epic fail");
 };
-StatePublisher.prototype._processStateChanges = function(sender){
+StatePublisher.prototype._processStateChanges = function(sender, p_fromProcessStateChanges){
 	this.__state = sender.__d.state;
+    if (p_fromProcessStateChanges){
+        if (this.__recursionLevel > 128){
+            throw 'Предотвращена гонка состояний.';
+        }
+        this.__recursionLevel++;
+    }
+    else {
+        this.__recursionLevel = 0;
+    }
 	for (var i = 0 ; i < this.__subscribers.length ; i++){
 		var subscr = this.__subscribers[i];
 		if (subscr == sender)
