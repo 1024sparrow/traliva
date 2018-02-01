@@ -4,7 +4,7 @@
 function construct_layout(p_wParent, p_oLayout, p_defaultBackground, p_widgets, p_widgetScope, p_innerCall){
     console.log('construct_layout: ' + JSON.stringify(p_oLayout));
 
-    var i, cand, w, type = typeof p_oLayout;
+    var i, cand, w, type = typeof p_oLayout, tmp;
     var retVal;
     var used = p_innerCall || {};// множество использованных в новом лэйауте id-шников
     if (!p_oLayout){
@@ -29,7 +29,10 @@ function construct_layout(p_wParent, p_oLayout, p_defaultBackground, p_widgets, 
                 if (typeof i === 'function')
                     cand = new i(retVal);
                 else{
-                    cand = new i.constructor(retVal, i.options || undefined);
+                    tmp = i.options;
+                    if (tmp && tmp.hasOwnProperty('bg') && (tmp.bg.length === 0))
+                        tmp.bg = p_defaultBackground;
+                    cand = new i.constructor(retVal, tmp);
                     if (i.hasOwnProperty('substate'))
                         cand = cand.useSubstate(i.substate);
                     //cand = new i[0](retVal).substate(i[1]);// согласно спецификации, если не конструктор, то массив из конструктора и (чего-то, описывающего подсостояние)
