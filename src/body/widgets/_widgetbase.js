@@ -44,6 +44,7 @@ function _WidgetBase(p_parentWidget, p_scroll){
             self._onScrolled(self._div.scrollTop);
 		};
 	})(this);
+    this._div.style.padding = '0px';
 
 	this._content = this._createContentElem();
 	this._div.appendChild(this._content);
