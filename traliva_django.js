@@ -1,8 +1,8 @@
 'use strict';
 
 (function(){
-	if (!B.ajax){
-		console.log('fail. B.ajax needed.');
+	if (!(Traliva && Traliva.ajax)){
+		console.log('fail. Traliva.ajax needed.');
 		return;
 	}
 	function getCookie(name) {
@@ -34,8 +34,8 @@
 			!(/^(\/\/|http:|https:).*/.test(url));
 	}
 	
-	var ajax_old = B.ajax;
-	B.ajax = function(p){
+	var ajax_old = Traliva.ajax;
+	Traliva.ajax = function(p){
 		if (p && p.hasOwnProperty('dataToPost') && sameOrigin(p.sourcePath)){
 			var csrftoken = getCookie('csrftoken');
 			if (!csrftoken){
