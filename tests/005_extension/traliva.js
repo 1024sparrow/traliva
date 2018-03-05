@@ -1,1 +1,0 @@
-../../compiled/traliva.js
