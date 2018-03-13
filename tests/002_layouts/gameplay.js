@@ -1,7 +1,7 @@
 'use strict';
 
 Traliva.debug = {
-    states: true,
+    state: true,
     url: 'traliva.ru'
 }
 Traliva.init({
