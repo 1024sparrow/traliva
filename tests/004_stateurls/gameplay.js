@@ -27,7 +27,7 @@ Traliva.init({
                         'qwerty',
                         {
                             widget:{
-                                id: 'body',
+                                id: 'tab2_content',
                                 bg:'',
                                 type: 'strip',
                                 orient: 'v',

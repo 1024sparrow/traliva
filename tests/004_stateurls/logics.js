@@ -9,6 +9,7 @@ function Logics(){
 Logics.prototype = Object.create(Traliva.LogicsStateSubscriber.prototype);
 Logics.prototype.constructor = Logics;
 Logics.prototype.initializeGui = function(){
+    this._updateVisibility();
 }
 Logics.prototype.processStateChanges = function(s){
     if (!s){
@@ -28,5 +29,13 @@ Logics.prototype.processStateChanges = function(s){
             this._registerStateChanges();
         }
         this.__Logics.tab = 1;
+    }
+    this._updateVisibility();
+}
+Logics.prototype._updateVisibility = function(){
+    if (Traliva.widgets.hasOwnProperty('tab2_content')){
+        if (this._state.tab_2 !== Traliva.widgets.tab2_content.isVisible()){
+            Traliva.widgets.tab2_content.setVisible(this._state.tab_2);
+        }
     }
 }
