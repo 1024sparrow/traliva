@@ -64,7 +64,7 @@ Traliva.init({
         }
     },
     states:{
-        initState:{
+        /*initState:{
             active: false,
             tab_1: true,
             tab_2: false,
@@ -72,7 +72,7 @@ Traliva.init({
                 1: false,
                 2: false
             }
-        },
+        },*/
         tree:{
             /*
                 /tab1
@@ -83,18 +83,64 @@ Traliva.init({
             */
             _default:{
                 processor: function(s){
+                    s.active = false;
+                    s.tab_1 = true;
+                    s.tab_2 = false;
+                    s.tab2Data = {
+                        1: false,
+                        2: false
+                    };
                 }
             },
             tab1:{
+                in: function(s){
+                    s.tab_1 = true;
+                },
+                out: function(s){
+                    s.tab_1 = false;
+                }
             },
             tab2:{
+                in: function(s){
+                    s.tab_2 = true;
+                },
+                out: function(s){
+                    s.tab_2 = false;
+                },
                 children:{
+                    _default:{
+                        processor: function(s){
+                            s.tab2Data['1'] = false;
+                            s.tab2Data['2'] = true;
+                        }
+                    },
                     1:{
+                        in: function(s){
+                            s.tab2Data['1'] = true;
+                        },
+                        out: function(s){
+                            s.tab2Data['1'] = false;
+                        }
                     },
                     2:{
+                        in: function(s){
+                            s.tab2Data['2'] = true;
+                        },
+                        out: function(s){
+                            s.tab2Data['2'] = false;
+                        }
                     }
                 }
             }
+        },
+        initPath: '/',
+        stringifyState: function(s, ifSubstituteCurrentContainer){
+            var retVal = '/';
+            if (s.tab_1)
+                retVal.append('tab1/');
+            else if (s.tab_2)
+                retVal.append('tab2/');
+            return retVal;
         },
         stateSubscribers:[
             Logics
