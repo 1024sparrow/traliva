@@ -73,9 +73,29 @@ Traliva.init({
                 2: false
             }
         },
-        /*tree:{
-            //
-        }*/
+        tree:{
+            /*
+                /tab1
+                /tab1/active
+                /tab2/1
+                /tab2/1/active
+                два варианта: как подURLы и как параметр (это про 1 и 2)
+            */
+            _default:{
+                processor: function(s){
+                }
+            },
+            tab1:{
+            },
+            tab2:{
+                children:{
+                    1:{
+                    },
+                    2:{
+                    }
+                }
+            }
+        },
         stateSubscribers:[
             Logics
         ]
