@@ -43,14 +43,12 @@ function fillParam(o){
     }
     else
         o.states.stateSubscribers = [];
+    if (!o.states.hasOwnProperty('initState'))
+        o.states.initState = {};
     if (o.states.hasOwnProperty('tree')){
         if (!o.states.initPath || !o.states.stringifyState)
             return 'Если вы указали свойство "tree", то должны также указать и свойства "initPath" и "stringifyState"';
-        if (o.states.initState)
-            return 'Если вы указали свойство "tree", то указывать свойство "initState" не нужно';
     }
-    else if (!o.states.hasOwnProperty('initState'))
-        return 'В свойстве "states" вы должны указать или "initState", или "tree", "initPath" и "stringifyState". Ну или уберите свойство "states"';
 
     if (o.hasOwnProperty('widgets')){
         for (i in o.widgets){

@@ -56,17 +56,7 @@ Traliva.init = function(o){
     d.logics = [];//сюда будут сохраняться экземпляры LogicsStateSubscriber, чтобы у них вызывать метод initializeGui()
 
     d.publisher = new StatePublisher();
-    if (o.states.hasOwnProperty('tree')){
-        d.stateToUriMapper = new StateToUriMapper({
-            initPath: o.states.initPath,
-            initState: o.states.initState,
-            tree: o.states.tree,
-            stringifyState: o.states.stringifyState
-        });
-        d.publisher.registerSubscriber(d.stateToUriMapper);
-    }
-    else if (o.states.hasOwnProperty('initState'))
-        d.publisher.setState(o.states.initState);
+    d.publisher.setState(o.states.initState);
     if (Traliva.debug){
         d.__debug = {
             publisher: new StatePublisherNoDebug()
@@ -112,6 +102,15 @@ Traliva.init = function(o){
     }
     else
         d.wRoot = new Widget();
+    if (o.states.hasOwnProperty('tree')){
+        d.stateToUriMapper = new StateToUriMapper({
+            initPath: o.states.initPath,
+            initState: o.states.initState,
+            tree: o.states.tree,
+            stringifyState: o.states.stringifyState
+        });
+        d.publisher.registerSubscriber(d.stateToUriMapper);
+    }
     
     d.wRoot._div.className = 'wRoot';//
     d.curLayout = undefined;
