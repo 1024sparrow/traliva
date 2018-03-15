@@ -10,7 +10,7 @@ Traliva.history = {
     replaceState: function(p_a, p_b, p_path){
         console.log('%creplaceState(url) --> '+p_path, 'color: #faa');
         this.__paths[this.__currentIndex] = p_path;
-        this._updateUrl(p_path)
+        this.__aa(p_path)
     },
     pushState: function(p_a, p_b, p_path){
         console.log('%cpushState(url) --> '+p_path, 'color: #faa');
@@ -19,25 +19,30 @@ Traliva.history = {
             this.__paths[this.__currentIndex] = p_path;
         else
             this.__paths.push(p_path);
-        this._updateUrl(p_path)
+        this.__aa(p_path)
     },
     _goNext: function(){
         if ((this.__currentIndex + 1) < this.__paths.length){
             this.__currentIndex++;
-            this._updateUrl(this.__paths[this.__currentIndex])
+            this.__aa(this.__paths[this.__currentIndex])
         }
     },
     _goBack: function(){
         if (this.__currentIndex > 0){
             this.__currentIndex--;
-            this._updateUrl(this.__paths[this.__currentIndex])
+            this.__aa(this.__paths[this.__currentIndex])
         }
     },
     _goCurrent: function(){
-        this._updateUrl(this.__paths[this.__currentIndex]);
+        this.__aa(this.__paths[this.__currentIndex]);
     },
     _current: function(){
         return this.__paths[this.__currentIndex];
+    },
+    __aa: function(p){
+        this._updateUrl(p);
+        if (Traliva.__d.hasOwnProperty('stateToUriMapper'))
+            Traliva.__d.stateToUriMapper.updateForUrl(p);
     },
     // сюда в классе виджета,отображающего URL в отладочной панели, должна быть записана функция, обновляющая URL в отладочной панели.
     _updateUrl: function(){console.log('oops..');}
