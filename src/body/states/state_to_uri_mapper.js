@@ -94,6 +94,8 @@ StateToUriMapper.prototype.updateState = function(){
         pOld = null;
         tmp = ar.shift();
         tmpOld = this._prevAr.length ? this._prevAr.shift() : null;
+        if (tmp.length === 0)
+            continue;
         //console.log(tmp+' -- '+JSON.stringify(treeRef));
         nodeDescr = treeRef ? (treeRef.hasOwnProperty(tmp) ? treeRef[tmp] : null) : null;
         if (!nodeDescr){
