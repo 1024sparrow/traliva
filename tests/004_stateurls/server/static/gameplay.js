@@ -1,9 +1,9 @@
 'use strict';
 
-Traliva.debug = {
+/*Traliva.debug = {
     state: true,
     url: 'traliva.ru'
-};
+};*/
 Traliva.init({
     layouts:{
         bg: '#000',
@@ -66,8 +66,8 @@ Traliva.init({
     states:{
         initState:{
             active: false,
-            tab_1: true,
-            tab_2: false,
+            tab_1: false,
+            tab_2: true,
             tab2Data:{
                 1: false,
                 2: false
@@ -150,6 +150,7 @@ Traliva.init({
                 retVal += 'tab1/';
             else if (s.tab_2)
                 retVal += 'tab2/';
+            ifSubstituteCurrentContainer.b = false;
             return retVal;
         },
         stateSubscribers:[
