@@ -1,0 +1,25 @@
+
+
+{%% label.js %%}
+p_namespace.Label = Label;
+
+{%% button.js %%}
+p_namespace.Button = Button;
+
+{%% line_edit.js %%}
+p_namespace.LineEdit = LineEdit;
+
+{%% file_select.js %%}
+p_namespace.FileSelect = FileSelect;
+
+{%% simple_list.js %%}
+p_namespace.SimpleList = SimpleList;
+
+{%% tree_list.js %%}
+p_namespace.TreeList = TreeList;
+
+{%% text_edit.js %%}
+p_namespace.TextEdit = TextEdit;
+
+{%% combo_box.js %%}
+p_namespace.ComboBox = ComboBox;

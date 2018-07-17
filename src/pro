@@ -1,0 +1,8 @@
+module.exports = {
+    target: '../compiled',
+    file:{
+    },
+    dir:{
+        proj: 'build_scripts/proj.sh'
+    }
+}

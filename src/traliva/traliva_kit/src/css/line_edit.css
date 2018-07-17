@@ -1,0 +1,11 @@
+.traliva_kit__lineedit{
+    color: #666;
+    border: 1px solid #666;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 4px;
+    background: rgba(0,0,0,0);
+}
+/*.traliva_kit__lineedit::placeholder{
+    color: red;
+}*/
