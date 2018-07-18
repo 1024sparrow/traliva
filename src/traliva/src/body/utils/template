@@ -1,0 +1,9 @@
+(function(){
+{%% ajax.js %%}
+Traliva.ajax = ajax;
+{%% background.js %%}
+Traliva.background = background;
+
+{%% checkvisible.js %%}
+{%% createelement.js %%}
+})();

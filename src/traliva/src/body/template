@@ -1,0 +1,14 @@
+var Traliva;
+if (Traliva)
+	console.log('epic fail');
+else {
+    (function(){
+	Traliva = {
+        history: history
+    };
+    {%% states.js %%}
+    {%% widgets.js %%}
+    {%% init.js %%}
+    {%% utils.js %%}
+    })();
+}

@@ -1,0 +1,9 @@
+.bn{
+    padding: 5px;
+    border: 1px solid #666;
+    background: #ffa;
+    cursor: default;
+}
+.bn:hover{
+    background: #f84;
+}

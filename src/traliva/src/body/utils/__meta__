@@ -1,0 +1,16 @@
+{
+    "files":[
+        {
+            "target":"utils.js",
+            "source":{
+                "template": "template",
+                "list":[
+                    "ajax.js",
+                    "background.js",
+                    "checkvisible.js",
+                    "createelement.js"
+                ]
+            }
+        }
+    ]
+}

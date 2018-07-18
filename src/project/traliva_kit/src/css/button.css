@@ -1,0 +1,19 @@
+.traliva_kit__bn{
+    color: #666;
+    /*background: #eee;*/
+    margin: 5px;
+    border: 1px solid #666;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 32px;
+    cursor: pointer;
+}
+.traliva_kit__bn:hover{
+    background: #fa8;
+}
+.traliva_kit__bn.active{
+    background: #ffa;
+}
+.traliva_kit__bn.active:hover{
+    background: #fa8;
+}

@@ -1,0 +1,11 @@
+.traliva_kit__fileselect{
+    color: #666;
+    border: 1px solid #666;
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 10px;
+    margin: 4px;
+}
+.traliva_kit__fileselect:hover{
+    background: #fa8;
+}

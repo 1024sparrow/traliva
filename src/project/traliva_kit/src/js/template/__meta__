@@ -1,0 +1,13 @@
+{
+    "files":[
+        {
+            "target": "template",
+            "source":{
+                "template": "template",
+                "list":[
+                    "links"
+                ]
+            }
+        }
+    ]
+}
