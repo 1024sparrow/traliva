@@ -1,3 +1,6 @@
 {
-    "dir_proc": ["proj"]
+    "dir_proc": [
+        "tests",
+        "proj"
+    ]
 }
