@@ -1,0 +1,15 @@
+{
+    "files":[
+        {
+            "target": "gameplay.js",
+            "type": [],
+            "source":{
+                "list":[
+                    "gp.js"
+                ],
+                "template": "t",
+                "types":{}
+            }
+        }
+    ]
+}

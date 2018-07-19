@@ -1,0 +1,15 @@
+{
+    "files":[
+        {
+            "target": "style.css",
+            "type": [],
+            "source":{
+                "list":[
+                    "style.css"
+                ],
+                "template": "t",
+                "types":{}
+            }
+        }
+    ]
+}
