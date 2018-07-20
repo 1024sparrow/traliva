@@ -1,4 +1,16 @@
 {
-    "files":[],
-    "dir_proc": []
+    "files":[
+        {
+            "target": "gameplay.js",
+            "type":[],
+            "source":{
+                "list":[
+                    "traliva/traliva.js",
+                    "traliva_kit/traliva_kit.js",
+                    "gameplay.js"
+                ]
+            }
+        }
+    ],
+    "dir_proc": ["project_final"]
 }

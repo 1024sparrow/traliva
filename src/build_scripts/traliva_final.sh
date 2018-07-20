@@ -1,4 +1,5 @@
 #!/bin/bash
+# Финальная сборка всего проекта. Сборка уже кода под каждую целевую платформу.
 
 #echo $1 -- /home/boris/da/pro/traliva
 #echo $2 -- compiled

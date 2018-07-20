@@ -1,0 +1,115 @@
+'use strict';
+var TralivaKit;
+if (TralivaKit)
+    console.log('epic fail: TralivaKit is not empty');
+else{
+    TralivaKit = {__d:{help:{}}};
+(function(p_namespace){
+
+/*
+Формат объекта справки:
+title(text)
+descr(text)
+options(object) - Принимаемые опции. object: key - option name value - textual description
+stateObj(object) - формат объекта состояния
+children(object) - у справки могут быть дочерние страницы (с более подробным описанием тех или иных аспектов).
+*/
+function registerHelp(p_className, p_o){
+    p_namespace.__d.help[p_className] = p_o;
+}
+//
+p_namespace.help = function(o){
+    var i, o;
+    if (arguments.length === 0){
+        console.log('Для справки по контретному классу виджета передайте в help() параметром имя класса. Доступные классы виджетов:');
+        for (i in p_namespace.__d.help){
+            console.log('* ' + i + ' - ' + p_namespace.__d.help[i].title);
+        }
+    }
+    else{
+        for (i = 0 ; i < arguments.length ; i++){
+            if (i)
+                o = o.children[arguments[i]];
+            else{
+                o = p_namespace.__d.help[arguments[i]];
+                if (!o.hasOwnProperty('options'))
+                    o.options = {};
+                if (!o.options.hasOwnProperty('bg')){
+                    o.options.bg = '(опция от базового класса) цвет фона (подложки). Если не задано, подложки не будет. Если задана пустая строка, фон подложки будет взят такой же, как у ближайшего родителя, у которого фон подложки задан (или не будет задан, если такой родитель найден не будет).';
+                }
+            }
+            if (!o){
+                console.log('Некорректный параметр для справки: '+arguments[i]);
+                return;
+            }
+        }
+        console.log('%c' + o.title, 'color: #ffa');
+        if (o.descr)
+            console.log('%c' + o.descr, 'color: #48f');
+        if (o.options){
+            console.log('%cПринимаемые опции:', 'color: #ffa');
+            for (i in o.options){
+                console.log('%c* ' + i + ' - ' + o.options[i], 'color: #48f');
+            }
+        }
+        if (o.stateObj){
+            console.log('%cФормат объекта состояния:', 'color: #ffa');
+            for (i in o.stateObj){
+                console.log('%c* ' + i + ' - ' + o.stateObj[i], 'color: #48f');
+            }
+        }
+    }
+}
+
+
+
+{%% label.js %%}
+p_namespace.Label = Label;
+
+{%% button.js %%}
+p_namespace.Button = Button;
+
+{%% line_edit.js %%}
+p_namespace.LineEdit = LineEdit;
+
+{%% file_select.js %%}
+p_namespace.FileSelect = FileSelect;
+
+{%% simple_list.js %%}
+p_namespace.SimpleList = SimpleList;
+
+{%% tree_list.js %%}
+p_namespace.TreeList = TreeList;
+
+{%% text_edit.js %%}
+p_namespace.TextEdit = TextEdit;
+
+{%% combo_box.js %%}
+p_namespace.ComboBox = ComboBox;
+
+
+function checkForInheritance(p_validating, p_validatingFor){
+    //return (new p_validating()) instanceof p_validatingFor;
+
+    var i;
+    var counter = 0;
+    for (i = p_validating.prototype ; i ; i = i.constructor.prototype.__proto__){
+        if (i.constructor === p_validatingFor)
+            return true;
+    }
+    return false;
+}
+
+p_namespace.list = function(){
+    var retVal = [];
+    var i, cand;
+    for (i in p_namespace){
+        cand = p_namespace[i];
+        if (checkForInheritance(cand, Traliva.WidgetStateSubscriber))
+            retVal.push(cand.name);
+    }
+    return retVal;
+}
+
+})(TralivaKit);
+}
