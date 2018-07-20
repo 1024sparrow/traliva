@@ -7,7 +7,23 @@
 echo $TARGETS
 echo $COMPILE_OPTIONS 
 
+mode_release=false
+mode_debug=false
 for i in $COMPILE_OPTIONS
 do
-    echo "-- $i"
+    #echo "-- $i"
+    if [ $i = release ] 
+    then
+        #echo release detected
+        mode_release=true
+    elif [ $i = debug ]
+    then
+        #echo debug detected
+        mode_debug=true
+    fi
 done
+
+if [ mode_debug ]
+then
+    echo ddd
+fi
