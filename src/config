@@ -1,0 +1,2 @@
+TARGETS="ubuntu-desktop web"
+COMPILE_OPTIONS="debug release"

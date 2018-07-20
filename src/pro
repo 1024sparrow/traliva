@@ -3,6 +3,7 @@ module.exports = {
     file:{
     },
     dir:{
-        proj: 'build_scripts/proj.sh'
+        proj: 'build_scripts/proj.sh',
+        traliva_final: 'build_scripts/traliva_final.sh'
     }
 }
