@@ -58,6 +58,13 @@ function act__css_compile {
     cd $init_path
 }
 
-sed -e "s/#RES#/#RES#\/_traliva/g" $1/$2/traliva/style.css > style.css_tmp
-sed -e "s/#RES#/#RES#\/_traliva_kit/g" $1/$2/traliva_kit/style.css >> style.css_tmp
-#sed -e "s/#RES#/#RES#/g" $1/$2/style.css >> style.css_tmp
+#echo "$1/$2/traliva_kit:"
+#ls $1/$2/traliva_kit
+sed -e "s/#RES#/#RES#\/_traliva/g" $1/$2/traliva/style.css > $1/$2/style.css_tmp
+sed -e "s/#RES#/#RES#\/_traliva_kit/g" $1/$2/traliva_kit/style.css >> $1/$2/style.css_tmp
+##sed -e "s/#RES#/#RES#/g" $1/$2/style.css >> $1/$2/style.css_tmp
+cat $1/$2/style.css >> $1/$2/style.css_tmp
+mv $1/$2/style.css_tmp $1/$2/style.css
+
+mv $1/$2/traliva/res $1/$2/res/_traliva
+mv $1/$2/traliva_kit/res $1/$2/res/_traliva_kit

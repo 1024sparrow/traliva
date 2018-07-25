@@ -1,7 +1,7 @@
 {
     "files": [
         {
-            "target": "traliva_kit.css",
+            "target": "style.css",
             "source": {
                 "list": [
                     "label.css",

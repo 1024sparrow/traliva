@@ -2,7 +2,8 @@ module.exports = {
     target: '../compiled',
     file:{
     },
-    /*dir:{
+    dir:{
+        res: 'build_scripts/style_res_deploy.sh',
         deploy: 'build_scripts/deploy.sh'
-    }*/
+    }
 }
