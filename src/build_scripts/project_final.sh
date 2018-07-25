@@ -29,5 +29,7 @@ fi
 mv $1/$2/traliva/res $1/$2/res/_traliva
 mv $1/$2/traliva_kit/res $1/$2/res/_traliva_kit
 
-mv $1/$2/traliva/traliva.js $1/$2/ && rm -rf $1/$2/traliva
-mv $1/$2/traliva_kit/traliva_kit.js $1/$2/ && rm -rf $1/$2/traliva_kit
+#mv $1/$2/traliva/traliva.js $1/$2/ && rm -rf $1/$2/traliva
+#mv $1/$2/traliva_kit/traliva_kit.js $1/$2/ && rm -rf $1/$2/traliva_kit
+rm -rf $1/$2/traliva
+rm -rf $1/$2/traliva_kit
