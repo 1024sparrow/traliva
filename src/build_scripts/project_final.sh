@@ -68,3 +68,6 @@ mv $1/$2/style.css_tmp $1/$2/style.css
 
 mv $1/$2/traliva/res $1/$2/res/_traliva
 mv $1/$2/traliva_kit/res $1/$2/res/_traliva_kit
+
+mv $1/$2/traliva/traliva.js $1/$2/ && rm -rf $1/$2/traliva
+mv $1/$2/traliva_kit/traliva_kit.js $1/$2/ && rm -rf $1/$2/traliva_kit
