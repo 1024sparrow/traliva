@@ -10,6 +10,10 @@
                     "gameplay.js"
                 ]
             }
+        },
+        {
+            "target": "config",
+            "source":{ "list":["config"] }
         }
     ],
     "dir_proc": ["project_final"]
