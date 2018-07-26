@@ -9,6 +9,24 @@ source $1/$2/config
 UTILS_PATH=$(dirname "$0")/utils
 ############################
 
+stack=($1/$2)
+while [ ! ${#stack[@]} -eq 0 ]
+do
+    element=${stack[@]:0:1}/children
+    echo "-- $element"
+    stack=("${stack[@]:1}")
+    if [ -d $element ]
+    then
+        for i in $(ls -1 $element)
+        do
+            if [ -d $element/$i ]
+            then
+                stack=(${stack[@]} $element/$i)
+            fi
+        done
+    fi
+done
+
 #rm -rf $1/$2/traliva $1/$2/traliva_kit
 
 # Ожидается в директориях traliva и traliva_kit найти файл style.css и директорию res
