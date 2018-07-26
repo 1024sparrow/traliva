@@ -5,6 +5,7 @@ source $1/$2/config
 # INCLUDE_DEBUG
 # COMPRESS_NAMES
 # COMPRESS_LINEBREAKS
+# COMPRESS_USAGE
 
 UTILS_PATH=$(dirname "$0")/utils
 ############################

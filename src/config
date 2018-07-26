@@ -6,3 +6,4 @@ INCLUDE_DEBUG=true
 ## compressing for deploying
 COMPRESS_NAMES=true
 COMPRESS_LINEBREAKS=true
+COMPRESS_USAGE=true
