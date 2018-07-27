@@ -71,6 +71,7 @@ all_js_css=(${all_js[@]} ${all_css[@]})
 
 ############################
 # Ожидается в директориях traliva и traliva_kit найти файл style.css и директорию res
+declare -a usage_addon_keys
 sed -e "s/#RES#/#RES#\/_traliva/g" $root/traliva/style.css > $root/style.css_tmp
 mv $root/traliva/res $root/res/_traliva
 rm -rf $root/traliva
@@ -85,18 +86,28 @@ do
         rm -rf $i/traliva_kit
     fi
     cat $i/style.css >> $i/style.css_tmp
-    #if [ "$COMPRESS_USAGE" = true ]
-    #then
+
+    if [ "$CO_DEBUG" = true ]
+    then
+        usage_addon_keys=(${usage_addon_keys[@]} traliva_debug)
+        usage_addon_keys=(${usage_addon_keys[@]} traliva_aaa)
+    fi
+    if [ "$COMPRESS_USAGE" = true ]
+    then
         #
-    #fi
+        $UTILS_PATH/sugar/usage.sh "\"${all_js_css[@]}\"" "\"${usage_addon_keys[@]}\""
+    fi
     # -- синтаксический сахар: перечисления
     # ==
-    #if [ "$COMPRESS_NAMES" = true ]
-    #then
-    #fi
-    if [ "$COMPRESS_LINEBREAKS" = true ]
+    if [ "$CO_RELEASE" = true ]
     then
-        cat $i/style.css_tmp | $UTILS_PATH/css.py > $i/style.css_tmp2 && mv $i/style.css_tmp2 $i/style.css_tmp
+        #if [ "$COMPRESS_NAMES" = true ]
+        #then
+        #fi
+        if [ "$COMPRESS_LINEBREAKS" = true ]
+        then
+            cat $i/style.css_tmp | $UTILS_PATH/css.py > $i/style.css_tmp2 && mv $i/style.css_tmp2 $i/style.css_tmp
+        fi
     fi
     mv $i/style.css_tmp $i/style.css
 done
