@@ -2,19 +2,40 @@
 # Финальная сборка директории project: склеивание частей воедино.
 
 source $1/$2/config
-# INCLUDE_DEBUG
+# COMPRESS_USAGE
 # COMPRESS_NAMES
 # COMPRESS_LINEBREAKS
 # COMPRESS_USAGE
+# TARGET_UBUNTU_DESKTOP
+# TARGET_WEB
+# CO_DEBUG
+# CO_RELEASE
 
 UTILS_PATH=$(dirname "$0")/utils
 ############################
 
 # Здесь мы обходим дерево директорий children и производим изменения в файлах в этом дереве
-# Формируем переменные root, list и all.
+# Формируем пути к папкам (переменные root, list и all) и к файлам (all_js, all_css и all_js_css).
 root=$1/$2
 declare -a list # список директорий на обработку. Не включая корень
+declare -a all_js
+declare -a all_css
 stack=($root)
+#echo "$(ls $root)"
+if [ -f $root/gameplay.js ]
+then
+    all_js=(${all_js[@]} $root/gameplay.js)
+else
+    echo "Не найден файл $root/gameplay.js"
+    exit 1
+fi
+if [ -f $root/style.css ]
+then
+    all_css=(${all_css[@]} $root/style.css)
+else
+    echo "Не найден файл $root/style.css"
+    exit 1
+fi
 while [ ! ${#stack[@]} -eq 0 ]
 do
     element=${stack[@]:0:1}/children
@@ -25,6 +46,20 @@ do
         do
             if [ -d $element/$i ]
             then
+                if [ ! -f $element/$i/style.css ]
+                then
+                    echo "Не найден файл $element/$i/style.css.js - директория $element/$i пропускается"
+                    continue 1
+                fi
+                if [ -f $element/$i/gameplay.js ]
+                then
+                    all_js=(${all_js[@]} $element/$i/gameplay.js)
+                else
+                    echo "Не найден файл $element/$i/gameplay.js - директория $element/$i пропускается"
+                    continue 1
+                    #exit 1
+                fi
+                all_css=(${all_css[@]} $element/$i/style.css)
                 stack=(${stack[@]} $element/$i)
                 list=(${list[@]} $element/$i)
             fi
@@ -32,6 +67,7 @@ do
     fi
 done
 all=($root ${list[@]})
+all_js_css=(${all_js[@]} ${all_css[@]})
 
 ############################
 # Ожидается в директориях traliva и traliva_kit найти файл style.css и директорию res
@@ -49,10 +85,18 @@ do
         rm -rf $i/traliva_kit
     fi
     cat $i/style.css >> $i/style.css_tmp
+    #if [ "$COMPRESS_USAGE" = true ]
+    #then
+        #
+    #fi
+    # -- синтаксический сахар: перечисления
+    # ==
+    #if [ "$COMPRESS_NAMES" = true ]
+    #then
+    #fi
     if [ "$COMPRESS_LINEBREAKS" = true ]
     then
-        cat $i/style.css_tmp | $UTILS_PATH/css.py > $i/style.css && rm $i/style.css_tmp
-    else
-        mv $i/style.css_tmp $i/style.css
+        cat $i/style.css_tmp | $UTILS_PATH/css.py > $i/style.css_tmp2 && mv $i/style.css_tmp2 $i/style.css_tmp
     fi
+    mv $i/style.css_tmp $i/style.css
 done

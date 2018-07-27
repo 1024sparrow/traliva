@@ -1,9 +1,23 @@
-TARGETS="ubuntu-desktop web"
-COMPILE_OPTIONS="debug release"
+## СЖАТИЕ КОДА **************
 
-INCLUDE_DEBUG=true
-
-## compressing for deploying
-COMPRESS_NAMES=true
-COMPRESS_LINEBREAKS=true
+# убирать неиспользуемый код
 COMPRESS_USAGE=true
+
+# заменять имена переменных на наиболее короткие. Настройка не действует, если не активирована CO_RELEASE.
+COMPRESS_NAMES=true
+
+# убирать пробельные символы в началах строк и символы переноса строки. Настройка не действует, если не активирована CO_RELEASE.
+COMPRESS_LINEBREAKS=true
+
+## ЦЕЛЕВЫЕ ПЛАТФОРМЫ **************
+
+TARGET_UBUNTU_DESKTOP=true
+TARGET_WEB=true
+
+## ОПЦИИ КОМПИЛЯЦИИ **************
+
+# наличие отладочной панели(может быть и не задействована, но сам код панели остаётся) и отладочного вывода в консоль
+CO_DEBUG=true
+
+# активирует опции сжатия кода, после применения которых отлаживаться будет затруднительно
+CO_RELEASE=true
