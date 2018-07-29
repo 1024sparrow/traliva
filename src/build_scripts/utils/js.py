@@ -75,37 +75,41 @@ for i in a:
         in_comment = False
         skip_current = True
     elif prev_char != '\\' and i == '"':
-        if in_string:
-            if in_string_2:
-                in_string_2 = False
+        if not in_comment and not skip_current:
+            if in_string:
+                if in_string_2:
+                    in_string_2 = False
+                else:
+                    in_string_1 = False
+                in_string = False
             else:
-                in_string_1 = False
-            in_string = False
-        else:
-            #b += code_cand
-            if len(code_cand) > 0:
-                code_cand = code_cand[:-1]
-            b += process_code_fragment(code_cand) + '"'
-            code_cand = ''
-            in_string_2 = True
-            in_string = True
+                #b += code_cand
+                #if len(code_cand) > 0:
+                    #code_cand = code_cand[:-1]
+                b += process_code_fragment(code_cand)
+                code_cand = ''
+                in_string_2 = True
+                in_string = True
     elif prev_char != '\\' and i == "'":
-        if in_string:
-            if in_string_1:
-                in_string_1 = False
+        if not in_comment and not skip_current:
+            if in_string:
+                if in_string_1:
+                    in_string_1 = False
+                else:
+                    in_string_2 = False
+                in_string = False
             else:
-                in_string_2 = False
-            in_string = False
-        else:
-            #b += code_cand
-            if len(code_cand) > 0:
-                code_cand = code_cand[:-1]
-            b += process_code_fragment(code_cand) + "'"
-            code_cand = ''
-            in_string_1 = True
-            in_string = True
+                #b += code_cand
+                #if len(code_cand) > 0:
+                    #code_cand = code_cand[:-1]
+                b += process_code_fragment(code_cand)
+                code_cand = ''
+                in_string_1 = True
+                in_string = True
     if not in_comment and not skip_current:
-        if not in_string:
+        if in_string:
+            b += i
+        else:
             code_cand += i
     else: # комментарии /* ... */
         if pp_comment:
