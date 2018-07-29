@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #-*- coding: utf-8 -*-
 ######################
 # Сжимает (на предмет пробелов и символов перевода строки) JS-файлы.
@@ -10,7 +10,12 @@
 import sys, re
 
 pp_comment = True # оставляем комментарии. Комментарии должны быть отключены, если мы включаем убирание переносов строк.
-pp_newlines = False # оставляем переносы строк
+pp_newlines = True # оставляем переносы строк
+
+# boris here: реализовать эту функцию, и применять её к code_cand непосредственно перед вставкой в b.
+def process_code_fragment(p_code):
+    retval = '>>>>' + p_code + '<<<<'
+    return retval
 
 if not pp_newlines:
     pp_comment = False
@@ -59,7 +64,9 @@ code_cand = ''
 for i in a:
     skip_current = False
     if prev_char == '/' and i == '*':
-        b += code_cand
+        if len(code_cand) > 0:
+            code_cand = code_cand[:-1]
+        b += process_code_fragment(code_cand) + '/'
         code_cand = ''
         in_comment = True
         if not pp_comment:
@@ -68,13 +75,37 @@ for i in a:
         in_comment = False
         skip_current = True
     elif prev_char != '\\' and i == '"':
-        in_string = not in_string
-    if not in_comment and not skip_current:
         if in_string:
-            #b += i
-            code_cand += i
+            if in_string_2:
+                in_string_2 = False
+            else:
+                in_string_1 = False
+            in_string = False
         else:
-            #b += i #
+            #b += code_cand
+            if len(code_cand) > 0:
+                code_cand = code_cand[:-1]
+            b += process_code_fragment(code_cand) + '"'
+            code_cand = ''
+            in_string_2 = True
+            in_string = True
+    elif prev_char != '\\' and i == "'":
+        if in_string:
+            if in_string_1:
+                in_string_1 = False
+            else:
+                in_string_2 = False
+            in_string = False
+        else:
+            #b += code_cand
+            if len(code_cand) > 0:
+                code_cand = code_cand[:-1]
+            b += process_code_fragment(code_cand) + "'"
+            code_cand = ''
+            in_string_1 = True
+            in_string = True
+    if not in_comment and not skip_current:
+        if not in_string:
             code_cand += i
     else: # комментарии /* ... */
         if pp_comment:
@@ -82,5 +113,6 @@ for i in a:
     prev_char = i
 #for i in b:
     #if i == '/'
+b += code_cand
 print(b)
 
