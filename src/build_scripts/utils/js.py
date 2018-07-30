@@ -61,19 +61,18 @@ in_comment_2 = False # /* ... */
 in_comment = False
 in_string_1 = False # '
 in_string_2 = False # "
-in_string = False # boris here
+in_string = False
 prev_char = 's' # nor '\\' or '/' or '*'
 code_cand = ''
 for i in a:
     skip_current = False
-    if prev_char == '/' and i == '/':
-        if not in_comment_2:
-            if len(code_cand) > 0:
-                code_cand = code_cand[:-1]
-            b += process_code_fragment(code_cand) + '/'
-            code_cand = ''
-            in_comment_1 = True
-            in_comment = True
+    if (not in_comment) and (not in_string) and prev_char == '/' and i == '/':
+        if len(code_cand) > 0:
+            code_cand = code_cand[:-1]
+        b += process_code_fragment(code_cand) + '/'
+        code_cand = ''
+        in_comment_1 = True
+        in_comment = True
     elif in_comment_1 and i == '\n':
         if not in_comment_2:
             in_comment_1 = False
