@@ -84,11 +84,7 @@ for i in a:
                     in_string_1 = False
                 in_string = False
             else:
-                #b += code_cand
-                #if len(code_cand) > 0:
-                    #code_cand = code_cand[:-1]
                 b += process_code_fragment(code_cand + '"')
-                #b = b[:-1] # удаляем предыдущий символ ('"')
                 skip_current = True
                 code_cand = ''
                 in_string_2 = True
@@ -102,23 +98,20 @@ for i in a:
                     in_string_2 = False
                 in_string = False
             else:
-                #b += code_cand
-                #if len(code_cand) > 0:
-                    #code_cand = code_cand[:-1]
                 b += process_code_fragment(code_cand + "'")
-                #b = b[:-1] # удаляем предыдущий символ ("'")
                 skip_current = True
                 code_cand = ''
                 in_string_1 = True
                 in_string = True
-    if not in_comment and not skip_current:
+    if (not in_comment) and (not skip_current):
         if in_string:
             b += i
         else:
             code_cand += i
     else: # комментарии /* ... */
-        if pp_comment:
-            b += i
+        if not in_string:
+            if pp_comment:
+                b += i
     prev_char = i
 #for i in b:
     #if i == '/'
