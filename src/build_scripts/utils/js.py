@@ -94,9 +94,10 @@ for i in a:
             skip_current = True
     elif prev_char == '\\' and i == '\\':
         prev_char = 's'
+        b += i
         continue
     elif prev_char != '\\' and i == '"':
-        if not in_comment:
+        if not in_comment and not in_string_1:
             if in_string:
                 if in_string_2:
                     in_string_2 = False
@@ -110,7 +111,7 @@ for i in a:
                 in_string_2 = True
                 in_string = True
     elif prev_char != '\\' and i == "'":
-        if not in_comment:
+        if not in_comment and not in_string_2:
             if in_string:
                 if in_string_1:
                     in_string_1 = False
@@ -133,6 +134,6 @@ for i in a:
             if pp_comment:
                 b += i
     prev_char = i
-b += code_cand
+b += process_code_fragment(code_cand)
 print(b)
 
