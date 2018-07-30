@@ -15,6 +15,7 @@ pp_newlines = True # оставляем переносы строк
 # boris here: реализовать эту функцию, и применять её к code_cand непосредственно перед вставкой в b.
 def process_code_fragment(p_code):
     retval = '>>>>' + p_code + '<<<<'
+    #retval = 'XXXX'
     return retval
 
 if not pp_newlines:
@@ -86,7 +87,9 @@ for i in a:
                 #b += code_cand
                 #if len(code_cand) > 0:
                     #code_cand = code_cand[:-1]
-                b += process_code_fragment(code_cand)
+                b += process_code_fragment(code_cand + '"')
+                #b = b[:-1] # удаляем предыдущий символ ('"')
+                skip_current = True
                 code_cand = ''
                 in_string_2 = True
                 in_string = True
@@ -102,7 +105,9 @@ for i in a:
                 #b += code_cand
                 #if len(code_cand) > 0:
                     #code_cand = code_cand[:-1]
-                b += process_code_fragment(code_cand)
+                b += process_code_fragment(code_cand + "'")
+                #b = b[:-1] # удаляем предыдущий символ ("'")
+                skip_current = True
                 code_cand = ''
                 in_string_1 = True
                 in_string = True
