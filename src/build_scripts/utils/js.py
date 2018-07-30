@@ -56,6 +56,8 @@ for line in sys.stdin.readlines():
             #line_cand = re.sub(re.compile(r'\s*!\s*', re.DOTALL), '!', line_cand)
         a += re.sub(re_one_line_comment, '', line_cand)
 b = ''
+in_comment_1 = False # // ...
+in_comment_2 = False # /* ... */
 in_comment = False
 in_string_1 = False # '
 in_string_2 = False # "
@@ -64,17 +66,33 @@ prev_char = 's' # nor '\\' or '/' or '*'
 code_cand = ''
 for i in a:
     skip_current = False
-    if prev_char == '/' and i == '*':
-        if len(code_cand) > 0:
-            code_cand = code_cand[:-1]
-        b += process_code_fragment(code_cand) + '/'
-        code_cand = ''
-        in_comment = True
-        if not pp_comment:
-            b = b[:-1] # удаляем предыдущий символ ('/')
+    if prev_char == '/' and i == '/':
+        if not in_comment_2:
+            if len(code_cand) > 0:
+                code_cand = code_cand[:-1]
+            b += process_code_fragment(code_cand) + '/'
+            code_cand = ''
+            in_comment_1 = True
+            in_comment = True
+    elif in_comment_1 and i == '\n':
+        if not in_comment_2:
+            in_comment_1 = False
+            in_comment = False
+    elif prev_char == '/' and i == '*':
+        if not in_comment_1:
+            if len(code_cand) > 0:
+                code_cand = code_cand[:-1]
+            b += process_code_fragment(code_cand) + '/'
+            code_cand = ''
+            in_comment_2 = True
+            in_comment = True
+            if not pp_comment:
+                b = b[:-1] # удаляем предыдущий символ ('/')
     elif prev_char == '*' and i == '/':
-        in_comment = False
-        skip_current = True
+        if not in_comment_1:
+            in_comment_2 = False
+            in_comment = False
+            skip_current = True
     elif prev_char != '\\' and i == '"':
         if not in_comment and not skip_current:
             if in_string:
@@ -113,8 +131,6 @@ for i in a:
             if pp_comment:
                 b += i
     prev_char = i
-#for i in b:
-    #if i == '/'
 b += code_cand
 print(b)
 
