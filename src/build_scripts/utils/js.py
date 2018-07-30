@@ -92,8 +92,11 @@ for i in a:
             in_comment_2 = False
             in_comment = False
             skip_current = True
+    elif prev_char == '\\' and i == '\\':
+        prev_char = 's'
+        continue
     elif prev_char != '\\' and i == '"':
-        if not in_comment and not skip_current:
+        if not in_comment:
             if in_string:
                 if in_string_2:
                     in_string_2 = False
@@ -107,7 +110,7 @@ for i in a:
                 in_string_2 = True
                 in_string = True
     elif prev_char != '\\' and i == "'":
-        if not in_comment and not skip_current:
+        if not in_comment:
             if in_string:
                 if in_string_1:
                     in_string_1 = False
