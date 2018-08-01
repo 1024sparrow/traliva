@@ -68,7 +68,7 @@ def _get_text_as_array(p_text, pp_comment, pp_newlines):
             if not pp_newlines:
                 line_cand = line.strip()
             a += re.sub(re_one_line_comment, '', line_cand)
-    b = ''
+    #b = ''
     in_comment_1 = False # // ...
     in_comment_2 = False # /* ... */
     in_comment = False
@@ -82,7 +82,9 @@ def _get_text_as_array(p_text, pp_comment, pp_newlines):
         if (not in_comment) and (not in_string) and prev_char == '/' and i == '/':
             if len(code_cand) > 0:
                 code_cand = code_cand[:-1]
-            b += process_code_fragment(code_cand) + '/'
+            #b += process_code_fragment(code_cand) + '/'
+            _accumulate_array_by_symbols(1, code_cand, retval)
+            _accumulate_array_by_symbols(0, '/', retval)
             code_cand = ''
             in_comment_1 = True
             in_comment = True
@@ -94,12 +96,15 @@ def _get_text_as_array(p_text, pp_comment, pp_newlines):
             if not in_comment_1:
                 if len(code_cand) > 0:
                     code_cand = code_cand[:-1]
-                b += process_code_fragment(code_cand) + '/'
+                #b += process_code_fragment(code_cand) + '/'
+                _accumulate_array_by_symbols(1, code_cand, retval)
                 code_cand = ''
                 in_comment_2 = True
                 in_comment = True
-                if not pp_comment:
-                    b = b[:-1] # удаляем предыдущий символ ('/')
+                if pp_comment:
+                    _accumulate_array_by_symbols(0, '/', retval)
+                #if not pp_comment:
+                #    b = b[:-1] # удаляем предыдущий символ ('/')
         elif prev_char == '*' and i == '/':
             if not in_comment_1:
                 in_comment_2 = False
@@ -108,7 +113,8 @@ def _get_text_as_array(p_text, pp_comment, pp_newlines):
 
         elif prev_char == '\\' and i == '\\':
             prev_char = 's'
-            b += i
+            #b += i
+            _accumulate_array_by_symbols(__type, i, retval)
             continue
         elif prev_char != '\\' and i == '"':
             if not in_comment and not in_string_1:
@@ -119,7 +125,9 @@ def _get_text_as_array(p_text, pp_comment, pp_newlines):
                         in_string_1 = False
                     in_string = False
                 else:
-                    b += process_code_fragment(code_cand + '"')
+                    #b += process_code_fragment(code_cand + '"')
+                    _accumulate_array_by_symbols(1, code_cand, retval)
+                    _accumulate_array_by_symbols(2, '"', retval)
                     skip_current = True
                     code_cand = ''
                     in_string_2 = True
@@ -133,21 +141,54 @@ def _get_text_as_array(p_text, pp_comment, pp_newlines):
                         in_string_2 = False
                     in_string = False
                 else:
-                    b += process_code_fragment(code_cand + "'")
+                    #b += process_code_fragment(code_cand + "'")
+                    _accumulate_array_by_symbols(1, code_cand, retval)
+                    _accumulate_array_by_symbols(2, "'", retval)
                     skip_current = True
                     code_cand = ''
                     in_string_1 = True
                     in_string = True
         if (not in_comment) and (not skip_current):
             if in_string:
-                b += i
+                #b += i
+                _accumulate_array_by_symbols(2, i, retval)
             else:
                 code_cand += i
         else: # комментарии /* ... */
             if not in_string:
                 if pp_comment:
-                    b += i
+                    #b += i
+                    _accumulate_array_by_symbols(0, i, retval)
         prev_char = i
     #b += process_code_fragment(code_cand)
+    _accumulate_array_by_symbols(1, code_cand, retval)
+    _stop_accumulating_array_by_symbols(retval)
 
-    return []
+    return retval
+
+__buffer = ''
+__type = None
+def _accumulate_array_by_symbols(pin_type, pin_fragment, pout_target):
+    global __buffer
+    global __type
+    if pin_fragment:
+        if pin_type == __type:
+            __buffer += pin_fragment
+        else:
+            pout_target.append({
+                'type': __type,
+                'text': __buffer
+            })
+            __type = pin_type
+            __buffer = pin_fragment
+
+def _stop_accumulating_array_by_symbols(pout_target):
+    global __buffer
+    global __type
+    if __buffer:
+        pout_target.append({
+            'type': __type,
+            'text': __buffer
+        })
+        __buffer = ''
+    __type = None
