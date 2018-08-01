@@ -2,7 +2,7 @@
 import sys
 import js__map
 from sugar import usage, names, enums
-import map_test
+#import map_test
 
 ar = sys.argv
 #print(ar)
@@ -39,7 +39,7 @@ css = []
 js_css = []
 
 js__map.get_map(js_paths, css_paths, js, css, js_css)
-map_test.process(js, css, js_css)
+#map_test.process(js, css, js_css)
 usage.process(js, css, js_css)
 names.process()
 enums.process()
