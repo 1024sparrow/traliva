@@ -28,9 +28,28 @@ def process_code_fragment(p_code):
 
 # p_text - массив отдельных строк
 # Должен вернуть массив фрагментов с указанием их типов (0 - комментарий, 1 - код, 2 - содержимое строки)
+# [
+#     {
+#         type: 1,
+#         text: 'do_some();\nconsole.log(\''
+#     },
+#     {
+#         type: 2,
+#         text: 'hello world'
+#     },
+#     {
+#         type: 1,
+#         text: '\');'
+#     },
+#     {
+#         type: 0,
+#         text: '//некий комментарий'
+#     },
+# ]
 re_one_line_comment = re.compile(r'//.*', re.DOTALL)
 def _get_text_as_array(p_text, pp_comment, pp_newlines):
     # boris here
+    retval = []
     if not pp_newlines:
         pp_comment = False
     use_strict_used = False
@@ -60,5 +79,75 @@ def _get_text_as_array(p_text, pp_comment, pp_newlines):
     code_cand = ''
     for i in a:
         skip_current = False
+        if (not in_comment) and (not in_string) and prev_char == '/' and i == '/':
+            if len(code_cand) > 0:
+                code_cand = code_cand[:-1]
+            b += process_code_fragment(code_cand) + '/'
+            code_cand = ''
+            in_comment_1 = True
+            in_comment = True
+        elif in_comment_1 and i == '\n':
+            if not in_comment_2:
+                in_comment_1 = False
+                in_comment = False
+        elif prev_char == '/' and i == '*':
+            if not in_comment_1:
+                if len(code_cand) > 0:
+                    code_cand = code_cand[:-1]
+                b += process_code_fragment(code_cand) + '/'
+                code_cand = ''
+                in_comment_2 = True
+                in_comment = True
+                if not pp_comment:
+                    b = b[:-1] # удаляем предыдущий символ ('/')
+        elif prev_char == '*' and i == '/':
+            if not in_comment_1:
+                in_comment_2 = False
+                in_comment = False
+                skip_current = True
+
+        elif prev_char == '\\' and i == '\\':
+            prev_char = 's'
+            b += i
+            continue
+        elif prev_char != '\\' and i == '"':
+            if not in_comment and not in_string_1:
+                if in_string:
+                    if in_string_2:
+                        in_string_2 = False
+                    else:
+                        in_string_1 = False
+                    in_string = False
+                else:
+                    b += process_code_fragment(code_cand + '"')
+                    skip_current = True
+                    code_cand = ''
+                    in_string_2 = True
+                    in_string = True
+        elif prev_char != '\\' and i == "'":
+            if not in_comment and not in_string_2:
+                if in_string:
+                    if in_string_1:
+                        in_string_1 = False
+                    else:
+                        in_string_2 = False
+                    in_string = False
+                else:
+                    b += process_code_fragment(code_cand + "'")
+                    skip_current = True
+                    code_cand = ''
+                    in_string_1 = True
+                    in_string = True
+        if (not in_comment) and (not skip_current):
+            if in_string:
+                b += i
+            else:
+                code_cand += i
+        else: # комментарии /* ... */
+            if not in_string:
+                if pp_comment:
+                    b += i
+        prev_char = i
+    #b += process_code_fragment(code_cand)
 
     return []
