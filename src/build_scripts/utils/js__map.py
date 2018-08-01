@@ -48,14 +48,13 @@ def apply_map(p_js, p_css, p_js_css):
 # ]
 re_one_line_comment = re.compile(r'//.*', re.DOTALL)
 def _get_text_as_array(p_text, pp_comment, pp_newlines):
-    # boris here
+    global __type
     retval = []
     if not pp_newlines:
         pp_comment = False
     use_strict_used = False
     a = ''
     for line in p_text:
-        print('#:', line)
         stripline = line.strip()
         if not use_strict_used:
             if stripline.startswith("'use strict'") or stripline.startswith('"use strict"'):
@@ -175,10 +174,11 @@ def _accumulate_array_by_symbols(pin_type, pin_fragment, pout_target):
         if pin_type == __type:
             __buffer += pin_fragment
         else:
-            pout_target.append({
-                'type': __type,
-                'text': __buffer
-            })
+            if __buffer:
+                pout_target.append({
+                    'type': __type,
+                    'text': __buffer
+                })
             __type = pin_type
             __buffer = pin_fragment
 
