@@ -21,10 +21,10 @@ def apply_map(p_js, p_css, p_js_css):
     print('apply_map()')
     #for i in p_js_css:
 
-def process_code_fragment(p_code):
-    retval = '>>>>' + p_code + '<<<<'
-    #retval = 'XXXX'
-    return retval
+#def process_code_fragment(p_code):
+#    retval = '>>>>' + p_code + '<<<<'
+#    #retval = 'XXXX'
+#    return retval
 
 # p_text - массив отдельных строк
 # Должен вернуть массив фрагментов с указанием их типов (0 - комментарий, 1 - код, 2 - содержимое строки)
