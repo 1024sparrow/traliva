@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import re
+
 # 1.) Обходим все файлы и сохраняем id всех активированных, убираем сами активации (#u#...##);
 # 2.) Обходим все файлы, удаляем разметку #USAGE_BEGIN#...## и #USAGE_END#...##, оставляем или удаляем код, заключённый в разметку.
 
@@ -64,3 +66,31 @@ def process(p_js, p_css, p_js_css):
                     #print('%s - %s' % (s, i))
                 print('#### RESULT:\n', a)
     print('detected activated: ', activated_ids)
+
+    id_current = None
+    activated_ids__0 = ['#USAGE_DEGIN#%s##' % i for i in activated_ids]
+    activated_ids__1 = ['#USAGE_END#%s##' % i for i in activated_ids]
+    #print(activated_ids__0)
+    f_begin = lambda p:{
+        #index_fragm:
+    }
+    for fil in p_js_css:
+        m = []
+        fragment_counter = 0
+        for fragment in fil['text']:
+            if fragment['type'] == 1:
+                #[m.start() for m in re.finditer('test', 'test test test test')]
+                # a = 's f#USAGE_BEGIN#qwed3##ddf 4r'
+                # [(i.start(), i.group()) for i in re.finditer('#USAGE_BEGIN#(.*)##', a)]
+                for patt in [(0,'#USAGE_BEGIN#(.*)##'), (1,'#USAGE_END#(.*)##')]:
+                    for i in re.finditer(patt[1], fragment['text']):
+                        m.append({
+                            'fragment_index': fragment_counter,
+                            'char_index': i.start(),
+                            'id': i.groups()[0],
+                            'string': i.group(),
+                            'type': patt[0]
+                        })
+            fragment_counter += 1
+        print('m:', m)
+        print('sorted m:', m.sort(key=lambda p: float('%s.%s' %(p['fragment_index'], p['char_index']))))
