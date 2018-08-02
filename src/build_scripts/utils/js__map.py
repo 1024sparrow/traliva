@@ -65,7 +65,7 @@ def _get_text_as_array(p_text, pp_comment, pp_newlines):
         if not use_strict_used:
             if stripline.startswith("'use strict'") or stripline.startswith('"use strict"'):
                 #print("'use strict';")
-                _accumulate_array_by_symbols(1, "'use strict';", retval)
+                _accumulate_array_by_symbols(1, "'use strict';\n", retval)
                 use_strict_used = True
                 continue
         if pp_comment:

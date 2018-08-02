@@ -41,6 +41,6 @@ js_css = []
 js__map.get_map(js_paths, css_paths, js, css, js_css)
 #map_test.process(js, css, js_css)
 usage.process(js, css, js_css)
-names.process()
-enums.process()
+names.process(js, css, js_css)
+enums.process(js, css, js_css)
 js__map.apply_map(js, css, js_css)
