@@ -17,7 +17,15 @@ def get_map(pin_js_paths, pin_css_paths, pout_js, pout_css, pout_js_css):
 
 def apply_map(p_js, p_css, p_js_css):
     print('apply_map()')
-    #for i in p_js_css:
+    for i in p_js_css:
+        #print('#%s:' %  i['filepath'])
+        cand = ''
+        for i_text in i['text']:
+            cand += i_text['text']
+        #print(cand)
+        f = open(i['filepath'], 'w')
+        f.write(cand)
+        f.close()
 
 #def process_code_fragment(p_code):
 #    retval = '>>>>' + p_code + '<<<<'
