@@ -93,4 +93,4 @@ def process(p_js, p_css, p_js_css):
                         })
             fragment_counter += 1
         print('m:', m)
-        print('sorted m:', m.sort(key=lambda p: float('%s.%s' %(p['fragment_index'], p['char_index']))))
+        print('sorted m:', sorted(m, key=lambda p: float('%s.%s' %(p['fragment_index'], p['char_index']))))
