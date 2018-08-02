@@ -3,9 +3,12 @@
 # 1.) Обходим все файлы и сохраняем id всех активированных, убираем сами активации (#u#...##);
 # 2.) Обходим все файлы, удаляем разметку #USAGE_BEGIN#...## и #USAGE_END#...##, оставляем или удаляем код, заключённый в разметку.
 
+def char_valid_for_id(p):
+    return p.isalpha() or p.isdigit() or p == '_'
+
 def process(p_js, p_css, p_js_css):
     print('usage: process()')
-    activated_ids = []
+    activated_ids = set()
     # состояние обозначаем локальной переменной s (от state)
     # обходим каждый блок текста типа 1 (программный код) посимвольно. Для каждого символа определяется значение состояния.
     # ... #u#идентификатор## ...
@@ -14,6 +17,30 @@ def process(p_js, p_css, p_js_css):
         s = 0
         print('##')
         for fragment in fil['text']:
-            if not fragment['type'] == 1:
+            if fragment['type'] != 1:
                 continue
             print(fragment['text'])
+            a = '' # изменённый текст на замещение старого
+            id_cand = ''
+            t = '' # текущий фрагмент #u#...##
+            detected = False
+            for i in fragment['text']:
+                if s == 0 and i == '#':
+                    s = 1
+                elif s == 1 and i == 'u':
+                    s = 2
+                elif s == 2 and i == '#':
+                    s = 3
+                elif s == 3 and char_valid_for_id(i):
+                    s = 4
+                    id_cand = i
+                elif s == 4 and char_valid_for_id(i):
+                    id_cand += i
+                elif s == 4 and i == '#':
+                    s = 5
+                elif s == 5 and i == '#':
+                    s = 6 # <---------
+                    activated_ids.add(id_cand)
+                    id_cand = ''
+                else:
+                    s = 0
