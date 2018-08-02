@@ -12,10 +12,8 @@ def get_map(pin_js_paths, pin_css_paths, pout_js, pout_css, pout_js_css):
                 }
                 i_src[1].append(cand)
                 pout_js_css.append(cand)
-    print('pout_js: ', pout_js)
-    print('pout_css: ', pout_css)
-    print('pout_js_css: ', pout_js_css)
     print('get_map()')
+    print('pout_js_css: ', pout_js_css)
 
 def apply_map(p_js, p_css, p_js_css):
     print('apply_map()')
@@ -58,7 +56,8 @@ def _get_text_as_array(p_text, pp_comment, pp_newlines):
         stripline = line.strip()
         if not use_strict_used:
             if stripline.startswith("'use strict'") or stripline.startswith('"use strict"'):
-                print("'use strict';")
+                #print("'use strict';")
+                _accumulate_array_by_symbols(1, "'use strict';", retval)
                 use_strict_used = True
                 continue
         if pp_comment:
