@@ -12,8 +12,8 @@ def process(p_js, p_css, p_js_css):
     # 0   1234            560
     for fil in p_js_css:
         s = 0
-        #print('##')
+        print('##')
         for fragment in fil['text']:
             if not fragment['type'] == 1:
                 continue
-            #print
+            print(fragment['text'])

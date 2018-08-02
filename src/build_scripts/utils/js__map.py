@@ -132,8 +132,8 @@ def _get_text_as_array(p_text, pp_comment, pp_newlines):
                     in_string = False
                 else:
                     #b += process_code_fragment(code_cand + '"')
-                    _accumulate_array_by_symbols(1, code_cand, retval)
-                    _accumulate_array_by_symbols(2, '"', retval)
+                    skip_current = True
+                    _accumulate_array_by_symbols(1, code_cand + '"', retval)
                     skip_current = True
                     code_cand = ''
                     in_string_2 = True
@@ -148,8 +148,8 @@ def _get_text_as_array(p_text, pp_comment, pp_newlines):
                     in_string = False
                 else:
                     #b += process_code_fragment(code_cand + "'")
-                    _accumulate_array_by_symbols(1, code_cand, retval)
-                    _accumulate_array_by_symbols(2, "'", retval)
+                    skip_current = True
+                    _accumulate_array_by_symbols(1, code_cand + "'", retval)
                     skip_current = True
                     code_cand = ''
                     in_string_1 = True
