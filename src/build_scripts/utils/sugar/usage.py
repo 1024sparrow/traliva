@@ -65,6 +65,7 @@ def process(p_js, p_css, p_js_css):
                             t = ''
                     #print('%s - %s' % (s, i))
                 print('#### RESULT:\n', a)
+                fragment['text'] = a
     print('detected activated: ', activated_ids)
 
     id_current = None
@@ -92,5 +93,28 @@ def process(p_js, p_css, p_js_css):
                             'type': patt[0]
                         })
             fragment_counter += 1
-        print('m:', m)
-        print('sorted m:', sorted(m, key=lambda p: float('%s.%s' %(p['fragment_index'], p['char_index']))))
+        #print('m:', m)
+        #print('sorted m:', sorted(m, key=lambda p: float('%s.%s' %(p['fragment_index'], p['char_index']))))
+        # файл уже отсортирован
+        while m:
+            # ищем пару откр-закр с одним id, так чтобы они шли один за другим сразу.
+            counter = 0
+            prev = None
+            found = None
+            for i in m:
+                if counter:
+                    if prev['id'] == i['id']:
+                        _process(prev, i, fil['text'])
+                        found = counter
+                        break
+                counter += 1
+                prev = i
+            if counter:
+                # должны удалить из m элементы с индексами counter - 1 и counter
+                m = m[:counter - 1] + m[counter + 1:]
+            else:
+                print('Некорректная разметка #USAGE...#..##: у вас либо какой-то блок не закрывается, либо блоки перекрываются (что недопустимо).')
+                exit(1)
+
+def _process(p1, p2, p3):
+    print('_process', p1, p2, p3)
