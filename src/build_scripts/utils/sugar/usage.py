@@ -126,14 +126,13 @@ def _process(p1, p2, p3, p4):
     # удаляем из текста начало блока и, если надо, весь текст внутри блока
     if id in p4:
         p3[p1['fragment_index']]['text'] = p3[p1['fragment_index']]['text'][:start_char_index] + p3[p1['fragment_index']]['text'][start_char_endindex:]
+        p3[p2['fragment_index']]['text'] = p3[p2['fragment_index']]['text'][:end_char_index] + p3[p2['fragment_index']]['text'][end_char_endindex:]
     else:
         if p1['fragment_index'] == p2['fragment_index']:
             p3[p1['fragment_index']]['text'] = p3[p1['fragment_index']]['text'][:start_char_index] + p3[p2['fragment_index']]['text'][end_char_endindex:]
         else:
             p3[p1['fragment_index']]['text'] = p3[p1['fragment_index']]['text'][:start_char_index]
-
-    #удаляем из текста конец блока
-    p3[p2['fragment_index']]['text'] = p3[p2['fragment_index']]['text'][:end_char_index] + p3[p2['fragment_index']]['text'][end_char_endindex:]
+            p3[p2['fragment_index']]['text'] = p3[p2['fragment_index']]['text'][end_char_endindex:]
 
     # удаляем, если надо, содержимое всех блоков, которые оказались между теми двумя блоками
     if not id in p4:
