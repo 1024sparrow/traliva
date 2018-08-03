@@ -20,7 +20,7 @@ def process(p_js, p_css, p_js_css):
         #    continue#
         for fragment in fil['text']:
             if fragment['type'] == 1:
-                print('#### INIT:\n', fragment['text'])
+                #print('#### INIT:\n', fragment['text'])
                 s = 0
                 a = '' # изменённый текст на замещение старого
                 id_cand = ''
@@ -64,9 +64,9 @@ def process(p_js, p_css, p_js_css):
                                 a += t
                             t = ''
                     #print('%s - %s' % (s, i))
-                print('#### RESULT:\n', a)
+                #print('#### RESULT:\n', a)
                 fragment['text'] = a
-    print('detected activated: ', activated_ids)
+    #print('detected activated: ', activated_ids)
 
     id_current = None
     activated_ids__0 = ['#USAGE_DEGIN#%s##' % i for i in activated_ids]
