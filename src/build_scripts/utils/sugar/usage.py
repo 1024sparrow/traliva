@@ -104,7 +104,7 @@ def process(p_js, p_css, p_js_css):
             for i in m:
                 if counter:
                     if prev['id'] == i['id']:
-                        _process(prev, i, fil['text'])
+                        _process(prev, i, fil['text'], activated_ids)
                         found = counter
                         break
                 counter += 1
@@ -116,5 +116,26 @@ def process(p_js, p_css, p_js_css):
                 print('Некорректная разметка #USAGE...#..##: у вас либо какой-то блок не закрывается, либо блоки перекрываются (что недопустимо).')
                 exit(1)
 
-def _process(p1, p2, p3):
-    print('_process', p1, p2, p3)
+def _process(p1, p2, p3, p4):
+    id = p1['id']
+    start_char_index = p1['char_index']
+    start_char_endindex = start_char_index + len(p1['string'])
+    end_char_index = p2['char_index']
+    end_char_endindex = end_char_index + len(p2['string'])
+
+    # удаляем из текста начало блока и, если надо, весь текст внутри блока
+    if id in p4:
+        p3[p1['fragment_index']]['text'] = p3[p1['fragment_index']]['text'][:start_char_index] + p3[p1['fragment_index']]['text'][start_char_endindex:]
+    else:
+        if p1['fragment_index'] == p2['fragment_index']:
+            p3[p1['fragment_index']]['text'] = p3[p1['fragment_index']]['text'][:start_char_index] + p3[p2['fragment_index']]['text'][end_char_endindex:]
+        else:
+            p3[p1['fragment_index']]['text'] = p3[p1['fragment_index']]['text'][:start_char_index]
+
+    #удаляем из текста конец блока
+    p3[p2['fragment_index']]['text'] = p3[p2['fragment_index']]['text'][:end_char_index] + p3[p2['fragment_index']]['text'][end_char_endindex:]
+
+    # удаляем, если надо, содержимое всех блоков, которые оказались между теми двумя блоками
+    if not id in p4:
+        for i in range(p1['fragment_index'] + 1, p2['fragment_index']):
+            p3[i]['text'] = ''
