@@ -103,7 +103,7 @@ def process(p_js, p_css, p_js_css):
             found = None
             for i in m:
                 if counter:
-                    if prev['id'] == i['id']:
+                    if prev['id'] == i['id'] and prev['type'] == 0 and i['type'] == 1:
                         _process(prev, i, fil['text'], activated_ids)
                         found = counter
                         break
