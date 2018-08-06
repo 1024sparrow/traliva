@@ -21,6 +21,8 @@
 #b - 11
 #c - 12
 
+from . import js_specwords
+
 def process(p_js, p_css, p_js_css):
     print('names: process()')
 
@@ -62,8 +64,11 @@ def process(p_js, p_css, p_js_css):
                         s = 0
     for i in vars_as_map:
         vars.append((vars_as_map[i], i))
-    print('detected words: ', words)
+    vars = sorted(vars, key=lambda p: -p[0])
+    words |= js_specwords.specwords
+
     print('detected vars: ', vars)
+    print('detected words (+): ', words)
 
 ## True, если указанный символ - пробельный символ или спецсимвол(';', '.', ')' и т.д.)
 def is_spacespec(p_char):
