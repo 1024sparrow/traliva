@@ -60,8 +60,10 @@ def process(p_js, p_css, p_js_css):
                                 vars_as_map[var_cand] = 1
                             var_cand = ''
                         s = 0
+    for i in vars_as_map:
+        vars.append((vars_as_map[i], i))
     print('detected words: ', words)
-    print('detected vars: ', vars_as_map)
+    print('detected vars: ', vars)
 
 ## True, если указанный символ - пробельный символ или спецсимвол(';', '.', ')' и т.д.)
 def is_spacespec(p_char):
