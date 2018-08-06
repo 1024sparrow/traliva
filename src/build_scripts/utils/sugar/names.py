@@ -29,6 +29,7 @@ def process(p_js, p_css, p_js_css):
     vars_as_map = {}
     vars = []
     words = set()
+    var_names_map = {} # переменная -> её новое имя
 
     save_word = None
     save_var = None
@@ -70,6 +71,17 @@ def process(p_js, p_css, p_js_css):
     print('detected vars: ', vars)
     print('detected words (+): ', words)
 
+    counter = 0
+    for i in vars:
+        print('--', i[1])
+        cand = generate_name(counter)
+        while cand in words:
+            cand = generate_name(counter)
+            counter += 1
+        var_names_map[i] = cand
+        counter += 1
+    print('var_names_map: ', var_names_map)
+
 ## True, если указанный символ - пробельный символ или спецсимвол(';', '.', ')' и т.д.)
 def is_spacespec(p_char):
     if p_char.isspace():
@@ -99,3 +111,6 @@ def is_letterdigit(p_char):
     if p_char == '_':
         return True
     return False
+
+def generate_name(p_n):
+    df
