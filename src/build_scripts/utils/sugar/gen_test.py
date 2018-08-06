@@ -2,17 +2,17 @@
 
 #from . import generate_varname
 
-ar1 = 'qwertyuiopasdfghjklzxcvbnm'
-ar2 = 'qwertyuiopasdfghjklzxcvbnm1234567890'
-n1 = len(ar1)
-n2 = len(ar2)
+generate_varname__ar1 = 'qwertyuiopasdfghjklzxcvbnm'
+generate_varname__ar2 = 'qwertyuiopasdfghjklzxcvbnm1234567890'
+generate_varname__n1 = len(generate_varname__ar1)
+generate_varname__n2 = len(generate_varname__ar2)
 def generate_varname(p_n):
     retval = ''
     n = p_n
-    while n >= n1:
-        retval = ar2[n % n2] + retval
-        n = n // n2
-    retval = ar1[n] + retval
+    while n >= generate_varname__n1:
+        retval = generate_varname__ar2[n % generate_varname__n2] + retval
+        n = n // generate_varname__n2
+    retval = generate_varname__ar1[n] + retval
     return retval
 
 for i in range(15000):

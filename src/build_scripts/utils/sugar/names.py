@@ -74,9 +74,9 @@ def process(p_js, p_css, p_js_css):
     counter = 0
     for i in vars:
         print('--', i[1])
-        cand = generate_name(counter)
+        cand = generate_varname(counter)
         while cand in words:
-            cand = generate_name(counter)
+            cand = generate_varname(counter)
             counter += 1
         var_names_map[i] = cand
         counter += 1
@@ -112,16 +112,15 @@ def is_letterdigit(p_char):
         return True
     return False
 
-generate_name__ar0 = 'qwertyuiopasdfghjklzxcvbnm'
-generate_name__ar1 = '1234567890qwertyuiopasdfghjklzxcvbnm'
-def generate_name(p_n):
-    n = p_n / len(generate_name__ar0)
-    retval = generate_name__ar0
-    while 
-    counter = 0
-    if (p_n < len(generate_name__ar0)):
-        return generate_name__ar0[p_n]
-    else:
-        n = p_n / len()
-    while True:
-        if p_n < len
+generate_varname__ar1 = 'qwertyuiopasdfghjklzxcvbnm'
+generate_varname__ar2 = 'qwertyuiopasdfghjklzxcvbnm1234567890'
+generate_varname__n1 = len(generate_varname__ar1)
+generate_varname__n2 = len(generate_varname__ar2)
+def generate_varname(p_n):
+    retval = ''
+    n = p_n
+    while n >= generate_varname__n1:
+        retval = generate_varname__ar2[n % generate_varname__n2] + retval
+        n = n // generate_varname__n2
+    retval = generate_varname__ar1[n] + retval
+    return retval
