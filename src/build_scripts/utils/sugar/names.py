@@ -112,5 +112,16 @@ def is_letterdigit(p_char):
         return True
     return False
 
+generate_name__ar0 = 'qwertyuiopasdfghjklzxcvbnm'
+generate_name__ar1 = '1234567890qwertyuiopasdfghjklzxcvbnm'
 def generate_name(p_n):
-    df
+    n = p_n / len(generate_name__ar0)
+    retval = generate_name__ar0
+    while 
+    counter = 0
+    if (p_n < len(generate_name__ar0)):
+        return generate_name__ar0[p_n]
+    else:
+        n = p_n / len()
+    while True:
+        if p_n < len

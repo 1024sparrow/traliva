@@ -8,5 +8,5 @@ for (var $0 = 0 ; $0 < 5 ; $0++){
     //ee
     console.log('hello!');
 }
-var $1, $hello;
+var $1, $клюква, $hello;
 #USAGE_END#loop##
