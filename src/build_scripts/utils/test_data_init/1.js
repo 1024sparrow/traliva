@@ -3,7 +3,7 @@
 
 #u#loop##
 #USAGE_BEGIN#loop##
-for (var i = 0 ; i < 5 ; i++){
+for (var $0 = 0 ; $0 < 5 ; $0++){
     //ee
     console.log('hello!');
 }
