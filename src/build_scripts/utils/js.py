@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import sys
 import js__map
-from sugar import usage, names, enums
+from sugar import usage, names, enums, min
 #import map_test
 
 ar = sys.argv
@@ -43,4 +43,5 @@ js__map.get_map(js_paths, css_paths, js, css, js_css)
 usage.process(js, css, js_css)
 names.process(js, css, js_css)
 enums.process(js, css, js_css)
+min.process(js, css, js_css)
 js__map.apply_map(js, css, js_css)
