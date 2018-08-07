@@ -68,19 +68,42 @@ def process(p_js, p_css, p_js_css):
     vars = sorted(vars, key=lambda p: -p[0])
     words |= js_specwords.specwords
 
-    print('detected vars: ', vars)
-    print('detected words (+): ', words)
+    #print('detected vars: ', vars)
+    #print('detected words (+): ', words)
 
     counter = 0
     for i in vars:
-        print('--', i[1])
+        #print('--', i[1])
         cand = generate_varname(counter)
         while cand in words:
             cand = generate_varname(counter)
             counter += 1
-        var_names_map[i] = cand
+        var_names_map[i[1]] = cand
         counter += 1
-    print('var_names_map: ', var_names_map)
+    #print('var_names_map: ', var_names_map)
+
+    # Подставляем полученные значения
+    for fil in p_js_css:
+        for fragment in fil['text']:
+            s = 0
+            var_cand = ''
+            a = ''
+            for i in fragment['text']:
+                if s == 0 and i == '$':
+                    s = 12
+                elif s in [12, 13] and is_letterdigit(i):
+                    var_cand += i
+                    s = 13
+                else:
+                    if var_cand:
+                        if var_cand in var_names_map:
+                            a += var_names_map[var_cand]
+                        else:
+                            a += var_cand
+                        var_cand = ''
+                    s = 0
+                    a += i
+            fragment['text'] = a
 
 ## True, если указанный символ - пробельный символ или спецсимвол(';', '.', ')' и т.д.)
 def is_spacespec(p_char):

@@ -6,7 +6,8 @@ var $ee, $234;
 #USAGE_BEGIN#loop##
 for (var $0 = 0 ; $0 < 5 ; $0++){
     //ee
-    console.log('hello!');
+    console.log('hello $клюква!');
 }
 var $1, $клюква, $hello;
+;$клюква=4;
 #USAGE_END#loop##
