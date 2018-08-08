@@ -22,6 +22,7 @@
 #c - 12
 
 from . import js_specwords
+from .char_check_func import is_spacespec, is_letter, is_letterdigit
 
 def process(p_js, p_css, p_js_css):
     print('names: process()')
@@ -104,36 +105,6 @@ def process(p_js, p_css, p_js_css):
                     s = 0
                     a += i
             fragment['text'] = a
-
-## True, если указанный символ - пробельный символ или спецсимвол(';', '.', ')' и т.д.)
-def is_spacespec(p_char):
-    if p_char.isspace():
-        return True
-    if p_char.isalpha():
-        return False
-    if p_char == '_':
-        return False
-    if p_char == '$':
-        return False
-    if p_char.isdigit():
-        return False
-    return True # спецсимвол
-
-def is_letter(p_char):
-    if p_char.isalpha():
-        return True
-    if p_char == '_':
-        return True
-    return False
-
-def is_letterdigit(p_char):
-    if p_char.isalpha():
-        return True
-    if p_char.isdigit():
-        return True
-    if p_char == '_':
-        return True
-    return False
 
 generate_varname__ar1 = 'qwertyuiopasdfghjklzxcvbnm'
 generate_varname__ar2 = 'qwertyuiopasdfghjklzxcvbnm1234567890'
