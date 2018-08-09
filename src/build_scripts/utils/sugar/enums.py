@@ -12,11 +12,18 @@ def process(p_js, p_css, p_js_css):
 
 
 def _prohod(p_js, p_is_second, p_registered):
+    global_counter = 1 # нулевое значение id зарезервировано для Атомов
+    atom_counter = 0
     for fil in p_js:
         for fragment in fil['text']:
             if fragment['type'] == 1:
                 s = 0
                 a = ''
+                cand = '' # #abc#def,rty##
+                enum_name = ''
+                cand_strict = '' # abc
+                fields = []
+                field_counter = 1 # 0 - это идентификатор самого типа перечисления
                 for i in fragment['text']:
                     ordinary = False
                     if s == 0 and i == '#':
@@ -58,10 +65,13 @@ def _prohod(p_js, p_is_second, p_registered):
                     ##
                     elif s == 6 and is_letter(i):
                         s = 7
+                        enum_name = i
                     elif s == 106 and is_letter(i):
                         s = 107
+                        enum_name = i
                     elif s == 203 and is_letter(i):
                         s = 204
+                        cnad_strict = i
                     elif s == 303 and is_letter(i):
                         s = 304
                     elif s == 403 and is_letter(i):
@@ -69,10 +79,13 @@ def _prohod(p_js, p_is_second, p_registered):
                     ##
                     elif s == 7 and is_letterdigit(i):
                         s = 7
+                        enum_name += i
                     elif s == 107 and is_letterdigit(i):
                         s = 107
+                        enum_name += i
                     elif s == 204 and is_letterdigit(i):
                         s = 204
+                        enum_name += i
                     elif s == 304 and is_letterdigit(i):
                         s = 304
                     elif s == 404 and is_letterdigit(i):
@@ -80,9 +93,33 @@ def _prohod(p_js, p_is_second, p_registered):
                     ##
                     elif s == 7 and i == ':':
                         # имеем имя определённой переменной перечисления
+                        if enum_name in p_registered:
+                            print('Перечисление \'%s\' уже используется...' % enum_name)
+                        else:
+                            p_registered[enum_name] = {
+                                'type': 'e',
+                                'fields': [],
+                                'id': global_counter
+                            }
+                            if global_counter > 255:
+                                print('Превышен лимит количества используемых перечислений')
+                                exit(1)
+                            global_counter += 1
                         s = 8
                     elif s == 107 and i == ':':
                         # имеем имя определённой переменной маски
+                        if enum_name in p_registered:
+                            print('Перечисление \'%s\' уже используется...' % enum_name)
+                        else:
+                            p_registered[enum_name] = {
+                                'type': 'm',
+                                'fields': [],
+                                'id': global_counter
+                            }
+                            if global_counter > 255:
+                                print('Превышен лимит количества используемых перечислений')
+                                exit(1)
+                            global_counter += 1
                         s = 108
                     elif s == 304 and i == ':':
                         # имеем имя использумого перечисления
@@ -93,8 +130,10 @@ def _prohod(p_js, p_is_second, p_registered):
                     ##
                     elif s == 8 and is_letter(i):
                         s = 9
+                        cand_strict = i
                     elif s == 108 and is_letter(i):
                         s = 109
+                        cand_strict = i
                     elif s == 307 and is_letter(i):
                         s = 308
                     elif s == 407 and is_letter(i):
@@ -102,8 +141,10 @@ def _prohod(p_js, p_is_second, p_registered):
                     ##
                     elif s == 9 and is_letterdigit(i):
                         s = 9
+                        cand_strict += i
                     elif s == 109 and is_letterdigit(i):
                         s = 109
+                        cand_strict += i
                     elif s == 308 and is_letterdigit(i):
                         s = 308
                     elif s == 408 and is_letterdigit(i):
@@ -112,9 +153,21 @@ def _prohod(p_js, p_is_second, p_registered):
                     elif s == 9 and i == ',':
                         # имеем имя поля перечисления (определение)
                         s = 10
+                        fields.append(cand_strict)
+                        #if cand_strict in p_registered[enum_name]['fields']:
+                        #    print('поле \'%s\' в перечислении \'%s\' используется дважды' % (cand_strict, enum_name))
+                        #    exit(1)
+                        #else:
+                        #    p_registered[enum_name]['fields'].append(cand_strict)
                     elif s == 109 and i == ',':
                         # имеем имя поля маски (определение)
                         s = 110
+                        fields.append(cand_strict)
+                        #if cand_strict in p_registered[enum_name]['fields']:
+                        #    print('поле \'%s\' в перечислении \'%s\' используется дважды' % (cand_strict, enum_name))
+                        #    exit(1)
+                        #else:
+                        #    p_registered[enum_name]['fields'].append(cand_strict)
                     elif s == 308 and i == ',':
                         # имеем имя поля перечисления (использование)
                         s = 309
@@ -122,10 +175,34 @@ def _prohod(p_js, p_is_second, p_registered):
                         # имеем имя поля маски (использование)
                         s = 409
                     ##
+                    elif s == 10 and is_letter(i):
+                        s = 9
+                        cand_strict = i
+                    elif s == 110 and is_letter(i):
+                        s = 109
+                        cand_strict = i
+                    ##
                     elif s == 9 and i == '#':
                         s = 11
+                        print('ENUM FINISHED')
+                        fields.append(cand_strict)
+                        for ii in fields: 
+                            print('-- %s', ii)
+                            if ii in p_registered[enum_name]['fields']:
+                                print('поле \'%s\' в перечислении \'%s\' используется дважды' % (cand_strict, enum_name))
+                                exit(1)
+                            else:
+                                p_registered[enum_name]['fields'].append(ii)
                     elif s == 109 and i == '#':
                         s = 111
+                        print('MASK FINISHED')
+                        fields.append(cand_strict)
+                        for ii in fields: 
+                            if ii in p_registered[enum_name]['fields']:
+                                print('поле \'%s\' в перечислении \'%s\' используется дважды' % (cand_strict, enum_name))
+                                exit(1)
+                            else:
+                                p_registered[enum_name]['fields'].append(ii)
                     elif s == 204 and i == '#':
                         s = 205
                     elif s == 304 and i == '#':
@@ -146,6 +223,12 @@ def _prohod(p_js, p_is_second, p_registered):
                     elif s == 205 and i == '#':
                         # осуществляем замену объявления&использования атома
                         s = 0
+                        if not enum_name in p_registered:
+                            p_registered[enum_name] = {
+                                'type': 'a',
+                                'id': atom_counter
+                            }
+                            atom_counter += 1
                     elif s == 305 and i == '#':
                         # осуществляем замену использования типа перечисления
                         s = 0
@@ -160,6 +243,16 @@ def _prohod(p_js, p_is_second, p_registered):
                         s = 0
                     else:
                         s = 0
+                        if cand:
+                            a += cand
+                            cand = ''
+                        cand_strict = ''
+                        enum_name = ''
+                        fields = []
+                        a += i
+                    if s:
+                        cand += i
+                    print(i, ' STATE: ', s)
 
 
 #def dd

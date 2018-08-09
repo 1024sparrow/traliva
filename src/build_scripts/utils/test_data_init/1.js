@@ -12,8 +12,8 @@ var $1, $клюква, $hello;
 ;$клюква=4;
 #USAGE_END#loop##
 
-#ENUM#My_enum#q,w,ee##
+#ENUM#My_enum:q,w,ee##
 
-var $клюква = #ENUM#My_enum#ee##
-if ($клюква & #ENUM#My_enum##)
+var $клюква = #e#My_enum:ee##
+if ($клюква & #e#My_enum##)
     console.log('Клюква!');
