@@ -6,10 +6,17 @@ from .char_check_func import is_spacespec, is_letter, is_letterdigit
 
 def process(p_js, p_css, p_js_css):
     print('enums: process()')
+    registered = {}
+    _prohod(p_js, False, registered)
+    print('registered: ', registered)
+
+
+def _prohod(p_js, p_is_second, p_registered):
     for fil in p_js:
         for fragment in fil['text']:
             if fragment['type'] == 1:
                 s = 0
+                a = ''
                 for i in fragment['text']:
                     ordinary = False
                     if s == 0 and i == '#':
@@ -150,6 +157,8 @@ def process(p_js, p_css, p_js_css):
                         s = 0
                     elif s == 410 and i == '#':
                         # осуществляем замену использования битовой комбинации маски
+                        s = 0
+                    else:
                         s = 0
 
 
