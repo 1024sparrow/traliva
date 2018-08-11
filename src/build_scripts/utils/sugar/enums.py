@@ -71,7 +71,7 @@ def _prohod(p_js, p_is_second, p_registered):
                         enum_name = i
                     elif s == 203 and is_letter(i):
                         s = 204
-                        cnad_strict = i
+                        enum_name = i
                     elif s == 303 and is_letter(i):
                         s = 304
                     elif s == 403 and is_letter(i):
@@ -110,6 +110,7 @@ def _prohod(p_js, p_is_second, p_registered):
                         # имеем имя определённой переменной маски
                         if enum_name in p_registered:
                             print('Перечисление \'%s\' уже используется...' % enum_name)
+                            exit(1)
                         else:
                             p_registered[enum_name] = {
                                 'type': 'm',
@@ -217,18 +218,24 @@ def _prohod(p_js, p_is_second, p_registered):
                     elif s == 11 and i == '#':
                         # осуществляем замену объявления перечисления (на пустое место)
                         s = 0
+                        cand = ''
                     elif s == 111 and i == '#':
                         # осуществляем замену объявления маски (на пустое место)
                         s = 0
+                        cand = ''
                     elif s == 205 and i == '#':
                         # осуществляем замену объявления&использования атома
                         s = 0
-                        if not enum_name in p_registered:
-                            p_registered[enum_name] = {
+                        prefix = '__ATOM_'
+                        if not (prefix + enum_name) in p_registered:
+                            p_registered[prefix + enum_name] = {
                                 'type': 'a',
                                 'id': atom_counter
                             }
                             atom_counter += 1
+                        cand = ''
+                        a += str(p_registered[prefix + enum_name]['id']*256)
+                        #a += str(atom_counter*256)
                     elif s == 305 and i == '#':
                         # осуществляем замену использования типа перечисления
                         s = 0
@@ -253,6 +260,8 @@ def _prohod(p_js, p_is_second, p_registered):
                     if s:
                         cand += i
                     print(i, ' STATE: ', s)
+                print('RESULT: ', a)
+                fragment['text'] = a
 
 
 #def dd
