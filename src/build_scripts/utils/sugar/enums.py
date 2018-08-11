@@ -9,6 +9,8 @@ def process(p_js, p_css, p_js_css):
     registered = {}
     _prohod(p_js, False, registered)
     print('registered: ', registered)
+    print('~~~~~~~~~~~~~~~~~`')
+    _prohod(p_js, True, registered)
 
 
 def _prohod(p_js, p_is_second, p_registered):
@@ -74,6 +76,9 @@ def _prohod(p_js, p_is_second, p_registered):
                         enum_name = i
                     elif s == 303 and is_letter(i):
                         s = 304
+                        if p_is_second:
+                            print('$$$$$$$$$',i)
+                            enum_name = i
                     elif s == 403 and is_letter(i):
                         s = 404
                     ##
@@ -88,6 +93,8 @@ def _prohod(p_js, p_is_second, p_registered):
                         enum_name += i
                     elif s == 304 and is_letterdigit(i):
                         s = 304
+                        if p_is_second:
+                            enum_name += i
                     elif s == 404 and is_letterdigit(i):
                         s = 404
                     ##
@@ -237,6 +244,9 @@ def _prohod(p_js, p_is_second, p_registered):
                         a += str(p_registered[prefix + enum_name]['id']*256)
                         #a += str(atom_counter*256)
                     elif s == 305 and i == '#':
+                        print('#########('+enum_name+')#')
+                        if p_is_second:
+                            enum_name += cand_strict
                         # осуществляем замену использования типа перечисления
                         s = 0
                     elif s == 405 and i == '#':
@@ -264,4 +274,3 @@ def _prohod(p_js, p_is_second, p_registered):
                 fragment['text'] = a
 
 
-#def dd
