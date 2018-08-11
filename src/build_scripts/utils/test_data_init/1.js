@@ -30,7 +30,7 @@ if ($клюква & #e#My_enum##)
 #e#My_enum:w,ee##
 #e#My_enum:w##
 #e#My_enum2:a##
-#e#My_enum:a##
+//#e#My_enum:a##
 
 var $клюква = #e#My_mask:ee##
 if ($клюква & #e#My_mask##)
@@ -39,5 +39,5 @@ if ($клюква & #e#My_mask##)
 #e#My_mask:w,ee##
 #e#My_mask:w##
 #e#My_mask2:a##
-#e#My_mask:a##
+//#e#My_mask:a##
 

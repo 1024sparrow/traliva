@@ -10,7 +10,7 @@ def process(p_js, p_css, p_js_css):
     _prohod(p_js, False, registered)
     print('registered: ', registered)
     print('~~~~~~~~~~~~~~~~~`')
-    #_prohod(p_js, True, registered)
+    _prohod(p_js, True, registered)
 
 
 def _prohod(p_js, p_is_second, p_registered):
@@ -23,6 +23,7 @@ def _prohod(p_js, p_is_second, p_registered):
                 a = ''
                 cand = '' # #abc#def,rty##
                 enum_name = ''
+                fields = []
                 cand_strict = '' # abc
                 fields = []
                 field_counter = 1 # 0 - это идентификатор самого типа перечисления
@@ -77,7 +78,6 @@ def _prohod(p_js, p_is_second, p_registered):
                     elif s == 303 and is_letter(i):
                         s = 304
                         if p_is_second:
-                            print('$$$$$$$$$',i)
                             enum_name = i
                     elif s == 403 and is_letter(i):
                         s = 404
@@ -143,8 +143,10 @@ def _prohod(p_js, p_is_second, p_registered):
                         s = 109
                         cand_strict = i
                     elif s == 307 and is_letter(i):
+                        cand_strict = i
                         s = 308
                     elif s == 407 and is_letter(i):
+                        cand_strict = i
                         s = 408
                     ##
                     elif s == 9 and is_letterdigit(i):
@@ -155,8 +157,10 @@ def _prohod(p_js, p_is_second, p_registered):
                         cand_strict += i
                     elif s == 308 and is_letterdigit(i):
                         s = 308
+                        cand_strict += i
                     elif s == 408 and is_letterdigit(i):
                         s = 408
+                        cand_strict += i
                     ##
                     elif s == 9 and i == ',':
                         # имеем имя поля перечисления (определение)
@@ -179,9 +183,11 @@ def _prohod(p_js, p_is_second, p_registered):
                     elif s == 308 and i == ',':
                         # имеем имя поля перечисления (использование)
                         s = 309
+                        fields.append(cand_strict)
                     elif s == 408 and i == ',':
                         # имеем имя поля маски (использование)
                         s = 409
+                        fields.append(cand_strict)
                     ##
                     elif s == 10 and is_letter(i):
                         s = 9
@@ -218,8 +224,10 @@ def _prohod(p_js, p_is_second, p_registered):
                     elif s == 404 and i == '#':
                         s = 405
                     elif s == 308 and i == '#':
+                        fields.append(cand_strict)
                         s = 310
                     elif s == 408 and i == '#':
+                        fields.append(cand_strict)
                         s = 410
                     ##
                     elif s == 11 and i == '#':
@@ -245,10 +253,11 @@ def _prohod(p_js, p_is_second, p_registered):
                         #a += str(atom_counter*256)
                     elif s == 305 and i == '#':
                         print('#########('+enum_name+')#')
-                        #if p_is_second:
-                        #    enum_name += cand_strict
                         if p_is_second:
-                            pass
+                            #print('@@@@@@@:',enum_name)
+                            #print(p_registered[enum_name])
+                            t = p_registered[enum_name]
+                            a += str(t['id'])
                         else:
                             a += cand + i
                         cand = ''
@@ -258,7 +267,8 @@ def _prohod(p_js, p_is_second, p_registered):
                         # осуществляем замену использования типа маски
                         s = 0
                         if p_is_second:
-                            pass
+                            t = p_registered[enum_name]
+                            a += str(t['id'])
                         else:
                             a += cand + i
                         cand = ''
@@ -266,7 +276,19 @@ def _prohod(p_js, p_is_second, p_registered):
                         # осуществляем замену использования битовой комбинации перечисления (!!!!!!)
                         s = 0
                         if p_is_second:
-                            pass
+                            #print('@@@@@@@:',enum_name)
+                            #print('fields: ', fields)
+                            t = p_registered[enum_name]
+                            t_n = t['id']
+                            for ii in fields:
+                                if ii in t['fields']:
+                                    t_i = t['fields'].index(ii)
+                                    t_n |= t_i
+                                else:
+                                    print('Перечисление %s не имеет поле %s' % (enum_name, ii))
+                                    #a += 'Перечисление %s не имеет поле %s' % (enum_name, ii)
+                                    exit(1)
+                            a += str(t_n)
                         else:
                             a += cand + i
                         cand = ''
