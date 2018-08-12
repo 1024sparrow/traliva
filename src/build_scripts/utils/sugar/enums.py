@@ -256,8 +256,13 @@ def _prohod(p_js, p_is_second, p_registered):
                         if p_is_second:
                             #print('@@@@@@@:',enum_name)
                             #print(p_registered[enum_name])
-                            t = p_registered[enum_name]
-                            a += hex(t['id'])
+                            if enum_name in p_registered:
+                                t = p_registered[enum_name]
+                                a += hex(t['id'])
+                            else:
+                                print('перечисление с именем "%s" не зарегистрировано' % enum_name)
+                                a += 'перечисление с именем "%s" не зарегистрировано' % enum_name
+                                #exit(1)
                         else:
                             a += cand + i
                         cand = ''
@@ -267,8 +272,13 @@ def _prohod(p_js, p_is_second, p_registered):
                         # осуществляем замену использования типа маски
                         s = 0
                         if p_is_second:
-                            t = p_registered[enum_name]
-                            a += hex(t['id'])
+                            if enum_name in p_registered:
+                                t = p_registered[enum_name]
+                                a += hex(t['id'])
+                            else:
+                                print('перечисление с именем "%s" не зарегистрировано' % enum_name)
+                                a += 'перечисление с именем "%s" не зарегистрировано' % enum_name
+                                #exit(1)
                         else:
                             a += cand + i
                         cand = ''
@@ -278,21 +288,27 @@ def _prohod(p_js, p_is_second, p_registered):
                         if p_is_second:
                             #print('@@@@@@@:',enum_name)
                             #print('fields: ', fields)
-                            t = p_registered[enum_name]
-                            t_n = 0
-                            if len(fields) > 1:
-                                print('Невозможно выбрать несколько полей одновременно из одного перечисления(%s)' % enum_name)
-                                exit(1)
-                            for ii in fields:
-                                if ii in t['fields']:
-                                    t_i = t['fields'].index(ii)
-                                    t_n |= t_i
-                                else:
-                                    print('Перечисление %s не имеет поле %s' % (enum_name, ii))
-                                    #a += 'Перечисление %s не имеет поле %s' % (enum_name, ii)
+                            if enum_name in p_registered:
+                                t = p_registered[enum_name]
+                                t_n = 0
+                                if len(fields) > 1:
+                                    print('Невозможно выбрать несколько полей одновременно из одного перечисления(%s)' % enum_name)
                                     exit(1)
-                            t_n = t_n * 256 + t['id']
-                            a += hex(t_n)
+                                for ii in fields:
+                                    if ii in t['fields']:
+                                        t_i = t['fields'].index(ii)
+                                        t_n |= t_i
+                                    else:
+                                        print('Перечисление %s не имеет поле %s' % (enum_name, ii))
+                                        #a += 'Перечисление %s не имеет поле %s' % (enum_name, ii)
+                                        exit(1)
+                                t_n = t_n * 256 + t['id']
+                                a += hex(t_n)
+                            else:
+                            
+                                print('перечисление с именем "%s" не зарегистрировано' % enum_name)
+                                a += 'перечисление с именем "%s" не зарегистрировано' % enum_name
+                                #exit(1)
                         else:
                             a += cand + i
                         cand = ''
@@ -300,19 +316,24 @@ def _prohod(p_js, p_is_second, p_registered):
                         # осуществляем замену использования битовой комбинации маски
                         s = 0
                         if p_is_second:
-                            t = p_registered[enum_name]
-                            t_n = 0
-                            for ii in fields:
-                                if ii in t['fields']:
-                                    t_i = t['fields'].index(ii)
-                                    t_i = 2 ** t_i
-                                    t_n |= t_i
-                                else:
-                                    print('Перечисление %s не имеет поле %s' % (enum_name, ii))
-                                    #a += 'Перечисление %s не имеет поле %s' % (enum_name, ii)
-                                    exit(1)
-                            t_n = t_n * 256 + t['id']
-                            a += hex(t_n)
+                            if enum_name in p_registered:
+                                t = p_registered[enum_name]
+                                t_n = 0
+                                for ii in fields:
+                                    if ii in t['fields']:
+                                        t_i = t['fields'].index(ii)
+                                        t_i = 2 ** t_i
+                                        t_n |= t_i
+                                    else:
+                                        print('Перечисление %s не имеет поле %s' % (enum_name, ii))
+                                        #a += 'Перечисление %s не имеет поле %s' % (enum_name, ii)
+                                        exit(1)
+                                t_n = t_n * 256 + t['id']
+                                a += hex(t_n)
+                            else:
+                                print('перечисление с именем "%s" не зарегистрировано' % enum_name)
+                                a += 'перечисление с именем "%s" не зарегистрировано' % enum_name
+                                #exit(1)
                         else:
                             a += cand + i
                         cand = ''

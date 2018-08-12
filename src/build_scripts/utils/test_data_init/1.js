@@ -41,3 +41,10 @@ if ($клюква & #e#My_mask##)
 #e#My_mask2:a##
 //#e#My_mask:a##
 
+
+#m#My_mask:q##
+//#m#My_mask:w##
+//#m#My_mask:ee##
+//#m#My_mask:a##
+//#m#My_mask:q,w,ee##
+
