@@ -27,3 +27,5 @@ def process(p_js, p_css, p_js_css):
                         a += i
                         s = 3
                 fragment['text'] = a
+            elif fragment['type'] == 0:
+                fragment['text'] = ''
