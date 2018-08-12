@@ -8,7 +8,7 @@ def process(p_js, p_css, p_js_css):
     print('enums: process()')
     registered = {}
     _prohod(p_js, False, registered)
-    print('registered: ', registered)
+    #print('registered: ', registered)
     _prohod(p_js, True, registered)
 
 
@@ -208,10 +208,10 @@ def _prohod(p_js, p_is_second, p_registered):
                     ##
                     elif s == 9 and i == '#':
                         s = 11
-                        print('ENUM FINISHED')
+                        #print('ENUM FINISHED')
                         fields.append(cand_strict)
                         for ii in fields: 
-                            print('-- %s', ii)
+                            #print('-- %s', ii)
                             if ii in p_registered[enum_name]['fields']:
                                 print('поле \'%s\' в перечислении \'%s\' используется дважды' % (cand_strict, enum_name))
                                 exit(1)
@@ -219,7 +219,7 @@ def _prohod(p_js, p_is_second, p_registered):
                                 p_registered[enum_name]['fields'].append(ii)
                     elif s == 109 and i == '#':
                         s = 111
-                        print('MASK FINISHED')
+                        #print('MASK FINISHED')
                         fields.append(cand_strict)
                         for ii in fields: 
                             if ii in p_registered[enum_name]['fields']:
@@ -262,7 +262,7 @@ def _prohod(p_js, p_is_second, p_registered):
                         a += str(p_registered[prefix + enum_name]['id']*256)
                         #a += str(atom_counter*256)
                     elif s == 305 and i == '#':
-                        print('#########('+enum_name+')#')
+                        #print('#########('+enum_name+')#')
                         if p_is_second:
                             #print('@@@@@@@:',enum_name)
                             #print(p_registered[enum_name])
@@ -297,7 +297,7 @@ def _prohod(p_js, p_is_second, p_registered):
                         s = 0
                         if p_is_second:
                             #print('@@@@@@@:',enum_name)
-                            print('fields for enum: ', fields)
+                            #print('fields for enum: ', fields)
                             if enum_name in p_registered:
                                 t = p_registered[enum_name]
                                 t_n = 0
@@ -326,7 +326,7 @@ def _prohod(p_js, p_is_second, p_registered):
                         # осуществляем замену использования битовой комбинации маски
                         s = 0
                         if p_is_second:
-                            print('fields for mask: ', fields)
+                            #print('fields for mask: ', fields)
                             if enum_name in p_registered:
                                 t = p_registered[enum_name]
                                 t_n = 0
@@ -349,7 +349,7 @@ def _prohod(p_js, p_is_second, p_registered):
                             a += cand + i
                         cand = ''
                     else:
-                        print('    ELSE state=%s i=%s' % (s,i))
+                        #print('    ELSE state=%s i=%s' % (s,i))
                         s = 0
                         if cand:
                             a += cand
@@ -362,8 +362,8 @@ def _prohod(p_js, p_is_second, p_registered):
                         cand += i
                     else:
                         cand = ''
-                    print(i, ' STATE: ', s)
-                print('RESULT: ', a)
+                    #print(i, ' STATE: ', s)
+                #print('RESULT: ', a)
                 fragment['text'] = a
 
 
