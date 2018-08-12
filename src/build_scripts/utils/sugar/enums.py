@@ -9,7 +9,6 @@ def process(p_js, p_css, p_js_css):
     registered = {}
     _prohod(p_js, False, registered)
     print('registered: ', registered)
-    print('~~~~~~~~~~~~~~~~~`')
     _prohod(p_js, True, registered)
 
 
@@ -81,6 +80,8 @@ def _prohod(p_js, p_is_second, p_registered):
                             enum_name = i
                     elif s == 403 and is_letter(i):
                         s = 404
+                        if p_is_second:
+                            enum_name = i
                     ##
                     elif s == 7 and is_letterdigit(i):
                         s = 7
@@ -97,6 +98,8 @@ def _prohod(p_js, p_is_second, p_registered):
                             enum_name += i
                     elif s == 404 and is_letterdigit(i):
                         s = 404
+                        if p_is_second:
+                            enum_name += i
                     ##
                     elif s == 7 and i == ':':
                         # имеем имя определённой переменной перечисления
@@ -188,6 +191,13 @@ def _prohod(p_js, p_is_second, p_registered):
                         # имеем имя поля маски (использование)
                         s = 409
                         fields.append(cand_strict)
+                    ##
+                    elif s == 309 and is_letter(i):
+                        cand_strict = i
+                        s = 308
+                    elif s == 409 and is_letter(i):
+                        cand_strict = i
+                        s = 408
                     ##
                     elif s == 10 and is_letter(i):
                         s = 9
@@ -287,7 +297,7 @@ def _prohod(p_js, p_is_second, p_registered):
                         s = 0
                         if p_is_second:
                             #print('@@@@@@@:',enum_name)
-                            #print('fields: ', fields)
+                            print('fields for enum: ', fields)
                             if enum_name in p_registered:
                                 t = p_registered[enum_name]
                                 t_n = 0
@@ -316,6 +326,7 @@ def _prohod(p_js, p_is_second, p_registered):
                         # осуществляем замену использования битовой комбинации маски
                         s = 0
                         if p_is_second:
+                            print('fields for mask: ', fields)
                             if enum_name in p_registered:
                                 t = p_registered[enum_name]
                                 t_n = 0
@@ -338,6 +349,7 @@ def _prohod(p_js, p_is_second, p_registered):
                             a += cand + i
                         cand = ''
                     else:
+                        print('    ELSE state=%s i=%s' % (s,i))
                         s = 0
                         if cand:
                             a += cand

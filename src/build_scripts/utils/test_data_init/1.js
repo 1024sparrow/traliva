@@ -27,7 +27,7 @@ var $клюква = #e#My_enum:ee##
 if ($клюква & #e#My_enum##)
     console.log('Клюква!');
 #e#My_enum##
-#e#My_enum:w,ee##
+//#e#My_enum:w,ee##
 #e#My_enum:w##
 #e#My_enum2:a##
 //#e#My_enum:a##
@@ -36,15 +36,15 @@ var $клюква = #e#My_mask:ee##
 if ($клюква & #e#My_mask##)
     console.log('Клюква!');
 #e#My_mask##
-#e#My_mask:w,ee##
+//#e#My_mask:w,ee##
 #e#My_mask:w##
 #e#My_mask2:a##
 //#e#My_mask:a##
 
 
 #m#My_mask:q##
-//#m#My_mask:w##
-//#m#My_mask:ee##
+#m#My_mask:w##
+#m#My_mask:ee##
 //#m#My_mask:a##
-//#m#My_mask:q,w,ee##
+#m#My_mask:q,w,ee##
 
