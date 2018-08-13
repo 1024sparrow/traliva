@@ -72,6 +72,7 @@ all_js_css=(${all_js[@]} ${all_css[@]})
 ############################
 # Ожидается в директориях traliva и traliva_kit найти файл style.css и директорию res
 declare -a usage_addon_keys
+
 sed -e "s/#RES#/#RES#\/_traliva/g" $root/traliva/style.css > $root/style.css_tmp
 mv $root/traliva/res $root/res/_traliva
 rm -rf $root/traliva
@@ -88,35 +89,46 @@ do
     cat $i/style.css >> $i/style.css_tmp
     cp $i/gameplay.js $i/gameplay.js_tmp
 done
+#
+#if [ "$CO_DEBUG" = true ]
+#then
+#    usage_addon_keys=(${usage_addon_keys[@]} traliva_debug)
+#    #usage_addon_keys=(${usage_addon_keys[@]} traliva_aaa)
+#fi
+#if [ "$COMPRESS_USAGE" = true ]
+#then
+#    #
+#    #$UTILS_PATH/sugar/usage.sh "\"${all_js_css[@]}\"" "\"${usage_addon_keys[@]}\""
+#fi
+## -- синтаксический сахар: перечисления
+## ==
+#if [ "$CO_RELEASE" = true ]
+#then
+#    #if [ "$COMPRESS_NAMES" = true ]
+#    #then
+#    #fi
+#    if [ "$COMPRESS_LINEBREAKS" = true ]
+#    then
+#        for i in $all
+#        do
+#            cat $i/style.css_tmp | $UTILS_PATH/css.py > $i/style.css_tmp2 && mv $i/style.css_tmp2 $i/style.css_tmp
+#            cat $i/gameplay.js_tmp | $UTILS_PATH/js.py > $i/gameplay.js_tmp2 && mv $i/gameplay.js_tmp2 $i/gameplay.js_tmp
+#        done
+#    fi
+#fi
+#for i in $all
+#do
+#    mv $i/style.css_tmp $i/style.css
+#    mv $i/gameplay.js_tmp $i/gameplay.js
+#done
 
-if [ "$CO_DEBUG" = true ]
-then
-    usage_addon_keys=(${usage_addon_keys[@]} traliva_debug)
-    usage_addon_keys=(${usage_addon_keys[@]} traliva_aaa)
-fi
-if [ "$COMPRESS_USAGE" = true ]
-then
-    #
-    $UTILS_PATH/sugar/usage.sh "\"${all_js_css[@]}\"" "\"${usage_addon_keys[@]}\""
-fi
-# -- синтаксический сахар: перечисления
-# ==
-if [ "$CO_RELEASE" = true ]
-then
-    #if [ "$COMPRESS_NAMES" = true ]
-    #then
-    #fi
-    if [ "$COMPRESS_LINEBREAKS" = true ]
-    then
-        for i in $all
-        do
-            cat $i/style.css_tmp | $UTILS_PATH/css.py > $i/style.css_tmp2 && mv $i/style.css_tmp2 $i/style.css_tmp
-            cat $i/gameplay.js_tmp | $UTILS_PATH/js.py > $i/gameplay.js_tmp2 && mv $i/gameplay.js_tmp2 $i/gameplay.js_tmp
-        done
-    fi
-fi
-for i in $all
-do
-    mv $i/style.css_tmp $i/style.css
-    mv $i/gameplay.js_tmp $i/gameplay.js
-done
+# ###############
+flags=0
+if [ "$COMPRESS_USAGE" = true ]; then flags=$(($flags|0x101)); fi
+if [ "$COMPRESS_NAMES" = true ]; then flags=$(($flags|0x201)); fi
+if [ "$COMPRESS_LINEBREAKS" = true ]; then flags=$(($flags|0x401)); fi
+if [ "$CO_DEBUG" = true ]; then flags=$(($flags|0x102)); fi
+if [ "$CO_RELEASE" = true ]; then flags=$(($flags|0x202)); fi
+echo "flags: $flags"
+
+$UTILS_PATH/js.py 1 $flags ${#all_js[@]} ${all_js[@]} ${#all_css[@]} ${all_css[@]}
