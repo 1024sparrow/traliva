@@ -13,7 +13,7 @@ def get_map(pin_js_paths, pin_css_paths, pout_js, pout_css, pout_js_css):
                 i_src[1].append(cand)
                 pout_js_css.append(cand)
     print('get_map()')
-    print('pout_js_css: ', pout_js_css)
+    #print('pout_js_css: ', pout_js_css)
 
 def apply_map(p_js, p_css, p_js_css):
     print('apply_map()')

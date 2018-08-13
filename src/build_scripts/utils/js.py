@@ -38,10 +38,17 @@ js = []
 css = []
 js_css = []
 
+flags = int(opt[0])
 js__map.get_map(js_paths, css_paths, js, css, js_css)
-#map_test.process(js, css, js_css)
-usage.process(js, css, js_css)
-names.process(js, css, js_css)
+if flags & 0x101:
+    usage.process(js, css, js_css)
+if not flags & 0x102:
+    if flags & 0x201:
+        names.process(js, css, js_css)
 enums.process(js, css, js_css)
-min.process(js, css, js_css)
+if flags & 0x202:
+    if flags & 0x401:
+        min.process(js, css, js_css)
+
+##map_test.process(js, css, js_css)
 js__map.apply_map(js, css, js_css)
