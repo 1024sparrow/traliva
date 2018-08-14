@@ -107,7 +107,7 @@ def _get_text_as_array(p_text, pp_comment, pp_newlines):
                     code_cand = ''
                 retval.append({
                     'type': 1,
-                    'text': "'\nuse strict';\n"
+                    'text': "\n'use strict';\n"
                 })
                 __type = 1
                 counter += 1

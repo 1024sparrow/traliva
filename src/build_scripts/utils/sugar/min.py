@@ -5,6 +5,8 @@ def process(p_js, p_css, p_js_css):
     for fil in p_js:
         for fragment in fil['text']:
             if fragment['type'] == 1:
+                if fragment['text'] == "\n'use strict';\n":
+                    continue
                 s = 3
                 a = ''
                 for i in fragment['text']:
