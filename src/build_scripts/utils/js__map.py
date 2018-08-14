@@ -13,7 +13,7 @@ def get_map(pin_js_paths, pin_css_paths, pout_js, pout_css, pout_js_css):
                 i_src[1].append(cand)
                 pout_js_css.append(cand)
     print('get_map()')
-    #print('pout_js_css: ', pout_js_css)
+    #print('pout_js_css: ', pout_js_css)##
 
 def apply_map(p_js, p_css, p_js_css):
     print('apply_map()')
@@ -55,17 +55,22 @@ def apply_map(p_js, p_css, p_js_css):
 re_one_line_comment = re.compile(r'//.*', re.DOTALL)
 def _get_text_as_array(p_text, pp_comment, pp_newlines):
     global __type
+    global __buffer
+
+    ___type = None
+    __buffer = ''
     retval = []
     if not pp_newlines:
         pp_comment = False
     use_strict_used = False
     a = ''
+    usestrict_pos = None
     for line in p_text:
         stripline = line.strip()
         if not use_strict_used:
             if stripline.startswith("'use strict'") or stripline.startswith('"use strict"'):
-                #print("'use strict';")
-                _accumulate_array_by_symbols(1, "'use strict';\n", retval)
+                usestrict_pos = len(a)
+                a += '#' # любой символ. В результат он не попадёт.
                 use_strict_used = True
                 continue
         if pp_comment:
@@ -83,7 +88,32 @@ def _get_text_as_array(p_text, pp_comment, pp_newlines):
     in_string = False
     prev_char = 's' # nor '\\' or '/' or '*'
     code_cand = ''
+    counter = 0
     for i in a:
+        if not (counter is None):
+            if counter == usestrict_pos:
+                t = __buffer + code_cand
+                if __buffer:
+                    retval.append({
+                        'type': __type,
+                        'text': __buffer
+                    })
+                    __buffer = ''
+                if code_cand:
+                    retval.append({
+                        'type': 1,
+                        'text': code_cand
+                    })
+                    code_cand = ''
+                retval.append({
+                    'type': 1,
+                    'text': "'\nuse strict';\n"
+                })
+                __type = 1
+                counter += 1
+                continue
+        counter += 1
+
         skip_current = False
         if (not in_comment) and (not in_string) and prev_char == '/' and i == '/':
             if len(code_cand) > 0:
@@ -177,7 +207,7 @@ __type = None
 def _accumulate_array_by_symbols(pin_type, pin_fragment, pout_target):
     global __buffer
     global __type
-    if pin_fragment:
+    if len(pin_fragment) > 0:
         if pin_type == __type:
             __buffer += pin_fragment
         else:
