@@ -7,3 +7,6 @@ var testString5 = '  \\\\  e  ';
 var testString6 = ' " \"we "';
 var testString7 = ' " \\\\\"we "';
 var testString8 = ' " \\\\\"we "';
+
+var multilineString = 'first line - \
+second line';
