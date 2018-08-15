@@ -10,3 +10,14 @@ var testString8 = ' " \\\\\"we "';
 
 var multilineString = 'first line - \
 second line';
+
+#USAGE_BEGIN#a##
+'aaaa';
+#USAGE_END#a##
+'between a and b';
+#USAGE_BEGIN#b##
+'bbbb';
+#USAGE_END#b##
+
+#USAGE#ab:a,b##
+#u#ab##

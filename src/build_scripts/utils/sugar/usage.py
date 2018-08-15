@@ -1,16 +1,18 @@
 #!/usr/bin/env python3
 
 import re
+from .char_check_func import is_spacespec, is_letter, is_letterdigit
 
 # 1.) Обходим все файлы и сохраняем id всех активированных, убираем сами активации (#u#...##);
 # 2.) Обходим все файлы, удаляем разметку #USAGE_BEGIN#...## и #USAGE_END#...##, оставляем или удаляем код, заключённый в разметку.
 
-def char_valid_for_id(p):
-    return p.isalpha() or p.isdigit() or p == '_'
-
 def process(p_js, p_css, p_js_css):
     print('usage: process()')
     activated_ids = set()
+    clusters = {}
+    cluster_name_cand = None
+    cluster_item_cand = None
+    cluster_items = None
     # состояние обозначаем локальной переменной s (от state)
     # обходим каждый блок текста типа 1 (программный код) посимвольно. Для каждого символа определяется значение состояния.
     # ... #u#идентификатор## ...
@@ -34,10 +36,10 @@ def process(p_js, p_css, p_js_css):
                         s = 2
                     elif s == 2 and i == '#':
                         s = 3
-                    elif s == 3 and char_valid_for_id(i):
+                    elif s == 3 and is_letterdigit(i):
                         s = 4
                         id_cand = i
-                    elif s == 4 and char_valid_for_id(i):
+                    elif s == 4 and is_letterdigit(i):
                         id_cand += i
                     elif s == 4 and i == '#':
                         s = 5
@@ -46,6 +48,49 @@ def process(p_js, p_css, p_js_css):
                         activated_ids.add(id_cand)
                         id_cand = ''
                         detected = True
+                    elif s == 1 and i == 'U':
+                        cluster_name_cand = ''
+                        cluster_item_cand = ''
+                        cluster_items = []
+                        s = 102
+                    elif s == 102 and i == 'S':
+                        s = 103
+                    elif s == 103 and i == 'A':
+                        s = 104
+                    elif s == 104 and i == 'G':
+                        s = 105
+                    elif s == 105 and i == 'E':
+                        s = 106
+                    elif s == 106 and i == '#':
+                        s = 107
+                    elif s == 107 and is_letter(i):
+                        cluster_name_cand += i
+                        s = 108
+                    elif s == 108 and is_letterdigit(i):
+                        cluster_name_cand += i
+                        s = 108
+                    elif s == 108 and i == ':':
+                        s = 109
+                    elif s == 109 and is_letter(i):
+                        cluster_item_cand += i
+                        s = 110
+                    elif s == 110 and is_letterdigit(i):
+                        cluster_item_cand += i
+                        s = 110
+                    elif s == 110 and i == ',':
+                        cluster_items.append(cluster_item_cand)
+                        cluster_item_cand = ''
+                        s = 109
+                    elif s == 110 and i == '#':
+                        cluster_items.append(cluster_item_cand)
+                        cluster_item_cand = ''
+                        s = 111
+                    elif s == 111 and i == '#':
+                        detected = True
+                        s = 0
+                        clusters[cluster_name_cand] = cluster_items
+                        cluster_name_cand = ''
+                        cluster_items = []
                     else:
                         ordinary = True
                         s = 0
@@ -66,7 +111,8 @@ def process(p_js, p_css, p_js_css):
                     #print('%s - %s' % (s, i))
                 #print('#### RESULT:\n', a)
                 fragment['text'] = a
-    #print('detected activated: ', activated_ids)
+    print('detected activated: ', activated_ids)
+    print('detected clusters: ', clusters)
 
     id_current = None
     activated_ids__0 = ['#USAGE_DEGIN#%s##' % i for i in activated_ids]
