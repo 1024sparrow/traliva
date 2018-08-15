@@ -1,13 +1,15 @@
 //(function(){
 {%% state_publisher.js %%}
-Traliva.StatePublisher = StatePublisher;
+$Traliva.$StatePublisher = $StatePublisher;
 
 {%% state_subscriber.js %%}
-Traliva.StateSubscriber = StateSubscriber;
+$Traliva.$StateSubscriber = $StateSubscriber;
 
+#USAGE_BEGIN#disabled##
 {%% state_debug_widget.js %%}
-Traliva.StateDebugWidget = StateDebugWidget;
+$Traliva.$StateDebugWidget = $StateDebugWidget;
 
 {%% state_to_uri_mapper.js %%}
-Traliva.StateToUriMapper = StateToUriMapper;
+$Traliva.$StateToUriMapper = $StateToUriMapper;
+#USAGE_ENDN#disabled##
 //})();

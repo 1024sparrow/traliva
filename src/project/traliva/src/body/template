@@ -1,10 +1,10 @@
-var Traliva;
-if (Traliva)
+var $Traliva;
+if ($Traliva)
 	console.log('epic fail');
 else {
     (function(){
-	Traliva = {
-        history: history
+	$Traliva = {
+        $history: $history
     };
     {%% states.js %%}
     {%% widgets.js %%}
