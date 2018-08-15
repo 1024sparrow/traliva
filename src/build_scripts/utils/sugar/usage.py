@@ -113,6 +113,13 @@ def process(p_js, p_css, p_js_css):
                 fragment['text'] = a
     print('detected activated: ', activated_ids)
     print('detected clusters: ', clusters)
+    additional_activated_ids = []
+    for i in activated_ids:
+        if i in clusters:
+            for ii in clusters[i]:
+                additional_activated_ids.append(ii)
+    for i in additional_activated_ids:
+        activated_ids.add(i)
 
     id_current = None
     activated_ids__0 = ['#USAGE_DEGIN#%s##' % i for i in activated_ids]
