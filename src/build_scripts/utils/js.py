@@ -40,14 +40,14 @@ js_css = []
 
 flags = int(opt[0])
 js__map.get_map(js_paths, css_paths, js, css, js_css)
-if flags & 0x101:
+if flags & 0x1:
     usage.process(js, css, js_css)
-if not flags & 0x102:
-    if flags & 0x201:
+if not (flags & 0x8):
+    if flags & 0x2:
         names.process(js, css, js_css)
 enums.process(js, css, js_css)
-if flags & 0x202:
-    if flags & 0x401:
+if flags & 0xf0:
+    if flags & 0x4:
         min.process(js, css, js_css)
 
 ##map_test.process(js, css, js_css)

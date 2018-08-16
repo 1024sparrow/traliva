@@ -124,11 +124,11 @@ done
 
 # ###############
 flags=0
-if [ "$COMPRESS_USAGE" = true ]; then flags=$(($flags|0x101)); fi
-if [ "$COMPRESS_NAMES" = true ]; then flags=$(($flags|0x201)); fi
-if [ "$COMPRESS_LINEBREAKS" = true ]; then flags=$(($flags|0x401)); fi
-if [ "$CO_DEBUG" = true ]; then flags=$(($flags|0x102)); fi
-if [ "$CO_RELEASE" = true ]; then flags=$(($flags|0x202)); fi
+if [ "$COMPRESS_USAGE" = true ]; then flags=$(($flags|0x1)); echo "FLAG usage: compress_usage"; fi
+if [ "$COMPRESS_NAMES" = true ]; then flags=$(($flags|0x2)); echo "FLAG names: compress_names"; fi
+if [ "$COMPRESS_LINEBREAKS" = true ]; then flags=$(($flags|0x4)); echo "FLAG linebreaks: compress_linebreaks"; fi
+if [ "$CO_DEBUG" = true ]; then flags=$(($flags|0x8)); echo "FLAG debug: debug"; fi
+if [ "$CO_RELEASE" = true ]; then flags=$(($flags|0xf0)); echo "FLAG release: release"; fi
 echo "flags: $flags"
 
 $UTILS_PATH/js.py 1 $flags ${#all_js[@]} ${all_js[@]} ${#all_css[@]} ${all_css[@]}
