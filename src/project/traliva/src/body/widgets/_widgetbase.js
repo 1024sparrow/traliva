@@ -76,9 +76,11 @@ function $_WidgetBase($0, $1){
 			})(this);
 		}
 		else if (!($0 instanceof $_WidgetBase)){
+            #USAGE_BEGIN#debug##
 			console.log('class ' + this.constructor.name +
 				': incorrect parent passed to constructor: ' + $0.constructor.name +
-				'. Available types to use: HTMLDivElement and Traliva.$_WidgetBase.');
+				'. Available types to use: HTMLDivElement and $Traliva.$_WidgetBase.');
+            #USAGE_END#debug##
 		}
 	}
 	else{

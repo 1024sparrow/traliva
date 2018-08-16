@@ -11,5 +11,5 @@ $Traliva.$StateDebugWidget = $StateDebugWidget;
 
 {%% state_to_uri_mapper.js %%}
 $Traliva.$StateToUriMapper = $StateToUriMapper;
-#USAGE_ENDN#disabled##
+#USAGE_END#disabled##
 //})();

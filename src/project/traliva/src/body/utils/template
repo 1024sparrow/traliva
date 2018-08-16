@@ -1,8 +1,8 @@
 (function(){
 {%% ajax.js %%}
-Traliva.ajax = ajax;
+$Traliva.$ajax = $ajax;
 {%% background.js %%}
-Traliva.background = background;
+$Traliva.$background = $background;
 
 {%% checkvisible.js %%}
 {%% createelement.js %%}
