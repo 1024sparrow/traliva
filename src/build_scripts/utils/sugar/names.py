@@ -37,7 +37,7 @@ def process(p_js, p_css, p_js_css):
 
     for fil in p_js_css:
         for fragment in fil['text']:
-            if fragment['type'] == 1:
+            if fragment['type'] in [1,2]:
                 s = 0
                 word_cand = ''
                 var_cand = ''
@@ -106,8 +106,8 @@ def process(p_js, p_css, p_js_css):
                     a += i
             fragment['text'] = a
 
-generate_varname__ar1 = 'qwertyuiopasdfghjklzxcvbnm'
-generate_varname__ar2 = 'qwertyuiopasdfghjklzxcvbnm1234567890'
+generate_varname__ar1 = 'qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM'
+generate_varname__ar2 = 'qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890'
 generate_varname__n1 = len(generate_varname__ar1)
 generate_varname__n2 = len(generate_varname__ar2)
 def generate_varname(p_n):
