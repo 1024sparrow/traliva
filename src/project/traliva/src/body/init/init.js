@@ -119,7 +119,7 @@ $Traliva.$init = function($o){
             $initPath: $o.$states.$initPath,
             $initState: $o.$states.$initState,
             $tree: $o.$states.$tree,
-            $stringifyState: $o.$states.stringifyState
+            $stringifyState: $o.$states.$stringifyState
         });
         $d.$publisher.$registerSubscriber($d.$stateToUriMapper);
     }

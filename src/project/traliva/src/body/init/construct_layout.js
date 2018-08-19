@@ -39,7 +39,7 @@ function $construct_layout($p_wParent, $p_oLayout, $p_defaultBackground, $p_widg
                         $tmp.$bg = $p_defaultBackground;
                     $cand = new $0.$constructor($retVal, $tmp);
                     if ($0.hasOwnProperty('$substate'))
-                        $cand = $cand.useSubstate($0.$substate);
+                        $cand = $cand.$useSubstate($0.$substate);
                     //$cand = new $0[0]($retVal).$substate($0[1]);// согласно спецификации, если не конструктор, то массив из конструктора и (чего-то, описывающего подсостояние)
                 }
             }

@@ -37,7 +37,7 @@ $Догрузчик.prototype.$processStateChanges = function($s){
             }
             $self.$ok($EXTERNAL);
         },
-        errorFunc: function($isNetworkProblem){
+        $errorFunc: function($isNetworkProblem){
             console.log('loaded not $ok');
         }
     });
