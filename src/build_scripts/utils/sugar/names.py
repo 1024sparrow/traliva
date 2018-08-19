@@ -64,13 +64,18 @@ def process(p_js, p_css, p_js_css):
                                 vars_as_map[var_cand] = 1
                             var_cand = ''
                         s = 0
+                if var_cand:
+                    if var_cand in vars_as_map:
+                        vars_as_map[var_cand] += 1
+                    else:
+                        vars_as_map[var_cand] = 1
     for i in vars_as_map:
         vars.append((vars_as_map[i], i))
     vars = sorted(vars, key=lambda p: -p[0])
     words |= js_specwords.specwords
 
-    #print('detected vars: ', vars)
-    #print('detected words (+): ', words)
+    #print('detected vars: ', vars)#
+    #print('detected words (+): ', words)#
 
     counter = 0
     for i in vars:
@@ -81,7 +86,7 @@ def process(p_js, p_css, p_js_css):
             counter += 1
         var_names_map[i[1]] = cand
         counter += 1
-    #print('var_names_map: ', var_names_map)
+    #print('var_names_map: ', var_names_map)#
 
     # Подставляем полученные значения
     for fil in p_js_css:
@@ -104,6 +109,11 @@ def process(p_js, p_css, p_js_css):
                         var_cand = ''
                     s = 0
                     a += i
+            if var_cand:
+                if var_cand in var_names_map:
+                    a += var_names_map[var_cand]
+                else:
+                    a += var_cand
             fragment['text'] = a
 
 generate_varname__ar1 = 'qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM'
