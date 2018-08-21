@@ -111,8 +111,8 @@ def process(p_js, p_css, p_js_css):
                     #print('%s - %s' % (s, i))
                 #print('#### RESULT:\n', a)
                 fragment['text'] = a
-    print('detected activated: ', activated_ids)
-    print('detected clusters: ', clusters)
+    #print('detected activated: ', activated_ids)
+    #print('detected clusters: ', clusters)
     additional_activated_ids = []
     for i in activated_ids:
         if i in clusters:
@@ -143,51 +143,89 @@ def process(p_js, p_css, p_js_css):
                             'char_index': i.start(),
                             'id': i.groups()[0],
                             'string': i.group(),
-                            'type': patt[0]
+                            'type': patt[0],
+                            #'order': order
                         })
             fragment_counter += 1
-        #print('m:', m)
-        #print('sorted m:', sorted(m, key=lambda p: float('%s.%s' %(p['fragment_index'], p['char_index']))))
-        # файл уже отсортирован
-        while m:
-            # ищем пару откр-закр с одним id, так чтобы они шли один за другим сразу.
-            counter = 0
-            prev = None
-            found = None
-            for i in m:
-                if counter:
-                    if prev['id'] == i['id'] and prev['type'] == 0 and i['type'] == 1:
-                        _process(prev, i, fil['text'], activated_ids)
-                        found = counter
-                        break
-                counter += 1
-                prev = i
-            if counter:
-                # должны удалить из m элементы с индексами counter - 1 и counter
-                m = m[:counter - 1] + m[counter + 1:]
-            else:
-                print('Некорректная разметка #USAGE...#..##: у вас либо какой-то блок не закрывается, либо блоки перекрываются (что недопустимо).')
-                exit(1)
+        m = sorted(m, key=lambda p: p['fragment_index'] * 0x100000000000000000000000000000 + p['char_index'])
 
-def _process(p1, p2, p3, p4):
+        #mm = []
+        #mm_max_0 = 0
+        #mm_max_1 = 0
+        #for i in m:
+        #    print('---', i)
+        #    if i['fragment_index'] >= mm_max_0
+
+        #for i in range(0, len(m)):
+        i = 0
+        prev_paragr = None
+        prev_file = None
+        while i < len(m)//2:
+            i_0 = 2 * i
+            i_1 = i_0 + 1
+            m_0 = m[i_0]
+            m_1 = m[i_1]
+            _process(m_0, m_1, fil['text'], activated_ids, m)
+            i += 1
+
+        # файл уже отсортирован
+        #while m:
+        #    print('-#-')
+        #    print(m)
+        #    # ищем пару откр-закр с одним id, так чтобы они шли один за другим сразу.
+        #    counter = 0
+        #    prev = None
+        #    found = None
+        #    for i in m:
+        #        if counter:
+        #            if prev['id'] == i['id'] and prev['type'] == 0 and i['type'] == 1:
+        #                _process(prev, i, fil['text'], activated_ids)
+        #                found = counter
+        #                #break
+        #        counter += 1
+        #        prev = i
+        #    if counter:
+        #        # должны удалить из m элементы с индексами counter - 1 и counter
+        #        m = m[:counter - 1] + m[counter + 1:]
+        #    else:
+        #        print('Некорректная разметка #USAGE...#..##: у вас либо какой-то блок не закрывается, либо блоки перекрываются (что недопустимо).')
+        #        exit(1)
+
+# возвращает количество удалённых символов
+def _process(p1, p2, p3, p4, p_fullmap):
+    retval = 0
     id = p1['id']
-    start_char_index = p1['char_index']
-    start_char_endindex = start_char_index + len(p1['string'])
-    end_char_index = p2['char_index']
-    end_char_endindex = end_char_index + len(p2['string'])
+    start_char_index = p1['char_index'] 
+    start_char_endindex = start_char_index + len(p1['string']) 
+    end_char_index = p2['char_index'] 
+    end_char_endindex = end_char_index + len(p2['string']) 
 
     # удаляем из текста начало блока и, если надо, весь текст внутри блока
-    if id in p4:
+    if id in p4: # тэг активирован, убираем только разметку
         p3[p1['fragment_index']]['text'] = p3[p1['fragment_index']]['text'][:start_char_index] + p3[p1['fragment_index']]['text'][start_char_endindex:]
         p3[p2['fragment_index']]['text'] = p3[p2['fragment_index']]['text'][:end_char_index] + p3[p2['fragment_index']]['text'][end_char_endindex:]
-    else:
+        if p1['fragment_index'] == p2['fragment_index']:
+            retval = start_char_endindex - start_char_index
+        retval += end_char_endindex - end_char_index
+    else: # тэг не активирован - убираем как саму разметку, так и текст внутри разметки
         if p1['fragment_index'] == p2['fragment_index']:
             p3[p1['fragment_index']]['text'] = p3[p1['fragment_index']]['text'][:start_char_index] + p3[p2['fragment_index']]['text'][end_char_endindex:]
+            retval = end_char_endindex - start_char_index
         else:
             p3[p1['fragment_index']]['text'] = p3[p1['fragment_index']]['text'][:start_char_index]
             p3[p2['fragment_index']]['text'] = p3[p2['fragment_index']]['text'][end_char_endindex:]
+            retval = end_char_endindex
 
     # удаляем, если надо, содержимое всех блоков, которые оказались между теми двумя блоками
     if not id in p4:
         for i in range(p1['fragment_index'] + 1, p2['fragment_index']):
             p3[i]['text'] = ''
+
+    # корректируем индексы символов далее в параграфе
+    #print('uiytiuytiuytiuytiuyt:',p3)
+    if retval > 0:
+        for i in p_fullmap:
+            if p2['fragment_index'] == i['fragment_index']:
+                i['char_index'] = i['char_index'] - retval
+            #print('88888:',i)
+    return retval
