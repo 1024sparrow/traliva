@@ -1,4 +1,5 @@
 //=========== STRIP ==============
+// -- class $Strip --
 $Traliva.$Strip__Orient__hor = 1;
 $Traliva.$Strip__Orient__vert = 2;
 function $Strip($p_orient, $p_parentWidget, $p_attr){
@@ -187,3 +188,4 @@ $Strip.prototype.$setItemSize = function($sizeMap){//usage example: wRoot.$setIt
 	}
 	this.$__updateSizes();
 }
+// -- end class $Strip --

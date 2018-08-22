@@ -6,6 +6,7 @@
             "source":{
                 "list":[
                     "traliva/traliva.js",
+                    "traliva_kit/traliva_kit.js",
                     "gameplay.js"
                 ]
             }

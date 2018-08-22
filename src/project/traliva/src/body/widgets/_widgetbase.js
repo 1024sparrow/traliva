@@ -4,6 +4,7 @@ p_sroll - политика скрола. Строка. Возможные зна
 Если в каком-то направлении нет автопрокрутки, в том направлении вступает в силу подгон размеров содержимого под размер виджета.
 //
 */
+// -- class $_WidgetBase --
 function $_WidgetBase($0, $1){
     //$0 - p_parentWidget
     //$1 - p_scroll
@@ -209,3 +210,4 @@ $_WidgetBase.prototype.$_transformStringSize = function($str){
 	//console.log(JSON.stringify($retVal));
 	return $retVal;
 }
+// -- end class $_WidgetBase --

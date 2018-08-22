@@ -222,3 +222,4 @@ StateToUriMapper.prototype.updateState = function(){
     this._prevAr = prevArCandidate;
     return this._statesObj.initState;
 }
+// -- end of class StateToUriMapper --

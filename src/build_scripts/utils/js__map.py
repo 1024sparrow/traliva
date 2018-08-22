@@ -19,6 +19,8 @@ def apply_map(p_js, p_css, p_js_css):
     print('apply_map()')
     for i in p_js_css:
         #print('#%s:' %  i['filepath'])
+        if i['filepath'] is None:
+            continue
         cand = ''
         for i_text in i['text']:
             cand += i_text['text']

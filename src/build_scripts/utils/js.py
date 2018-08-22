@@ -2,7 +2,6 @@
 import sys
 import js__map
 from sugar import usage, names, enums, min
-#import map_test
 
 ar = sys.argv
 #print(ar)
@@ -40,15 +39,21 @@ js_css = []
 
 flags = int(opt[0])
 js__map.get_map(js_paths, css_paths, js, css, js_css)
-if flags & 0x1:
-    usage.process(js, css, js_css)
-if not (flags & 0x8):
+usage.process(js, css, js_css)
+if flags & 0x8:
     if flags & 0x2:
         names.process(js, css, js_css)
-enums.process(js, css, js_css)
-if flags & 0xf0:
     if flags & 0x4:
         min.process(js, css, js_css)
+else:
+    o = {
+        'filepath': None,
+        'text':[{
+            'type': 1,
+            'text': '#u#debug##'
+        }]
+    }
+    for i in [js, css, js_css]:
+        i.append(o)
 
-##map_test.process(js, css, js_css)
 js__map.apply_map(js, css, js_css)

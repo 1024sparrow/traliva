@@ -75,3 +75,5 @@ $StateSubscriber.prototype.$__getSubstate = function($0){
     }
     return $1;
 };
+
+// -- end of class $StateSubscriber

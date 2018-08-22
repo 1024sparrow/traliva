@@ -1,3 +1,4 @@
+//'---------------init/slot_widget.js---------------';
 function $SlotWidget($p_parentWidget, $p_attr){
 	$Stack.call(this, $p_parentWidget, $p_attr);
     this.$_layerMap = {};
@@ -58,3 +59,4 @@ $SlotWidget.prototype.$widget = function($p_id){
     }
     return this.$_layerMap[$p_id].$widget;
 }
+//'---------------init/slot_widget.js---------------';

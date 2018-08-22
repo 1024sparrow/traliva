@@ -1,4 +1,4 @@
-'---------------init/history.js---------------';
+//'---------------init/history.js---------------';
 function $HistorySubstitute(){
     this.$_initState = JSON.parse(JSON.stringify($p_initState));
     this.$__copy = function($o){return JSON.parse}
@@ -48,4 +48,4 @@ $Traliva.$history = {
     // сюда в классе виджета,отображающего URL в отладочной панели, должна быть записана функция, обновляющая URL в отладочной панели.
     $_updateUrl: function(){console.log('oops..');}
 }
-'======================================';
+//'---------------init/history.js---------------';

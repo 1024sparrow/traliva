@@ -87,48 +87,46 @@ do
         rm -rf $i/traliva_kit
     fi
     cat $i/style.css >> $i/style.css_tmp
-    cp $i/gameplay.js $i/gameplay.js_tmp
+    #cp $i/gameplay.js $i/gameplay.js_tmp
 done
 
-if [ "$CO_DEBUG" = true ]
-then
-    usage_addon_keys=(${usage_addon_keys[@]} traliva_debug)
-    #usage_addon_keys=(${usage_addon_keys[@]} traliva_aaa)
-fi
-if [ "$COMPRESS_USAGE" = true ]
-then
-    #
-    #$UTILS_PATH/sugar/usage.sh "\"${all_js_css[@]}\"" "\"${usage_addon_keys[@]}\""
-fi
-# -- синтаксический сахар: перечисления
-# ==
-if [ "$CO_RELEASE" = true ]
-then
-    #if [ "$COMPRESS_NAMES" = true ]
-    #then
-    #fi
-    if [ "$COMPRESS_LINEBREAKS" = true ]
-    then
-        for i in $all
-        do
-            cat $i/style.css_tmp | $UTILS_PATH/css.py > $i/style.css_tmp2 && mv $i/style.css_tmp2 $i/style.css_tmp
-            cat $i/gameplay.js_tmp | $UTILS_PATH/js.py > $i/gameplay.js_tmp2 && mv $i/gameplay.js_tmp2 $i/gameplay.js_tmp
-        done
-    fi
-fi
+#if [ "$CO_DEBUG" = true ]
+#then
+#    usage_addon_keys=(${usage_addon_keys[@]} traliva_debug)
+#    #usage_addon_keys=(${usage_addon_keys[@]} traliva_aaa)
+#fi
+#if [ "$COMPRESS_USAGE" = true ]
+#then
+#    #
+#    #$UTILS_PATH/sugar/usage.sh "\"${all_js_css[@]}\"" "\"${usage_addon_keys[@]}\""
+#fi
+## -- синтаксический сахар: перечисления
+## ==
+#if [ "$CO_RELEASE" = true ]
+#then
+#    #if [ "$COMPRESS_NAMES" = true ]
+#    #then
+#    #fi
+#    if [ "$COMPRESS_LINEBREAKS" = true ]
+#    then
+#        for i in $all
+#        do
+#            cat $i/style.css_tmp | $UTILS_PATH/css.py > $i/style.css_tmp2 && mv $i/style.css_tmp2 $i/style.css_tmp
+#            cat $i/gameplay.js_tmp | $UTILS_PATH/js.py > $i/gameplay.js_tmp2 && mv $i/gameplay.js_tmp2 $i/gameplay.js_tmp
+#        done
+#    fi
+#fi
 for i in $all
 do
     mv $i/style.css_tmp $i/style.css
-    mv $i/gameplay.js_tmp $i/gameplay.js
+    #mv $i/gameplay.js_tmp $i/gameplay.js
 done
 
 # ###############
 flags=0
-if [ "$COMPRESS_USAGE" = true ]; then flags=$(($flags|0x1)); echo "FLAG usage: compress_usage"; fi
 if [ "$COMPRESS_NAMES" = true ]; then flags=$(($flags|0x2)); echo "FLAG names: compress_names"; fi
 if [ "$COMPRESS_LINEBREAKS" = true ]; then flags=$(($flags|0x4)); echo "FLAG linebreaks: compress_linebreaks"; fi
-if [ "$CO_DEBUG" = true ]; then flags=$(($flags|0x8)); echo "FLAG debug: debug"; fi
-if [ "$CO_RELEASE" = true ]; then flags=$(($flags|0xf0)); echo "FLAG release: release"; fi
+if [ "$CO_RELEASE" = true ]; then flags=$(($flags|0x8)); echo "FLAG release: release"; fi
 echo "flags: $flags"
 
 $UTILS_PATH/js.py 1 $flags ${#all_js[@]} ${all_js[@]} ${#all_css[@]} ${all_css[@]}

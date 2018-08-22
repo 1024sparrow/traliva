@@ -120,3 +120,5 @@ function $StatePublisherNoDebug(){
 }
 $StatePublisherNoDebug.prototype = Object.create($StatePublisher.prototype);
 $StatePublisherNoDebug.prototype.constructor = $StatePublisherNoDebug;
+
+// -- end of class $StatePublisher --

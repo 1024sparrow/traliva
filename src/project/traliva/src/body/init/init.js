@@ -1,4 +1,4 @@
-'---------------init/init.js---------------';
+//'---------------init/init.js---------------';
 // Функция переключения лэйаутов
 function $switchToLayout($layId){
     //console.log('switch to $layout ' + $layId);
@@ -160,4 +160,4 @@ $Traliva.$init = function($o){
         $d.$publisher.$registerSubscriber($3);
     }
 };
-'======================================';
+//'---------------init/init.js---------------';

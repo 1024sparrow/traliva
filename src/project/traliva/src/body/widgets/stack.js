@@ -1,3 +1,4 @@
+// -- class $Stack --
 function $Stack($p_parentWidget, $p_attr){
 	this.$__items = [];
 	this.$__zIndexCounter = 1;
@@ -60,3 +61,4 @@ $Stack.prototype.$_onChildVisibilityChanged = function($wChild){
         $2.$setMouseEventsBlocked($0 !== $1);
     }
 }
+// -- end class $Stack --

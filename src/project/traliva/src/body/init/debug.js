@@ -1,3 +1,4 @@
+//'---------------init/debug.js---------------';
 function $DebugConsole(){
     $StateSubscriber.call(this);
 }
@@ -172,3 +173,4 @@ $DebugStatesExtenderWidget.prototype = Object.create($StateSubscriber.prototype)
 $DebugStatesExtenderWidget.prototype.constructor = $DebugStatesExtenderWidget;
 $DebugStatesExtenderWidget.prototype.$processStateChanges = function($s){
 }
+//'---------------init/debug.js---------------';

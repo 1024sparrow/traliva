@@ -1,4 +1,4 @@
-'---------------init/fill_param.js---------------';
+//'---------------init/fill_param.js---------------';
 function $checkConstructorForInheritance($p_validating, $p_validatingFor){
     //return (new $p_validating()) instanceof $p_validatingFor;
 
@@ -71,4 +71,4 @@ function $fillParam($0){
         $0.$widgets = {};
     }
 }
-'======================================';
+//'---------------init/fill_param.js---------------';
