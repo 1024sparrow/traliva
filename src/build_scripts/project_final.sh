@@ -89,38 +89,38 @@ do
     cat $i/style.css >> $i/style.css_tmp
     cp $i/gameplay.js $i/gameplay.js_tmp
 done
-#
-#if [ "$CO_DEBUG" = true ]
-#then
-#    usage_addon_keys=(${usage_addon_keys[@]} traliva_debug)
-#    #usage_addon_keys=(${usage_addon_keys[@]} traliva_aaa)
-#fi
-#if [ "$COMPRESS_USAGE" = true ]
-#then
-#    #
-#    #$UTILS_PATH/sugar/usage.sh "\"${all_js_css[@]}\"" "\"${usage_addon_keys[@]}\""
-#fi
-## -- синтаксический сахар: перечисления
-## ==
-#if [ "$CO_RELEASE" = true ]
-#then
-#    #if [ "$COMPRESS_NAMES" = true ]
-#    #then
-#    #fi
-#    if [ "$COMPRESS_LINEBREAKS" = true ]
-#    then
-#        for i in $all
-#        do
-#            cat $i/style.css_tmp | $UTILS_PATH/css.py > $i/style.css_tmp2 && mv $i/style.css_tmp2 $i/style.css_tmp
-#            cat $i/gameplay.js_tmp | $UTILS_PATH/js.py > $i/gameplay.js_tmp2 && mv $i/gameplay.js_tmp2 $i/gameplay.js_tmp
-#        done
-#    fi
-#fi
-#for i in $all
-#do
-#    mv $i/style.css_tmp $i/style.css
-#    mv $i/gameplay.js_tmp $i/gameplay.js
-#done
+
+if [ "$CO_DEBUG" = true ]
+then
+    usage_addon_keys=(${usage_addon_keys[@]} traliva_debug)
+    #usage_addon_keys=(${usage_addon_keys[@]} traliva_aaa)
+fi
+if [ "$COMPRESS_USAGE" = true ]
+then
+    #
+    #$UTILS_PATH/sugar/usage.sh "\"${all_js_css[@]}\"" "\"${usage_addon_keys[@]}\""
+fi
+# -- синтаксический сахар: перечисления
+# ==
+if [ "$CO_RELEASE" = true ]
+then
+    #if [ "$COMPRESS_NAMES" = true ]
+    #then
+    #fi
+    if [ "$COMPRESS_LINEBREAKS" = true ]
+    then
+        for i in $all
+        do
+            cat $i/style.css_tmp | $UTILS_PATH/css.py > $i/style.css_tmp2 && mv $i/style.css_tmp2 $i/style.css_tmp
+            cat $i/gameplay.js_tmp | $UTILS_PATH/js.py > $i/gameplay.js_tmp2 && mv $i/gameplay.js_tmp2 $i/gameplay.js_tmp
+        done
+    fi
+fi
+for i in $all
+do
+    mv $i/style.css_tmp $i/style.css
+    mv $i/gameplay.js_tmp $i/gameplay.js
+done
 
 # ###############
 flags=0
