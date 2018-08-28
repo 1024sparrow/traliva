@@ -20,7 +20,7 @@ function $StubWidget($p_wContainer, $p_id){
     $WidgetStateSubscriber.call(this, $p_wContainer);
     var $e = document.createElement('div');
     $e.innerHTML = '<div class="$traliva__stub_widget__text">id: "'+$p_id+'"</div>';
-    $p_wContainer.setContent($e);
+    $p_wContainer.$setContent($e);
 
     var $bg;
     if ($StubWidget__stubWidgets.hasOwnProperty($p_id))

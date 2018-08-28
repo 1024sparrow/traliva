@@ -49,7 +49,7 @@ $Traliva.$init = function($o){
     #USAGE_BEGIN#debug##
     console.log('начинаю инициализацию');
     #USAGE_END#debug##
-    $1 = fillParam($o);
+    $1 = $fillParam($o);
     #USAGE_BEGIN#debug##
     if (typeof $1 === 'string'){
         console.error('В $Traliva.$init() передан некорректный объект: ' + $1);
@@ -76,7 +76,7 @@ $Traliva.$init = function($o){
         $3 = {
             $show_states: false
         };
-        if ($Traliva.$debug.$hasOwnProperty('$url')){
+        if ($Traliva.$debug.hasOwnProperty('$url')){
             $3.$url = $Traliva.$debug.$url;
         }
         $d.$__debug.$publisher.$setState($3);

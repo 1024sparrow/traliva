@@ -53,7 +53,7 @@ $Stack.prototype.$removeItem = function($p_index){
 $Stack.prototype.$_onChildVisibilityChanged = function($wChild){
     var $0, $1, $2;//$1 - top level widget index
     for ($0 = 0 ; $0 < this.$__items.length ; $0++){
-        if (this.$__items[$0].isVisible())
+        if (this.$__items[$0].$isVisible())
             $1 = $0;
     }
     for ($0 = 0 ; $0 < this.$__items.length ; $0++){
