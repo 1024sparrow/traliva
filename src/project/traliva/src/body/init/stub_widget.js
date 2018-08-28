@@ -34,5 +34,5 @@ function $StubWidget($p_wContainer, $p_id){
 };
 $StubWidget.prototype = Object.create($WidgetStateSubscriber.prototype);
 $StubWidget.prototype.constructor = $StubWidget;
-$StubWidget.prototype.$processStateChanges = function(){}
+$StubWidget.prototype.$processStateChanges = function(){};
 $WidgetStateSubscriber.prototype.$destroy = function(){};//уничтожить созданный ранее DOM-элемент

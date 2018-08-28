@@ -1,7 +1,7 @@
 //hello from gp.js
 
 $Traliva.$debug = {
-    $state: true;
+    $state: true
 };
 var $o = {
     $target: 'web',

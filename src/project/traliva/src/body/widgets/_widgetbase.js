@@ -178,8 +178,8 @@ $_WidgetBase.prototype.$setVisible = function($p_visible){
             this.$__wParent.$_onChildVisibilityChanged(this);
     }
 };
-$_WidgetBase.prototype.$_onChildVisibilityChanged = function($wChild){}
-$_WidgetBase.prototype.$isVisible = function(){return this.$__isVisible;}
+$_WidgetBase.prototype.$_onChildVisibilityChanged = function($wChild){};
+$_WidgetBase.prototype.$isVisible = function(){return this.$__isVisible;};
 $_WidgetBase.prototype.$_onResized = function($w, $h){
 	console.log('this method must be reimplemented: update content or child elements sizes for <this.$_content> for given in parameters new size');
 };
