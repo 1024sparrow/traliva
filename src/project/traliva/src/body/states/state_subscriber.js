@@ -7,7 +7,7 @@ var $StateSubscriber = function(){
         $substateMapper: undefined,
         $substateMapperType: undefined,
         $state: {}
-    }
+    };
     this._state = this.$__d.$state;//undefined untill be set
 };
 

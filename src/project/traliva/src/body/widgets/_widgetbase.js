@@ -97,7 +97,7 @@ function $_WidgetBase($0, $1){
 				var $w = window.innerWidth;
 				var $h = window.innerHeight;
 				$self.$resize($w,$h);
-			}
+			};
 			if(window.attachEvent) {
 				window.attachEvent('onresize', $0);
 				window.attachEvent('onload', $0);
