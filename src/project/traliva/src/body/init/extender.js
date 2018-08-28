@@ -6,7 +6,7 @@ function $Догрузчик($p_getUrl, $p_scope){
     this.$_extId = undefined;
     this.$_getUrl = $p_getUrl;
     this.$_scope = $p_scope;
-}
+};
 $Догрузчик.prototype = Object.create($StateSubscriber.prototype);
 $Догрузчик.prototype.constructor = $Догрузчик;
 $Догрузчик.prototype.$processStateChanges = function($s){
@@ -44,7 +44,7 @@ $Догрузчик.prototype.$processStateChanges = function($s){
     })(this, $url);
 
     this.$_extId = $s;
-}
+};
 $Догрузчик.prototype.$ok = function($o){
     console.log(JSON.stringify($o));
     //if ($Traliva.$__d.w.hasOwnProperty())
@@ -77,8 +77,8 @@ $Догрузчик.prototype.$ok = function($o){
     if ($o.hasOwnProperty('$extender')){
         this.$_scope.$extender = $o.$extender;
     }
-}
+};
 $Догрузчик.prototype.$fail = function($p_reason){
     console.log('error: ' + $p_reason);
-}
+};
 //'======================================';

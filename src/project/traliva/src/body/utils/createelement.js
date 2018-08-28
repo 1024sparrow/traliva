@@ -23,4 +23,4 @@ $Traliva.$createElement = function($p_html, $p_variables, $p_classname){
         }
     }
     return $retVal;
-}
+};

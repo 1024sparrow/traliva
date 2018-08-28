@@ -75,4 +75,4 @@ function $background($p_e, $p_o){
         }
     }
     #USAGE_END#debug##
-}
+};

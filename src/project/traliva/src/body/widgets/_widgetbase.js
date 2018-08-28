@@ -112,13 +112,13 @@ function $_WidgetBase($0, $1){
 		})(this);
 	}
 	this.$_divInitialDisplayProperty = this.$_div.style.display;
-}
+};
 $_WidgetBase.prototype.$isMouseEventsBlocked = function(){
     return this.$__isMouseEventsBlocked;
-}
+};
 $_WidgetBase.prototype.$__blockScrollHandler = function($e){
     $e.preventDefault();
-}
+};
 $_WidgetBase.prototype.$setMouseEventsBlocked = function($b){
     if ($b != this.$__isMouseEventsBlocked){
         if ($b){
@@ -134,13 +134,13 @@ $_WidgetBase.prototype.$setMouseEventsBlocked = function($b){
         //this.$_div.style.pointerEvents = $b ? 'none' : 'auto';
         this.$__isMouseEventsBlocked = $b;
     }
-}
+};
 $_WidgetBase.prototype.$_createContentElem = function(){
 	console.log('this method must be reimplemented');
 	var $retVal = document.createElement('div');
 	$retVal.style.background = '#f00';
 	return $retVal;
-}
+};
 $_WidgetBase.prototype.$resize = function($w, $h){
 	this.$_div.style.height = $h + 'px';
 	this.$_div.style.maxHeight = $h + 'px';
@@ -168,7 +168,7 @@ $_WidgetBase.prototype.$resize = function($w, $h){
             };
         })(this);
     }*/
-}
+};
 $_WidgetBase.prototype.$setVisible = function($p_visible){
     if ($p_visible !== this.$__isVisible){
     	this.$_div.style.display = $p_visible ? this.$_divInitialDisplayProperty : 'none';
@@ -177,17 +177,17 @@ $_WidgetBase.prototype.$setVisible = function($p_visible){
         if (this.$__wParent)
             this.$__wParent.$_onChildVisibilityChanged(this);
     }
-}
+};
 $_WidgetBase.prototype.$_onChildVisibilityChanged = function($wChild){}
 $_WidgetBase.prototype.$isVisible = function(){return this.$__isVisible;}
 $_WidgetBase.prototype.$_onResized = function($w, $h){
 	console.log('this method must be reimplemented: update content or child elements sizes for <this.$_content> for given in parameters new size');
-}
+};
 $_WidgetBase.prototype.$_onScrolled = function($pos){
 	// reimplement this method if you need
-}
+};
 $_WidgetBase.prototype.$_onVisibilityChanged = function($p_childWidget, $p_visible){
-}
+};
 var $WidgetBase__reSize = /^(\d+)(\s*)((px)|(part))$/;
 $_WidgetBase.prototype.$_transformStringSize = function($str){
 	//Почему невалидное значение по умолчанию - чтобы для программиста не прошло незамеченным.
@@ -209,5 +209,5 @@ $_WidgetBase.prototype.$_transformStringSize = function($str){
 	}
 	//console.log(JSON.stringify($retVal));
 	return $retVal;
-}
+};
 // -- end class $_WidgetBase --

@@ -11,7 +11,7 @@
                     "stub_widget.js",
                     "slot_widget.js",
                     "construct_layout.js",
-                    "догрузчик.js",
+                    "extender.js",
                     "fill_param.js",
                     "init.js",
                     "history.js"

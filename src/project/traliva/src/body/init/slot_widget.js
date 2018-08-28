@@ -2,7 +2,7 @@
 function $SlotWidget($p_parentWidget, $p_attr){
 	$Stack.call(this, $p_parentWidget, $p_attr);
     this.$_layerMap = {};
-}
+};
 $SlotWidget.prototype = Object.create($Stack.prototype);
 $SlotWidget.prototype.constructor = $SlotWidget;
 
@@ -31,7 +31,7 @@ $SlotWidget.prototype.$setContent = function($p_id, $p_wContent){
         $index: this.$__items.length - 1,
         $widget: $p_wContent
     };
-}
+};
 $SlotWidget.prototype.$removeContent = function($p_id){
     if (!this.$_layerMap.hasOwnProperty($p_id)){
 #USAGE_BEGIN#debug##
@@ -49,7 +49,7 @@ $SlotWidget.prototype.$removeContent = function($p_id){
             $1.$index--;
         }
     }
-}
+};
 $SlotWidget.prototype.$widget = function($p_id){
     if (!this.$_layerMap.hasOwnProperty($p_id)){
 #USAGE_BEGIN#debug##
@@ -58,5 +58,5 @@ $SlotWidget.prototype.$widget = function($p_id){
         return;
     }
     return this.$_layerMap[$p_id].$widget;
-}
+};
 //'---------------init/slot_widget.js---------------';

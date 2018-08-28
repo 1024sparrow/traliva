@@ -16,20 +16,20 @@ function $Strip($p_orient, $p_parentWidget, $p_attr){
 		this.$_eRowSingle = this.$_eTable.insertRow(0);
 	}
 	$_WidgetBase.call(this, $p_parentWidget, $p_attr);
-}
+};
 $Strip.prototype = Object.create($_WidgetBase.prototype);
 $Strip.prototype.constructor = $Strip;
 $Strip.prototype.$_createContentElem = function(){
 	return this.$_eTable;
-}
+};
 $Strip.prototype.$_onResized = function($w,$h){
 	this.$__w = $w;
 	this.$__h = $h;
 	this.$__updateSizes();
-}
+};
 $Strip.prototype.$_onChildVisibilityChanged = function($wChild){
 	this.$__updateSizes();
-}
+};
 $Strip.prototype.$__updateSizes = function(){
 	var $totalForParts = (this.$__orient == $Traliva.$Strip__Orient__hor) ? this.$__w : this.$__h;
 	if ($totalForParts < 0)
@@ -66,7 +66,7 @@ $Strip.prototype.$__updateSizes = function(){
 		else
 			$1.$resize(this.$__w, $tmpSize);
 	}
-}
+};
 $Strip.prototype.$addItem = function($p_itemWidget, $p_size){
 	if (typeof $p_itemWidget != 'object'){
 		console.log('epic fail');
@@ -90,7 +90,7 @@ $Strip.prototype.$addItem = function($p_itemWidget, $p_size){
 	$eCell.style.padding = '0';
 	this.$__items.push($p_itemWidget);
 	this.$__sizes.push($size);
-}
+};
 #USAGE_BEGIN#disabled##
 $Strip.prototype.$addSplitter = function(){
 	if (!this.$__sizes.length){
@@ -175,7 +175,7 @@ $Strip.prototype.$addSplitter = function(){
 			}
 		}
 	}
-}
+};
 #USAGE_END#disabled##
 $Strip.prototype.$setItemSize = function($sizeMap){//usage example: wRoot.$setItemSize({0:'2part'});
 	for (var $0 in $sizeMap){
@@ -187,5 +187,5 @@ $Strip.prototype.$setItemSize = function($sizeMap){//usage example: wRoot.$setIt
 		this.$__sizes[$0] = $1;
 	}
 	this.$__updateSizes();
-}
+};
 // -- end class $Strip --

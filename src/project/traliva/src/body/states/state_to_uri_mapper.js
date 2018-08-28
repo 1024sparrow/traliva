@@ -28,7 +28,7 @@ function StateToUriMapper(statesObj){
     this._isStateChangeProcessing = false;
 
     this._prevAr = [];
-}
+};
 StateToUriMapper.prototype = Object.create(StateSubscriber.prototype);
 StateToUriMapper.prototype.constructor = StateToUriMapper;
 StateToUriMapper.prototype.processStateChanges = function(s){
@@ -64,12 +64,12 @@ StateToUriMapper.prototype.processStateChanges = function(s){
     }
     this._isStateChangeProcessing = false;
     this.isVirgin = false;
-}
+};
 //вызывается только в режиме отладки
 StateToUriMapper.prototype.updateForUrl = function(p_url){
     this._state = this.updateState();
     this._registerStateChanges();
-}
+};
 StateToUriMapper.prototype.updateState = function(){
     //if (this._isStateChangeProcessing)
     //    return;
@@ -221,5 +221,5 @@ StateToUriMapper.prototype.updateState = function(){
     //this._prevAr = ar;
     this._prevAr = prevArCandidate;
     return this._statesObj.initState;
-}
+};
 // -- end of class StateToUriMapper --

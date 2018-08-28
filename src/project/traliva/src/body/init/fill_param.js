@@ -8,7 +8,7 @@ function $checkConstructorForInheritance($p_validating, $p_validatingFor){
             return true;
     }
     return false;
-}
+};
 
 // Функция, разворачивающая сокращённую форму записи в полную
 function $fillParam($0){
@@ -70,5 +70,5 @@ function $fillParam($0){
     else{
         $0.$widgets = {};
     }
-}
+};
 //'---------------init/fill_param.js---------------';

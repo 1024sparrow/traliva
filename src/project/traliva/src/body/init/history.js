@@ -2,7 +2,7 @@
 function $HistorySubstitute(){
     this.$_initState = JSON.parse(JSON.stringify($p_initState));
     this.$__copy = function($o){return JSON.parse}
-}
+};
 
 // Альтернативная версия Истории, используемая только в случае режима отладки 'url'
 $Traliva.$history = {
@@ -47,5 +47,5 @@ $Traliva.$history = {
     },
     // сюда в классе виджета,отображающего URL в отладочной панели, должна быть записана функция, обновляющая URL в отладочной панели.
     $_updateUrl: function(){console.log('oops..');}
-}
+};
 //'---------------init/history.js---------------';

@@ -8,12 +8,12 @@ function $Stack($p_parentWidget, $p_attr){
 	this.$_eStack = document.createElement('div');
 	this.$_eStack.style.position = 'relative';
 	$_WidgetBase.call(this, $p_parentWidget, $p_attr);
-}
+};
 $Stack.prototype = Object.create($_WidgetBase.prototype);
 $Stack.prototype.constructor = $Stack;
 $Stack.prototype.$_createContentElem = function(){
 	return this.$_eStack;
-}
+};
 $Stack.prototype.$_onResized = function($w,$h){
     this.$_w = $w;
     this.$_h = $h;
@@ -21,7 +21,7 @@ $Stack.prototype.$_onResized = function($w,$h){
 		var $item = this.$__items[$0];
 		$item.$resize($w,$h);
 	}
-}
+};
 $Stack.prototype.$addItem = function($p_itemWidget){
 	if (typeof $p_itemWidget != 'object'){
 		console.log('epic fail');
@@ -41,7 +41,7 @@ $Stack.prototype.$addItem = function($p_itemWidget){
         $p_itemWidget.$resize(this.$_w, this.$_h);
 
 	this.$__zIndexCounter++;
-}
+};
 $Stack.prototype.$removeItem = function($p_index){
     if ($p_index >= this.$__items.length){
         console.log('epic fail');
@@ -49,7 +49,7 @@ $Stack.prototype.$removeItem = function($p_index){
     }
     this.$_eStack.removeChild(this.$__items[$p_index].$_div);
     this.$__items.splice($p_index, 1);
-}
+};
 $Stack.prototype.$_onChildVisibilityChanged = function($wChild){
     var $0, $1, $2;//$1 - top level widget index
     for ($0 = 0 ; $0 < this.$__items.length ; $0++){
@@ -60,5 +60,5 @@ $Stack.prototype.$_onChildVisibilityChanged = function($wChild){
         $2 = this.$__items[$0];
         $2.$setMouseEventsBlocked($0 !== $1);
     }
-}
+};
 // -- end class $Stack --

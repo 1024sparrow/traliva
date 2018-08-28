@@ -5,7 +5,7 @@ function $WidgetStateSubscriber($p_wContainer, $p_options){
     };
     if ($p_options && $p_options.hasOwnProperty('$bg'))
         $p_wContainer.$_div.style.background = $p_options.$bg;
-}
+};
 $WidgetStateSubscriber.prototype = Object.create($StateSubscriber.prototype);
 $WidgetStateSubscriber.prototype.constructor = $WidgetStateSubscriber;
 $WidgetStateSubscriber.prototype.$processStateChanges = function(){

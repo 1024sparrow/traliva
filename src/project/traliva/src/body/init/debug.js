@@ -1,14 +1,14 @@
 //'---------------init/debug.js---------------';
 function $DebugConsole(){
     $StateSubscriber.call(this);
-}
+};
 $DebugConsole.prototype = Object.create($StateSubscriber.prototype);
 $DebugConsole.prototype.constructor = $DebugConsole.prototype;
 $DebugConsole.prototype.$processStateChanges = function($s){
 #USAGE_BEGIN#debug##
     console.log('%cDEBUG:%c ' + JSON.stringify($s), 'color: #afa', 'color: #f80');
 #USAGE_END#debug##
-}
+};
 
 function $Button($p_wContainer, $p_options){// $options: $title, color('#f00'), valueVarName - имя свойства, в которое сохранять значение
     $StateSubscriber.call(this);
@@ -27,11 +27,11 @@ function $Button($p_wContainer, $p_options){// $options: $title, color('#f00'), 
     };}(this, $p_options));
     $p_wContainer.$setContent($e);
     //$p_wContainer.$_div.style.margin = '6px 2px';
-}
+};
 $Button.prototype = Object.create($Traliva.$StateSubscriber.prototype);
 $Button.prototype.constructor = $Button;
 $Button.prototype.$processStateChanges = function($s){
-}
+};
 
 function $DebugPanelUrlWidget($p_wContainer){
     $p_wContainer.$_div.className = '$debug_panel';
@@ -80,11 +80,11 @@ function $DebugPanelUrlWidget($p_wContainer){
     this.$_layout.$addItem(this.$_leUrl);
     this.$_layout.$addItem(this.$_bnEnter, '32px');
     $p_wContainer.$setContent(this.$_layout);
-}
+};
 $DebugPanelUrlWidget.prototype = Object.create($StateSubscriber.prototype);
 $DebugPanelUrlWidget.prototype.constructor = $DebugPanelUrlWidget;
 $DebugPanelUrlWidget.prototype.$processStateChanges = function($s){
-}
+};
 
 function $DebugStatesWidget($p_wContainer, $p_wExtender, $p_wStates){
     $p_wContainer.$_div.className = '$debug_states';
@@ -101,7 +101,7 @@ function $DebugStatesWidget($p_wContainer, $p_wExtender, $p_wStates){
     var $0 = new $DebugStatesStatesWidget($p_wStates);
     $Traliva.$__d.$__debug.$debugStatesStatesWidget = $0;
     this.$DebugStatesWidget.$publisher.$registerSubscriber($0);
-}
+};
 $DebugStatesWidget.prototype = Object.create($StateSubscriber.prototype);
 $DebugStatesWidget.prototype.constructor = $DebugStatesWidget;
 $DebugStatesWidget.prototype.$processStateChanges = function($s){
@@ -110,7 +110,7 @@ $DebugStatesWidget.prototype.$processStateChanges = function($s){
         this.$_enabled = $s.$show_states;
     }
     this.$DebugStatesWidget.$publisher.$setState($s);
-}
+};
 
 function $DebugStatesStatesWidget($p_wContainer){
     $p_wContainer.$_div.className = '$debug_states_states';
@@ -153,24 +153,24 @@ function $DebugStatesStatesWidget($p_wContainer){
     $wStrip.$addItem($wLeft);
     $wStrip.$addItem($wRight, '128px');
     $p_wContainer.$setContent($wStrip);
-}
+};
 $DebugStatesStatesWidget.prototype = Object.create($StateSubscriber.prototype);
 $DebugStatesStatesWidget.prototype.constructor = $DebugStatesStatesWidget;
 $DebugStatesStatesWidget.prototype.$processStateChanges = function($s){
     //this.$eState.value = JSON.stringify($s, undefined, 2);
-}
+};
 $DebugStatesStatesWidget.prototype.$processState = function($p_subscriber, $p_state){
     this.$lastValidState = $p_state;
     this.$eState.value = JSON.stringify($p_state, undefined, 2);
-}
+};
 
 function $DebugStatesExtenderWidget($p_wContainer){
     $p_wContainer.$_div.className = '$debug_states_extender';
     $StateSubscriber.call(this);
     $p_wContainer.$_div.className = '$traliva__debug_panel__states_extender';
-}
+};
 $DebugStatesExtenderWidget.prototype = Object.create($StateSubscriber.prototype);
 $DebugStatesExtenderWidget.prototype.constructor = $DebugStatesExtenderWidget;
 $DebugStatesExtenderWidget.prototype.$processStateChanges = function($s){
-}
+};
 //'---------------init/debug.js---------------';

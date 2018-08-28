@@ -117,7 +117,7 @@ $StatePublisher.prototype.$__debugState = function($0, $1, $2){
 function $StatePublisherNoDebug(){
     $StatePublisher.call(this);
     this.$_nodebug = true;
-}
+};
 $StatePublisherNoDebug.prototype = Object.create($StatePublisher.prototype);
 $StatePublisherNoDebug.prototype.constructor = $StatePublisherNoDebug;
 

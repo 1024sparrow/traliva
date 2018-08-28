@@ -138,5 +138,5 @@ function $construct_layout($p_wParent, $p_oLayout, $p_defaultBackground, $p_widg
         $Traliva.$widgets[$p_oLayout.$id] = $retVal;
     }
     return $retVal; // возврат из функции должен быть здесь
-}
+};
 //'---------------init/construct_layout.js---------------';

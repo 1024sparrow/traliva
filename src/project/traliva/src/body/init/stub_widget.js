@@ -12,7 +12,7 @@ function $StubWidget__getBgByNum($N){
     $N -= $d;
     $i = $N % $imageCount;
     return 'bg-'+$c+'-'+$d+'-'+$i;
-}
+};
 
 var $StubWidget__stubWidgets = {};//stubWidgetId's set
 var $StubWidget__stubWidgetCount = 0;
@@ -31,7 +31,7 @@ function $StubWidget($p_wContainer, $p_id){
         $StubWidget__stubWidgetCount++;
     }
     $p_wContainer.$_div.className = '$traliva__stub_widget ' + $bg;
-}
+};
 $StubWidget.prototype = Object.create($WidgetStateSubscriber.prototype);
 $StubWidget.prototype.constructor = $StubWidget;
 $StubWidget.prototype.$processStateChanges = function(){}

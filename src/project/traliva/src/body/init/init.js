@@ -31,7 +31,7 @@ function $switchToLayout($layId){
         }
     }
     $d.$layout = $layId;
-}
+};
 
 $Traliva.$init = function($o){
     #USAGE_BEGIN#debug##

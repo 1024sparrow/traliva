@@ -19,7 +19,7 @@ function $Widget($p_parentWidget, $p_attr){
     }
 
     //this._div.className = 'widget_div';//
-}
+};
 $Widget.prototype = Object.create($_WidgetBase.prototype);
 $Widget.prototype.constructor = $Widget;
 $Widget.prototype.$_onResized = function($w, $h){
@@ -50,10 +50,10 @@ $Widget.prototype.$_onResized = function($w, $h){
         this.$_content.style.minWidth = $w + 'px';
     }
 //}} Подгон размера под содержимое, если не указан автоскроллинг
-}
+};
 $Widget.prototype.$_createContentElem = function(){
 	return this.$_contentDiv;
-}
+};
 $Widget.prototype.$setContent = function($p_div, $p_bgColor){
 	this.$__contentWidget = undefined;
 	if ($p_div && (typeof $p_div == 'object')){
@@ -83,7 +83,7 @@ $Widget.prototype.$setContent = function($p_div, $p_bgColor){
 	//this.$_div.style.background = $p_bgColor ? $p_bgColor : 'rgba(0,0,0,0)';
 	if ($p_bgColor)
 		this.$_div.style.background = $p_bgColor;
-}
+};
 /*$Widget.prototype.$setContent = function(content){
 	if (typeof content == 'string'){//color
 		this.$_div.style.background = content;

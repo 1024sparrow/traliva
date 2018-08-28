@@ -77,4 +77,4 @@ $xhttp.setRequestHeader('Content-Type', 'text/plain')
 	if ($timeout)
 		$xhttp.timeout = $timeout;
 	$xhttp.send($dataToPost);
-}
+};
