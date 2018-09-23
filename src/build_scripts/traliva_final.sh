@@ -5,26 +5,12 @@
 #echo $2 -- compiled
 
 . $1/src/config
-echo $TARGETS
-echo $COMPILE_OPTIONS 
 
-mode_release=false
-mode_debug=false
-for i in $COMPILE_OPTIONS
+compiled_dir="$1/$2/targets"
+mkdir "$compiled_dir"
+for i in $(ls -1 $1/src/build_scripts/targets)
 do
-    #echo "-- $i"
-    if [ $i = release ] 
-    then
-        #echo release detected
-        mode_release=true
-    elif [ $i = debug ]
-    then
-        #echo debug detected
-        mode_debug=true
-    fi
+    echo "Запускается скрипт генерации исходного кода под платформу \"$i\""
+    mkdir "$compiled_dir"/"$i"
+    $1/src/build_scripts/targets/"$i"/init.sh "$1/$2/project" "$compiled_dir"/"$i"
 done
-
-if [ mode_debug ]
-then
-    echo ddd
-fi
