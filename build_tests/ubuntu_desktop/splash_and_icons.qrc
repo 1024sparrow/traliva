@@ -2,6 +2,7 @@
 <RCC version="1.0">
     <qresource prefix="/">
         <file>splash.png</file>
+        <file>icon.png</file>
     </qresource>
 </RCC>
 
