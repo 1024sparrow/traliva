@@ -24,11 +24,12 @@ Main::Main(int argc, char **argv)
     QPixmap pix(":/splash.png");
     splashScreen = new QSplashScreen(pix);
     splashScreen->setMask(pix.mask());
-    splashScreen->show();
+    //splashScreen->show(); // раскомментируйте, если загрузка может быть долгой
 
     wv = new QWebView();
     wv->setWindowTitle(M_APPNAME);
-    wv->page()->mainFrame()->addToJavaScriptWindowObject("TralivaApi", new ApiNative);
+    wv->page()->mainFrame()->addToJavaScriptWindowObject("TralivaApi", new ApiNative(wv));
+    //wv->page()->mainFrame()->addToJavaScriptWindowObject("api.native", new ApiNative);
     connect(wv, SIGNAL(loadFinished(bool)), this, SLOT(onLoadFinished(bool)));
     wv->load(QUrl("qrc:///web_content/index.html"));
 }
