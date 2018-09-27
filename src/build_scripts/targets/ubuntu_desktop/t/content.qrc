@@ -1,0 +1,9 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+    <qresource prefix="/">
+        <file>web_content/index.html</file>
+        <file>web_content/style.css</file>
+        <file>web_content/gameplay.js</file>
+    </qresource>
+</RCC>
+
