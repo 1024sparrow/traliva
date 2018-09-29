@@ -1,0 +1,17 @@
+body{background: #000;color: #ffa;font-family: 'Ubuntu Mono', monospace;}
+a.old{
+    color: #444
+}
+a.new{
+    color: #48f
+}
+#button1{
+    width: 256px;
+    height: 256px;
+    background: #ffa;
+}
+#button2{
+    width: 256px;
+    height: 256px;
+    background: #f64;
+}
