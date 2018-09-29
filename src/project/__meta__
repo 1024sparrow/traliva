@@ -13,6 +13,10 @@
         {
             "target": "config",
             "source":{ "list":["config"] }
+        },
+        {
+            "target": "api",
+            "source":{"list":["api"]}
         }
     ],
     "dir_proc": ["project_final"]
