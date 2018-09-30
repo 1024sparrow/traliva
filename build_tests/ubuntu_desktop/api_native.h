@@ -5,6 +5,7 @@
 #include <QMap>
 
 class QWebView;
+class QProcess;
 class ApiNative : public QObject
 {
     Q_OBJECT
@@ -14,7 +15,7 @@ public:
     Q_INVOKABLE int sum(int p_a, int p_b);
 
     Q_INVOKABLE int startPlayer();
-    Q_INVOKABLE void setToPlayer(const char *);
+    Q_INVOKABLE void setToPlayer(const QString &);
 
 private slots:
     void playerChanged(const char *);
@@ -24,7 +25,7 @@ private slots:
 
 private:
     QWebView *webView;
-    QMap<size_t, QString> ss;
+    QMap<QString, QProcess *> processByInputFunctionMap;
 };
 
 #endif // API_H

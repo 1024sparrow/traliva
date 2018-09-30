@@ -23,7 +23,7 @@ var apiDescr = {
             finished: 'playerFinished' // эта функция будет вызываться с кодом завершения процесса
         },*/
         {
-            path: 'utils/1.sh',
+            path: 'binutils/play.sh',
             platforms: ['ubuntu_desktop'],
             prestarted: false,
             startFunc: 'startPlayer', // ## из состава Traliva.api.native
@@ -47,7 +47,7 @@ var api = {
         //
     },
     playerFinished: function(p_exitStatus){
-        //
+        window.alert("player finish signal received winth exit code: " + p_exitStatus);
     }
 
 };
@@ -59,10 +59,10 @@ eBn.addEventListener('click', function(){window.alert('button 1 clicked: ' + api
 
 eBn = document.getElementById('button2');
 eBn.addEventListener('click', function(){
-    //window.alert('sdfghjhg');
-    //window.alert('button 1 clicked: ' + api.native.sum(2, 3) + ' -- ' + api.js.func1())
-    api.native.startPlayer();
     api.playerChanged = function(p_data){window.alert('data changed: ' + p_data);};
+    var a = api.native.startPlayer();
+    window.alert('start status: '+ a);
+    api.native.setToPlayer("12 привет\n");
 });
 
 var API = {};

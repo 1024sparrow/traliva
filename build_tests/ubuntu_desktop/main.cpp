@@ -5,14 +5,18 @@
 #include <QSplashScreen>
 #include <QBitmap>
 
+#include <libgen.h>
+
 #include "main.h"
 #include "api_native.h"
 
 const QString M_APPNAME = "asv";
+const char * M_APPDIR;
 
 int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
+    M_APPDIR = dirname(argv[0]);
     app.setWindowIcon(QIcon(":/icon.png"));
     Main main(argc, argv);
     return app.exec();

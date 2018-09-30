@@ -4,3 +4,10 @@ __pycache__/
 *.swo
 *~
 src/build_scripts/utils/test_data/
+build_tests/ubuntu_desktop/qt4webkit
+build_tests/ubuntu_desktop/Makefile
+build_tests/ubuntu_desktop/*.o
+build_tests/ubuntu_desktop/qrc_*
+build_tests/ubuntu_desktop/moc_*
+build_tests/ubuntu_desktop/*.user
+build_tests/ubuntu_desktop/.qmake.stash

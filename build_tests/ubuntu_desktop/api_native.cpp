@@ -3,8 +3,13 @@
 #include <QWebView>
 #include <QWebFrame>
 #include <QDebug>
+#include <QTextStream>
+#include <QDir>
+#include <QMessageBox>//
 
 //static QProcess *CHILD_PROCESS = 0;
+
+extern const char * M_APPDIR;
 
 ApiNative::ApiNative(QWebView *wv)
     :QObject(wv), webView(wv)
@@ -20,17 +25,26 @@ int ApiNative::sum(int p_a, int p_b)
 int ApiNative::startPlayer()
 {
     QProcess *process = new QProcess(this);
+    process->setWorkingDirectory(QString("%1/binutils").arg(M_APPDIR));
     connect(process, SIGNAL(finished(int)), this, SLOT(playerFinished(int)));
-    ss.insert((size_t)process, "playerChanged");//%%%
+    if (processByInputFunctionMap.contains("setToPlayer"))
+        return -1;
+    processByInputFunctionMap.insert("setToPlayer", process);
     connect(process, SIGNAL(readyReadStandardOutput()), this, SLOT(onReadyReadStandardOutput()));//%%%%
-    process->start("/home/user/da/pro/projects/qt4webkit/web_content/utils/1.sh");
+    QString pa = QString("%1/binutils/play.sh").arg(M_APPDIR);
+    process->start(pa);
+    QMessageBox::information(0, "ffffffffffffffffff", pa);
     //qDebug()<<"dsfghjkl;";
     return 0;
 }
 
-void ApiNative::setToPlayer(const char *)
+void ApiNative::setToPlayer(const QString &p)
 {
-    //
+    QMessageBox::information(0, "ffffffffffffffffff", p);
+    QProcess *process = processByInputFunctionMap.value("setToPlayer");
+    QTextStream ts(process);
+    ts.setCodec("utf8");
+    ts << p;
 }
 
 void ApiNative::playerChanged(const char *)
@@ -40,18 +54,20 @@ void ApiNative::playerChanged(const char *)
 
 void ApiNative::playerFinished(int p_exitCode)
 {
-    //
+    const QString funcName = "playerFinished";
+    QString str = QString("api.%1(%2);").arg(funcName).arg(p_exitCode);
+    webView->page()->mainFrame()->evaluateJavaScript(str);
 }
 
 void ApiNative::onReadyReadStandardOutput()
 {
     QProcess *process = (QProcess *)(sender());
-    QString funcName = ss.value((size_t)process);
-    if (funcName.isEmpty())
-        return;//%%%
-    while(!process->atEnd())
+    QTextStream ts(process);
+    ts.setCodec("utf8");
+    const QString funcName = "playerChanged";
+    while(!ts.atEnd())
     {
-        QString str = QString(process->readLine().constData())
+        QString str = QString(ts.readLine().constData())
                 .replace('\n', "")
                 .replace('\'', "\\\'")
                 .replace('\"', "\\\"")
