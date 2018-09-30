@@ -10,7 +10,7 @@
 #include "main.h"
 #include "api_native.h"
 
-const QString M_APPNAME = "asv";
+const QString M_APPNAME = "qt4webkit"; // переименуйте на то, что вам надо
 const char * M_APPDIR;
 
 int main(int argc, char **argv)
@@ -33,7 +33,6 @@ Main::Main(int argc, char **argv)
     wv = new QWebView();
     wv->setWindowTitle(M_APPNAME);
     wv->page()->mainFrame()->addToJavaScriptWindowObject("TralivaApi", new ApiNative(wv));
-    //wv->page()->mainFrame()->addToJavaScriptWindowObject("api.native", new ApiNative);
     connect(wv, SIGNAL(loadFinished(bool)), this, SLOT(onLoadFinished(bool)));
     wv->load(QUrl("qrc:///web_content/index.html"));
 }
