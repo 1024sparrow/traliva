@@ -6,8 +6,11 @@
 #include <QBitmap>
 #include <QDebug>//
 
+#include <stdio.h>
 //#include <libgen.h>
 #include <QDir>
+#include <QFileInfo>
+#include <QTemporaryFile>
 
 #include "main.h"
 #include "api_native.h"
@@ -18,6 +21,21 @@ QString M_APPDIR;
 int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
+
+    QTemporaryFile tmpFile;
+    tmpFile.setFileTemplate(QString("%1/%2.XXXXXX").arg(QDir::tempPath()).arg(M_APPNAME));
+    if (!tmpFile.open())
+    {
+        fprintf(stderr, "Не смог открыть временный файл");
+        return -1;
+    }
+    QFileInfo tmpFileInfo(tmpFile);
+    tmpFile.close();
+    QDir tmpDir = QDir::temp();
+    //qDebug()<<basename(tmpFile.fileName().toUtf8().data());
+    //qDebug()<<tmpFileInfo.fileName();
+    QDir::temp().mkdir(tmpFileInfo.fileName()); // <-- надо сохранить путь, по которому при закрытии надо будет удалить директорию
+
     M_APPDIR = QDir().canonicalPath() + "/binutils";//dirname(argv[0]);
     app.setWindowIcon(QIcon(":/icon.png"));
     Main main(argc, argv);
