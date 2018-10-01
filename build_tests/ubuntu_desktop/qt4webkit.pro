@@ -1,4 +1,5 @@
 QT += webkit
+DEFINES += BINUTILTS_IN_RESOURCES
 
 SOURCES += \
     main.cpp \

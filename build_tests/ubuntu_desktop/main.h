@@ -10,6 +10,7 @@ class Main : public QObject
     Q_OBJECT
 public:
     Main(int argc, char **argv);
+    ~Main();
 private slots:
     void onLoadFinished(bool p_ok);
 

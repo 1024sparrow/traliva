@@ -9,7 +9,7 @@
 
 //static QProcess *CHILD_PROCESS = 0;
 
-extern const char * M_APPDIR;
+extern QString M_APPDIR;
 
 ApiNative::ApiNative(QWebView *wv)
     :QObject(wv), webView(wv)
@@ -25,13 +25,13 @@ int ApiNative::sum(int p_a, int p_b)
 int ApiNative::startPlayer()
 {
     QProcess *process = new QProcess(this);
-    process->setWorkingDirectory(QString("%1/binutils").arg(M_APPDIR));
+    process->setWorkingDirectory(M_APPDIR);
     connect(process, SIGNAL(finished(int)), this, SLOT(playerFinished(int)));
     if (processByInputFunctionMap.contains("setToPlayer"))
         return -1;
     processByInputFunctionMap.insert("setToPlayer", process);
     connect(process, SIGNAL(readyReadStandardOutput()), this, SLOT(onReadyReadStandardOutput()));//%%%%
-    QString pa = QString("%1/binutils/play.sh").arg(M_APPDIR);
+    QString pa = QString("%1/play.sh").arg(M_APPDIR);
     process->start(pa);
     QMessageBox::information(0, "ffffffffffffffffff", pa);
     //qDebug()<<"dsfghjkl;";
@@ -57,6 +57,7 @@ void ApiNative::playerFinished(int p_exitCode)
     const QString funcName = "playerFinished";
     QString str = QString("api.%1(%2);").arg(funcName).arg(p_exitCode);
     webView->page()->mainFrame()->evaluateJavaScript(str);
+    processByInputFunctionMap.remove("setToPlayer");
 }
 
 void ApiNative::onReadyReadStandardOutput()
