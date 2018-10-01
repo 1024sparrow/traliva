@@ -4,6 +4,7 @@
         <file>web_content/index.html</file>
         <file>web_content/style.css</file>
         <file>web_content/script.js</file>
+        <file>binutils.tar.gz</file>
     </qresource>
 </RCC>
 
