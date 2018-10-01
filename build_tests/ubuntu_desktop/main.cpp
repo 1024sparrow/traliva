@@ -40,13 +40,13 @@ Main::Main(int argc, char **argv, bool &ok)
     tmpFileArchieve.setFileTemplate(QString("%1/%2.XXXXXX.tar.gz").arg(QDir::tempPath()).arg(M_APPNAME));
     if (!tmpFile.open())
     {
-        fprintf(stderr, "Не смог открыть временный файл\n");
-        qApp->exit(-1);
+        fprintf(stderr, "error 10\n");
+        return;
     }
     if (!tmpFileArchieve.open())
     {
-        fprintf(stderr, "Не смог открыть временный файл (с архивом)\n");
-        qApp->exit(-1);
+        fprintf(stderr, "error 20\n");
+        return;
     }
     QFileInfo tmpFileInfo(tmpFile);
     tmpScriptsDirPath = tmpFileInfo.fileName();
@@ -58,25 +58,27 @@ Main::Main(int argc, char **argv, bool &ok)
     const QString tmpFileArchieveFullPath = QDir::temp().absoluteFilePath(tmpFileArchieveInfo.fileName());
     if (!QDir::temp().remove(tmpFileArchieveInfo.fileName()))
     {
-        qDebug()<<"error while tmp dir removing 2";
+        qDebug()<<"error 30";
         return;
     }
     if (!fileArchieve.copy(tmpFileArchieveFullPath))
     {
         fprintf(stderr, "Не могу скопировать архив из ресурсов во временный файл\n");
-        qDebug() << "file operation error: " << fileArchieve.errorString();
+        qDebug() << "error 40: " << fileArchieve.errorString();
         return;
     }
 
     QDir tmpDir = QDir::temp();
     if (!tmpDir.remove(tmpScriptsDirPath))
     {
-        fprintf(stderr, "Не могу удалить временный файл, чтобы вместо него создать директорию\n");
+        //fprintf(stderr, "Не могу удалить временный файл, чтобы вместо него создать директорию\n");
+        fprintf(stderr, "error 50\n");
         return;
     }
     if (!QDir::temp().mkdir(tmpScriptsDirPath)) // <-- надо сохранить путь, по которому при закрытии надо будет удалить директорию
     {
-        fprintf(stderr, "Не смог создать временную директорию под нативные скрипты & утилиты\n");
+        //fprintf(stderr, "Не смог создать временную директорию под нативные скрипты & утилиты\n");
+        fprintf(stderr, "error 60\n");
         return;
     }
     QProcess tarProcess;
@@ -100,16 +102,19 @@ Main::Main(int argc, char **argv, bool &ok)
 
 Main::~Main()
 {
-    // boris here: если директория не пуста, то не может удалить (согласно документации по QDir::rmdir())
-    if (!QDir::temp().rmdir(tmpScriptsDirPath))
-    {
-        qDebug()<<"removing: "<<QDir::tempPath() << " *(*" << tmpScriptsDirPath<<":"<< QDir::temp().;
-        qDebug()<<"error while tmp dir removing";
-    }
+    QProcess tarProcess;
+    tarProcess.setWorkingDirectory(M_APPDIR);
+    tarProcess.start("rm", QStringList()<<"-rf"<<QDir::temp().absoluteFilePath(tmpScriptsDirPath));
+    tarProcess.waitForFinished();
 }
 
 void Main::onLoadFinished(bool p_ok)
 {
     splashScreen->finish(wv);
+    if (!p_ok)
+    {
+        fprintf(stderr, "internal error (web content)\n");
+        qApp->exit(-1);
+    }
     wv->show();
 }
