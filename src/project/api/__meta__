@@ -1,0 +1,10 @@
+{
+    "files":[
+        {
+            "target": "api",
+            "source":{
+                "list": ["api"]
+            }
+        }
+    ]
+}

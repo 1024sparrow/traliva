@@ -1,7 +1,0 @@
-// Массив элементов, описывающих API.
-{
-    path: 'play.sh',
-    input: 'setToPlayer',
-    output: 'playerChanged',
-    finished: 'playerFinished'
-}
