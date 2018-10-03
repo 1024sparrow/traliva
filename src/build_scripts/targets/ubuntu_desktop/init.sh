@@ -4,11 +4,14 @@ echo "Местонахождение скрипита: $0"
 echo "Первый параметр: $1" # путь до директории с project
 echo "Второй параметр: $2" # путь до директории, в которой нужно нагенерировать исходники проекта
 
-DIR=$(dirname $0) # путь, где лежит этот скрипт
+DIR="$(dirname $0)" # путь, где лежит этот скрипт
 
 cp -r "$DIR"/t/* $2/
 cp "$1"/gameplay.js $2/web_content/
 cp "$1"/style.css $2/web_content/
+pushd "$DIR"
+#node generate.js
+popd # $DIR
 pushd "$2"
 qmake-qt4 && make
 popd
