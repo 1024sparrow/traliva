@@ -11,18 +11,9 @@ class ApiNative : public QObject
     Q_OBJECT
 public:
     ApiNative(QWebView *wv);
-    // from JS to C++
-    Q_INVOKABLE int sum(int p_a, int p_b);
-
-    Q_INVOKABLE int startPlayer();
-    Q_INVOKABLE void setToPlayer(const QString &);
-
+    [ code here: public ]
 private slots:
-    void playerChanged(const char *);
-    void playerFinished(int p_exitCode);
-
-    void onReadyReadStandardOutput();
-
+    [ code here: private slots ]
 private:
     QWebView *webView;
     QMap<QString, QProcess *> processByInputFunctionMap;
