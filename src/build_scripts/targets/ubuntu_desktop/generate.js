@@ -5,6 +5,7 @@ var path = require('path');
 var fs = require('fs');
 //var fse = require('fs-extra');
 var child_process = require('child_process');
+var applyFsChangesModule = require('./apply_fs_changes.js');
 
 console.log(process.argv); // 0 - node, 1 - this script
 console.log('=====================');
@@ -60,17 +61,7 @@ for (i = 0 ; i < api.length ; ++i){
 api_native__h = api_native__h.replace('[ code here: public ]', api_native__h__public);
 api_native__h = api_native__h.replace('[ code here: private slots ]', api_native__h__privateSlots);
 console.log('~~~~~~~~~~~~~~~~~~~\napi_native.h:\n', api_native__h);
-applyFilesystemChanges({
+applyFsChangesModule.applyFilesystemChanges({
     'api_native.h': api_native__h
 });
 
-function applyFilesystemChanges(p_o){
-    console.log('applying: ', p_o);
-}
-
-
-//var api = JSON.parse
-
-/*program.action(function(p_projectPath, p_targetPath){
-    console.log(p_projectPath, p_targetPath);
-});*/
