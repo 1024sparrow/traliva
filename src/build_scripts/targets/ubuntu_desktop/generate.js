@@ -49,7 +49,7 @@ for (i = 0 ; i < api.length ; ++i){
     if (o.input){
         api_native__h__public += '\n    Q_INVOKABLE int ' + o.input + '(const QString &);';
         // вставить исходный код в cpp
-        api_native__cpp__cpp += `void ApiNative::${o.input}(const QString %p)`;
+        api_native__cpp__cpp += `void ApiNative::${o.input}(const QString &p)`;
         api_native__cpp__cpp += '\n{\n    writeToProcess("';
         api_native__cpp__cpp += o.input;
         api_native__cpp__cpp += '", p);\n}\n\n';
@@ -89,4 +89,16 @@ console.log('api_native.cpp:\n--------------\n', api_native__cpp);
     'api_native.h': api_native__h,
     'api_native.cpp': api_native__cpp
 });*/
+applyFsChangesModule.applyFilesystemChanges([
+    {
+        command: 'write',
+        target: 'api_native.h',
+        content: api_native__h
+    },
+    {
+        command: 'write',
+        target: 'api_native.cpp',
+        content: api_native__cpp
+    }
+]);
 

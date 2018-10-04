@@ -10,7 +10,7 @@ cp -r "$DIR"/t/* $2/
 cp "$1"/gameplay.js $2/web_content/
 cp "$1"/style.css $2/web_content/
 pushd "$DIR"
-#node generate.js
+node generate.js "$1" "$2"
 popd # $DIR
 pushd "$2"
 qmake-qt4 && make
