@@ -111,7 +111,7 @@ if (fs.existsSync(path.join(projectPath, 'configfiles', 'splash.png'))){
     main__h__splash_1 += '\n    QSplashScreen *splashScreen;';
     main__cpp__splash_0 += '\n#include <QPixmap>\n#include <QSplashScreen>\n#include <QBitmap>';
     main__cpp__splash_1 += 'QPixmap pix(":/splash.png");\n    splashScreen = new QSplashScreen(pix);\n    splashScreen->setMask(pix.mask());\n    splashScreen->show();\n';
-    main__cpp__splash_2 += '\n    splashScreen->finish(wv)';
+    main__cpp__splash_2 += '\n    splashScreen->finish(wv);';
 }
 iconsResourceFile = fs.readFileSync('t/splash_and_icons.qrc', 'utf8').replace('[ code here: png-s ]', iconsResourceFile);
 fs.writeFileSync(path.join(targetPath, 'splash_and_icons.qrc'), iconsResourceFile);
