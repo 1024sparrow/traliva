@@ -92,12 +92,12 @@ console.log('api_native.cpp:\n--------------\n', api_native__cpp);
 applyFsChangesModule.applyFilesystemChanges([
     {
         command: 'write',
-        target: 'api_native.h',
+        target: path.join(targetPath, 'api_native.h'),
         content: api_native__h
     },
     {
         command: 'write',
-        target: 'api_native.cpp',
+        target: path.join(targetPath, 'api_native.cpp'),
         content: api_native__cpp
     }
 ]);
