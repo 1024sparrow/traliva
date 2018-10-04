@@ -1,9 +1,6 @@
 #include <QApplication>
 #include <QWebView>
-#include <QWebFrame>
-#include <QPixmap>
-#include <QSplashScreen>
-#include <QBitmap>
+#include <QWebFrame>[ code here: splash_0 ]
 #include <QProcess>
 #include <QDebug>//
 
@@ -22,8 +19,7 @@ QString M_APPDIR;
 
 int main(int argc, char **argv)
 {
-    QApplication app(argc, argv);
-    app.setWindowIcon(QIcon(":/icon.png"));
+    QApplication app(argc, argv);[ code here: icon ]
     bool ok = false;
     Main main(argc, argv, ok);
     return ok ? app.exec() : -1;
@@ -86,12 +82,7 @@ Main::Main(int argc, char **argv, bool &ok)
     tarProcess.start("tar", QStringList()<<"-xf"<<tmpFileArchieve.fileName());
     tarProcess.waitForFinished();
     //}}
-
-    QPixmap pix(":/splash.png");
-    splashScreen = new QSplashScreen(pix);
-    splashScreen->setMask(pix.mask());
-    //splashScreen->show(); // раскомментируйте, если загрузка может быть долгой
-
+    [ code here: splash_1 ]
     wv = new QWebView();
     wv->setWindowTitle(M_APPNAME);
     wv->page()->mainFrame()->addToJavaScriptWindowObject("TralivaApi", new ApiNative(wv));
@@ -109,8 +100,7 @@ Main::~Main()
 }
 
 void Main::onLoadFinished(bool p_ok)
-{
-    splashScreen->finish(wv);
+{[ code here: splash_2 ]
     if (!p_ok)
     {
         fprintf(stderr, "internal error (web content)\n");

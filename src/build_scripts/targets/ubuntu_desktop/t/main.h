@@ -2,8 +2,7 @@
 #define MAIN_H
 
 #include <QObject>
-
-class QSplashScreen;
+[ code here: splash_0 ]
 class QWebView;
 class Main : public QObject
 {
@@ -14,8 +13,7 @@ public:
 private slots:
     void onLoadFinished(bool p_ok);
 
-private:
-    QSplashScreen *splashScreen;
+private:[ code here: splash_1 ]
     QWebView *wv;
     QString tmpScriptsDirPath;
 };

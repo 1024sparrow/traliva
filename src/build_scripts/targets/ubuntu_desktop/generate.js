@@ -1,11 +1,12 @@
 #!/usr/bin/node
 
-var process = require('process');
-var path = require('path');
-var fs = require('fs');
+const process = require('process');
+const path = require('path');
+const fs = require('fs');
 //var fse = require('fs-extra');
-var child_process = require('child_process');
-var applyFsChangesModule = require('./apply_fs_changes.js');
+const child_process = require('child_process');
+const applyFsChangesModule = require('./apply_fs_changes.js');
+const execSync = require('child_process').execSync;//
 
 console.log(process.argv); // 0 - node, 1 - this script
 console.log('=====================');
@@ -82,14 +83,56 @@ for (i = 0 ; i < api.length ; ++i){
 api_native__h = api_native__h.replace('[ code here: public ]', api_native__h__public);
 api_native__h = api_native__h.replace('[ code here: private slots ]', api_native__h__privateSlots);
 api_native__cpp = api_native__cpp.replace('[ code here: cpp ]', api_native__cpp__cpp);
-console.log('api_native.h:\n------------\n', api_native__h);
-console.log('api_native.cpp:\n--------------\n', api_native__cpp);
+//console.log('api_native.h:\n------------\n', api_native__h);
+//console.log('api_native.cpp:\n--------------\n', api_native__cpp);
+
+let iconsResourceFile = '';
+let main__h__splash_0 = '';
+let main__h__splash_1 = '';
+let main__cpp__icon = '';
+let main__cpp__splash_0 = '';
+let main__cpp__splash_1 = '';
+let main__cpp__splash_2 = '';
+if (fs.existsSync(path.join(projectPath, 'configfiles', 'favicon.png'))){
+    console.log('ICON DETECTED!!');
+    // copyFileSync - нет такой функции в NodeJS v.6 => обхожу его использование через системный вызов
+    //fs.copyFileSync(path.join(projectPath, 'configfiles', 'favicon.png'), targetPath);//path.join(targetPath, 'favicon.png'));
+    execSync('cp  ' + path.join(projectPath, 'configfiles', 'favicon.png') + ' ' + targetPath + '/');
+    iconsResourceFile += '\n        <file>favicon.png</file>';
+    main__cpp__icon += '\n    app.setWindowIcon(QIcon(":/favicon.png"));';
+}
+if (fs.existsSync(path.join(projectPath, 'configfiles', 'splash.png'))){
+    console.log('ICON DETECTED!!');
+    // copyFileSync - нет такой функции в NodeJS v.6 => обхожу его использование через системный вызов
+    //fs.copyFileSync(path.join(projectPath, 'configfiles', 'favicon.png'), targetPath);//path.join(targetPath, 'favicon.png'));
+    execSync('cp  ' + path.join(projectPath, 'configfiles', 'splash.png') + ' ' + targetPath + '/');
+    iconsResourceFile += '\n        <file>splash.png</file>';
+    main__h__splash_0 += '\nclass QSplashScreen;';
+    main__h__splash_1 += '\n    QSplashScreen *splashScreen;';
+    main__cpp__splash_0 += '\n#include <QPixmap>\n#include <QSplashScreen>\n#include <QBitmap>';
+    main__cpp__splash_1 += 'QPixmap pix(":/splash.png");\n    splashScreen = new QSplashScreen(pix);\n    splashScreen->setMask(pix.mask());\n    splashScreen->show();\n';
+    main__cpp__splash_2 += '\n    splashScreen->finish(wv)';
+}
+iconsResourceFile = fs.readFileSync('t/splash_and_icons.qrc', 'utf8').replace('[ code here: png-s ]', iconsResourceFile);
+fs.writeFileSync(path.join(targetPath, 'splash_and_icons.qrc'), iconsResourceFile);
+fs.writeFileSync(path.join(targetPath, 'main.h'), fs.readFileSync('t/main.h', 'utf8')
+    .replace('[ code here: splash_0 ]', main__h__splash_0)
+    .replace('[ code here: splash_1 ]', main__h__splash_1)
+);
+fs.writeFileSync(path.join(targetPath, 'main.cpp'), fs.readFileSync('t/main.cpp', 'utf8')
+    .replace('[ code here: icon ]', main__cpp__icon)
+    .replace('[ code here: splash_0 ]', main__cpp__splash_0)
+    .replace('[ code here: splash_1 ]', main__cpp__splash_1)
+    .replace('[ code here: splash_2 ]', main__cpp__splash_2)
+);
+fs.writeFileSync(path.join(targetPath, 'api_native.h'), api_native__h, 'utf8');
+fs.writeFileSync(path.join(targetPath, 'api_native.cpp'), api_native__cpp, 'utf8');
 
 /*applyFsChangesModule.applyFilesystemChanges({
     'api_native.h': api_native__h,
     'api_native.cpp': api_native__cpp
 });*/
-applyFsChangesModule.applyFilesystemChanges([
+/*var commands = [
     {
         command: 'write',
         target: path.join(targetPath, 'api_native.h'),
@@ -100,5 +143,6 @@ applyFsChangesModule.applyFilesystemChanges([
         target: path.join(targetPath, 'api_native.cpp'),
         content: api_native__cpp
     }
-]);
+];
+applyFsChangesModule.applyFilesystemChanges(commands);*/
 
