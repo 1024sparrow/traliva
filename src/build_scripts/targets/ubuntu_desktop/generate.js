@@ -47,7 +47,7 @@ for (i = 0 ; i < api.length ; ++i){
     api_native__cpp__cpp += ");\n}\n\n";
 
     if (o.input){
-        api_native__h__public += '\n    Q_INVOKABLE int ' + o.input + '(const QString &);';
+        api_native__h__public += '\n    Q_INVOKABLE void ' + o.input + '(const QString &);';
         // вставить исходный код в cpp
         api_native__cpp__cpp += `void ApiNative::${o.input}(const QString &p)`;
         api_native__cpp__cpp += '\n{\n    writeToProcess("';

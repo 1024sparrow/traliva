@@ -31,7 +31,7 @@ ApiNative::ApiNative(QWebView *wv)
     return 0;
 }
 
-void ApiNative::writeToProcess(const QString &p_funcNameInput, const QString &p_data);
+void ApiNative::writeToProcess(const QString &p_funcNameInput, const QString &p_data)
 {
     QProcess *process = processByInputFunctionMap.value(p_funcNameInput);
     if (!process)
