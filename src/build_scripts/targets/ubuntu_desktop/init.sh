@@ -6,9 +6,9 @@ echo "Второй параметр: $2" # путь до директории, �
 
 DIR="$(dirname $0)" # путь, где лежит этот скрипт
 
-cp -r "$DIR"/t/* $2/
-cp "$1"/gameplay.js $2/web_content/
-cp "$1"/style.css $2/web_content/
+cp -r "$DIR"/t/* "$2"/
+cp "$1"/gameplay.js "$2"/web_content/
+sed "s/#RES#/res/g" "$1"/style.css > "$2"/web_content/style.css
 
 pushd "$DIR"
 node generate.js "$1" "$2"
