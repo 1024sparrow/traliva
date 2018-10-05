@@ -102,7 +102,7 @@ if (fs.existsSync(path.join(projectPath, 'configfiles', 'favicon.png'))){
     main__cpp__icon += '\n    app.setWindowIcon(QIcon(":/favicon.png"));';
 }
 if (fs.existsSync(path.join(projectPath, 'configfiles', 'splash.png'))){
-    console.log('ICON DETECTED!!');
+    console.log('SPLASH DETECTED!!');
     // copyFileSync - нет такой функции в NodeJS v.6 => обхожу его использование через системный вызов
     //fs.copyFileSync(path.join(projectPath, 'configfiles', 'favicon.png'), targetPath);//path.join(targetPath, 'favicon.png'));
     execSync('cp  ' + path.join(projectPath, 'configfiles', 'splash.png') + ' ' + targetPath + '/');

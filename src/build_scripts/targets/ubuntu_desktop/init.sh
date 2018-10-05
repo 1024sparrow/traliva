@@ -10,8 +10,6 @@ cp -r "$DIR"/t/* $2/
 cp "$1"/gameplay.js $2/web_content/
 cp "$1"/style.css $2/web_content/
 
-cp "$1"/icon.png "$2"/
-cp "$1"/splash.png "$2"/
 pushd "$DIR"
 node generate.js "$1" "$2"
 popd # $DIR
