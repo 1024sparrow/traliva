@@ -3,6 +3,7 @@
     <qresource prefix="/">
         <file>web_content/index.html</file>
         <file>web_content/style.css</file>
+        <file>web_content/gameplay.js</file>
         <file>binutils.tar.gz</file>
     </qresource>
 </RCC>
