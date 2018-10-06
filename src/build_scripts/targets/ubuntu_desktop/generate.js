@@ -28,7 +28,7 @@ var api_native__h = fs.readFileSync('t/api_native.h', 'utf8');
 var api_native__cpp__cpp = '';
 var api_native__cpp = fs.readFileSync('t/api_native.cpp', 'utf8');
 
-var i, c, t, o;
+var i, c, t, o, t2;
 for (i = 0 ; i < api.length ; ++i){
     o = api[i];
     if (!o.hasOwnProperty('start')){
@@ -134,15 +134,13 @@ if (fs.existsSync(t)){
     var stack = [t];
     while (stack.length){
         o = stack.pop();
-        console.log('---------', o);//
         t = fs.readdirSync(o);
         for (i = 0 ; i < t.length ; ++i){
-            o = path.join(o, t[i]);
-            console.log('::::', o);//
-            if (fs.statSync(o).isDirectory())
-                stack.push(o);
+            t2 = path.join(o, t[i]);
+            if (fs.statSync(t2).isDirectory())
+                stack.push(t2);
             else{
-                content__qrc__web_content += `\n        <file>web_content/${path.relative(path.join(projectPath, 'res'), o)}</file>`;
+                content__qrc__web_contents += `\n        <file>web_content/${path.relative(projectPath, t2)}</file>`;
             }
         }
     }
@@ -150,22 +148,4 @@ if (fs.existsSync(t)){
 fs.writeFileSync(path.join(targetPath, 'content.qrc'), fs.readFileSync('t/content.qrc', 'utf8')
     .replace('[ code here: web_contents ]', content__qrc__web_contents)
 );
-
-/*applyFsChangesModule.applyFilesystemChanges({
-    'api_native.h': api_native__h,
-    'api_native.cpp': api_native__cpp
-});*/
-/*var commands = [
-    {
-        command: 'write',
-        target: path.join(targetPath, 'api_native.h'),
-        content: api_native__h
-    },
-    {
-        command: 'write',
-        target: path.join(targetPath, 'api_native.cpp'),
-        content: api_native__cpp
-    }
-];
-applyFsChangesModule.applyFilesystemChanges(commands);*/
 
