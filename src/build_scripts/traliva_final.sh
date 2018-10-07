@@ -16,15 +16,35 @@ do
     mkdir "$targets_dir"/"$i"
 
     pushd "$targets_dir"/"$i"
-    if [ ! -d "$targets_dir"/"$i"/.git ]
-    then
+        if [ ! -d .git ]
+        then
             git init
-    fi
+        fi
     popd
 
     pushd "$compiled_dir"
         git clone "$1"/targets/"$i"/.git
+        git checkout -b skeleton
+        #git pull
+        rm -r * # скрытые файлы и директории, в том чисел и .git, никуда не деваются
     popd
+
     #mkdir "$compiled_dir"/"$i"
     $1/src/build_scripts/targets/"$i"/init.sh "$1/$2/project" "$compiled_dir"/"$i"
+
+    pushd "$compiled_dir"
+        # if [есть локальные изменения]; then
+        if ! git diff-index --quiet HEAD --
+        then
+            git add .
+            git commit -m"123"
+            #git push --set-upstream origin skeleton
+        fi
+    popd
+
+    pushd "$targets_dir"/"$i"
+        git stash
+        git merge skeleton
+        git stash pop
+    popd
 done
