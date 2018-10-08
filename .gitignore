@@ -13,3 +13,4 @@ build_tests/ubuntu_desktop/*.user
 build_tests/ubuntu_desktop/.qmake.stash
 
 buils_tests/web_django/venv/
+targets/
