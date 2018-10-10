@@ -129,4 +129,4 @@ if [ "$COMPRESS_LINEBREAKS" = true ]; then flags=$(($flags|0x4)); echo "FLAG lin
 if [ "$CO_RELEASE" = true ]; then flags=$(($flags|0x8)); echo "FLAG release: release"; fi
 echo "flags: $flags"
 
-$UTILS_PATH/js.py 1 $flags ${#all_js[@]} ${all_js[@]} ${#all_css[@]} ${all_css[@]}
+$UTILS_PATH/js.py 1 $flags ${#all_js[@]} ${all_js[@]} ${#all_css[@]} ${all_css[@]} "$root"

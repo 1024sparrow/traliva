@@ -23,8 +23,9 @@
 
 from . import js_specwords
 from .char_check_func import is_spacespec, is_letter, is_letterdigit
+import sys, json
 
-def process(p_js, p_css, p_js_css):
+def process(p_js, p_css, p_js_css, p_targetProjMap):
     print('names: process()')
 
     vars_as_map = {}
@@ -87,6 +88,10 @@ def process(p_js, p_css, p_js_css):
         var_names_map[i[1]] = cand
         counter += 1
     #print('var_names_map: ', var_names_map)#
+
+    f = open('%s/namesMap.json' % p_targetProjMap, 'w')
+    f.write(json.dumps(var_names_map, indent = 4))
+    f.close()
 
     # Подставляем полученные значения
     for fil in p_js_css:

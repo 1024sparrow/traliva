@@ -9,6 +9,7 @@ ar = sys.argv
 opt = []
 js_paths = []
 css_paths = []
+target_dir_path = '' # для сохранения такой информации как namesMap 
 
 opt_len = ar[1]
 ar = ar[2:]
@@ -28,10 +29,14 @@ for i in range(0, int(css_len)):
     css_paths.append(ar[0])
     ar = ar[1:]
 
+target_dir_path = ar[0]
+
+#print('---- js.py ----')
 #print('opt: ', opt)
 #print('js_paths: ', js_paths)
 #print('css_paths: ', css_paths)
-#print('ar: ', ar)
+#print('ar: ', target_dir_path)
+#print('==== js.py ====')
 
 js = []
 css = []
@@ -42,7 +47,7 @@ js__map.get_map(js_paths, css_paths, js, css, js_css)
 usage.process(js, css, js_css)
 if flags & 0x8:
     if flags & 0x2:
-        names.process(js, css, js_css)
+        names.process(js, css, js_css, target_dir_path)
     if flags & 0x4:
         min.process(js, css, js_css)
 else:
