@@ -26,7 +26,7 @@ do
         git clone "$1"/targets/"$i"/.git
         pushd "$compiled_dir"/"$i"
             git checkout -b skeleton
-            git pull
+            git pull # если `git remote -v` не пустой
             rm -r * # скрытые файлы и директории, в том чисел и .git, никуда не деваются
             $1/src/build_scripts/targets/"$i"/init.sh "$1/$2/project" "$compiled_dir"/"$i"
             if ! git diff-index --quiet HEAD --
