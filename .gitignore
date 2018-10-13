@@ -5,6 +5,7 @@ __pycache__/
 *.swo
 *~
 src/build_scripts/utils/test_data/
+src/project_compiled/
 build_tests/ubuntu_desktop/qt4webkit
 build_tests/ubuntu_desktop/Makefile
 build_tests/ubuntu_desktop/*.o
