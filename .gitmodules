@@ -2,3 +2,7 @@
 	path = src/project
 	url = https://github.com/1024sparrow/traliva_example.git
 	branch = master
+[submodule "traliva_kit"]
+	path = traliva_kit
+	url = https://github.com/1024sparrow/traliva_kit.git
+	branch = master
