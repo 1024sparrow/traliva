@@ -1,6 +1,3 @@
-[submodule "traliva_kit"]
-	path = traliva_kit
-	url = https://github.com/1024sparrow/traliva_kit.git
 [submodule "project"]
 	path = src/project
 	url = https://github.com/1024sparrow/traliva_example.git
