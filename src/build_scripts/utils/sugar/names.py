@@ -25,7 +25,8 @@ from . import js_specwords
 from .char_check_func import is_spacespec, is_letter, is_letterdigit
 import sys, json
 
-def process(p_js, p_css, p_js_css, p_targetProjMap):
+# p_justRemoveDollar = True, когда заменять не надо. В таком случае мы убираем символы '$' (заменяем на 'ss__')
+def process(p_js, p_css, p_js_css, p_targetProjMap, p_justRemoveDollar):
     print('names: process()')
 
     vars_as_map = {}
@@ -78,15 +79,20 @@ def process(p_js, p_css, p_js_css, p_targetProjMap):
     #print('detected vars: ', vars)#
     #print('detected words (+): ', words)#
 
-    counter = 0
-    for i in vars:
-        #print('--', i[1])
-        cand = generate_varname(counter)
-        while cand in words:
+    if p_justRemoveDollar:
+        for i in vars:
+            cand = 'ss__' + i[1]
+            var_names_map[i[1]] = cand
+    else:
+        counter = 0
+        for i in vars:
+            #print('--', i[1])
             cand = generate_varname(counter)
+            while cand in words:
+                cand = generate_varname(counter)
+                counter += 1
+            var_names_map[i[1]] = cand
             counter += 1
-        var_names_map[i[1]] = cand
-        counter += 1
     #print('var_names_map: ', var_names_map)#
 
     f = open('%s/namesMap.json' % p_targetProjMap, 'w')

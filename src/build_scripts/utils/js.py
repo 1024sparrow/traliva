@@ -45,12 +45,16 @@ js_css = []
 flags = int(opt[0])
 js__map.get_map(js_paths, css_paths, js, css, js_css)
 usage.process(js, css, js_css)
+#if not flags & 
 if flags & 0x8:
     if flags & 0x2:
-        names.process(js, css, js_css, target_dir_path)
+        names.process(js, css, js_css, target_dir_path, False)
+    else:
+        names.process(js, css, js_css, target_dir_path, True)
     if flags & 0x4:
         min.process(js, css, js_css)
 else:
+    names.process(js, css, js_css, target_dir_path, True)
     o = {
         'filepath': None,
         'text':[{
