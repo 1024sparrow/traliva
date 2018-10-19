@@ -283,10 +283,11 @@ ComboBox.prototype.ss__processStateChanges = function(s){
 }
 ComboBox.prototype.ss___setupContainer = function(ss__p_variants, ss__p_current){
     //элемент select не поддерживает изменение вариантов, поэтому мы полностью заменяем select
+    console.log('##', this.ss___state);//
     var ss__1, ss__2, ss__3;
     this.ss___wContainer.ss__setContent(ss__Traliva.ss__createElement('<select traliva="e"></select>', this));
     for (ss__1 = 0 ; ss__1 < ss__p_variants.length ; ss__1++){
-        ss__2 = document.createElement('ss__option');
+        ss__2 = document.createElement('option');
         ss__2.value = ss__p_variants[ss__1].ss__id;
         ss__3 = document.createTextNode(ss__p_variants[ss__1].ss__title);
         ss__2.appendChild(ss__3);
