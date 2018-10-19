@@ -392,12 +392,12 @@ for (i = 0 ; i < list.length ; i++){
 var publisher = new ss__Traliva.ss__StatePublisher();
 
 publisher.ss__registerSubscriber(new Label(wOptionsTitle, {
-    bg: '#444',
+    ss__bg: '#444',
     color: '#ffa',
     text: 'Опции:'
 }));
 publisher.ss__registerSubscriber(new Label(wStateTitle, {
-    bg: '#048',
+    ss__bg: '#048',
     color: '#ffa',
     text: 'Состояние:'
 }));
@@ -412,12 +412,12 @@ publisher.ss__registerSubscriber(new Button(wBnApplyState, {
     activeVarName: 'bnApply'
 }));
 publisher.ss__registerSubscriber(new TextEdit(wOptions, {
-    bg: '#444',
+    ss__bg: '#444',
     color: '#fff',
     textVarName: 'teOptions'
 }));
 publisher.ss__registerSubscriber(new TextEdit(wState, {
-    bg: '#048',
+    ss__bg: '#048',
     color: '#fff',
     textVarName: 'teState'
 }));
