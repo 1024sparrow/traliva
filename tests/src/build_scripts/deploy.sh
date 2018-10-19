@@ -9,4 +9,4 @@ echo "#u#traliva_kit_debug##"  > traliva_kit.js
 cat traliva_kit.js.tmp >> traliva_kit.js
 rm traliva_kit.js.tmp
 popd
-"$1"/../src/build_scripts/utils/js.py 1 0 2 "$1"/compiled/traliva/traliva.js "$1"/compiled/traliva_kit/traliva_kit.js 0 "$1"/"$2"
+"$1"/../src/build_scripts/utils/js.py 1 0 4 "$1"/compiled/traliva/traliva.js "$1"/compiled/traliva/style.css "$1"/compiled/traliva_kit/traliva_kit.js "$1"/compiled/traliva_kit/style.css 0 "$1"/"$2"
