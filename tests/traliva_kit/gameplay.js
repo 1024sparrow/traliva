@@ -132,7 +132,7 @@ function Button(ss__p_wContainer, ss__p_options){
         }
     }
     this.e.addEventListener('click', function(ss__self){return function(){
-        ss__self._onClicked();
+        ss__self.ss___onClicked();
     };}(this));
     ss__p_wContainer.ss__setContent(e);
 }
@@ -314,11 +314,11 @@ Logics.prototype = Object.create(ss__Traliva.ss__StateSubscriber.prototype);
 Logics.prototype.constructor = Logics;
 Logics.prototype.ss__processStateChanges = function(s){
     if (s.bnCreate){
-        if (s.selectComponent.current != -1){
+        if (s.selectComponent.ss__current != -1){
             var state = JSON.parse(s.teState);
             var w = new ss__Traliva.ss__Widget(this._wWidget);
             this._wWidget.ss__setContent(w);
-            this._oWidget = new ss__TralivaKit[s.selectComponent.current](w, JSON.parse(s.teOptions));
+            this._oWidget = new ss__TralivaKit[s.selectComponent.ss__current](w, JSON.parse(s.teOptions));
             this._oWidget.ss___state = state;
             this._oWidget.ss___registerStateChanges = (function(self){return function(){
                 self.ss___state.teState = JSON.stringify(this.ss___state);
