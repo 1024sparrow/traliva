@@ -286,7 +286,7 @@ ComboBox.prototype.ss___setupContainer = function(ss__p_variants, ss__p_current)
     var ss__1, ss__2, ss__3;
     this.ss___wContainer.ss__setContent(ss__Traliva.ss__createElement('<select traliva="e"></select>', this));
     for (ss__1 = 0 ; ss__1 < ss__p_variants.length ; ss__1++){
-        ss__2 = document.ss__createElement('ss__option');
+        ss__2 = document.createElement('ss__option');
         ss__2.value = ss__p_variants[ss__1].ss__id;
         ss__3 = document.createTextNode(ss__p_variants[ss__1].ss__title);
         ss__2.appendChild(ss__3);
@@ -376,9 +376,9 @@ var state = {
     bnCreate: false,
     bnApply: false,
     selectComponent:{
-        variants:[],
-        variants_changed: true,
-        current: -1
+        ss__variants:[],
+        ss__variants_changed: true,
+        ss__current: -1
     },
     teOptions:'{}',
     teState:'{}',
@@ -386,40 +386,41 @@ var state = {
 };
 var i, list = ss__TralivaKit.list();
 for (i = 0 ; i < list.length ; i++){
-    state.selectComponent.variants.push({id:list[i],title:list[i]});
+    console.log('--', list[i]);
+    state.selectComponent.ss__variants.push({ss__id:list[i],ss__title:list[i]});
 }
 
 var publisher = new ss__Traliva.ss__StatePublisher();
 
 publisher.ss__registerSubscriber(new Label(wOptionsTitle, {
     ss__bg: '#444',
-    color: '#ffa',
-    text: 'Опции:'
+    ss__color: '#ffa',
+    ss__text: 'Опции:'
 }));
 publisher.ss__registerSubscriber(new Label(wStateTitle, {
     ss__bg: '#048',
-    color: '#ffa',
-    text: 'Состояние:'
+    ss__color: '#ffa',
+    ss__text: 'Состояние:'
 }));
 
 publisher.ss__setState(state);
 publisher.ss__registerSubscriber(new Button(wBnCreate, {
-    title: 'Создать',
-    activeVarName: 'bnCreate'
+    ss__title: 'Создать',
+    ss__activeVarName: 'bnCreate'
 }));
 publisher.ss__registerSubscriber(new Button(wBnApplyState, {
-    title: 'Применить',
-    activeVarName: 'bnApply'
+    ss__title: 'Применить',
+    ss__activeVarName: 'bnApply'
 }));
 publisher.ss__registerSubscriber(new TextEdit(wOptions, {
     ss__bg: '#444',
-    color: '#fff',
-    textVarName: 'teOptions'
+    ss__color: '#fff',
+    ss__textVarName: 'teOptions'
 }));
 publisher.ss__registerSubscriber(new TextEdit(wState, {
     ss__bg: '#048',
-    color: '#fff',
-    textVarName: 'teState'
+    ss__color: '#fff',
+    ss__textVarName: 'teState'
 }));
 publisher.ss__registerSubscriber(new ComboBox(wSelectComponent, {}).ss__useSubstate('selectComponent'));
 publisher.ss__registerSubscriber(new Logics(wH3));
