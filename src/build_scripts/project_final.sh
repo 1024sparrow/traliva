@@ -127,6 +127,10 @@ flags=0
 if [ "$COMPRESS_NAMES" = true ]; then flags=$(($flags|0x2)); echo "FLAG names: compress_names"; fi
 if [ "$COMPRESS_LINEBREAKS" = true ]; then flags=$(($flags|0x4)); echo "FLAG linebreaks: compress_linebreaks"; fi
 if [ "$CO_RELEASE" = true ]; then flags=$(($flags|0x8)); echo "FLAG release: release"; fi
+if [ "$CO_DEBUG" = true ]
+then
+    echo "#u#debug##" >> ${all_js[0]}
+fi
 echo "flags: $flags"
 
 $UTILS_PATH/js.py 1 $flags ${#all_js[@]} ${all_js[@]} ${#all_css[@]} ${all_css[@]} "$root"
