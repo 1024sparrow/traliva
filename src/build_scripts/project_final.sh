@@ -129,7 +129,7 @@ if [ "$COMPRESS_LINEBREAKS" = true ]; then flags=$(($flags|0x4)); echo "FLAG lin
 if [ "$CO_RELEASE" = true ]; then flags=$(($flags|0x8)); echo "FLAG release: release"; fi
 if [ "$CO_DEBUG" = true ]
 then
-    echo "#u#debug##" >> ${all_js[0]}
+    echo " #u#traliva_kit_debug## #u#debug##" >> ${all_js[0]}
 fi
 echo "flags: $flags"
 
