@@ -121,7 +121,7 @@ function $construct_layout($p_wParent, $p_oLayout, $p_defaultBackground, $p_widg
     if ($p_oLayout.hasOwnProperty('$bg')){
         $cand = ($p_oLayout.$bg.length) ? $p_oLayout.$bg : $p_defaultBackground;
         if ($cand)
-            $retVal._div.style.background = $cand;
+            $retVal.$_div.style.background = $cand;
     }
 
     if (!$p_innerCall){

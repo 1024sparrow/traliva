@@ -1,3 +1,10 @@
+body{
+    user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
 .$traliva__stub_widget{
     background-repeat: repeat;
 }
