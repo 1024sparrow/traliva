@@ -68,9 +68,9 @@ function $construct_layout($p_wParent, $p_oLayout, $p_defaultBackground, $p_widg
             #USAGE_END#debug##
             var $orient;
             if ($p_oLayout.$orient === 'h')
-                $orient = $Traliva.Strip__Orient__hor;
+                $orient = $Traliva.$Strip__Orient__hor;
             else if ($p_oLayout.$orient === 'v')
-                $orient = $Traliva.Strip__Orient__vert;
+                $orient = $Traliva.$Strip__Orient__vert;
             #USAGE_BEGIN#debug##
             else
                 console.error('error: incorrect value of a strip orientation. Possible values: \'h\',\'v\'.');
