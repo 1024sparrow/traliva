@@ -25,7 +25,7 @@ $StatePublisher.prototype.$setState = function($0){//parameter is an Object
         console.log('set state: '+JSON.stringify($0));
 	for (var $1 = 0 ; $1 < this.$__subscribers.length ; $1++){
 		var $2 = this.$__subscribers[$1];
-        $2.$__d.$0 = $0;
+        $2.$__d.$state = $0;
         //console.log('%csetState: '+JSON.stringify(this.$__state), 'color: #f00');//<--
         var $3 = $2.$__getSubstate($0);
 		$2.$_state = $3;
