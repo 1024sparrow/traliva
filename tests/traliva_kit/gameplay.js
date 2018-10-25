@@ -212,7 +212,7 @@ function TextEdit(ss__p_wContainer, ss__p_options){
 }
 TextEdit.prototype = Object.create(ss__Traliva.ss__WidgetStateSubscriber.prototype);
 TextEdit.prototype.constructor = TextEdit;
-TextEdit.prototype.processStateChanges = function(s){
+TextEdit.prototype.ss__processStateChanges = function(s){
     if (!s){
         console.error('epic fail');
         return;
@@ -283,7 +283,6 @@ ComboBox.prototype.ss__processStateChanges = function(s){
 }
 ComboBox.prototype.ss___setupContainer = function(ss__p_variants, ss__p_current){
     //элемент select не поддерживает изменение вариантов, поэтому мы полностью заменяем select
-    console.log('##', this.ss___state);//
     var ss__1, ss__2, ss__3;
     this.ss___wContainer.ss__setContent(ss__Traliva.ss__createElement('<select traliva="e"></select>', this));
     for (ss__1 = 0 ; ss__1 < ss__p_variants.length ; ss__1++){
@@ -331,8 +330,10 @@ Logics.prototype.ss__processStateChanges = function(s){
         this.ss___registerStateChanges();
     }
     if (s.bnApply){
-        if (this._oWidget)
+        if (this._oWidget){
             this._oWidget.ss__processStateChanges(JSON.parse(s.teState));
+            console.log('применено: ' + s.teState);//
+        }
         s.bnApply = false;
         this.ss___registerStateChanges();
     }
