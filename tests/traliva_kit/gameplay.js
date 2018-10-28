@@ -331,6 +331,7 @@ Logics.prototype.ss__processStateChanges = function(s){
     }
     if (s.bnApply){
         if (this._oWidget){
+            this._oWidget.ss___state = JSON.parse(s.teState);
             this._oWidget.ss__processStateChanges(JSON.parse(s.teState));
             console.log('применено: ' + s.teState);//
         }
