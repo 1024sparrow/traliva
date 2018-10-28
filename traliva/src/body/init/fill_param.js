@@ -46,8 +46,8 @@ function $fillParam($0){
     if (!$0.$states.hasOwnProperty('$initState'))
         $0.$states.$initState = {};
     if ($0.$states.hasOwnProperty('$tree')){
-        if (!$0.$states.$initPath || !$0.$states.$stringifyState)
-            return 'Если вы указали свойство "$tree", то должны также указать и свойства "$initPath" и "$stringifyState"';
+        /*if (!$0.$states.$initPath || !$0.$states.$stringifyState)
+            return 'Если вы указали свойство "$tree", то должны также указать и свойства "$initPath" и "$stringifyState"';*/
     }
 
     if ($0.hasOwnProperty('$widgets')){

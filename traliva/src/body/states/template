@@ -8,8 +8,8 @@ $Traliva.$StateSubscriber = $StateSubscriber;
 #USAGE_BEGIN#disabled##
 {%% state_debug_widget.js %%}
 $Traliva.$StateDebugWidget = $StateDebugWidget;
+#USAGE_END#disabled##
 
 {%% state_to_uri_mapper.js %%}
 $Traliva.$StateToUriMapper = $StateToUriMapper;
-#USAGE_END#disabled##
 //})();
