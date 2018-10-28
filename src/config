@@ -17,6 +17,6 @@ COMPRESS_LINEBREAKS=true # 0x4
 CO_DEBUG=true # 0x8
 
 # активирует опции сжатия кода, после применения которых отлаживаться будет затруднительно (удаляются комментарии, переменовываются переменные и функции, убираются переносы строк и отступы).
-CO_RELEASE=true # 0xf0
+#CO_RELEASE=true # 0xf0
 
 # Если включена опция CO_DEBUG, игнорируются опции COMPRESS_LINEBREAKS и COMPRESS_LINEBREAKS
