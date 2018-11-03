@@ -14,7 +14,8 @@
                     "extender.js",
                     "fill_param.js",
                     "init.js",
-                    "history.js"
+                    "history.js",
+                    "state_to_url_mapper.js"
                 ]
             }
         }

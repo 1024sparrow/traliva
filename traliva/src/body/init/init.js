@@ -115,13 +115,13 @@ $Traliva.$init = function($o){
     else
         $d.$wRoot = new $Widget();
     if ($o.$states.hasOwnProperty('$tree')){
-        $d.$stateToUriMapper = new $StateToUriMapper({
+        $d.$stateToUrlMapper = new $StateToUrlMapper({
             $initPath: $o.$states.$initPath,
             $initState: $o.$states.$initState,
             $tree: $o.$states.$tree,
             $stringifyState: $o.$states.$stringifyState
         });
-        $d.$publisher.$registerSubscriber($d.$stateToUriMapper);
+        $d.$publisher.$registerSubscriber($d.$stateToUrlMapper);
     }
     
     $d.$wRoot.$_div.className = '$wRoot';//

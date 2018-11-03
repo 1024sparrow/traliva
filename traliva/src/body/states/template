@@ -9,7 +9,4 @@ $Traliva.$StateSubscriber = $StateSubscriber;
 {%% state_debug_widget.js %%}
 $Traliva.$StateDebugWidget = $StateDebugWidget;
 #USAGE_END#disabled##
-
-{%% state_to_uri_mapper.js %%}
-$Traliva.$StateToUriMapper = $StateToUriMapper;
 //})();

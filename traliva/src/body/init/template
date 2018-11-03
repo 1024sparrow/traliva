@@ -16,4 +16,5 @@ $Traliva.$SlotWidget = $SlotWidget;
 {%% history.js %%}
 {%% extender.js %%}
 {%% fill_param.js %%}
+{%% state_to_url_mapper.js %%}
 {%% init.js %%}
