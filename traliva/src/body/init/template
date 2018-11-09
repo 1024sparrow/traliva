@@ -1,3 +1,4 @@
+{%% history.js %%}
 {%% debug.js %%}
 
 {%% widget_state_subscriber.js %%}
@@ -13,7 +14,6 @@ $Traliva.$StubWidget = $StubWidget;
 $Traliva.$SlotWidget = $SlotWidget;
 
 {%% construct_layout.js %%}
-{%% history.js %%}
 {%% extender.js %%}
 {%% fill_param.js %%}
 {%% state_to_url_mapper.js %%}

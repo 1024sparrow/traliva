@@ -16,7 +16,8 @@ function $StateToUrlMapper($p_statesObj){
     if (this.$initPath.substr(0, 7) === 'file://'){
         if ($Traliva.$__d.$o.hasOwnProperty('$states') && $Traliva.$__d.$o.$states.hasOwnProperty('$tree') && $Traliva.$debug && $Traliva.$debug.$url){
             this.$_debugMode = true;
-            this.$initPath = '';
+            this.$initPath = '/';
+            this.$initPathLength = 1;
         }
         else
             console.error('Запуск маппера URL в состояние из файловой системы возможен только при активированном режиме отладки \'url\'');
@@ -27,16 +28,19 @@ function $StateToUrlMapper($p_statesObj){
 $StateToUrlMapper.prototype = Object.create($StateSubscriber.prototype);
 $StateToUrlMapper.prototype.constructor = $StateToUrlMapper;
 $StateToUrlMapper.prototype.$processStateChanges = function(s){
-    if (this.$isVirgin){
-        if (!this.$debugMode){
-            window.onpopstate = (function($0){return function(){
-                $0.$_state = $0.$updateState();
-                $0.$_registerStateChanges();
-            };})(this);
-        }
+    /*if (this.$isVirgin){
+        this.$isVirgin = false;
+        var f = (function($0){return function(){
+            $0.$_state = $0.$updateState();
+            $0.$_registerStateChanges();
+        };})(this);
+        if (this.$_debugMode)
+            window.onpopstate = f;
+        else
+            $Traliva.$history.$_updateUrl = f;
         this.$_state = this.$updateState();
         this.$_registerStateChanges();
-    }
+    }*/
     //$Traliva.$history.pushState('/123/123/123');
     //pushState('asd/asd/asd');
 }

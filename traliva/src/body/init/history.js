@@ -42,8 +42,8 @@ $Traliva.$history = {
     },
     $__aa: function(p){
         this.$_updateUrl(p);
-        if ($Traliva.$__d.hasOwnProperty('$stateToUriMapper'))
-            $Traliva.$__d.$stateToUriMapper.updateForUrl(p);
+        if ($Traliva.$__d.hasOwnProperty('$stateToUrlMapper'))
+            $Traliva.$__d.$stateToUrlMapper.$updateForUrl(p);
     },
     // сюда в классе виджета,отображающего URL в отладочной панели, должна быть записана функция, обновляющая URL в отладочной панели.
     $_updateUrl: function(){console.log('oops..');}
