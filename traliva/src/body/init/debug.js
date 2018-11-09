@@ -57,8 +57,10 @@ function $DebugPanelUrlWidget($p_wContainer){
     var $0 = 'http://' + $Traliva.$debug.$url;
     $scope.$le.value = $0 + '/';
     $Traliva.$history.$_updateUrl = (function($p_prefix, $p_le){return function($p_url){
-        console.log('%cURL изменён: ' + $p_prefix + $p_url, 'color: #ffa');
-        $p_le.value = $p_prefix + $p_url;
+        //console.log('%cURL изменён: ' + $p_prefix + $p_url, 'color: #ffa');
+        console.log('%cURL изменён: ' + $p_url, 'color: #ffa');
+        //$p_le.value = $p_prefix + $p_url;
+        $p_le.value = $p_url;
     };})($0, $scope.$le);
     this.$_leUrl.$setContent($leUrl);
     this.$_bnEnter = new $Widget($p_wContainer);
@@ -70,7 +72,8 @@ function $DebugPanelUrlWidget($p_wContainer){
         if ($cand.indexOf($p_prefix) < 0)
             $h.$_goCurrent();
         else{
-            $h.pushState({}, '', $cand.slice($p_prefix.length));
+            //$h.pushState({}, '', $cand.slice($p_prefix.length));
+            $h.pushState({}, '', $cand);
         }
     };})($Traliva.$history, $scope.$le, $0));
 
