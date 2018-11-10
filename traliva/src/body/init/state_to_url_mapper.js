@@ -43,30 +43,35 @@ $StateToUrlMapper.prototype.$processStateChanges = function(s){
         else
             $Traliva.$history.$_updateUrl = f;*/
         if (this.$_debugMode){
-            this.$updateForUrl(this.$initPath);
+            this.$updateForUrl(this.$initPath, true);
         }
         else{
             window.onpopstate = (function($0){
                 return function(){$0(document.location);};
             })(this.$updateForUrl);
-            this.$updateForUrl(window.location.href);
+            this.$updateForUrl(window.location.href, true);
         }
     }
     //$Traliva.$history.pushState('/123/123/123');
     //pushState('asd/asd/asd');
 }
-$StateToUrlMapper.prototype.$updateForUrl = function($p_url){
+$StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
     console.log('--', $p_url, '-- initPath:', this.$initPath);
     //this.$_tree, this.$initPath, this.$initPathLength
     var url = $p_url.slice(this.$initPathLength);
     var ar = [];
-    var i;
+    var i, cand;
     for (i = url.indexOf('/', 1) ; i >= 0 ; i = url.indexOf('/', 1)){
-        ar.push(url.slice(1, i));
+        cand = url.slice(1, i);
+        if (cand.length) // встречающиеся двойные слеши трактуем как одинарные
+            ar.push(cand);
         url = url.slice(i);
         console.log('*', i, ar, url);
     }
     console.log('*-*', i, ar, url);
+    if ($p_ifInit){
+        this.$_state = $Traliva.$__d.$o.$states.$initState;
+    }
 }
 // в соответствии с текущим URL устанавливаем нужные значения в state
 /*$StateToUrlMapper.prototype.$updateState = function(){
