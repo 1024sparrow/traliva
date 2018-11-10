@@ -19,8 +19,10 @@ function $StateToUrlMapper($p_statesObj){
         console.error('Запуск маппера URL в состояние из файловой системы возможен только при активированном режиме отладки \'url\'');
     }
     if (this.$_debugMode){
-        this.$initPath = ... // boris here
+        this.$initPath = 'http://' + $Traliva.$debug.$url; // без '/' на конце
+        this.$initPathLength = this.$initPath.length;
     }
+    this.$prevAr = [];
     this.$isVirgin = true;
     console.log('%%% initPath:', this.$initPath);
 }
@@ -41,7 +43,7 @@ $StateToUrlMapper.prototype.$processStateChanges = function(s){
         else
             $Traliva.$history.$_updateUrl = f;*/
         if (this.$_debugMode){
-            this.$updateForUrl('http://' + $Traliva.$debug.$url);
+            this.$updateForUrl(this.$initPath);
         }
         else{
             window.onpopstate = (function($0){
@@ -54,7 +56,17 @@ $StateToUrlMapper.prototype.$processStateChanges = function(s){
     //pushState('asd/asd/asd');
 }
 $StateToUrlMapper.prototype.$updateForUrl = function($p_url){
-    console.log('--', $p_url);
+    console.log('--', $p_url, '-- initPath:', this.$initPath);
+    //this.$_tree, this.$initPath, this.$initPathLength
+    var url = $p_url.slice(this.$initPathLength);
+    var ar = [];
+    var i;
+    for (i = url.indexOf('/', 1) ; i >= 0 ; i = url.indexOf('/', 1)){
+        ar.push(url.slice(1, i));
+        url = url.slice(i);
+        console.log('*', i, ar, url);
+    }
+    console.log('*-*', i, ar, url);
 }
 // в соответствии с текущим URL устанавливаем нужные значения в state
 /*$StateToUrlMapper.prototype.$updateState = function(){
