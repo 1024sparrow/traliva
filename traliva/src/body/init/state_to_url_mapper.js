@@ -54,7 +54,7 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
     var url = $p_url.slice(this.$initPathLength);
     var ar = [];
     var stateChanged = false;
-    var i, ii, cand, o;
+    var i, ii, cand, o, tmp;
     for (i = url.indexOf('/', 1) ; i >= 0 ; i = url.indexOf('/', 1)){
         cand = url.slice(1, i);
         if (cand.length) // встречающиеся двойные слеши трактуем как одинарные
@@ -65,11 +65,12 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
     console.log('*-*', i, ar, url);
     //bTree = (i === 0) ? bTree[ar[i]] : bTree.$d[ar[i]];
 
-    // проставляет свойство __parent (без $) в каждый узел дерева, за исключением корневых элементов
+    // проставляет свойство __parent (без s) в каждый узел дерева, за исключением корневых элементов
     var stack = this.$_tree.slice();
     console.log('TREE pre: ' + JSON.stringify(this.$_tree));
     for (i = 0 ; i < this.$_tree.length ; ++i){
-        this.$_tree[i].__isRoot = true; // __isRoot - без '$'
+        this.$_tree[i].__isRoot = true; // __isRoot - без 's'
+        this.$_tree[i].__list = [this.$_tree[i]]; // __list - без 's'
     }
     while (stack.length){
         o = stack.pop();
@@ -77,8 +78,11 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
         for (ii in o){
             if (o[ii].$d){
                 for (i = 0 ; i < o[ii].$d.length ; ++i){
-                    o[ii].$d[i].__parent = o; // __parent - без '$'
-                    stack.push(o[ii].$d[i]);
+                    tmp = o[ii].$d[i];
+                    tmp.__parent = o; // __parent - без 's'
+                    //tmp.__list = JSON.parse(JSON.stringify(o.__list));
+                    //
+                    stack.push(tmp);
                 }
             }
         }
