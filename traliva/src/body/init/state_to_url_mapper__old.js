@@ -35,6 +35,13 @@ state changed --> url
 $StateToUrlMapper.prototype.$processStateChanges = function(s){
     if (this.$isVirgin){
         this.$isVirgin = false;
+        /*var f = (function($0){return function(){
+            $0.$updateState();
+        };})(this);
+        if (this.$_debugMode)
+            window.onpopstate = f;
+        else
+            $Traliva.$history.$_updateUrl = f;*/
         if (this.$_debugMode){
             this.$updateForUrl(this.$initPath, true);
         }
@@ -54,7 +61,7 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
     var url = $p_url.slice(this.$initPathLength);
     var ar = [];
     var stateChanged = false;
-    var i, ii, cand, o;
+    var i, cand, o;
     for (i = url.indexOf('/', 1) ; i >= 0 ; i = url.indexOf('/', 1)){
         cand = url.slice(1, i);
         if (cand.length) // встречающиеся двойные слеши трактуем как одинарные
@@ -63,30 +70,49 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
         console.log('*', i, ar, url);
     }
     console.log('*-*', i, ar, url);
-    //bTree = (i === 0) ? bTree[ar[i]] : bTree.$d[ar[i]];
-
-    // проставляет свойство __parent (без $) в каждый узел дерева, за исключением корневых элементов
-    var stack = this.$_tree.slice();
-    console.log('TREE pre: ' + JSON.stringify(this.$_tree));
-    for (i = 0 ; i < this.$_tree.length ; ++i){
-        this.$_tree[i].__isRoot = true; // __isRoot - без '$'
+    var b = 0, bTree = this.$_tree, stack;
+    if ($p_ifInit){
+        this.$_state = $Traliva.$__d.$o.$states.$initState;
     }
-    while (stack.length){
-        o = stack.pop();
-        //
-        for (ii in o){
-            if (o[ii].$d){
-                for (i = 0 ; i < o[ii].$d.length ; ++i){
-                    o[ii].$d[i].__parent = o; // __parent - без '$'
-                    stack.push(o[ii].$d[i]);
+    else{
+        stack = this.$_tree.slice();
+        for (i = 0 ; i < ar.length ; ++i){
+            if (i >= this.$prevAr.length)
+                break;
+            b = i;
+            if (ar[i] !== this.$_prevAr[i]){
+                break;
+            }
+            //bTree = (i === 0) ? bTree[ar[i]] : bTree.$d[ar[i]];
+            if (i === 0)
+                bTree = bTree[ar[i]];
+            else{
+                bTree = bTree.$d[ar[i]];
+                if (bTree.params){
+                    // boris e: проверить, насколько параметры не изменились: если изменились, то записать изменения в соответствующие подсостояния
+                    stateChanged = true;
                 }
             }
         }
+        console.log('b: ' + b + ', bTree:', bTree);
     }
-    console.log('TREE: ', this.$_tree);//
+    ++b;
+    o = bTree;
+    // Производим деструкцию старых элементов от b и bTree
+    for (i = b ; i < this.$prevAr.length ; ++i){
+        o = (i === 0) ? o[this.$prevAr[i]] : o.$d[this.$prevAr[i]];
+        if (i)
+            o = 
+        // если узел дерева имеет параметры, то соответствующие подсостояния не трогаем - только по substate и name
+        if (o.$name)
+            this.$setSubstate(o.$substate, '');
+        else
+            this.$setSubstate(o.$substate, undefined);
+    }
 
-    if (stateChanged)
-        this.$_registerStateChanges();
+    // Производим конструкцию новых элементов от b и bTree
+
+    this.$_registerStateChanges();
 };
 // в соответствии с текущим URL устанавливаем нужные значения в state
 /*$StateToUrlMapper.prototype.$updateState = function(){
@@ -100,7 +126,7 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
     }
     this.$_registerStateChanges();
 }*/
-$StateToUrlMapper.prototype.$setSubstate = function(){
+$StateToUrolMapper.prototype.$setSubstate = function(){
 };
 $StateToUrlMapper.prototype.$getSubstate = function(){
 };
