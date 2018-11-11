@@ -75,12 +75,14 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
     while (stack.length){
         o = stack.pop();
         //
-        for (ii in o){
-            if (o[ii].$d){
-                for (i = 0 ; i < o[ii].$d.length ; ++i){
-                    tmp = o[ii].$d[i];
+        for (i in o){
+            if (!o[i].__isRoot){
+            }
+            if (o[i].$d){
+                for (ii = 0 ; ii < o[i].$d.length ; ++ii){
+                    tmp = o[i].$d[ii];
                     tmp.__parent = o; // __parent - без 's'
-                    //tmp.__list = JSON.parse(JSON.stringify(o.__list));
+                    //tmp.__list = o.__list.slice();
                     //
                     stack.push(tmp);
                 }
