@@ -74,22 +74,37 @@ $StateToUrlMapper.prototype.$processStateChanges = function(s){
 $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
     console.log('--', $p_url, '-- initPath:', this.$initPath);
     //this.$_tree, this.$initPath, this.$initPathLength
-    var url = $p_url.slice(this.$initPathLength);
-    var ar = [];
-    var stateChanged = false;
-    var i, ii, cand, o, tmp;
-    for (i = url.indexOf('/', 1) ; i >= 0 ; i = url.indexOf('/', 1)){
-        cand = url.slice(1, i);
-        if (cand.length) // встречающиеся двойные слеши трактуем как одинарные
-            ar.push(cand);
-        url = url.slice(i);
-        console.log('*', i, ar, url);
+    var $0, $1, $2, $tmp, $cand,
+        $ar = [], $stateChanged = false,
+        $eTree
+    ;
+    $0 = $p_url.slice(this.$initPathLength);
+    //var i, ii, cand, o, tmp;
+    for ($1 = $0.indexOf('/', 1) ; $1 >= 0 ; $1 = $0.indexOf('/', 1)){
+        $cand = $0.slice(1, $1);
+        if ($cand.length) // встречающиеся двойные слеши трактуем как одинарные
+            $ar.push($cand);
+        $0 = $0.slice($1);
+        console.log('*', $1, $ar, $0);
     }
-    console.log('*-*', i, ar, url);
-    //bTree = (i === 0) ? bTree[ar[i]] : bTree.$d[ar[i]];
+    console.log('*-*', $ar, $0);
+    //bTree = ($i === 0) ? bTree[$ar[$i]] : bTree.$d[$ar[$i]];
 
-    if (stateChanged)
-        this.$_registerStateChanges();
+    if ($p_ifInit){
+        this.$_state = $Traliva.$__d.$o.$states.$initState || {};
+    }
+    else{ // Выставляем в 'undefined' (или '', если указано свойство 'name') по prevAr
+        $eTree = this.$_tree.slice();
+        for ($1 = 0 ; $1 < this.$prevAr.length ; ++$1){
+            // ...
+        }
+    }
+
+    // выставляем новые значения
+    // ...
+
+    //if ($stateChanged)
+    this.$_registerStateChanges();
 };
 // в соответствии с текущим URL устанавливаем нужные значения в state
 /*$StateToUrlMapper.prototype.$updateState = function(){
