@@ -119,11 +119,12 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
     var $treeStack1; // корни
     var $treeStack2; // листья
     for ($iArs = 0 ; $iArs < 2 ; ++$iArs){
+        $for_iArs:
         $oAr = $ars[$iArs];
         $treeStack1 = [this.$_tree];
         $treeStack2 = $treeStack1.slice();
         for ($1 = 0 ; $1 < $oAr.length ; ++$1){
-            $tmp = treeStack2.pop();
+            $tmp = $treeStack2.pop();
             for ($2 = 0 ; $2 < $tmp.__list.length ; ++$2){
                 for ($3 = 0 ; $3 < $tmp.__list[$2] ; ++$3){
                     for ($4 in $tmp.__list[$2][$3]){
@@ -133,19 +134,19 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
                                 $eTree: $tmp.__list[$2],
                             };
                             if ($tmp.__list[$2][$3].$params){
-                                if ($tmp.__list[$2][$3].$params.length >= (oAr.length - $1)){
+                                if ($tmp.__list[$2][$3].$params.length >= ($oAr.length - $1)){
                                     // отображаем текущий узел - не указано необходимых параметров
                                     $cand = undefined;
                                 }
                                 else
-                                    $cand.$params = $oAr.slice($1 + 1, $tmp.__list[$2][$3].$params.length)
+                                    $cand.$params = $oAr.splice($1 + 1, $tmp.__list[$2][$3].$params.length);
                             }
                             $tmp.__list[$2][$3].__used = ((++this.$used)%2 + 1);// ...
                             if ($cand)
-                                $roots[iArs].push($cand);
+                                $roots[$iArs].push($cand);
                             else{
-                                $roots[iArs].clear();
-                                continue; // цикл по roots-ам
+                                $roots[$iArs].splice(0); // очищаем массив
+                                continue $for_iArs; // цикл по roots-ам
                             }
                         }
                     }
