@@ -123,12 +123,10 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
     var $ars = [this.$prevAr, $ar];
     var $iArs, $oAr;
     var $used;
-    for ($iArs = 0 ; $iArs < 2 ; ++$iArs){
-        $for_iArs:
+    $for_iArs: for ($iArs = 0 ; $iArs < 2 ; ++$iArs){
         $oAr = $ars[$iArs];
-        for ($1 = 0 ; $1 < $oAr.length ; ++$1){
+        $for_1: for ($1 = 0 ; $1 < $oAr.length ; ++$1){
             $used = false;
-            $for_1:
             $tmp = this.$_tree;
             for ($2 = 0 ; $2 < $tmp.__list.length ; ++$2){
                 for ($3 = 0 ; $3 < $tmp.__list[$2] ; ++$3){
