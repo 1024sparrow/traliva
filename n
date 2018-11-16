@@ -33,20 +33,21 @@ compile src/project/project.pro - сборка бессерверной част
 
 ----------------------------------------------
 
-
     Traliva.debug = true;
-    var Traliva__log__re = /\/([^\/\)]*)\)/;
-    Traliva.log = function(pError, ...p_argv){ // <-- тут у нас используется конструкция из ECMAScript-2015
-    //var normalArray = Array.prototype.slice.call(arguments); - (с MDN) аналог для ECMAScript-1
-        var s0;
+    var Traliva__log__re = /\(([^\)]*)\)/gi;
+    Traliva.log = function(){
+        var $0, error, $1;
         if (Traliva.debug){
-            s0 = pError.stack.match(Traliva__log__re)[1];
-            p_argv.unshift(s0);
-            console.log.apply(console, p_argv);
+            error = new Error();
+            $0 = error.stack.match(Traliva__log__re);
+            $1 = Array.prototype.slice.call(arguments);
+            $0 = $0[1];
+            $1.unshift($0.substr(1, $0.length - 2) + ':\n');
+            console.log.apply(console, $1);
         }
     };
 
-    try{throw new Error();}catch(e){Traliva.log(e, 'UPDATE ARROWS DATA:', s.data);};
+    Traliva.log('update arrows data:', s.data);//
 
 ----------------------------------------------
 
