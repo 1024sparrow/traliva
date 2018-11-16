@@ -113,22 +113,28 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
         roots - список ссылок на узлы this.$_tree. Под именем roots - два такизх roots - для this.$_prevAr и для $ar.
         roots хранит объекты со свойствами url (один элемент из ar) и eTree
     */
+    var $fCleanUsed = function($p_arr){
+        var $1;
+        for ($1 = 0 ; $1 < $p_arr.length ; ++$1){
+            delete $p_arr[$1]['__used'];
+        }
+    };
     $roots = [[],[]];// для this.$prevAr и для $ar
     var $ars = [this.$prevAr, $ar];
     var $iArs, $oAr;
-    var $treeStack1; // корни
-    var $treeStack2; // листья
+    var $used;
     for ($iArs = 0 ; $iArs < 2 ; ++$iArs){
         $for_iArs:
         $oAr = $ars[$iArs];
-        $treeStack1 = [this.$_tree];
-        $treeStack2 = $treeStack1.slice();
         for ($1 = 0 ; $1 < $oAr.length ; ++$1){
-            $tmp = $treeStack2.pop();
+            $used = false;
+            $for_1:
+            $tmp = this.$_tree;
             for ($2 = 0 ; $2 < $tmp.__list.length ; ++$2){
                 for ($3 = 0 ; $3 < $tmp.__list[$2] ; ++$3){
                     for ($4 in $tmp.__list[$2][$3]){
                         if ($4 === $oAr[$1]){
+                            $used = true;
                             $cand = {
                                 $url: $4,
                                 $eTree: $tmp.__list[$2],
@@ -141,20 +147,28 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
                                 else
                                     $cand.$params = $oAr.splice($1 + 1, $tmp.__list[$2][$3].$params.length);
                             }
-                            $tmp.__list[$2][$3].__used = ((++this.$used)%2 + 1);// ...
-                            if ($cand)
+                            if ($cand){
                                 $roots[$iArs].push($cand);
+                                $tmp.__list[$2][$3].__used = true;
+                            }
                             else{
+                                $fCleanUsed($roots[$iArs]);
                                 $roots[$iArs].splice(0); // очищаем массив
                                 continue $for_iArs; // цикл по roots-ам
                             }
+                            break $for_1;
                         }
-                    }
-                }
+                    } // for $4
+                } // for $3
+            } // for $2
+            if (!$used){
+                break $for_iArs;
+                // ... (заменяем текущий URL на обрезанный, соответствующий текущей позиции в $oAr). При этом не должны ещё раз свалиться в обработчик смены URL-а.
             }
-        }
-        
-    }
+        } // for $1
+        $fCleanUsed($roots[$iArs]);
+    } // for $iArs
+    console.log(JSON.stringify($roots, undefined, 2));
 
     // здесь версия, где затираем и выставляем в одном цикле
     //var arCopy = ar.slice();
