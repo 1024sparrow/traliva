@@ -123,57 +123,67 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
     var $ars = [this.$prevAr, $ar];
     var $iArs, $oAr;
     var $used;
+    var $appliedAr;//та часть ar, что была обработана и является корректной. Используется в случае некорректного URL для генерации корректного URL.
     $for_iArs: for ($iArs = 0 ; $iArs < 2 ; ++$iArs){
         $oAr = $ars[$iArs];
         $tmp = this.$_tree;
+        $appliedAr = [];
         $for_1: for ($1 = 0 ; $1 < $oAr.length ; ++$1){
             console.log('-- 1 --');
             $used = false;
-            for ($2 = 0 ; $2 < $tmp.__list.length ; ++$2){
-            console.log('-- 2 --', $tmp.__list[$2]);//
-                for ($3 = 0 ; $3 < $tmp.__list[$2].length ; ++$3){
-                console.log('-- 3 --');
-                    for ($4 in $tmp.__list[$2][$3]){
-                    console.log('-- 4 --');
-                        console.log('$1, $2, $3, $4', $1, $2, $3, $4, 'tmp:', $tmp);//
-                        if ($4 === $oAr[$1]){
-                            $used = true;
-                            $cand = {
-                                $url: $4,
-                                $eTree: $tmp.__list[$2],
-                            };
-                            if ($tmp.__list[$2][$3].$params){
-                                if ($tmp.__list[$2][$3].$params.length >= ($oAr.length - $1)){
-                                    // отображаем текущий узел - не указано необходимых параметров
-                                    $cand = undefined;
+            if ($tmp){
+                $for_2: for ($2 = 0 ; $2 < $tmp.__list.length ; ++$2){
+                console.log('-- 2 --', $tmp.__list[$2]);//
+                    for ($3 = 0 ; $3 < $tmp.__list[$2].length ; ++$3){
+                    console.log('-- 3 --');
+                        for ($4 in $tmp.__list[$2][$3]){
+                        console.log('-- 4 --');
+                            console.log('$1, $2, $3, $4', $1, $2, $3, $4, 'tmp:', $tmp);//
+                            if ($4 === $oAr[$1]){
+                                $cand = {
+                                    $url: $4,
+                                    $eTree: $tmp.__list[$2],
+                                };
+                                if ($tmp.__list[$2][$3].$params){
+                                    if ($tmp.__list[$2][$3].$params.length >= ($oAr.length - $1)){
+                                        // отображаем текущий узел - не указано необходимых параметров
+                                        break $for_2;
+                                    }
+                                    else{
+                                        $cand.$params = $oAr.splice($1 + 1, $tmp.__list[$2][$3].$params.length);
+                                        for ($5 = 0 ; $5 <= $tmp.__list[$2][$3].$params.length ; ++$5){
+                                            $appliedAr.push($oAr[$1 + $5]);
+                                        }
+                                    }
                                 }
-                                else
-                                    $cand.$params = $oAr.splice($1 + 1, $tmp.__list[$2][$3].$params.length);
-                            }
-                            if ($cand){
+                                else{
+                                    $appliedAr.push($oAr[$1]);
+                                }
+                                $used = true;
                                 console.log('PUSHING:', $cand);
                                 $roots[$iArs].push($cand);
                                 $tmp.__list[$2][$3][$4].__used = true;
                                 $tmp = $tmp.__list[$2][$3][$4].$d;
-                                
                                 continue $for_1;
                             }
-                            else{
-                                $fCleanUsed($roots[$iArs]);
-                                console.log('ERROR!!');
-                                $roots[$iArs].splice(0); // очищаем массив
-                                continue $for_iArs; // цикл по roots-ам
-                            }
-                            break $for_1;
-                        }
-                    } // for $4
-                } // for $3
-            } // for $2
+                        } // for $4
+                    } // for $3
+                } // for $2
+            }
             if (!$used){
+                console.log('=================');
+                console.log('ERROR!!', $appliedAr);
+                // заменяем текущий URL на обрезанный, соответствующий текущей позиции в $oAr. При этом не должны ещё раз свалиться в обработчик смены URL-а.
+                if (this.$_debugMode){
+                    $cand = this.$initPath + '/' + $appliedAr.join('/');
+                    if ($appliedAr.length)
+                        $cand += '/';
+                    $Traliva.$history.$_updateUrl($cand);
+                }
+                else{
+                    // ...
+                }
                 break $for_iArs;
-                console.log('ERROR!!');
-                // ... (заменяем текущий URL на обрезанный, соответствующий текущей позиции в $oAr). При этом не должны ещё раз свалиться в обработчик смены URL-а.
-                //
             }
         } // for $1
         $fCleanUsed($roots[$iArs]);
