@@ -125,12 +125,17 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
     var $used;
     $for_iArs: for ($iArs = 0 ; $iArs < 2 ; ++$iArs){
         $oAr = $ars[$iArs];
+        $tmp = this.$_tree;
         $for_1: for ($1 = 0 ; $1 < $oAr.length ; ++$1){
+            console.log('-- 1 --');
             $used = false;
-            $tmp = this.$_tree;
             for ($2 = 0 ; $2 < $tmp.__list.length ; ++$2){
-                for ($3 = 0 ; $3 < $tmp.__list[$2] ; ++$3){
+            console.log('-- 2 --', $tmp.__list[$2]);//
+                for ($3 = 0 ; $3 < $tmp.__list[$2].length ; ++$3){
+                console.log('-- 3 --');
                     for ($4 in $tmp.__list[$2][$3]){
+                    console.log('-- 4 --');
+                        console.log('$1, $2, $3, $4', $1, $2, $3, $4, 'tmp:', $tmp);//
                         if ($4 === $oAr[$1]){
                             $used = true;
                             $cand = {
@@ -146,11 +151,16 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
                                     $cand.$params = $oAr.splice($1 + 1, $tmp.__list[$2][$3].$params.length);
                             }
                             if ($cand){
+                                console.log('PUSHING:', $cand);
                                 $roots[$iArs].push($cand);
-                                $tmp.__list[$2][$3].__used = true;
+                                $tmp.__list[$2][$3][$4].__used = true;
+                                $tmp = $tmp.__list[$2][$3][$4].$d;
+                                
+                                continue $for_1;
                             }
                             else{
                                 $fCleanUsed($roots[$iArs]);
+                                console.log('ERROR!!');
                                 $roots[$iArs].splice(0); // очищаем массив
                                 continue $for_iArs; // цикл по roots-ам
                             }
@@ -161,12 +171,13 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
             } // for $2
             if (!$used){
                 break $for_iArs;
+                console.log('ERROR!!');
                 // ... (заменяем текущий URL на обрезанный, соответствующий текущей позиции в $oAr). При этом не должны ещё раз свалиться в обработчик смены URL-а.
             }
         } // for $1
         $fCleanUsed($roots[$iArs]);
     } // for $iArs
-    console.log(JSON.stringify($roots, undefined, 2));
+    console.log('roots: ', JSON.stringify($roots, undefined, 2));
 
     // здесь версия, где затираем и выставляем в одном цикле
     //var arCopy = ar.slice();
