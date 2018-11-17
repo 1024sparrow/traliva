@@ -144,19 +144,24 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
                                     $url: $4,
                                     $eTree: $tmp.__list[$2],
                                 };
-                                if ($tmp.__list[$2][$3].$params){
-                                    if ($tmp.__list[$2][$3].$params.length >= ($oAr.length - $1)){
+                                console.log('&*%*&%*&%&*^%&*^%', $tmp.__list[$2][$3]);//
+                                if ($tmp.__list[$2][$3][$4].$params){
+                                    console.log('parameters detected');//
+                                    if ($tmp.__list[$2][$3][$4].$params.length >= ($oAr.length - $1)){
                                         // отображаем текущий узел - не указано необходимых параметров
+                                        console.log('error: не указано необходимое количество параметров');
                                         break $for_2;
                                     }
                                     else{
-                                        $cand.$params = $oAr.splice($1 + 1, $tmp.__list[$2][$3].$params.length);
-                                        for ($5 = 0 ; $5 <= $tmp.__list[$2][$3].$params.length ; ++$5){
+                                        for ($5 = 0 ; $5 <= $tmp.__list[$2][$3][$4].$params.length ; ++$5){
                                             $appliedAr.push($oAr[$1 + $5]);
                                         }
+                                        $cand.$params = $oAr.splice($1 + 1, $tmp.__list[$2][$3][$4].$params.length);
+                                        console.log('===', JSON.stringify($appliedAr), $oAr);//
                                     }
                                 }
                                 else{
+                                    console.log('no parameters');
                                     $appliedAr.push($oAr[$1]);
                                 }
                                 $used = true;
@@ -171,7 +176,7 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
                 } // for $2
             }
             if (!$used){
-                console.log('=================');
+                console.log($iArs, '=================');
                 console.log('ERROR!!', $appliedAr);
                 // заменяем текущий URL на обрезанный, соответствующий текущей позиции в $oAr. При этом не должны ещё раз свалиться в обработчик смены URL-а.
                 if (this.$_debugMode){
