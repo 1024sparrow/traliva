@@ -64,7 +64,7 @@ $StateToUrlMapper.prototype.$processStateChanges = function(s){
         }
         else{
             window.onpopstate = (function($0){
-                return function(){$0(document.location);};
+                return function(){$0(document.location.href);};
             })(this.$updateForUrl);
             this.$updateForUrl(window.location.href, true);
         }
@@ -173,6 +173,7 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
                 break $for_iArs;
                 console.log('ERROR!!');
                 // ... (заменяем текущий URL на обрезанный, соответствующий текущей позиции в $oAr). При этом не должны ещё раз свалиться в обработчик смены URL-а.
+                //
             }
         } // for $1
         $fCleanUsed($roots[$iArs]);
