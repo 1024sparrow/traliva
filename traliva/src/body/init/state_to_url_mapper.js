@@ -177,7 +177,7 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
             }
             if (!$used){
                 console.log($iArs, '=================');
-                console.log('ERROR!!', $appliedAr);
+                console.log('ERROR!!', $appliedAr); // Если индекс нулевой, то это EPIC FAIL.
                 // заменяем текущий URL на обрезанный, соответствующий текущей позиции в $oAr. При этом не должны ещё раз свалиться в обработчик смены URL-а.
                 if (this.$_debugMode){
                     $cand = this.$initPath + '/' + $appliedAr.join('/');
@@ -188,6 +188,7 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
                 else{
                     // ...
                 }
+                $ar = $appliedAr;
                 break $for_iArs;
             }
         } // for $1
