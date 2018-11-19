@@ -197,7 +197,7 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
     console.log('roots: ', JSON.stringify($roots, undefined, 2));
 
     if (!this.$_fContains){
-        this.$_fContains = function($pArray, $pTarget){ // возвращает позицию, увеличенную на 1 (чтобы результат можно было проверять в if(..))
+        this.$_fContains = function($pArray, $pTarget){
             var $1;
             if ($pTarget){
                 for ($1 = 0 ; $1 < $pArray.length ; ++$1){
