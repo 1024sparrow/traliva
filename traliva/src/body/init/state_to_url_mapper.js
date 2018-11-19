@@ -196,10 +196,33 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
     } // for $iArs
     console.log('roots: ', JSON.stringify($roots, undefined, 2));
 
-    // здесь версия, где затираем и выставляем в одном цикле
-    //var arCopy = ar.slice();
-    //var prevArCopy = this.$prevAr.slice();
-    //for ($1 = )
+    if (!this.$_fContains){
+        this.$_fContains = function($pArray, $pTarget){ // возвращает позицию, увеличенную на 1 (чтобы результат можно было проверять в if(..))
+            var $1;
+            if ($pTarget){
+                for ($1 = 0 ; $1 < $pArray.length ; ++$1){
+                    if ($pArray[$1].$eTree === $pTarget.$eTree)
+                        return $pTarget;
+                }
+            }
+        };
+    }
+
+    for ($1 = 0 ; $1 < $roots[0].length ; ++$1){
+        $2 = this.$_fContains($roots[1], $roots[0][$1]);
+        if (!$2){
+            // есть в prevAr, но нет в ar - деструкция
+        }
+    }
+    for ($1 = 0 ; $1 < $roots[1].length ; ++$1){
+        $2 = this.$_fContains($roots[0], $roots[1][$1]);
+        if ($2){
+            // есть и в ar, и в prevAr - обновляем параметры
+        }
+        else{
+            // есть в ar, но нет в prevAr - конструкция
+        }
+    }
 
     this.$prevAr = $ar;
 
