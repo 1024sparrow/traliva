@@ -196,31 +196,49 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
     } // for $iArs
     console.log('roots: ', JSON.stringify($roots, undefined, 2));
 
+    console.log('==============================');
     if (!this.$_fContains){
         this.$_fContains = function($pArray, $pTarget){
-            var $1;
+            var $1, $2;
             if ($pTarget){
                 for ($1 = 0 ; $1 < $pArray.length ; ++$1){
-                    if ($pArray[$1].$eTree === $pTarget.$eTree)
-                        return $pTarget;
+                    $2 = $pArray[$1];
+                    if ($2.$eTree === $pTarget.$eTree && $2.$url === $pTarget.$url)
+                        return true;//return $pTarget.$eTree[$pTarget.$url];
                 }
+            }
+            return false;
+        };
+        this.$_fGetTreeObject = function($pArItem){
+            var i$0, $1;
+            for ($1 = 0 ; $1 < $pArItem.$eTree.length ; ++$1){
+                $0 = $pArItem.$eTree[$1][$pArItem.$url];
+                if ($0)
+                    return $0;
             }
         };
     }
 
     for ($1 = 0 ; $1 < $roots[0].length ; ++$1){
-        $2 = this.$_fContains($roots[1], $roots[0][$1]);
+        $3 = $roots[0][$1];
+        $2 = this.$_fContains($roots[1], $3);
+        $3 = this.$_fGetTreeObject($3);
         if (!$2){
             // есть в prevAr, но нет в ar - деструкция
+            console.log('деструкция: ', JSON.stringify($3, undefined, 2));
         }
     }
     for ($1 = 0 ; $1 < $roots[1].length ; ++$1){
-        $2 = this.$_fContains($roots[0], $roots[1][$1]);
+        $3 = $roots[1][$1];
+        $2 = this.$_fContains($roots[0], $3);
+        $3 = this.$_fGetTreeObject($3);
         if ($2){
             // есть и в ar, и в prevAr - обновляем параметры
+            console.log('обновляем параметры: ', JSON.stringify($3, undefined, 2));
         }
         else{
             // есть в ar, но нет в prevAr - конструкция
+            console.log('конструкция: ', JSON.stringify($3, undefined, 2));
         }
     }
 
