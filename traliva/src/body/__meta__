@@ -9,7 +9,8 @@
                     "states.js",
                     "widgets.js",
                     "init.js",
-                    "utils.js"
+                    "utils.js",
+                    "network.js"
                 ]
             }
         }
