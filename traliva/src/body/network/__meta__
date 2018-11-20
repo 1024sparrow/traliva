@@ -1,0 +1,13 @@
+{
+    "files":[
+        {
+            "target":"network.js",
+            "source":{
+                "template": "template",
+                "list":[
+                    "ajax.js"
+                ]
+            }
+        }
+    ]
+}

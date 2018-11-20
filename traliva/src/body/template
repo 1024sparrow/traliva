@@ -14,5 +14,7 @@ else {
     {%% init.js %%}
     // ---- begin of utils block ----
     {%% utils.js %%}
+    // ---- begin of network block ----
+    {%% network.js %%}
     })(); // end of "$Traliva = {..."
 }
