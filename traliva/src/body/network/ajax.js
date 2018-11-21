@@ -5,6 +5,7 @@
  * Запросы выполнять методом  request().
  * Метод break() "отменяет" все ранее сделанные запросы (ответы игнорируются) и возвращает число "отменённых" запросов.
  * Если в качестве URL передать '_fake', то объект, переданный на вход, будет выдан на выход без каких-либо запросов на сервер.
+ * По приходу ответа от "отменённых" запросов, вызывается метод *ignore*, если он определён.
  *
  * Требования к серверному коду (python):
  * 1. На выход должен всегда выдаваться объект (dict), редиректы неприемлимы. Если на сервере произошли ошибки, этот объект должен содержать свойство '_errors' - текстовое описание ошибки или массив текстовых описаний ошибок.
@@ -32,7 +33,7 @@ $Ajax.prototype.$__invertId = function($0){
     }
     return $0;
 };
-$Ajax.prototype.$request = function($p_url, $p_paramObject, $p_okFunc, $p_errorFunc, $p_ignoreFunc){
+$Ajax.prototype.$request = function($p_url, $p_paramObject, $p_okFunc, $p_errorFunc, $p_ignoreOkFunc, $p_ignoreErrorFunc){
     //App.backend.callMethod($p_url, $p_paramObject).then($p_okFunc).catch($p_errorFunc);
     var $0, $1, $url = $p_url;
     this.$_id = ++this.$_id;// % $Ajax__MAX_ID;
@@ -52,14 +53,20 @@ $Ajax.prototype.$request = function($p_url, $p_paramObject, $p_okFunc, $p_errorF
     $p_paramObject.$_request_id = this.$_id;
     for ($1 in $p_paramObject){
     }
-    (function($self, $p_okFunc, $p_errorFunc, $p_ignoreFunc, $p_request_id){
+    (function($self, $p_url, $p_okFunc, $p_errorFunc, $p_ignoreOkFunc, $p_ignoreErrorFunc, $p_request_id){
         var $requestId = this.$__invertId($p_request_id);
-        var $common = function($p_func, $p_paramObj){// $p_func и $p_paramObj - функция и параметр обратного вызова
+        var $common = function($p_func, $p_ignoreFunc, $p_paramObj){// $p_func и $p_paramObj - функция и параметр обратного вызова
             var $1, $2 = $self.$_pending.indexOf($requestId);
-            if ($2 < 0)
-                return; // запрос был снят
-            $self.$_pending.splice($2, 1);
-            $self.$_cache[$requestId] = {$func: $p_func, $param: $p_paramObj};
+            var $ifIgnore = false;
+            if ($2 < 0){ // запрос был снят
+                if (!$p_ignoreFunc)
+                    return;
+                $ifIgnore = true;
+            }
+            else{
+                $self.$_pending.splice($2, 1);
+            }
+            $self.$_cache[$requestId] = {$func: $p_func, $ignoreFunc: $p_ignoreFunc, $param: $p_paramObj};
             // если все id в $_pending больше $requestId, то проходим циклом по $_cache и если request_id <= $requestId, то вызываем соответствующие фунции и убираем эти свйоства из $_cache
             $2 = true;
             for ($1 = 0 ; $1 < $self.$_pending.length ; ++$1){
@@ -70,7 +77,7 @@ $Ajax.prototype.$request = function($p_url, $p_paramObject, $p_okFunc, $p_errorF
                 $2 = [];
                 for ($1 in $self.$_cache){
                     if ($1 <= $requestId){
-                        $self.$_cache[$1].$func($self.$_cache[$1].$param);
+                        $self.$_cache[$1][$ifIgnore ? '$ignoreFunc' : '$func']($self.$_cache[$1].$param);
                         $2.push($1);
                     }
                 }
@@ -85,12 +92,12 @@ $Ajax.prototype.$request = function($p_url, $p_paramObject, $p_okFunc, $p_errorF
         var $fOk = function($p_data){
             delete $p_data['$_request_id'];
             if ($p_data._errors)
-                $common($p_errorFunc, {error: $p_data._errors});
+                $common($p_errorFunc, $p_ignoreErrorFunc, {$error: $p_data._errors});
             else
-                $common($p_okFunc, $p_data);
+                $common($p_okFunc, $p_ignoreOkFunc, $p_data);
         };
         var $fError = function($p_error){
-            $common($p_errorFunc, {error: $p_error});
+            $common($p_errorFunc, $p_ignoreErrorFunc, {$error: $p_error});
         };
         if ($p_url === '_fake'){
             $fOk($p_paramObject);
@@ -100,7 +107,7 @@ $Ajax.prototype.$request = function($p_url, $p_paramObject, $p_okFunc, $p_errorF
             //App.backend.callMethod($p_url, $p_paramObject).then($fOk).catch($fError);
             $Traliva.$ajax({});
         }
-    })(this, $p_url, $p_okFunc, $p_errorFunc, $p_ignoreFunc, this.$_id);
+    })(this, $p_url, $p_okFunc, $p_errorFunc, $p_ignoreOkFunc, $p_ignoreErrorFunc, this.$_id);
 };
 $Ajax.prototype.break = function(){
     var i, retVal = this.$_pending.length;
