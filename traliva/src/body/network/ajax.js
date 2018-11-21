@@ -32,17 +32,22 @@ $Ajax.prototype.$__invertId = function($0){
     }
     return $0;
 };
-$Ajax.prototype.$request = function($p_url, $p_paramObject, $p_okFunc, $p_errorFunc, $p_ignoreFunction){
+$Ajax.prototype.$request = function($p_url, $p_paramObject, $p_okFunc, $p_errorFunc, $p_ignoreFunc){
     //App.backend.callMethod($p_url, $p_paramObject).then($p_okFunc).catch($p_errorFunc);
     var $0, $1, $url = $p_url;
-    this.$_id = ++this.$_id % $Ajax__MAX_ID;
-    if (this.$_id > $Ajax__MAX_ID_HALF){
-        //
-        /*$0 = this.$_pending[0] || 1;
+    this.$_id = ++this.$_id;// % $Ajax__MAX_ID;
+    if (this.$_id > $Ajax__MAX_ID){
+        // меняем половинки местами, инвертируем this.$_inverted
+        for ($1 = 0 ; $1 < this.$_pending.length ; ++$1){
+            this.$_pending[$1] = this.$__invertId(this.$_pending[$1]);
+        }
         for ($1 in this.$_cache){
-            if (this.$_cache[$1] < $0)
-        }*/
-        // ...
+            $0 = this.$_cache[$1];
+            delete this.$_cache[$1];
+            this.$_cache[this.$__invertId($1)] = $0;
+        }
+        this.$_inverted = !this.$_inverted;
+        this.$_id -= $Ajax__MAX_ID;
     }
     $p_paramObject.$_request_id = this.$_id;
     for ($1 in $p_paramObject){
@@ -94,7 +99,7 @@ $Ajax.prototype.$request = function($p_url, $p_paramObject, $p_okFunc, $p_errorF
             //App.backend.callMethod($p_url, $p_paramObject).then(fOk).catch(fError);
             $Traliva.$ajax({});
         }
-    })(this, $p_url, $p_okFunc, $p_errorFunc, this.$_id);
+    })(this, $p_url, $p_okFunc, $p_errorFunc, $p_ignoreFunc, this.$_id);
 };
 $Ajax.prototype.break = function(){
     var i, retVal = this.$_pending.length;
