@@ -52,7 +52,7 @@ $Ajax.prototype.$request = function($p_url, $p_paramObject, $p_okFunc, $p_errorF
     $p_paramObject.$_request_id = this.$_id;
     for ($1 in $p_paramObject){
     }
-    (function($self, $p_okFunc, $p_errorFunc, $p_request_id){
+    (function($self, $p_okFunc, $p_errorFunc, $p_ignoreFunc, $p_request_id){
         var common = function($p_func, $p_paramObj){// $p_func и $p_paramObj - функция и параметр обратного вызова
             var $1, $2 = $self.$_pending.indexOf($p_request_id);
             if ($2 < 0)
