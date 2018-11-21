@@ -55,21 +55,21 @@ $Ajax.prototype.$request = function($p_url, $p_paramObject, $p_okFunc, $p_errorF
     (function($self, $p_okFunc, $p_errorFunc, $p_ignoreFunc, $p_request_id){
         var $requestId = this.$__invertId($p_request_id);
         var $common = function($p_func, $p_paramObj){// $p_func и $p_paramObj - функция и параметр обратного вызова
-            var $1, $2 = $self.$_pending.indexOf($p_request_id);
+            var $1, $2 = $self.$_pending.indexOf($requestId);
             if ($2 < 0)
                 return; // запрос был снят
             $self.$_pending.splice($2, 1);
-            $self.$_cache[$p_request_id] = {$func: $p_func, $param: $p_paramObj};
-            // если все id в $_pending больше $p_request_id, то проходим циклом по $_cache и если request_id <= $p_request_id, то вызываем соответствующие фунции и убираем эти свйоства из $_cache
+            $self.$_cache[$requestId] = {$func: $p_func, $param: $p_paramObj};
+            // если все id в $_pending больше $requestId, то проходим циклом по $_cache и если request_id <= $requestId, то вызываем соответствующие фунции и убираем эти свйоства из $_cache
             $2 = true;
             for ($1 = 0 ; $1 < $self.$_pending.length ; ++$1){
-                if ($self.$_pending[$1] > $p_request_id)
+                if ($self.$_pending[$1] > $requestId)
                     $2 = false;
             }
             if ($2){
                 $2 = [];
                 for ($1 in $self.$_cache){
-                    if ($1 <= $p_request_id){
+                    if ($1 <= $requestId){
                         $self.$_cache[$1].$func($self.$_cache[$1].$param);
                         $2.push($1);
                     }
@@ -96,7 +96,7 @@ $Ajax.prototype.$request = function($p_url, $p_paramObject, $p_okFunc, $p_errorF
             $fOk($p_paramObject);
         }
         else{
-            $self.$_pending.push($p_request_id);
+            $self.$_pending.push($requestId);
             //App.backend.callMethod($p_url, $p_paramObject).then($fOk).catch($fError);
             $Traliva.$ajax({});
         }
