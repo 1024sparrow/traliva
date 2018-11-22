@@ -121,6 +121,7 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
     };
     $roots = [[],[]];// для this.$prevAr и для $ar
     var $ars = [this.$prevAr, $ar];
+    console.log('PRELIMINAR ARS:\n', JSON.stringify($ars));
     var $iArs, $oAr;
     var $used;
     var $appliedAr;//та часть ar, что была обработана и является корректной. Используется в случае некорректного URL для генерации корректного URL.
@@ -156,7 +157,10 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
                                         for ($5 = 0 ; $5 <= $tmp.__list[$2][$3][$4].$params.length ; ++$5){
                                             $appliedAr.push($oAr[$1 + $5]);
                                         }
-                                        $cand.$params = $oAr.splice($1 + 1, $tmp.__list[$2][$3][$4].$params.length);
+                                        $5 = $tmp.__list[$2][$3][$4].$params.length;
+                                        $cand.$params = $oAr.slice($1 + 1, $1 + 1 + $5);
+                                        $tmp.__list[$2][$3][$4].$paramValues = $oAr.slice($1 + 1, 1 + $tmp.__list[$2][$3][$4].$params.length);
+                                        $1 += $5;
                                         console.log('===', JSON.stringify($appliedAr), $oAr);//
                                     }
                                 }
@@ -226,6 +230,7 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
         if (!$2){
             // есть в prevAr, но нет в ar - деструкция
             console.log('деструкция: ', JSON.stringify($3, undefined, 2));
+            this.$setSubstate($3.$substate);
         }
     }
     for ($1 = 0 ; $1 < $roots[1].length ; ++$1){
@@ -235,10 +240,17 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
         if ($2){
             // есть и в ar, и в prevAr - обновляем параметры
             console.log('обновляем параметры: ', JSON.stringify($3, undefined, 2));
+            if ($3.$params){
+                for ($4 = 0 ; $4 < $3.$params.length ; ++$4){
+                    console.log($3.$params[$4] + ' -- ' + $3.$paramValues[$4]);
+                    this.$setSubstate($3.$params[$4], $3.$paramValues[$4]);
+                }
+            }
         }
         else{
             // есть в ar, но нет в prevAr - конструкция
             console.log('конструкция: ', JSON.stringify($3, undefined, 2));
+            this.$setSubstate($3.$substate, $3.$name || true);
         }
     }
 
@@ -260,13 +272,14 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
     this.$_registerStateChanges();
 }*/
 $StateToUrlMapper.prototype.$setSubstate = function($p_substate, $p_value){ // подсостояние здесь может задаваться только в строковом виде
-    var $0 = this.$_state,
-        $1 = $p_value.split('/'),
-        $2;
+    console.log('setSubstate: ', $p_substate, $p_value);
     if ($p_substate.length === 0){
         console.log('ошибка. указано некорректное подсостояние');
         return;
     }
+    var $0 = this.$_state,
+        $1 = $p_substate.split('/'),
+        $2;
     while ($1.length > 1){
         $2 = $1.shift();
         if ($0.hasOwnProperty($2)){
@@ -283,5 +296,4 @@ $StateToUrlMapper.prototype.$setSubstate = function($p_substate, $p_value){ // �
     }
     $0[$1[0]] = $p_value;
 };
-$StateToUrlMapper.prototype.$getSubstate = function(){
-};
+$StateToUrlMapper.prototype.$getSubstate = $Traliva.$StateSubscriber.prototype.$__getSubstate;
