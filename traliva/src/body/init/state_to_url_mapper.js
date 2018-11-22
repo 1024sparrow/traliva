@@ -259,7 +259,29 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
     }
     this.$_registerStateChanges();
 }*/
-$StateToUrlMapper.prototype.$setSubstate = function(){
+$StateToUrlMapper.prototype.$setSubstate = function($p_substate, $p_value){ // подсостояние здесь может задаваться только в строковом виде
+    var $0 = this.$_state,
+        $1 = $p_value.split('/'),
+        $2;
+    if ($p_substate.length === 0){
+        console.log('ошибка. указано некорректное подсостояние');
+        return;
+    }
+    while ($1.length > 1){
+        $2 = $1.shift();
+        if ($0.hasOwnProperty($2)){
+            $0 = $0[$2];
+        }
+        else{
+            if ($p_value === undefined)
+                return;
+            else{
+                $0[$2] = {};
+                $0 = $0[$2];
+            }
+        }
+    }
+    $0[$1[0]] = $p_value;
 };
 $StateToUrlMapper.prototype.$getSubstate = function(){
 };
