@@ -51,7 +51,11 @@ $Ajax.prototype.$request = function($p_url, $p_paramObject, $p_okFunc, $p_errorF
         this.$_id -= $Ajax__MAX_ID_HALF;
     }
     $p_paramObject.$_request_id = this.$_id;
+    $0 = false;
     for ($1 in $p_paramObject){
+        $url.push($0 ? '&' : '?');
+        $url.push($1 + '=' + $p_paramObject[$1]);
+        $0 = true;
     }
     (function($self, $p_url, $p_okFunc, $p_errorFunc, $p_ignoreOkFunc, $p_ignoreErrorFunc, $p_request_id){
         var $requestId = this.$__invertId($p_request_id);
@@ -104,10 +108,15 @@ $Ajax.prototype.$request = function($p_url, $p_paramObject, $p_okFunc, $p_errorF
         }
         else{
             $self.$_pending.push($requestId);
-            //App.backend.callMethod($p_url, $p_paramObject).then($fOk).catch($fError);
-            $Traliva.$ajax({});
+            $Traliva.$ajax({
+                $sourcePath: $p_url,
+                $readyFunc: $fOk,
+                $errorFunc: $fError,
+                //$timeout: 123,
+                //$addonHttpHeaders: 123
+            });
         }
-    })(this, $p_url, $p_okFunc, $p_errorFunc, $p_ignoreOkFunc, $p_ignoreErrorFunc, this.$_id);
+    })(this, $url, $p_okFunc, $p_errorFunc, $p_ignoreOkFunc, $p_ignoreErrorFunc, this.$_id);
 };
 $Ajax.prototype.break = function(){
     var i, retVal = this.$_pending.length;
