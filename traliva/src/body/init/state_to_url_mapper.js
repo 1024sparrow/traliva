@@ -2,6 +2,7 @@
 function $StateToUrlMapper($p_statesObj){
     $Traliva.$StateSubscriber.call(this);
     this.$_statesObj = $p_statesObj;
+    this.$_ajax = new $Traliva.$Ajax();
     var $uri = window.location.href,
         $0, $tmp, $stack,
         $1,
@@ -231,8 +232,15 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
             // есть в prevAr, но нет в ar - деструкция
             console.log('деструкция: ', JSON.stringify($3, undefined, 2));
             this.$setSubstate($3.$substate);
+            $stateChanged = true;
+            if ($3.$extender){
+                //boris here 2
+            }
         }
     }
+    if ($stateChanged)
+        this.$_registerStateChanges();
+    $stateChanged = false;
     for ($1 = 0 ; $1 < $roots[1].length ; ++$1){
         $3 = $roots[1][$1];
         $2 = this.$_fContains($roots[0], $3);
@@ -251,7 +259,11 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
             // есть в ar, но нет в prevAr - конструкция
             console.log('конструкция: ', JSON.stringify($3, undefined, 2));
             this.$setSubstate($3.$substate, $3.$name || true);
+            if ($3.$extender){
+                this.$_ajax.$request(); // boris here 1
+            }
         }
+        $stateChanged = true;
     }
 
     this.$prevAr = $ar;
