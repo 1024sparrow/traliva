@@ -260,7 +260,17 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
             console.log('конструкция: ', JSON.stringify($3, undefined, 2));
             this.$setSubstate($3.$substate, $3.$name || true);
             if ($3.$extender){
-                this.$_ajax.$request(); // boris here 1
+                //this.$_ajax.$request($p_url, $p_paramObject, $p_okFunc, $p_errorFunc, $p_ignoreOkFunc, $p_ignoreErrorFunc); // boris here 1
+                (function(){
+                    this.$_ajax.$request(
+                        $3.$extender.$url,
+                        {},
+                        function(){},
+                        function(){},
+                        function(){},
+                        function(){}
+                    ); // boris here 1
+                })(this);
             }
         }
         $stateChanged = true;
