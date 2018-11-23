@@ -30,7 +30,7 @@ function $StateToUrlMapper($p_statesObj){
     }
     this.$prevAr = [];//
     this.$isVirgin = true;
-    console.log('%%% initPath:', this.$initPath);
+    //console.log('%%% initPath:', this.$initPath);
 
     // в массивах (корневой и d-свойства (дети)) - свойство __list: список предков, начиная от самого себя
     $stack = [this.$_tree];
@@ -39,7 +39,7 @@ function $StateToUrlMapper($p_statesObj){
         $0 = $stack.pop();
         for ($1 = 0 ; $1 < $0.length ; ++$1){
             for ($2 in $0[$1]){
-                console.log('+', $0[$1][$2]);//----
+                //console.log('+', $0[$1][$2]);//----
                 if ($0[$1][$2].$d){
                     $3 = $0[$1][$2].$d;
                     $3.__list = $0.__list.slice();
@@ -49,7 +49,7 @@ function $StateToUrlMapper($p_statesObj){
             }
         }
     }
-    console.log('TREE: ', this.$_tree);//----
+    //console.log('TREE: ', this.$_tree);//----
 };
 $StateToUrlMapper.prototype = Object.create($StateSubscriber.prototype);
 $StateToUrlMapper.prototype.constructor = $StateToUrlMapper;
@@ -74,7 +74,7 @@ $StateToUrlMapper.prototype.$processStateChanges = function(s){
     //pushState('asd/asd/asd');
 };
 $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
-    console.log('--', $p_url, '-- initPath:', this.$initPath);
+    //console.log('--', $p_url, '-- initPath:', this.$initPath);
     //this.$_tree, this.$initPath, this.$initPathLength
     var $0, $1, $2, $3, $4, $5, $roots,
         $tmp, $cand,
@@ -88,9 +88,9 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
         if ($cand.length) // встречающиеся двойные слеши трактуем как одинарные
             $ar.push($cand);
         $0 = $0.slice($1);
-        console.log('*', $1, $ar, $0);
+        //console.log('*', $1, $ar, $0);
     }
-    console.log('*-*', $ar, $0);
+    //console.log('*-*', $ar, $0);
     //bTree = ($i === 0) ? bTree[$ar[$i]] : bTree.$d[$ar[$i]];
 
     if ($p_ifInit){
@@ -122,7 +122,7 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
     };
     $roots = [[],[]];// для this.$prevAr и для $ar
     var $ars = [this.$prevAr, $ar];
-    console.log('PRELIMINAR ARS:\n', JSON.stringify($ars));
+    //console.log('PRELIMINAR ARS:\n', JSON.stringify($ars));
     var $iArs, $oAr;
     var $used;
     var $appliedAr;//та часть ar, что была обработана и является корректной. Используется в случае некорректного URL для генерации корректного URL.
@@ -131,24 +131,24 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
         $tmp = this.$_tree;
         $appliedAr = [];
         $for_1: for ($1 = 0 ; $1 < $oAr.length ; ++$1){
-            console.log('-- 1 --');
+            //console.log('-- 1 --');
             $used = false;
             if ($tmp){
                 $for_2: for ($2 = 0 ; $2 < $tmp.__list.length ; ++$2){
-                console.log('-- 2 --', $tmp.__list[$2]);//
+                //console.log('-- 2 --', $tmp.__list[$2]);//
                     for ($3 = 0 ; $3 < $tmp.__list[$2].length ; ++$3){
-                    console.log('-- 3 --');
+                    //console.log('-- 3 --');
                         for ($4 in $tmp.__list[$2][$3]){
-                        console.log('-- 4 --');
-                            console.log('$1, $2, $3, $4', $1, $2, $3, $4, 'tmp:', $tmp);//
+                            //console.log('-- 4 --');
+                            //console.log('$1, $2, $3, $4', $1, $2, $3, $4, 'tmp:', $tmp);//
                             if ($4 === $oAr[$1]){
                                 $cand = {
                                     $url: $4,
                                     $eTree: $tmp.__list[$2],
                                 };
-                                console.log('&*%*&%*&%&*^%&*^%', $tmp.__list[$2][$3]);//
+                                //console.log('&*%*&%*&%&*^%&*^%', $tmp.__list[$2][$3]);//
                                 if ($tmp.__list[$2][$3][$4].$params){
-                                    console.log('parameters detected');//
+                                    //console.log('parameters detected');//
                                     if ($tmp.__list[$2][$3][$4].$params.length >= ($oAr.length - $1)){
                                         // отображаем текущий узел - не указано необходимых параметров
                                         console.log('error: не указано необходимое количество параметров');
@@ -162,15 +162,15 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
                                         $cand.$params = $oAr.slice($1 + 1, $1 + 1 + $5);
                                         $tmp.__list[$2][$3][$4].$paramValues = $oAr.slice($1 + 1, 1 + $tmp.__list[$2][$3][$4].$params.length);
                                         $1 += $5;
-                                        console.log('===', JSON.stringify($appliedAr), $oAr);//
+                                        //console.log('===', JSON.stringify($appliedAr), $oAr);//
                                     }
                                 }
                                 else{
-                                    console.log('no parameters');
+                                    //console.log('no parameters');
                                     $appliedAr.push($oAr[$1]);
                                 }
                                 $used = true;
-                                console.log('PUSHING:', $cand);
+                                //console.log('PUSHING:', $cand);
                                 $roots[$iArs].push($cand);
                                 $tmp.__list[$2][$3][$4].__used = true;
                                 $tmp = $tmp.__list[$2][$3][$4].$d;
@@ -181,7 +181,7 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
                 } // for $2
             }
             if (!$used){
-                console.log($iArs, '=================');
+                //console.log($iArs, '=================');
                 console.log('ERROR!!', $appliedAr); // Если индекс нулевой, то это EPIC FAIL.
                 // заменяем текущий URL на обрезанный, соответствующий текущей позиции в $oAr. При этом не должны ещё раз свалиться в обработчик смены URL-а.
                 if (this.$_debugMode){
@@ -199,9 +199,9 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
         } // for $1
         $fCleanUsed($roots[$iArs]);
     } // for $iArs
-    console.log('roots: ', JSON.stringify($roots, undefined, 2));
+    //console.log('roots: ', JSON.stringify($roots, undefined, 2));
 
-    console.log('==============================');
+    //console.log('==============================');
     if (!this.$_fContains){
         this.$_fContains = function($pArray, $pTarget){
             var $1, $2;
