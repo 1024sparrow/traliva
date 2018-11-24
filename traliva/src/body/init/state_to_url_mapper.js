@@ -73,6 +73,54 @@ $StateToUrlMapper.prototype.$processStateChanges = function(s){
     }
     //boris here:
     // обойти дерево и составить url. Если совпадает, то ничего не делаем. Если не совпадает - просто заменяем текущий URL.
+    var $0, $1, $2, $3, $4, $5, $6;
+    var $cand = this.$initPath + '/';
+    console.log('init path: ', $cand);
+    var $stack = [this.$_tree];
+    var $si;//stack item
+    while ($stack.length){
+        $si = $stack.pop();
+        for ($1 = 0 ; $1 < $si.length ; ++$1){
+            $0 = $si[$1];
+            $for_2: for ($2 in $0){
+                $3 = $0[$2];
+                $4 = this.$getSubstate($3.$substate);
+                if ($3.hasOwnProperty('name'))
+                    $4 = $4 === $3.$name;
+                if ($4 && $3.$params){
+                    $4 = '';
+                    for ($5 = 0 ; $5 < $3.$params.length ; ++$5){
+                        $6 = this.$getSubstate($3.$params[$5]);
+                        if ($6 === undefined){
+                            console.log('ERROR: подсостояние парметра не доступно: ' + $3.$params[$5]);
+                            break $for_2;
+                        }
+                        $4.push($6.toString() + '/');
+                    }
+                }
+                if ($4){
+                    $cand += $2 + '/';
+                    if ($3.$params){
+                        $cand += $4;
+                    }
+                    if ($3.$d)
+                        $stack.push($3.$d);
+                    break $for_2;
+                }
+            }
+        }
+    }
+
+    while ($stack.length){
+        $0 = $stack.pop();
+        if ($0.$d){
+            for ($1 = $0.$d.length - 1 ; $1 >= 0 ; --$1){
+                $stack.push($0.$d[$1]);
+            }
+        }
+    }
+    //console.log('STACK: ', $stack);//
+    console.log('test URL: ', $cand);
 
     //$Traliva.$history.pushState('/123/123/123');
     //pushState('asd/asd/asd');
@@ -324,4 +372,11 @@ $StateToUrlMapper.prototype.$setSubstate = function($p_substate, $p_value){ // �
     }
     $0[$1[0]] = $p_value;
 };
-$StateToUrlMapper.prototype.$getSubstate = $Traliva.$StateSubscriber.prototype.$__getSubstate;
+$StateToUrlMapper.prototype.$getSubstate = function($p_substate){
+    var $0 = $p_substate.split('/'), $1 = this.$_state, $2;
+    for ($2 = 0 ; $2 < $0.length ; ++$2){
+        if (!($1 = $1[$0[$2]]))
+            return $1;
+    }
+    return $1;
+}
