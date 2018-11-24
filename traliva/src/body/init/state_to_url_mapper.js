@@ -58,6 +58,7 @@ URL changed --> state --> URL corrected
 state changed --> url
 */
 $StateToUrlMapper.prototype.$processStateChanges = function(s){
+    console.group('processStateChanges');
     if (this.$isVirgin){
         this.$isVirgin = false;
         if (this.$_debugMode){
@@ -70,10 +71,15 @@ $StateToUrlMapper.prototype.$processStateChanges = function(s){
             this.$updateForUrl(window.location.href, true);
         }
     }
+    //boris here:
+    // обойти дерево и составить url. Если совпадает, то ничего не делаем. Если не совпадает - просто заменяем текущий URL.
+
     //$Traliva.$history.pushState('/123/123/123');
     //pushState('asd/asd/asd');
+    console.groupEnd();
 };
 $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
+    console.group('update for URL');
     //console.log('--', $p_url, '-- initPath:', this.$initPath);
     //this.$_tree, this.$initPath, this.$initPathLength
     var $0, $1, $2, $3, $4, $5, $roots,
@@ -261,7 +267,7 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
             this.$setSubstate($3.$substate, $3.$name || true);
             if ($3.$extender){
                 //this.$_ajax.$request($p_url, $p_paramObject, $p_okFunc, $p_errorFunc, $p_ignoreOkFunc, $p_ignoreErrorFunc); // boris here 1
-                (function(){
+                /*(function(){
                     this.$_ajax.$request(
                         $3.$extender.$url,
                         {},
@@ -270,16 +276,16 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
                         function(){},
                         function(){}
                     ); // boris here 1
-                })(this);
+                })(this);*/
             }
         }
         $stateChanged = true;
     }
-
     this.$prevAr = $ar;
 
-    //if ($stateChanged)
-    this.$_registerStateChanges();
+    if ($stateChanged)
+        this.$_registerStateChanges();
+    console.groupEnd();
 };
 // в соответствии с текущим URL устанавливаем нужные значения в state
 /*$StateToUrlMapper.prototype.$updateState = function(){
