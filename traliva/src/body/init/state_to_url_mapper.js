@@ -111,7 +111,8 @@ $StateToUrlMapper.prototype.$processStateChanges = function(s){
         }
     }
 
-    while ($stack.length){
+    // сейчас всегда даёт http://traliva.ru/books/ . Это косяк.
+    while ($stack.length){ // сейчас это добавление детей в стек не в цикле - надо перенести туда.
         $0 = $stack.pop();
         if ($0.$d){
             for ($1 = $0.$d.length - 1 ; $1 >= 0 ; --$1){
