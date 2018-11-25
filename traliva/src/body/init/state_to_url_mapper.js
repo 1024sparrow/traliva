@@ -21,6 +21,7 @@ function $StateToUrlMapper($p_statesObj){
     this.$initPathLength = $3 + 1; 
     this.$_tree = $Traliva.$__d.$o.$states.$tree;
     this.$_debugMode = $Traliva.$debug && $Traliva.$debug.$url;
+    this.$urlUpdating = false;
     if ((this.$initPath.substr(0, 7) === 'file://') && !($Traliva.$debug && $Traliva.$debug.$url)){
         console.error('Запуск маппера URL в состояние из файловой системы возможен только при активированном режиме отладки \'url\'');
     }
@@ -71,7 +72,6 @@ $StateToUrlMapper.prototype.$processStateChanges = function(s){
             this.$updateForUrl(window.location.href, true);
         }
     }
-    //boris here:
     // обойти дерево и составить url. Если совпадает, то ничего не делаем. Если не совпадает - просто заменяем текущий URL.
     var $0, $1, $2, $3, $4, $5;
     var $cand = this.$initPath + '/';
@@ -115,11 +115,16 @@ $StateToUrlMapper.prototype.$processStateChanges = function(s){
     //console.log('test URL: ', $cand);
     $0 = $Traliva.$history.$_current();
     //console.log('current URL:', $Traliva.$history.$_current());
-    if ($cand !== $0)
+    if ($cand !== $0){
+        this.$urlUpdating = true;
         $Traliva.$history.replaceState({}, '', $cand);
+        this.$urlUpdating = false;
+    }
     console.groupEnd();
 };
 $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
+    if (this.$urlUpdating)
+        return;
     console.group('update for URL');
     //console.log('--', $p_url, '-- initPath:', this.$initPath);
     //this.$_tree, this.$initPath, this.$initPathLength
