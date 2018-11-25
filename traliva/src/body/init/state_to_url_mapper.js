@@ -112,16 +112,11 @@ $StateToUrlMapper.prototype.$processStateChanges = function(s){
             }
         }
     }
-    console.log('test URL: ', $cand);
+    //console.log('test URL: ', $cand);
     $0 = $Traliva.$history.$_current();
-    console.log('current URL:', $Traliva.$history.$_current());
-    if ($cand !== $0){
-        //$Traliva.$history.$_updateUrl($cand);
-        //$Traliva.$history.pushState($cand);
-    }
-
-    //$Traliva.$history.pushState('/123/123/123');
-    //pushState('asd/asd/asd');
+    //console.log('current URL:', $Traliva.$history.$_current());
+    if ($cand !== $0)
+        $Traliva.$history.replaceState({}, '', $cand);
     console.groupEnd();
 };
 $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
