@@ -73,40 +73,39 @@ $StateToUrlMapper.prototype.$processStateChanges = function(s){
     }
     //boris here:
     // обойти дерево и составить url. Если совпадает, то ничего не делаем. Если не совпадает - просто заменяем текущий URL.
-    var $0, $1, $2, $3, $4, $5, $6;
+    var $0, $1, $2, $3, $4, $5;
     var $cand = this.$initPath + '/';
-    console.log('init path: ', $cand);
+    //console.log('init path: ', $cand);
     var $stack = this.$_tree.slice();
     while ($stack.length){
         $0 = $stack.pop();
-        console.log('----');
+        //console.log('----');
         $for_2: for ($2 in $0){
-            $3 = $0[$2];
-            console.log('debugName: ', $3.$debugName);//
-            $4 = this.$getSubstate($3.$substate);
-            console.log('$4 = ' + $4);
-            if ($3.hasOwnProperty('$name'))
-                $4 = $4 === $3.$name;
-            if ($4 && $3.$params){
-                $4 = '';
-                for ($5 = 0 ; $5 < $3.$params.length ; ++$5){
-                    $6 = this.$getSubstate($3.$params[$5]);
-                    if ($6 === undefined){
-                        console.log('ERROR: подсостояние парметра не доступно: ' + $3.$params[$5]);
+            $1 = $0[$2];
+            //console.log('debugName: ', $1.$debugName);//
+            $3 = this.$getSubstate($1.$substate);
+            //console.log('$3 = ' + $3);
+            if ($1.hasOwnProperty('$name'))
+                $3 = $3 === $1.$name;
+            if ($3 && $1.$params){
+                $3 = '';
+                for ($4 = 0 ; $4 < $1.$params.length ; ++$4){
+                    $5 = this.$getSubstate($1.$params[$4]);
+                    if ($5 === undefined){
+                        console.log('ERROR: подсостояние парметра не доступно: ' + $1.$params[$4]);
                         break $for_2;
                     }
-                    $4.push($6.toString() + '/');
+                    $3.push($5.toString() + '/');
                 }
             }
-            if ($4){
+            if ($3){
                 $cand += $2 + '/';
-                if ($3.$params){
-                    $cand += $4;
+                if ($1.$params){
+                    $cand += $3;
                 }
-                if ($3.$d){
-                    //$stack.push($3.$d.slice());
-                    for ($5 = $3.$d.length - 1 ; $5 >= 0 ; --$5){
-                        $stack.push($3.$d[$5]);
+                if ($1.$d){
+                    for ($4 = $1.$d.length - 1 ; $4 >= 0 ; --$4){
+                        $stack.push($1.$d[$4]);
                     }
                 }
                 break $for_2;
