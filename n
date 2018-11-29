@@ -53,7 +53,9 @@ abc/src/project$ git remote set-url parent_github --push "Вы не можете
 abc/src/project$ git pull parent_github master
 abc/src/project$ git push --set-upstream origin master
 abc/src/project$ popd
-abc$
+abc$ git add .
+abc$ git commit -m"first commit after fork"
+abc$ git push
 
 Когда выходит новая версия Traliva
 ----------------------------------
