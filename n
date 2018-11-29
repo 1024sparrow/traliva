@@ -1,3 +1,8 @@
+Поиграйтесь с примерами.
+------------------------
+
+После того как склонировали репозиторий traliva, вам необходимо выполнить находящийся там скрипт init_submodules.sh
+
 src/ - исходники traliva
 src/build_scripts/targets/ - директория с правилами сборки под разные платформы (они хранятся в отдельных репозиториях)
 src/project_compiled/ - директория с бессерверным вариантом сборки (для разработчика)
@@ -7,6 +12,50 @@ targets/ - проекты под разные платформы. Это коп�
 Сборка:
 compile src/pro - сборка под платформы. Бессерверный вариант не собирается.
 compile src/project/project.pro - сборка бессерверной части (для разработчика). Под платформы код не формируется.
+
+Создайте свой проект.
+---------------------
+Ваш проект - это ваш проект. И для начала вам необходимо сделать своё ответвление проекта.
+Т.е. вы не клонируете проект с github-а, а инициализируете новый репозиторий, и сливаете туда код из репозитория с github-а, либо клонируте уже ваш собственный ранее созданный репозиторий. Инициализация такого репозитория называется fork. Ниже описывается процедура fork:
+Допустим, ваш проект называется abc. В выбранной для проекта директории (которая, наверное, так и называется - abc) выполните следующие команды:
+
+$ mkdir repos && cd repos
+repos$ for i in {abc,abc_kit,abc_proj}; do git init --bare --shared $i.git; done
+repos$ cd ..
+$ git clone repos/abc.git && cd abc
+abc$ git remote add parent_github https://github.com/1024sparrow/traliva.git
+abc$ git remote set-url parent_github --push "Вы не можете заливать изменения в репозиторий родительского проекта"
+abc$ git pull parent_github master
+abc$ git push --set-upstream origin master
+abc$ vim .gitmodules
+ здесь мы заменяем адреса гитхабовские на свои собственные
+    [submodule "project"]
+        path = src/project
+-       url = https://github.com/1024sparrow/traliva_example.git
++       url = ../abc_proj.git - относительные пути - относительно пути расположения репозитория abc.git
+        branch = master
+    [submodule "traliva_kit"]
+        path = traliva_kit
+-       url = https://github.com/1024sparrow/traliva_kit.git
++       url = ../abc_kit.git
+        branch = master
+
+abc$ ./init_submodules.sh
+abc$ pushd traliva_kit
+abc/traliva_kit$ git remote add parent_github https://github.com/1024sparrow/traliva_kit.git
+abc/traliva_kit$ git remote set-url parent_github --push "Вы не можете заливать изменения в репозиторий родительского проекта"
+abc/traliva_kit$ git pull parent_github master
+abc/traliva_kit$ git push --set-upstream origin master
+abc/traliva_kit$ popd
+abc$ pushd src/project
+abc/src/project$ git remote add parent_github https://github.com/1024sparrow/traliva_example.git
+abc/src/project$ git remote set-url parent_github --push "Вы не можете заливать изменения в репозиторий родительского проекта"
+abc/src/project$ git pull parent_github master
+abc/src/project$ git push --set-upstream origin master
+abc/src/project$ popd
+abc$
+
+
 
 ===============================================
 
@@ -30,6 +79,8 @@ compile src/project/project.pro - сборка бессерверной част
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://gnezdo-market.ru/" /><meta property="og:image" content="https://gnezdo-market.ru/image/catalog/gnezdo/og_image.png" />
 <meta property="og:site_name" content="Гнездо Маркет" />
+
+/robots.txt
 
 ----------------------------------------------
 
