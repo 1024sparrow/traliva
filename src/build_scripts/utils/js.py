@@ -45,6 +45,7 @@ js_css = []
 flags = int(opt[0])
 js__map.get_map(js_paths, css_paths, js, css, js_css)
 usage.process(js, css, js_css)
+enums.process(js, css, js_css)
 #if not flags & 
 if flags & 0x8:
     if flags & 0x2:

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from .char_check_func import is_spacespec, is_letter, is_letterdigit
+from .char_check_func import is_spacespec, is_letter, is_letterdigit, is_letterdollar, is_letterdigitdollar
 
 # #ENUM#перем#поле1,поле2##
 
@@ -65,38 +65,38 @@ def _prohod(p_js, p_is_second, p_registered):
                     elif s == 402 and i == '#':
                         s = 403
                     ##
-                    elif s == 6 and is_letter(i):
+                    elif s == 6 and is_letterdollar(i):
                         s = 7
                         enum_name = i
-                    elif s == 106 and is_letter(i):
+                    elif s == 106 and is_letterdollar(i):
                         s = 107
                         enum_name = i
-                    elif s == 203 and is_letter(i):
+                    elif s == 203 and is_letterdollar(i):
                         s = 204
                         enum_name = i
-                    elif s == 303 and is_letter(i):
+                    elif s == 303 and is_letterdollar(i):
                         s = 304
                         if p_is_second:
                             enum_name = i
-                    elif s == 403 and is_letter(i):
+                    elif s == 403 and is_letterdollar(i):
                         s = 404
                         if p_is_second:
                             enum_name = i
                     ##
-                    elif s == 7 and is_letterdigit(i):
+                    elif s == 7 and is_letterdigitdollar(i):
                         s = 7
                         enum_name += i
-                    elif s == 107 and is_letterdigit(i):
+                    elif s == 107 and is_letterdigitdollar(i):
                         s = 107
                         enum_name += i
-                    elif s == 204 and is_letterdigit(i):
+                    elif s == 204 and is_letterdigitdollar(i):
                         s = 204
                         enum_name += i
-                    elif s == 304 and is_letterdigit(i):
+                    elif s == 304 and is_letterdigitdollar(i):
                         s = 304
                         if p_is_second:
                             enum_name += i
-                    elif s == 404 and is_letterdigit(i):
+                    elif s == 404 and is_letterdigitdollar(i):
                         s = 404
                         if p_is_second:
                             enum_name += i
@@ -139,16 +139,16 @@ def _prohod(p_js, p_is_second, p_registered):
                         # имеем имя используемой маски
                         s = 407
                     ##
-                    elif s == 8 and is_letter(i):
+                    elif s == 8 and is_letterdollar(i):
                         s = 9
                         cand_strict = i
-                    elif s == 108 and is_letter(i):
+                    elif s == 108 and is_letterdollar(i):
                         s = 109
                         cand_strict = i
-                    elif s == 307 and is_letter(i):
+                    elif s == 307 and is_letterdollar(i):
                         cand_strict = i
                         s = 308
-                    elif s == 407 and is_letter(i):
+                    elif s == 407 and is_letterdollar(i):
                         cand_strict = i
                         s = 408
                     ##
@@ -192,17 +192,17 @@ def _prohod(p_js, p_is_second, p_registered):
                         s = 409
                         fields.append(cand_strict)
                     ##
-                    elif s == 309 and is_letter(i):
+                    elif s == 309 and is_letterdollar(i):
                         cand_strict = i
                         s = 308
-                    elif s == 409 and is_letter(i):
+                    elif s == 409 and is_letterdollar(i):
                         cand_strict = i
                         s = 408
                     ##
-                    elif s == 10 and is_letter(i):
+                    elif s == 10 and is_letterdollar(i):
                         s = 9
                         cand_strict = i
-                    elif s == 110 and is_letter(i):
+                    elif s == 110 and is_letterdollar(i):
                         s = 109
                         cand_strict = i
                     ##
