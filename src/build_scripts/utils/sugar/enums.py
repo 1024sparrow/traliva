@@ -152,16 +152,16 @@ def _prohod(p_js, p_is_second, p_registered):
                         cand_strict = i
                         s = 408
                     ##
-                    elif s == 9 and is_letterdigit(i):
+                    elif s == 9 and is_letterdigitdollar(i):
                         s = 9
                         cand_strict += i
-                    elif s == 109 and is_letterdigit(i):
+                    elif s == 109 and is_letterdigitdollar(i):
                         s = 109
                         cand_strict += i
-                    elif s == 308 and is_letterdigit(i):
+                    elif s == 308 and is_letterdigitdollar(i):
                         s = 308
                         cand_strict += i
-                    elif s == 408 and is_letterdigit(i):
+                    elif s == 408 and is_letterdigitdollar(i):
                         s = 408
                         cand_strict += i
                     ##
