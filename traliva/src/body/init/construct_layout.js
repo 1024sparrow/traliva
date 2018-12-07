@@ -66,6 +66,10 @@ function $construct_layout($p_wParent, $p_oLayout, $p_defaultBackground, $p_widg
         if (typeof $type === 'function'){
         }
         else if (typeof $type === 'string'){
+            #USAGE_BEGIN#debug##
+            if (!$p_widgets[$type])
+                console.log('error: не найден описатель виджета \'' + $type + '\'');
+            #USAGE_END#debug##
             $type = $p_widgets[$type].$constructor;
         }
         #USAGE_BEGIN#debug##
@@ -73,7 +77,7 @@ function $construct_layout($p_wParent, $p_oLayout, $p_defaultBackground, $p_widg
             console.log('oops..');
             return;
         }
-        if (!type){
+        if (!$type){
             console.log('error');
             return;
         }
