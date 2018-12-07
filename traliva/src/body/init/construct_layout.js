@@ -7,9 +7,11 @@ function $construct_layout($p_wParent, $p_oLayout, $p_defaultBackground, $p_widg
     console.log('$construct_layout: ' + JSON.stringify($p_oLayout));
     #USAGE_END#debug##
 
-    var $0, $cand, $w, $type = typeof $p_oLayout, $tmp;
-    var $retVal;
-    var $used = $p_innerCall || {};// множество использованных в новом лэйауте id-шников
+    var $0, $cand, $w, $type = typeof $p_oLayout, $tmp,
+        $1, $2,
+        $retVal,
+        $used = $p_innerCall || {}// множество использованных в новом лэйауте id-шников
+    ;
     if (!$p_oLayout){
         // (пружинка)
     }
@@ -55,13 +57,86 @@ function $construct_layout($p_wParent, $p_oLayout, $p_defaultBackground, $p_widg
         }
         $used[$p_oLayout] = 1;
     }
-    else if ($type === 'object'){
+    else if ($type === 'object'){ // пользовательский контейнер
         #USAGE_BEGIN#debug##
         if (!$p_oLayout.hasOwnProperty('$type'))
-            console.error('error: incorrect layout description: \'type\' must be');
+            console.error('error: incorrect layout description: \'type\' should be');
         #USAGE_END#debug##
         $type = $p_oLayout.$type;
-        if ($type === '$strip'){
+        if (typeof $type === 'function'){
+        }
+        else if (typeof $type === 'string'){
+            $type = $p_widgets[$type].$constructor;
+        }
+        #USAGE_BEGIN#debug##
+        else{
+            console.log('oops..');
+            return;
+        }
+        if (!type){
+            console.log('error');
+            return;
+        }
+        #USAGE_END#debug##
+        $retVal = new $Widget($p_wParent);
+        var $childrenFields = $type.$widgetsFields;
+        var $children = {};
+        var $options = {};
+        var $3;
+        for ($1 in $p_oLayout){
+            if ($childrenFields.indexOf($1) < 0)
+                $options[$1] = $p_oLayout[$1];
+            else{
+                $0 = $p_oLayout[$1];
+                #USAGE_BEGIN#debug##
+                if (!($0 instanceof Array)){
+                    console.log('error');
+                    return;
+                }
+                $children[$1] = [];
+                #USAGE_END#debug##
+                for ($2 = 0 ; $2 < $0.length ; ++$2){
+                    $3 = $0[$2];
+                    if (typeof $3 === 'string')
+                        $3 = {$_widget: $3};
+                    else{
+                        #USAGE_BEGIN#debug##
+                        if (!$3.$_widget){
+                            console.log('error');
+                            return;
+                        }
+                        #USAGE_END#debug##
+                    }
+                    $3 = $construct_layout($retVal, $3.$_widget, $p_oLayout.$bg || $p_defaultBackground, $p_widgets, $p_widgetScope, $p_innerCall || $used);
+                    $children[$1].push($3);
+                }
+            }
+        }
+        $cand = new $type($retVal, $options, $children);
+
+
+        /*$tmp = $type.$options;
+        if ($tmp && $tmp.hasOwnProperty('$bg') && ($tmp.$bg.length === 0))
+            $tmp.$bg = $p_defaultBackground;
+        $cand = new $type.$constructor($retVal, $tmp);
+        $0 = $type.$widgetsFields || [];*/
+
+        /*else if (typeof $type === 'function'){
+            $0 = $type.$widgetsFields || [];
+            $cand = [];
+            for ($1 = 0 ; $1 < $0.length ; ++$1){
+                $2 = $0[$1];
+                if ($p_oLayout[$2]){
+                    $w = $construct_layout();
+                    $cand.push($p_oLayout[$2]); // должны вставить конструкцию виджета по лейауту
+                }
+                else{
+                    //
+                }
+            }
+        }*/
+
+        /*if ($type === '$strip'){
             #USAGE_BEGIN#debug##
             if (!$p_oLayout.hasOwnProperty('$orient'))
                 console.error('error: layout must have property \'$orient\'');
@@ -117,6 +192,7 @@ function $construct_layout($p_wParent, $p_oLayout, $p_defaultBackground, $p_widg
             console.error('error: incorrect type of a layout item');
         }
         #USAGE_END#debug##
+        */
     }
     if ($p_oLayout.hasOwnProperty('$bg')){
         $cand = ($p_oLayout.$bg.length) ? $p_oLayout.$bg : $p_defaultBackground;
