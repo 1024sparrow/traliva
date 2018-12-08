@@ -142,12 +142,13 @@ $_WidgetBase.prototype.$_createContentElem = function(){
 	return $retVal;
 };
 $_WidgetBase.prototype.$resize = function($w, $h){
-	this.$_div.style.height = $h + 'px';
-	this.$_div.style.maxHeight = $h + 'px';
-	this.$_div.style.minHeight = $h + 'px';
-	this.$_div.style.width = $w + 'px';
-	this.$_div.style.maxWidth = $w + 'px';
-	this.$_div.style.minWidth = $w + 'px';
+    var $1 = $h + 'px', $2 = $w + 'px', $0 = this.$_div.style;
+	$0.height = $1;
+	$0.maxHeight = $1;
+	$0.minHeight = $1;
+	$0.width = $2;
+	$0.maxWidth = $2;
+	$0.minWidth = $2;
 
 	//Это была очень крупная ошибка. Оставил закомментированным, чтобы напоминало о том, что так нельзя.
 	/*this.$_content.style.height = $h + 'px';
@@ -191,7 +192,7 @@ $_WidgetBase.prototype.$_onVisibilityChanged = function($p_childWidget, $p_visib
 var $WidgetBase__reSize = /^(\d+)(\s*)((px)|(part))$/;
 $_WidgetBase.prototype.$_transformStringSize = function($str){
 	//Почему невалидное значение по умолчанию - чтобы для программиста не прошло незамеченным.
-	var $retVal = {$value:undefined, $unit:undefined};
+	var $retVal = {#USAGE_BEGIN#debug##$value:undefined, $unit:undefined}#USAGE_END#debug##};
 	if ($str){
 		//работа с регулярными выражениями
 		var $0 = $str.match($WidgetBase__reSize);
