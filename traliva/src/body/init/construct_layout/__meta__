@@ -5,6 +5,7 @@
             "source":{
                 "template": "t.js",
                 "list":[
+                    "string.js",
                     "object.js"
                 ]
             }
