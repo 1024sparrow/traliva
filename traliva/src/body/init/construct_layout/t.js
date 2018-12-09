@@ -8,7 +8,8 @@ function $construct_layout($p_wParent, $p_oLayout, $p_defaultBackground, $p_widg
     #USAGE_END#debug##
 
     var $0, $cand, $w, $type = typeof $p_oLayout, $tmp,
-        $1, $2,
+        $options, $children, $childrenFields,
+        $1, $2, $3, $4,
         $retVal,
         $used = $p_innerCall || {}// множество использованных в новом лэйауте id-шников
     ;
