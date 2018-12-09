@@ -1,4 +1,9 @@
 
+/*
+формируем $retVal (виджет)
+$p_widgetScope[$p_oLayout] - виджет-подписчик
+*/
+
 /*if ($p_widgetScope.hasOwnProperty($p_oLayout)){
     console.log('error: идентификаторы пользовательских виджетов должны иметь уникальные значения');
     return;// возможно, это зря. Особо не думал.
@@ -19,13 +24,13 @@ else{
         if (typeof $0 === 'function')
             $cand = new $0($retVal);
         else{
+            //boris here
             $tmp = $0.$options;
             if ($tmp && $tmp.hasOwnProperty('$bg') && ($tmp.$bg.length === 0))
                 $tmp.$bg = $p_defaultBackground;
             $cand = new $0.$constructor($retVal, $tmp);
             if ($0.hasOwnProperty('$substate'))
                 $cand = $cand.$useSubstate($0.$substate);
-            //$cand = new $0[0]($retVal).$substate($0[1]);// согласно спецификации, если не конструктор, то массив из конструктора и (чего-то, описывающего подсостояние)
         }
     }
     else{
