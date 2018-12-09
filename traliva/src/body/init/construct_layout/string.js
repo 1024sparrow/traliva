@@ -25,6 +25,9 @@ else{
             $cand = new $0($retVal);
         else{
             //boris here
+            $childrenFields = $p_oLayout.$type.$widgetsFields;
+            $children = 
+
             $tmp = $0.$options;
             if ($tmp && $tmp.hasOwnProperty('$bg') && ($tmp.$bg.length === 0))
                 $tmp.$bg = $p_defaultBackground;
