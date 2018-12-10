@@ -1,4 +1,11 @@
-function $WidgetStateSubscriber($p_wContainer, $p_options){
+/*
+Виджет-подписчик.
+Принимаемые параметры:
+$p_wContainer - виджет, в который будем встраивать контент этого виджета
+$p_options - опции. Они определяются либо в секции $layouts, либо в секции $widgets
+$p_descr - если виджет-подписчик, создаётся по секции $widgets, сам описывающий объект передётся сюда (со свойствами $constructor, $options, $optionsFromState и т.д.)
+*/
+function $WidgetStateSubscriber($p_wContainer, $p_options, $p_descr){
     $StateSubscriber.call(this);
     this.$__WidgetStateSubscriber = {
         $wContainer: $p_wContainer

@@ -25,15 +25,15 @@ else{
             $cand = new $0($retVal);
         else{
             //boris here
-            $childrenFields = $p_oLayout.$type.$widgetsFields;
-            $children = 
-
             $tmp = $0.$options;
-            if ($tmp && $tmp.hasOwnProperty('$bg') && ($tmp.$bg.length === 0))
-                $tmp.$bg = $p_defaultBackground;
-            $cand = new $0.$constructor($retVal, $tmp);
+            if ($tmp){
+                if ($tmp.$bg === '')
+                    $tmp.$bg = $p_defaultBackground;
+            }
+            $cand = new $0.$constructor($retVal, $tmp, $0);
             if ($0.hasOwnProperty('$substate'))
                 $cand = $cand.$useSubstate($0.$substate);
+            //$3.$_widget = $construct_layout($retVal, $3.$_widget, $p_oLayout.$bg || $p_defaultBackground, $p_widgets, $p_widgetScope, $p_innerCall || $used);
         }
     }
     else{

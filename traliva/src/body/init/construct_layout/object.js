@@ -42,7 +42,8 @@ for ($1 in $p_oLayout){
         }
     }
 }
-$cand = new $p_oLayout.$type($retVal, $options, $children);
+$options.$_children = $children;
+$cand = new $p_oLayout.$type($retVal, $options);
 //$p_widgetScope[$p_oLayout.$id] = $cand;
 
 
