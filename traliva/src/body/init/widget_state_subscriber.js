@@ -15,11 +15,6 @@ function $WidgetStateSubscriber($p_wContainer, $p_options, $p_descr){
     };
     if ($p_options && $p_options.hasOwnProperty('$bg'))
         $p_wContainer.$_div.style.background = $p_options.$bg;
-    if ($p_descr && $p_descr.$children){
-        for ($1 in $p_descr.$children){
-            this.$__WidgetStateSubscriber.$children[$1] = undefined; // теперь этот ключ есть, хоть значения и нет
-        }
-    }
 };
 $WidgetStateSubscriber.prototype = Object.create($StateSubscriber.prototype);
 $WidgetStateSubscriber.prototype.constructor = $WidgetStateSubscriber;
@@ -35,7 +30,7 @@ $WidgetStateSubscriber.prototype.$processStateChanges = function(s){
     //if ($descr.$substate)
     if ($descr.$children){
         $0 = $descr
-        for ($1 in this.$__WidgetStateSubscriber.$children){
+        for ($1 in $descr.$children){
             $arrSubstate = s;
             if ($descr.$children[$1].$substate){
                 $0 = $descr.$children[$1].$substate.split('/');
