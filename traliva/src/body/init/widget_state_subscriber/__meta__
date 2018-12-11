@@ -1,0 +1,13 @@
+{
+    "files":[
+        {
+            "target":"construct_layout.js",
+            "source":{
+                "template": "t.js",
+                "list":[
+                    "array.js"
+                ]
+            }
+        }
+    ]
+}
