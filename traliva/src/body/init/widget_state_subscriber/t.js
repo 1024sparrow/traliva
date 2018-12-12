@@ -30,9 +30,9 @@ $WidgetStateSubscriber.prototype.$processStateChanges = function(s){
     }
     var $0, $1,
         $descr = this.$__WidgetStateSubscriber.$descr,
-        $arrSubstate
+        $arrSubstate,
+        $cand /*=undefined*/;
     ;
-    //if ($descr.$substate)
     if ($descr.$children){
         $0 = $descr
         for ($1 in $descr.$children){
@@ -44,15 +44,30 @@ $WidgetStateSubscriber.prototype.$processStateChanges = function(s){
                 }
             }
             if ($arrSubstate === this.$__WidgetStateSubscriber.$children[$1]){
+                if (this.$__WidgetStateSubscriber.$childrenChanged[$1]){
+                    if (!$cand)
+                        $cand = {};
+                    $cand[$1] = [];
+                }
             }
             else{
                 $WidgetStateSubscriber__makeArrayReportable(this, $arrSubstate, $1);
                 this.$__WidgetStateSubscriber.$children[$1] = $arrSubstate;
                 #USAGE_BEGIN#debug##if (!($arrSubstate instanceof Array))console.log('epic fail');#USAGE_END#debug##
+                if (!$cand)
+                    $cand = {};
+                $cand[$1] = [];
             }
+        }
+        if ($cand){
+            for ($1 in $cand){
+            }
+            this.$_updateLayout();
         }
     }
     console.log('WSS::processStateChanges: ', this);//
 };
 $WidgetStateSubscriber.prototype.$destroy = function(){};//уничтожить созданный ранее DOM-элемент, вызывается перед отписыванием от издателя
 //$WidgetStateSubscriber.prototype.$_increaseChildrenSize
+$WidgetStateSubscrber.prototype.$_updateLayout = function($p){
+};

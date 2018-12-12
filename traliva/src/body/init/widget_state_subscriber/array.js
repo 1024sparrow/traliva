@@ -35,7 +35,9 @@ $WidgetStateSubscriber__makeArrayReportable = function($p_reportTaker, $p_arr, $
                     $tmp = $p_reportTaker.$__WidgetStateSubscriber.$descr.$children[$p_id];
                     $w = new $Widget($p_reportTaker.$__WidgetStateSubscriber.$wContainer, undefined);// кстати, про второй параметр p_attr ...
                     $cand = new $tmp.$constructor($w, $tmp.$options, $tmp);
+                    $cand.$useSubstate(($tmp.$substate || '') + '/' + ($1 - 1));
                     $p_reportTaker.$__WidgetStateSubscriber.$childrenWidgets[$p_id].push($cand);
+                    $Traliva.$__d.$publisher.$registerSubscriber($cand);
                 }
                 $p_reportTaker.$__WidgetStateSubscriber.$childrenChanged[$p_id] = 1;
             }
