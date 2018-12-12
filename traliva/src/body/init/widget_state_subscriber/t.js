@@ -22,6 +22,9 @@ function $WidgetStateSubscriber($p_wContainer, $p_options, $p_descr){
 };
 $WidgetStateSubscriber.prototype = Object.create($StateSubscriber.prototype);
 $WidgetStateSubscriber.prototype.constructor = $WidgetStateSubscriber;
+$WidgetStateSubscriber.prototype.$container = function(){
+    return this.$__WidgetStateSubscriber.$wContainer;
+};
 $WidgetStateSubscriber.prototype.$processStateChanges = function(s){
     /*вызовите этот базовый метод в начале своей реализации этого метода*/
     if (!s){
@@ -60,9 +63,11 @@ $WidgetStateSubscriber.prototype.$processStateChanges = function(s){
             }
         }
         if ($cand){
+            $0 = {};
             for ($1 in $cand){
+                $0[$1] = this.$__WidgetStateSubscriber.$childrenWidgets[$1];
             }
-            this.$_updateLayout();
+            this.$_updateLayout($0);
         }
     }
     console.log('WSS::processStateChanges: ', this);//

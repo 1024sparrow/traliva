@@ -29,6 +29,7 @@ $WidgetStateSubscriber__makeArrayReportable = function($p_reportTaker, $p_arr, $
                     $tmp.$destroy();
                     $Traliva.$__d.$publisher.$unregisterSubscriber($tmp);
                 }
+                //$p_reportTaker.$__WidgetStateSubscriber.$childrenWidgets[$1] <--- splice()
                 // добавляем новых детей
                 for ($1 = $p_reportTaker.$__WidgetStateSubscriber.$childrenWidgets[$p_id].length ; $1 <= $p_0.length ; ++$1){
                     console.log('-- adding child WSS --');
