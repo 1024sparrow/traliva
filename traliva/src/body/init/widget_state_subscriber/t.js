@@ -66,6 +66,7 @@ $WidgetStateSubscriber.prototype.$processStateChanges = function(s){
             $0 = {};
             for ($1 in $cand){
                 $0[$1] = this.$__WidgetStateSubscriber.$childrenWidgets[$1];
+                //boris here: создаём объект: {_widget: <из вышеуказанного массива>, ...: <опции из $descr>}
             }
             this.$_updateLayout($0);
         }
