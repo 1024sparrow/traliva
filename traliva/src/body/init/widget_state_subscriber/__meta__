@@ -1,7 +1,7 @@
 {
     "files":[
         {
-            "target":"construct_layout.js",
+            "target":"widget_state_subscriber.js",
             "source":{
                 "template": "t.js",
                 "list":[
