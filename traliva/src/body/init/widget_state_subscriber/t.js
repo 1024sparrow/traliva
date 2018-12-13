@@ -82,3 +82,25 @@ $WidgetStateSubscriber.prototype.$destroy = function(){};//уничтожить 
 //$WidgetStateSubscriber.prototype.$_increaseChildrenSize
 $WidgetStateSubscriber.prototype.$_updateLayout = function($p){
 };
+var $WidgetStateSubscriber__reSize = /^(\d+)(\s*)((px)|(part))$/;
+$WidgetStateSubscriber.prototype.$_transformStringSize = function($str){
+	//Почему невалидное значение по умолчанию - чтобы для программиста не прошло незамеченным.
+	var $retVal = {#USAGE_BEGIN#debug##$value:undefined, $unit:undefined}#USAGE_END#debug##};
+	if ($str){
+		//работа с регулярными выражениями
+		var $0 = $str.match($WidgetStateSubscriber__reSize);
+		if ($0){
+			$retVal.$value = parseInt($0[1]);
+			$retVal.$unit = $0[3];
+		}
+		else{
+			console.log('error: incorrect size parameter (incorrect string)');
+		}
+	}
+	else{
+		$retVal.$value = 1;
+		$retVal.$unit = 'part';
+	}
+	//console.log(JSON.stringify($retVal));
+	return $retVal;
+};

@@ -189,26 +189,4 @@ $_WidgetBase.prototype.$_onScrolled = function($pos){
 };
 $_WidgetBase.prototype.$_onVisibilityChanged = function($p_childWidget, $p_visible){
 };
-var $WidgetBase__reSize = /^(\d+)(\s*)((px)|(part))$/;
-$_WidgetBase.prototype.$_transformStringSize = function($str){
-	//Почему невалидное значение по умолчанию - чтобы для программиста не прошло незамеченным.
-	var $retVal = {#USAGE_BEGIN#debug##$value:undefined, $unit:undefined}#USAGE_END#debug##};
-	if ($str){
-		//работа с регулярными выражениями
-		var $0 = $str.match($WidgetBase__reSize);
-		if ($0){
-			$retVal.$value = parseInt($0[1]);
-			$retVal.$unit = $0[3];
-		}
-		else{
-			console.log('error: incorrect size parameter (incorrect string)');
-		}
-	}
-	else{
-		$retVal.$value = 1;
-		$retVal.$unit = 'part';
-	}
-	//console.log(JSON.stringify($retVal));
-	return $retVal;
-};
 // -- end class $_WidgetBase --

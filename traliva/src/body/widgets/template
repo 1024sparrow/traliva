@@ -5,9 +5,12 @@ $Traliva.$_WidgetBase = $_WidgetBase;
 {%% widget.js %%}
 $Traliva.$Widget = $Widget;
 
+#USAGE_BEGIN#debug##
 {%% strip.js %%}
 $Traliva.$Strip = $Strip;
 
 {%% stack.js %%}
 $Traliva.$Stack = $Stack;
+#USAGE_END#debug##
+
 //})();

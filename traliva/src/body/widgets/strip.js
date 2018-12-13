@@ -91,7 +91,29 @@ $Strip.prototype.$addItem = function($p_itemWidget, $p_size){
 	this.$__items.push($p_itemWidget);
 	this.$__sizes.push($size);
 };
-#USAGE_BEGIN#disabled##
+var $Strip__reSize = /^(\d+)(\s*)((px)|(part))$/;
+$Strip.prototype.$_transformStringSize = function($str){
+	//Почему невалидное значение по умолчанию - чтобы для программиста не прошло незамеченным.
+	var $retVal = {$value:undefined, $unit:undefined};
+	if ($str){
+		//работа с регулярными выражениями
+		var $0 = $str.match($Strip__reSize);
+		if ($0){
+			$retVal.$value = parseInt($0[1]);
+			$retVal.$unit = $0[3];
+		}
+		else{
+			console.log('error: incorrect size parameter (incorrect string)');
+		}
+	}
+	else{
+		$retVal.$value = 1;
+		$retVal.$unit = 'part';
+	}
+	//console.log(JSON.stringify($retVal));
+	return $retVal;
+};
+
 $Strip.prototype.$addSplitter = function(){
 	if (!this.$__sizes.length){
 		//Проверка сильно усложнится, когда будет добавлена поддержка сокрытия элементов
@@ -176,7 +198,6 @@ $Strip.prototype.$addSplitter = function(){
 		}
 	}
 };
-#USAGE_END#disabled##
 $Strip.prototype.$setItemSize = function($sizeMap){//usage example: wRoot.$setItemSize({0:'2part'});
 	for (var $0 in $sizeMap){
 		if ($0 >= this.$__sizes){
