@@ -31,10 +31,11 @@ $WidgetStateSubscriber.prototype.$processStateChanges = function(s){
         console.error('epic fail');
         return;
     }
-    var $0, $1,
+    var $0, $1, $2,
         $descr = this.$__WidgetStateSubscriber.$descr,
         $arrSubstate,
-        $cand /*=undefined*/;
+        $cand, /*=undefined*/
+        $tmp;
     ;
     if ($descr.$children){
         $0 = $descr
@@ -65,8 +66,12 @@ $WidgetStateSubscriber.prototype.$processStateChanges = function(s){
         if ($cand){
             $0 = {};
             for ($1 in $cand){
-                $0[$1] = this.$__WidgetStateSubscriber.$childrenWidgets[$1];
-                //boris here: создаём объект: {_widget: <из вышеуказанного массива>, ...: <опции из $descr>}
+                $0[$1] = [];
+                for ($2 = 0 ; $2 < this.$__WidgetStateSubscriber.$childrenWidgets[$1].length ; ++$2){
+                    $tmp = Object.create($descr.$children[$1].$options || null);
+                    $tmp.$_widget = this.$__WidgetStateSubscriber.$childrenWidgets[$1][$2];
+                    $0[$1].push($tmp);
+                }
             }
             this.$_updateLayout($0);
         }
