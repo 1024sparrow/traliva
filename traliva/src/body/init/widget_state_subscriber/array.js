@@ -13,7 +13,7 @@ Array.prototype.set = function($0, $1){
     }
     return this;
 };
-$WidgetStateSubscriber__makeArrayReportable = function($p_reportTaker, $p_arr, $p_id){
+var $WidgetStateSubscriber__makeArrayReportable = function($p_reportTaker, $p_arr, $p_id){
     if ($p_arr === undefined){
         // boris here
     }

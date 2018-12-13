@@ -80,5 +80,5 @@ $WidgetStateSubscriber.prototype.$processStateChanges = function(s){
 };
 $WidgetStateSubscriber.prototype.$destroy = function(){};//уничтожить созданный ранее DOM-элемент, вызывается перед отписыванием от издателя
 //$WidgetStateSubscriber.prototype.$_increaseChildrenSize
-$WidgetStateSubscrber.prototype.$_updateLayout = function($p){
+$WidgetStateSubscriber.prototype.$_updateLayout = function($p){
 };
