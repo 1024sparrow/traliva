@@ -25,7 +25,7 @@ else{
             $cand = new $0($retVal);
         else{
             //boris here
-            $tmp = $0.$options;
+            $tmp = $0.$options || {};
             if ($tmp){
                 if ($tmp.$bg === '')
                     $tmp.$bg = $p_defaultBackground;
