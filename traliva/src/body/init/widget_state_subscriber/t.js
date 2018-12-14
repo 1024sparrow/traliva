@@ -13,7 +13,6 @@ function $WidgetStateSubscriber($p_wContainer, $p_options, $p_descr){
     this.$__WidgetStateSubscriber = {
         $wContainer: $p_wContainer,
         $descr: $p_descr,
-        $children: {}, // подсостояния-массивы
         $childrenChanged: {}, // set: все значения - 1
         $childrenWidgets: {} // массивы дочерних виджетов
     };
@@ -21,6 +20,7 @@ function $WidgetStateSubscriber($p_wContainer, $p_options, $p_descr){
         $p_wContainer.$_div.style.background = $p_options.$bg;
     if ($p_descr){
         console.log('DESCR:', $p_descr);
+        this.$__WidgetStateSubscriber.$children = $p_descr.$children || {}; // подсостояния-массивы
     }
     else{
         if ($p_options)
@@ -39,6 +39,10 @@ $WidgetStateSubscriber.prototype.$processStateChanges = function(s){
         console.error('epic fail');
         return;
     }
+    //boris here
+    if (this.$__WidgetStateSubscriber.$children){
+    }
+
     var $0, $1, $2,
         $descr = this.$__WidgetStateSubscriber.$descr,
         $arrSubstate,
