@@ -40,6 +40,7 @@ $WidgetStateSubscriber.prototype.$processStateChanges = function(s){
         return;
     }
     //boris here
+    console.log('ТИПА ОБНОВЛЯЕМ СОДЕРЖИМОЕ КОНТЕЙНЕРА');
     if (this.$__WidgetStateSubscriber.$children){
     }
 
@@ -60,6 +61,7 @@ $WidgetStateSubscriber.prototype.$processStateChanges = function(s){
                 }
             }
             if ($arrSubstate === this.$__WidgetStateSubscriber.$children[$1]){
+                console.log('ссылка на массив сохранилась');//
                 if (this.$__WidgetStateSubscriber.$childrenChanged[$1]){
                     if (!$cand)
                         $cand = {};
@@ -67,6 +69,7 @@ $WidgetStateSubscriber.prototype.$processStateChanges = function(s){
                 }
             }
             else{
+                console.log('ссылка на массив изменилась');//
                 $WidgetStateSubscriber__makeArrayReportable(this, $arrSubstate, $1);
                 this.$__WidgetStateSubscriber.$children[$1] = $arrSubstate;
                 #USAGE_BEGIN#debug##if (!($arrSubstate instanceof Array))console.log('epic fail');#USAGE_END#debug##
@@ -79,16 +82,18 @@ $WidgetStateSubscriber.prototype.$processStateChanges = function(s){
             $0 = {};
             for ($1 in $cand){
                 $0[$1] = [];
-                for ($2 = 0 ; $2 < this.$__WidgetStateSubscriber.$childrenWidgets[$1].length ; ++$2){
-                    $tmp = Object.create($descr.$children[$1].$options || null);
-                    $tmp.$_widget = this.$__WidgetStateSubscriber.$childrenWidgets[$1][$2];
-                    $0[$1].push($tmp);
+                if (this.$__WidgetStateSubscriber.$childrenWidgets[$1]){
+                    for ($2 = 0 ; $2 < this.$__WidgetStateSubscriber.$childrenWidgets[$1].length; ++$2){
+                        $tmp = Object.create($descr.$children[$1].$options || null);
+                        $tmp.$_widget = this.$__WidgetStateSubscriber.$childrenWidgets[$1][$2];
+                        $0[$1].push($tmp);
+                    }
                 }
             }
             this.$_updateLayout($0);
         }
     }
-    console.log('WSS::processStateChanges: ', this);//
+    console.log('WSS::processStateChanges finished: ', this);//
 };
 $WidgetStateSubscriber.prototype.$destroy = function(){};//уничтожить созданный ранее DOM-элемент, вызывается перед отписыванием от издателя
 //$WidgetStateSubscriber.prototype.$_increaseChildrenSize
