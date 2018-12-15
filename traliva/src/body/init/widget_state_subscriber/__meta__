@@ -5,7 +5,8 @@
             "source":{
                 "template": "t.js",
                 "list":[
-                    "array.js"
+                    "array.js",
+                    "process_state_changes.js"
                 ]
             }
         }
