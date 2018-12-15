@@ -51,6 +51,7 @@ $WidgetStateSubscriber.prototype.$processStateChanges = function(s){
         $tmp;
     ;
     if ($descr.$children){
+        console.log('-------- children detected:', JSON.stringify($descr.$children), $descr.$children);//
         $0 = $descr
         for ($1 in $descr.$children){
             $arrSubstate = s;
@@ -65,19 +66,30 @@ $WidgetStateSubscriber.prototype.$processStateChanges = function(s){
                 if (this.$__WidgetStateSubscriber.$childrenChanged[$1]){
                     if (!$cand)
                         $cand = {};
-                    $cand[$1] = [];
+                    $cand[$1] = $arrSubstate;
                 }
             }
             else{
                 console.log('ссылка на массив изменилась');//
                 $WidgetStateSubscriber__makeArrayReportable(this, $arrSubstate, $1);
-                this.$__WidgetStateSubscriber.$children[$1] = $arrSubstate;
-                #USAGE_BEGIN#debug##if (!($arrSubstate instanceof Array))console.log('epic fail');#USAGE_END#debug##
+                //this.$__WidgetStateSubscriber.$children[$1] = $arrSubstate;
                 if (!$cand)
                     $cand = {};
-                $cand[$1] = [];
+                $cand[$1] = $arrSubstate;
+                #USAGE_BEGIN#debug##if (!($arrSubstate instanceof Array))console.log('epic fail');#USAGE_END#debug##
             }
         }
+        console.log('%%%%%%%%% cand:', $cand);//
+        /*
+            сейчас в cand находится массив в объектами, которые в объекте состояния описывают дочерние виджеты
+            мы должны вызват _updateLayout и передать туда объект со свойствами- изменившимися массивами детей $0
+            $0:{
+                items:{
+                    _widget: <ссылка на виджет>,
+                    ... (опции из descr.options)
+                }
+            }
+        */
         if ($cand){
             $0 = {};
             for ($1 in $cand){
