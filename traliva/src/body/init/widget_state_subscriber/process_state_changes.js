@@ -78,7 +78,11 @@ $WidgetStateSubscriber.prototype.$processStateChanges = function(s){
                     $tmp = Object.create($descr.$children[$1].$options || null);
                     console.log('@@', this.$__WidgetStateSubscriber.$wContainer);//
                     $tmp.$_widget = new $Widget(this.$__WidgetStateSubscriber.$wContainer);
-                    $3 = new $descr.$children[$1].$constructor($tmp.$_widget, $descr.$options); // boris here: надо хранить, чтоб потом удалять. А ещё надо зарегистрировать этого подписчика.
+                    $3 = new $descr.$children[$1].$constructor($tmp.$_widget, $descr.$children[$1].$itemOptions || {}); // boris here: надо хранить, чтоб потом удалять. А ещё надо зарегистрировать этого подписчика.
+                    this.$__WidgetStateSubscriber.$childrenWidgets[$1].push({
+                        $w: $tmp.$_widget,
+                        $o: $3
+                    });
                     //$tmp.$_widget = this.$__WidgetStateSubscriber.$childrenWidgets[$1][$2];
                     $0[$1].push($tmp);
                 }

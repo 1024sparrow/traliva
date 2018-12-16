@@ -14,7 +14,7 @@ function $WidgetStateSubscriber($p_wContainer, $p_options, $p_descr){
         $wContainer: $p_wContainer,
         $descr: $p_descr,
         $childrenChanged: {}, // set: все значения - 1
-        $childrenWidgets: {} // массивы дочерних виджетов (как WidgetStateSubscriber)
+        $childrenWidgets: {} // массивы дочерних виджетов (как { $w: <$Widget>, $o: <$WidgetStateSubscriber> })
     };
     if ($p_options && $p_options.hasOwnProperty('$bg'))
         $p_wContainer.$_div.style.background = $p_options.$bg;
