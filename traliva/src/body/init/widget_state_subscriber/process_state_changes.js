@@ -9,7 +9,7 @@ $WidgetStateSubscriber.prototype.$processStateChanges = function(s){
     if (this.$__WidgetStateSubscriber.$children){
     }
 
-    var $0, $1, $2, $3,
+    var $0, $1, $2, $3,$4,
         $descr = this.$__WidgetStateSubscriber.$descr,
         $arrSubstate,
         $cand, /*=undefined*/
@@ -79,6 +79,16 @@ $WidgetStateSubscriber.prototype.$processStateChanges = function(s){
                     console.log('@@', this.$__WidgetStateSubscriber.$wContainer);//
                     $tmp.$_widget = new $Widget(this.$__WidgetStateSubscriber.$wContainer);
                     $3 = new $descr.$children[$1].$constructor($tmp.$_widget, $descr.$children[$1].$itemOptions || {}); // boris here: надо хранить, чтоб потом удалять. А ещё надо зарегистрировать этого подписчика.
+                    $4 = this.$__d.$substateMapper ? this.$__d.$substateMapper : '';
+                    if ($descr.$children[$1].$substate){
+                        if ($4.length)
+                            $4 += '/';
+                        $4 += $descr.$children[$1].$substate;
+                    }
+                    $4 += '/' + $2;
+                    console.log('USE SUBSTATE: ', $4);//
+                    $3.$useSubstate($4);
+                    $Traliva.$__d.$publisher.$registerSubscriber($3);
                     this.$__WidgetStateSubscriber.$childrenWidgets[$1].push({
                         $w: $tmp.$_widget,
                         $o: $3
