@@ -1,0 +1,75 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Пользовательские контейнеры</title>
+<link rel="stylesheet" type="text/css" href="style/style.css">
+</head>
+<body>
+<a href="../index.html" style="font-size=2em;color:#f60;border:1px solid #f60;border-radius:5px;">НАВЕРХ</a>
+<h1>Пользовательские контейнеры</h1>
+<p>Данный лэйаут представляет собой контейнер, который определяет пользователь. Представляется объектом с обязательными свойствами type и id. Также этот объект должен иметь те свойства, которые необходимы указанному пользователем классу контейнера.</p>
+<p>Свойство type должно иметь значение 'container'. По этому свойству фреймворк определяет тип элемента лэйаута.</p>
+<p>Свойство id должно задавать уникальный идентификатор виджета, по которому в свойстве <a href="../../index.html">widgets</a> фреймворк будет запрашивать информацию о конструкторе и объекте состояния</p>
+<p>Имена полей, по которым будут формироваться дочерние виджеты, определяются в классе виджета-контейнера, который указывается в свойстве <a href="../../index.html">widgets</a> (должен быть отнаследован от класса <a href="../../../../../traliva_internals/init/index.html">WidgetStateSubscriber</a> и иметь статический метод <hl>widgetsFields</hl>).</p>
+<p>Для каждого идентификатора, указанного в <hl>widgetsFields</hl>, должно быть указано либо одноимённое свойство в лейауте (в таком случае набор дочерних виджетов статичен - в лейауте указывается массив этих виджетов), либо одноимённое свойство в объекте widgets, соответвующем этому контейнеру (в таком случае дочерние виджеты динамически формируются по массиву объектов в объекте состояния, на который указыкает substate, с помощью конструктора виджета, указанного в constructor).</p>
+<p>Пример (пусть это будет что-то вроде лэйаута strip с дополнительными основным и дополнительными тулбарами):</p>
+<c>layouts: {
+    my_layout: {
+        ...
+        {
+            type: 'container',
+            id: 'myContainerLikeStrip',
+            toolbar: 'const myStripToolbar',
+            addonToolbar: {
+                type: 'strip',
+                orient: 'v',
+                items: [...]
+            },
+            orient: 'h',
+            items: [
+                'my_beautifulWidget',
+                {
+                    'type': 'strip',
+                    'orient': 'v',
+                    'items': [...]
+                },
+                {
+                    'type': 'stack',
+                    ...
+                },
+                'const myAnotherBeautifulWidget'
+            ]
+        }
+        ...
+    }
+}
+...
+widgets: {
+    ...
+    myContainerLikeStrip: {
+        constructor: TralivaKit.LikeStripContainer,
+        options: {type: 'compact'},
+        substate: '...',
+        dynamicItems: 'containerItem' // <-- или просто указать конструктор (TralivaKit.Button)
+    },
+    containerItem: {
+        constructor: TralivaKit.Button,
+        options: ...,
+        substate: '...' // подсостояние должно указывать на массив объектов,
+                        // каждый из которых по-отдельности будет передаваться в указанный конструктор виджета
+    }
+    ...
+},
+...</c>
+<p>В этом случае класс LikeStripContainer (в пространстве имён TralivaKit) должен иметь следующий статический метод:</p>
+<!--<c>LikeStripContainer.widgetsFields = function(){
+    return ['toolbar', 'addonToolbar', 'items', 'dynamicItems'];
+}</c>-->
+<c>LikeStripContainer.widgetsFields = [ // <-- здесь не надо использовать символ '$'
+    'toolbar', 'addonToolbar', 'items', 'dynamicItems'
+];
+</c>
+
+<p>Если дочерние виджеты строятся по данным в объекте состояния (а не определены в лейауте) и, в свою очередь, также являются контейнерами, то их дочерние виджеты могут строиться ТОЛЬКО по данным в объекте состояния.</p>
+</body>
+</html>

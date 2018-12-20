@@ -1,0 +1,75 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Формат описания лейаута</title>
+<link rel="stylesheet" type="text/css" href="style/style.css">
+</head>
+<body>
+<a href="../index.html" style="font-size=2em;color:#f60;border:1px solid #f60;border-radius:5px;">НАВЕРХ</a>
+<h1>Формат описания лейаута</h1>
+<p>Лэйаут представляет собой описание компоновки пользовательских виджетов (которые описываются отдельно в свойстве <ww>widgets</ww> объекта, передаваемого параметром в функцию <ww>Traliva.init()</ww>).</p>
+<p>Лэйаутом мы называем описание некоего виджета. Этот виджет может быть представлен в виде строкового идентификатора, указывающего на элемент свойства widgets, а может и описывать некую совокупность других лэйаутов.</p>
+<p>Лэйауты могут быть следующими:</p>
+<ul>
+    <li><a href="widgets/index.html">Отдельные виджеты</a></li>
+    <li>
+        Контейнеры
+        <ul>
+            <li><a href="strip/index.html">strip</a></li>
+            <li><a href="stack/index.html">stack</a></li>
+            <li><a href="containers/index.html">Пользовательские контейнеры</a></li>
+        </ul>
+    </li>
+</ul>
+
+<p>Пример лэйаута:</p>
+<c>
+Traliva.init({
+    ...
+    layouts:{
+        small:{
+        },
+        normal:{ // <-- вот он, лэйаут
+            type: 'strip',
+            orient: 'v',
+            items:[
+                {
+                    widget:{
+                        type: 'strip',
+                        orient: 'h',
+                        items:[
+                            {
+                                widget: 'header__bnCatalogue',
+                                size: '128px'
+                            },
+                            {
+                                widget: 'header__bnSaved',
+                                size: '128px'
+                            },
+                            {}, // stretch
+                            {
+                                widget: 'header_right__bnAuth',
+                                size: '64px'
+                            }
+                        ]
+                    },
+                    size: '64px'
+                },
+                {
+                    widget:'main_scene'
+                },
+                {
+                    // footer
+                    widget: 'footer_stub',
+                    size: '64px'
+                }
+            ]
+        },
+        large:{
+        }
+    },
+    ...
+});
+</c>
+</body>
+</html>
