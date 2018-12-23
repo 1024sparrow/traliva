@@ -1,0 +1,33 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>layouts</title>
+<link rel="stylesheet" type="text/css" href="style/style.css">
+</head>
+<body>
+<a href="../index.html" style="font-size=2em;color:#f60;border:1px solid #f60;border-radius:5px;">НАВЕРХ</a>
+<h1>layouts</h1>
+<p>Пусть функция <hl>get_layout</hl> в одних случаях возвращает '$smartphone', а в других - '$desktop'. Тогда вот пример того, что может быть в свойстве <hl>layouts</hl>:</p>
+<c>
+...
+$layouts: {
+    $smartphone:'$catalogue',
+    $desktop:{
+        $type: $TralivaKit.$Strip,
+        $orient: #e#$TralivaKit__Strip__orient:v##,
+        $items:[
+            {
+                $_widget: '$adPanel',
+                $size: '200px'
+            },
+            '$catalogue'
+        ]
+    }
+},
+...
+</c>
+<p>Рассмотрим, что имеем.</p>
+<p>В случае, когда <hl>get_layout</hl> возвращает строку '$smatrphone', соответствующее поле в <hl>layouts</hl> имеет тип Строка (а не Объект). Значит, на весь экран будет растянут виджет из <hl>widgets</hl>, который хранится в свойстве '$catalogue'.</p>
+<p>В случае, когда <hl>get_layout</hl> возвращает строку '$desktop', соответствующее поле в <hl>layouts</hl> имеет тип Объект. Этот объект должен иметь свойство <hl>$type</hl>(конструктор виджета). Значит, на весь экран будет растянут контейнер виджетов, созданный конструктором класса, указанным в свойстве <hl>$type</hl>. В документации по компоненту <hl>$TralivaKit.$Strip</hl> можно найти, что этот компонент параметризуется свойствами <hl>$orient</hl> и <hl>$items</hl>: перечисление типа $TralivaKit__Strip__orient и массив объектов {$_widget: ..., &lt;опции дочернего элемента, см. справку по компоненту>}, описывающих дочерние виджеты, соответственно.</p><p>Свойство <hl>$items</hl> зарегистрировано в компоненте <hl>$TralivaKit.$Strip</hl> как свойство, описывающее набор дочерних виджетов. Это массив идентификаторов виджетов из состава <hl>widgets</hl> или объектов, описывающих дочерние виджеты (с обязательным свойством <hl>$_widget</hl> и свойствами, отображающими особенности размещения этого виджета в составе родительского виджета-контейнера).</p>
+</body>
+</html>
