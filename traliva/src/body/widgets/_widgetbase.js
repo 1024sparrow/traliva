@@ -5,40 +5,41 @@ p_sroll - политика скрола. Строка. Возможные зна
 //
 */
 // -- class $_WidgetBase --
-function $_WidgetBase($0, $1){
+function $_WidgetBase($0){
     //$0 - p_parentWidget
-    //$1 - p_scroll
+    //$1 - p_scroll (уже не используется)
     //$2 - e
 
     this.$__onscrollOkFunc;
     this.$__isVisible = true;
     this.$__isMouseEventsBlocked = false;
-    this.$__wParent;//undefined if parent is not instance of $_WidgetBase
-    this.$_scroll = $1;
-	//Обрубать хвосты по умолчанию (style.overflow='hidden')
-	//var ifCutTails = (typeof $1 == 'undefined') ? true : $1;
+    this.$__wParent = $0;
 
-	if ($0 && $0 instanceof HTMLDivElement)
+    this.$_div = document.createElement('div');
+    /* сейчас врйчную запускать _WidgetBase не предполагается - только через $Traliva.$WidgetStateSubscriber */
+	/*if ($0 && $0 instanceof HTMLDivElement)
 		this.$_div = $0;
 	else{
 		this.$_div = document.createElement('div');
         this.$__wParent = $0;
-    }
+    }*/
 
-    if ((!$1) || ($1 === ''))
+    this.$_div.style.overflow = 'hidden';
+    /* сейчас этим занимается $Traliva.$WidgetStateSubscriber */
+    /*if ((!$p_scroll) || ($p_scroll === ''))
         this.$_div.style.overflow = 'hidden';
-    else if ($1 === 'vh')
+    else if ($p_scroll === 'vh')
         this.$_div.style.overflow = 'auto';
-    else if ($1 === 'v'){
+    else if ($p_scroll === 'v'){
         this.$_div.style.overflowX = 'hidden';
         this.$_div.style.overflowY = 'auto';
     }
-    else if ($1 === 'h'){
+    else if ($p_scroll === 'h'){
         this.$_div.style.overflowX = 'auto';
         this.$_div.style.overflowY = 'hidden';
     }
     else
-        console.log('error: incorrect \'$1\' passed: '+$1);
+        console.log('error: incorrect \'$p_scroll\' passed: '+$p_scroll);*/
 
 	this.$_div.onscroll = (function($self){
 		return function($2){
@@ -55,36 +56,18 @@ function $_WidgetBase($0, $1){
 	this.$_div.appendChild(this.$_content);
 	if (!this.$_content)
 		console.log('epic fail');
-	if ($0){
-		if ($0 instanceof HTMLDivElement){
-			//console.log($0.constructor.name);
-			(function($self){
-				setInterval(function(){
-					var $w = $0.clientWidth;
-					var $h = $0.clientHeight;
-					if (!$self.hasOwnProperty('$_WidgetBase')){
-						$self.$_WidgetBase = {$w : $w, $h : $h};
-						$self.$_onResized($w, $h);
-					}
-					else{
-						if ($w != $self.$_WidgetBase.$w || $h != $self.$_WidgetBase.$h){
-							$self.$_WidgetBase.$w = $w;
-							$self.$_WidgetBase.$h = $h;
-							$self.$_onResized($w, $h);
-						}
-					}
-				}, 20);
-			})(this);
-		}
+    #USAGE_BEGIN#debug##
+    if ($0){
+		if ($0 instanceof HTMLDivElement)
+            ;
 		else if (!($0 instanceof $_WidgetBase)){
-            #USAGE_BEGIN#debug##
 			console.log('class ' + this.constructor.name +
 				': incorrect parent passed to constructor: ' + $0.constructor.name +
-				'. Available types to use: HTMLDivElement and $Traliva.$_WidgetBase.');
-            #USAGE_END#debug##
-		}
-	}
-	else{
+				'. Available type to use: $Traliva.$_WidgetBase.');
+        }
+    }
+    #USAGE_END#debug##
+	if (!$0){
 		var $eBody = document.getElementsByTagName('body')[0];
 		$eBody.style.overflow = "hidden";
 		$eBody.style.margin = '0';

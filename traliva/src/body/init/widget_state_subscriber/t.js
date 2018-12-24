@@ -7,6 +7,7 @@ $p_descr - если виджет-подписчик, создаётся по с�
 */
 
 {%% array.js %%}
+#MASK#$Traliva$scroll:v,h##
 function $WidgetStateSubscriber($p_wContainer, $p_options, $p_descr){
     $StateSubscriber.call(this);
     var $1;
@@ -16,8 +17,16 @@ function $WidgetStateSubscriber($p_wContainer, $p_options, $p_descr){
         $childrenChanged: {}, // set: все значения - 1
         $childrenWidgets: {} // массивы дочерних виджетов (как { $w: <$Widget>, $o: <$WidgetStateSubscriber> })
     };
-    if ($p_options && $p_options.hasOwnProperty('$bg'))
-        $p_wContainer.$_div.style.background = $p_options.$bg;
+    if ($p_options){
+        if ($p_options.hasOwnProperty('$bg'))
+            $p_wContainer.$_div.style.background = $p_options.$bg;
+        if ($p_options.hasOwnProperty('$scroll')){
+            #USAGE_BEGIN#debug##
+            if (typeof $p_otions.$scroll !== 'number' || ($p_otions.$scroll & 0xff !== #m#$Traliva$scroll##))
+                console.log('error: опция $scroll должна иметь тип маски {$Traliva$scroll:v,h}');
+            #USAGE_END#debug##
+        }
+    }
     if ($p_descr){
         console.log('DESCR:', $p_descr);
         this.$__WidgetStateSubscriber.$children = $p_descr.$children || {}; // подсостояния-массивы
