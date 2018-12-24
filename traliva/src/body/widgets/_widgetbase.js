@@ -58,9 +58,7 @@ function $_WidgetBase($0){
 		console.log('epic fail');
     #USAGE_BEGIN#debug##
     if ($0){
-		if ($0 instanceof HTMLDivElement)
-            ;
-		else if (!($0 instanceof $_WidgetBase)){
+		if (!($0 instanceof $_WidgetBase)){
 			console.log('class ' + this.constructor.name +
 				': incorrect parent passed to constructor: ' + $0.constructor.name +
 				'. Available type to use: $Traliva.$_WidgetBase.');

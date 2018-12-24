@@ -25,6 +25,13 @@ function $WidgetStateSubscriber($p_wContainer, $p_options, $p_descr){
             if (typeof $p_otions.$scroll !== 'number' || ($p_otions.$scroll & 0xff !== #m#$Traliva$scroll##))
                 console.log('error: опция $scroll должна иметь тип маски {$Traliva$scroll:v,h}');
             #USAGE_END#debug##
+            $1 = $p_options.$scroll & #m#$Traliva$scroll:v##;
+            if ($1 === ($p_options.$scroll & #m#$Traliva$scroll:h##))
+                $p_wContainer.$_div.style.overflow = $1 ? 'auto' : 'hidden';
+            else{
+                $p_wContainer.$_div.style.overflowY = $1 ? 'auto' : 'hidden';
+                $p_wContainer.$_div.style.overflowX = $1 ? 'hidden' : 'auto';
+            }
         }
     }
     if ($p_descr){
