@@ -17,6 +17,10 @@ c prebash{
 c comment{
     color: #666;
 }
+comment{
+    color: #220;
+    font-size: 80%;
+}
 /*подсветка текста*/
 hl{
     color: #faa;
