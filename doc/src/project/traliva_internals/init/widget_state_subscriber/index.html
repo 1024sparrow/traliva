@@ -7,15 +7,43 @@
 <body>
 <a href="../index.html" style="font-size=2em;color:#f60;border:1px solid #f60;border-radius:5px;">НАВЕРХ</a>
 <h1>$WidgetStateSubscriber</h1>
+<img src="uml.png"></img>
 <p>Данный класс наследуется от класса <a href="../../states/index.html">StateSubscriber</a>.</p>
-<p>Является базовым для классов для описания виджета (возможно, контейнера для каких-то априорно неизвестных дочерних виджетов). Конструктор пользовательского класса, отнаследованного от данного класса, используется в свойстве <a href="../../../gameplay/init_object/layouts/index.html">widgets</a> объекта, передаваемого параметром в функцию Traliva.init().</p>
-<p>В том случае, когда пользовательский класс описывает контейнер виджетов, в пользовательском классе должен быть определён метод (статический) <span style="color:#FAA">widgetsFields</span> (без параметров), возвращающий список свойств, указанных в <a href="../../../gameplay/init_object/layouts/layout_format/containers/index.html">объекте, описывающем элемент лэйаута</a>, по которым будут генерироваться виджеты, передаваемые третим параметром в конструктор при создании экземпляра данного класса.</p>
-<p>Принимает три параметра:</p>
+<p>Является базовым для классов для описания виджета (возможно, контейнера для каких-то априорно неизвестных дочерних виджетов). Конструктор пользовательского класса, отнаследованного от данного класса, используется в свойствах <a href="../../../gameplay/init_object/layouts/index.html">$layouts и $widgets</a> объекта, передаваемого параметром в функцию <a href="../../../gameplay/index.html">Traliva.init()</a>.</p>
+<p>В том случае, когда пользовательский класс описывает контейнер виджетов, в пользовательском классе (у самой функции конструктора) должно быть определёно свойство <hl>widgetsFields</hl> (список свойств, указанных в <a href="../../../gameplay/init_object/layouts/layout_format/containers/index.html">объекте, описывающем элемент лэйаута</a>, по которым будут генерироваться виджеты, передаваемые третим параметром в конструктор при создании экземпляра данного класса).</p>
+<c>
+function $Strip(<a href="p_wcontainer/index.html">$p_wContainer</a>, <a href="p_wcontainer/index.html">$p_options</a>, <a href="p_wcontainer/index.html">$p_descr</a>){
+    var $children = $Traliva.$WidgetStateSubscriber.call(this, $p_wContainer, $p_options, $p_descr);
+    ...
+};
+$Strip.prototype = Object.create($Traliva.$WidgetStateSubscriber.prototype);
+$Strip.prototype.constructor = $Strip;
+$Strip.$widgetsFields = ['$items'];
+$Strip.$processStateChanges = function(s){
+    $Traliva.$WidgetStateSubscriber.prototype.$processStateChanges.call(this, s);
+    if (!s){
+        console.error('epic fail');
+        return;
+    }
+    ...
+};
+$Strip.prototype.$_updateLayout = function($p){
+    ...
+};
+
+</c>
+<p>Принимаемые параметры:</p>
+<ol>
+<li><a href="p_wcontainer/index.html">p_wContainer</a></li>
+<li><a href="p_options/index.html">p_options</a></li>
+<li><a href="p_descr/index.html">p_descr</a></li>
+</ol>
+<!--<p>Принимает три параметра:</p>
 <ul>
     <li>p_wContainer - экземпляр класса <a href="../../widgets/widget/index.html">Widget</a> - в который в конструкторе пользовательского класса должно устанавливаться содержимое (метод setContent() класса Widget).</li>
     <li>p_options - набор опций (options), который задал пользователь в объекте, передаваемом в Trliva.init(), в свойстве <a href="../../../gameplay/init_object/layouts/index.html">объекта widgets</a>, соответствующего <a href="../../../gameplay/init_object/layouts/layout_format/widgets/index.html">пользовательскому виджету</a> или <a href="../../../gameplay/init_object/layouts/layout_format/containers/index.html">пользовательскому контейнеру</a>.</li>
     <li>p_widgets - используется только для элементов типа <a href="../../../gameplay/init_object/layouts/layout_format/containers/index.html">container</a> - объект, в котором свойства такие, как указано в результате выполнения статического метода <span style="color:#FAA">widgetsFields</span>, а значения этих свойств - соответвующие виджеты.</li>
-</ul>
+</ul>-->
 <p>При наследовании программист (которого мы обычно называем польозователем..) должен не забыть сделать следующие вещи:</p>
 <ul>
     <li>установить содержимое виджету, передаваемому первым параметром в конструктор.</li>
