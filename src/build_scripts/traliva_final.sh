@@ -12,6 +12,14 @@ mkdir "$compiled_dir"
 mkdir "$targets_dir"
 for i in $(ls -1 $1/src/build_scripts/targets)
 do
+    if [ ! -d "$1/src/build_scripts/targets/$i" ]
+    then
+        continue
+    fi
+    if [[ "$i" == _* ]]
+    then
+        continue
+    fi
     echo "Запускается скрипт генерации исходного кода под платформу \"$i\""
     mkdir "$targets_dir"/"$i"
 
