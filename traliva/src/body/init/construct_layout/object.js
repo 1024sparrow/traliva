@@ -14,7 +14,7 @@ $childrenFields = $p_oLayout.$type.$widgetsFields;
 $children = {};
 $options = {};
 for ($1 in $p_oLayout){
-    if ($childrenFields.indexOf($1) < 0)
+    if (($childrenFields === undefined) || ($childrenFields.indexOf($1) < 0))
         $options[$1] = $p_oLayout[$1];
     else{
         $0 = $p_oLayout[$1];
