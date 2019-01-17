@@ -75,7 +75,9 @@ $StateToUrlMapper.prototype.$processStateChanges = function(s){
     }
     // обойти дерево и составить url. Если совпадает, то ничего не делаем. Если не совпадает - просто заменяем текущий URL.
     var $0, $1, $2, $3, $4, $5;
-    var $cand = this.$initPath + '/';
+    var $cand = this.$initPath;
+    if ($Traliva.$debug && $Traliva.$debug.$url)
+        $cand += '/';
     //console.log('init path: ', $cand);
     var $stack = this.$_tree.slice();
     while ($stack.length){
