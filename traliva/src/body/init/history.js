@@ -1,8 +1,8 @@
 //'---------------init/history.js---------------';
-function $HistorySubstitute(){
+/*function $HistorySubstitute(){
     this.$_initState = JSON.parse(JSON.stringify($p_initState));
     this.$__copy = function($o){return JSON.parse}
-};
+};*/
 
 // Альтернативная версия Истории, используемая только в случае режима отладки 'url'
 $Traliva.$history = {
@@ -10,17 +10,27 @@ $Traliva.$history = {
     $__currentIndex: 0,
     replaceState: function($p_a, $p_b, $p_path){
         console.log('%creplaceState(url) --> '+$p_path, 'color: #faa');
-        this.$__paths[this.$__currentIndex] = $p_path;
-        this.$__aa($p_path)
+        if ($Traliva.$debug.$url){
+            this.$__paths[this.$__currentIndex] = $p_path;
+            this.$__aa($p_path);
+        }
+        else{
+            history.replaceState($p_a, $p_b, $p_path);
+        }
     },
     pushState: function($p_a, $p_b, $p_path){
         console.log('%cpushState(url) --> '+$p_path, 'color: #faa');
-        this.$__currentIndex++;
-        if (this.$__currentIndex < this.$__paths.length)
-            this.$__paths[this.$__currentIndex] = $p_path;
-        else
-            this.$__paths.push($p_path);
-        this.$__aa($p_path)
+        if ($Traliva.$debug.$url){
+            this.$__currentIndex++;
+            if (this.$__currentIndex < this.$__paths.length)
+                this.$__paths[this.$__currentIndex] = $p_path;
+            else
+                this.$__paths.push($p_path);
+            this.$__aa($p_path)
+        }
+        else{
+            history.pushState($p_a, $p_b, $p_path);
+        }
     },
     $_goNext: function(){
         if ((this.$__currentIndex + 1) < this.$__paths.length){

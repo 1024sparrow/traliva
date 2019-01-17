@@ -51,6 +51,7 @@ function $StateToUrlMapper($p_statesObj){
         }
     }
     //console.log('TREE: ', this.$_tree);//----
+    console.log('StateToUrlMapper: debugMode ' + (this.$_debugMode ? 'enabled' : 'disabled'));
 };
 $StateToUrlMapper.prototype = Object.create($StateSubscriber.prototype);
 $StateToUrlMapper.prototype.constructor = $StateToUrlMapper;
@@ -82,17 +83,18 @@ $StateToUrlMapper.prototype.$processStateChanges = function(s){
         //console.log('----');
         $for_2: for ($2 in $0){
             $1 = $0[$2];
-            //console.log('debugName: ', $1.$debugName);//
+            console.log('debugName: ', $1.$debugName);//
             $3 = this.$getSubstate($1.$substate);
             //console.log('$3 = ' + $3);
             if ($1.hasOwnProperty('$name'))
                 $3 = $3 === $1.$name;
             if ($3 && $1.$params){
                 $3 = '';
+                console.log('params: ', $1.$params);//
                 for ($4 = 0 ; $4 < $1.$params.length ; ++$4){
                     $5 = this.$getSubstate($1.$params[$4]);
                     if ($5 === undefined){
-                        console.log('ERROR: подсостояние парметра не доступно: ' + $1.$params[$4]);
+                        console.log('ERROR: подсостояние параметра не доступно: ' + $1.$params[$4]);
                         break $for_2;
                     }
                     $3.push($5.toString() + '/');
@@ -371,10 +373,11 @@ $StateToUrlMapper.prototype.$setSubstate = function($p_substate, $p_value){ // �
     $0[$1[0]] = $p_value;
 };
 $StateToUrlMapper.prototype.$getSubstate = function($p_substate){
+    console.log('-- getSubstate --');//
     var $0 = $p_substate.split('/'), $1 = this.$_state, $2;
     for ($2 = 0 ; $2 < $0.length ; ++$2){
         if (!($1 = $1[$0[$2]]))
             return $1;
     }
     return $1;
-}
+};
