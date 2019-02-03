@@ -1,15 +1,15 @@
 //'---------------init/догрузчик.js---------------';
 /* Предполагается, что использоваться будет с подсостоянием */
 //function Догрузчик(p_getUrl, p_parent, p_scope){
-function $Догрузчик($p_getUrl, $p_scope){
+function $Extender($p_getUrl, $p_scope){
     $StateSubscriber.call(this);
     this.$_extId = undefined;
     this.$_getUrl = $p_getUrl;
     this.$_scope = $p_scope;
 };
-$Догрузчик.prototype = Object.create($StateSubscriber.prototype);
-$Догрузчик.prototype.constructor = $Догрузчик;
-$Догрузчик.prototype.$processStateChanges = function($s){
+$Extender.prototype = Object.create($StateSubscriber.prototype);
+$Extender.prototype.constructor = $Extender;
+$Extender.prototype.$processStateChanges = function($s){
     if ($s === this.$_extId)
         return;
     console.log('Меняю id на ' + $s);
@@ -45,7 +45,7 @@ $Догрузчик.prototype.$processStateChanges = function($s){
 
     this.$_extId = $s;
 };
-$Догрузчик.prototype.$ok = function($o){
+$Extender.prototype.$ok = function($o){
     console.log(JSON.stringify($o));
     //if ($Traliva.$__d.w.hasOwnProperty())
     var $0, $content,$d = $Traliva.$__d, $slotWidget;
@@ -78,7 +78,7 @@ $Догрузчик.prototype.$ok = function($o){
         this.$_scope.$extender = $o.$extender;
     }
 };
-$Догрузчик.prototype.$fail = function($p_reason){
+$Extender.prototype.$fail = function($p_reason){
     console.log('error: ' + $p_reason);
 };
 //'======================================';
