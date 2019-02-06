@@ -18,7 +18,9 @@ function $StateToUrlMapper($p_statesObj){
     //$3 += $p_statesObj.initPath.length;//<--
     this.$used = 0;
     this.$initPath = $uri.substr(0, $3);
-    this.$initPathLength = $3 + 1; 
+    console.log('INIT PATH: ', this.$initPath);//
+    //this.$initPathLength = $3 + 1; 
+    this.$initPathLength = $3 - 1; 
     this.$_tree = $Traliva.$__d.$o.$states.$tree;
     this.$_debugMode = $Traliva.$debug && $Traliva.$debug.$url;
     this.$urlUpdating = false;
@@ -37,15 +39,15 @@ function $StateToUrlMapper($p_statesObj){
     $stack = [this.$_tree];
     this.$_tree.__list = [this.$_tree];
     while ($stack.length){
-        $0 = $stack.pop();
+        $0 = $stack.shift();
         for ($1 = 0 ; $1 < $0.length ; ++$1){
             for ($2 in $0[$1]){
                 //console.log('+', $0[$1][$2]);//----
                 if ($0[$1][$2].$d){
                     $3 = $0[$1][$2].$d;
                     $3.__list = $0.__list.slice();
-                    $3.__list.push($3);
-                    $stack.push($3);
+                    $3.__list.unshift($3);
+                    $stack.unshift($3);
                 }
             }
         }
@@ -78,14 +80,16 @@ $StateToUrlMapper.prototype.$processStateChanges = function(s){
     var $cand = this.$initPath;
     if ($Traliva.$debug && $Traliva.$debug.$url)
         $cand += '/';
-    //console.log('init path: ', $cand);
+    console.log('init path: ', $cand);
     var $stack = this.$_tree.slice();
+    //console.log('**', this.$_tree);//
     while ($stack.length){
-        $0 = $stack.pop();
-        //console.log('----');
+        $0 = $stack.shift();
+        console.log('----', $0);
         $for_2: for ($2 in $0){
             $1 = $0[$2];
-            console.log('debugName: ', $1.$debugName);//
+            //console.log('debugName: ', $1.$debugName);//
+            console.log('state tree item name: ', $2);//
             $3 = this.$getSubstate($1.$substate);
             //console.log('$3 = ' + $3);
             if ($1.hasOwnProperty('$name'))
@@ -109,7 +113,7 @@ $StateToUrlMapper.prototype.$processStateChanges = function(s){
                 }
                 if ($1.$d){
                     for ($4 = $1.$d.length - 1 ; $4 >= 0 ; --$4){
-                        $stack.push($1.$d[$4]);
+                        $stack.unshift($1.$d[$4]);
                     }
                 }
                 break $for_2;
@@ -129,7 +133,7 @@ $StateToUrlMapper.prototype.$processStateChanges = function(s){
 $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
     if (this.$urlUpdating)
         return;
-    console.group('update for URL');
+    console.group('update for URL:', $p_url);
     //console.log('--', $p_url, '-- initPath:', this.$initPath);
     //this.$_tree, this.$initPath, this.$initPathLength
     var $0, $1, $2, $3, $4, $5, $roots,
@@ -137,16 +141,17 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
         $ar = [], $stateChanged = false,
         $eTree
     ;
-    $0 = $p_url.slice(this.$initPathLength);
+    $0 = $p_url.slice(this.$initPathLength); // boris here
+    console.log('##', $0, this.$initPathLength);//
     //var i, ii, cand, o, tmp;
     for ($1 = $0.indexOf('/', 1) ; $1 >= 0 ; $1 = $0.indexOf('/', 1)){
         $cand = $0.slice(1, $1);
         if ($cand.length) // встречающиеся двойные слеши трактуем как одинарные
             $ar.push($cand);
         $0 = $0.slice($1);
-        //console.log('*', $1, $ar, $0);
+        console.log('*', $1, $ar, $0);
     }
-    //console.log('*-*', $ar, $0);
+    console.log('*-*', $ar, $0);
     //bTree = ($i === 0) ? bTree[$ar[$i]] : bTree.$d[$ar[$i]];
 
     if ($p_ifInit){
@@ -178,7 +183,7 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
     };
     $roots = [[],[]];// для this.$prevAr и для $ar
     var $ars = [this.$prevAr, $ar];
-    //console.log('PRELIMINAR ARS:\n', JSON.stringify($ars));
+    console.log('PRELIMINAR ARS:\n', JSON.stringify($ars));
     var $iArs, $oAr;
     var $used;
     var $appliedAr;//та часть ar, что была обработана и является корректной. Используется в случае некорректного URL для генерации корректного URL.
@@ -187,16 +192,17 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
         $tmp = this.$_tree;
         $appliedAr = [];
         $for_1: for ($1 = 0 ; $1 < $oAr.length ; ++$1){
-            //console.log('-- 1 --');
+            console.log('-- 1 --');
+            console.log('$tmp:', JSON.stringify($tmp));
             $used = false;
             if ($tmp){
                 $for_2: for ($2 = 0 ; $2 < $tmp.__list.length ; ++$2){
-                //console.log('-- 2 --', $tmp.__list[$2]);//
+                console.log('-- 2 --', $tmp.__list[$2]);//
                     for ($3 = 0 ; $3 < $tmp.__list[$2].length ; ++$3){
-                    //console.log('-- 3 --');
+                    console.log('-- 3 --');
                         for ($4 in $tmp.__list[$2][$3]){
-                            //console.log('-- 4 --');
-                            //console.log('$1, $2, $3, $4', $1, $2, $3, $4, 'tmp:', $tmp);//
+                            console.log('-- 4 --');
+                            console.log('$1, $2, $3, $4', $1, $2, $3, $4, 'tmp:', $tmp);//
                             if ($4 === $oAr[$1]){
                                 $cand = {
                                     $url: $4,
@@ -226,7 +232,7 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
                                     $appliedAr.push($oAr[$1]);
                                 }
                                 $used = true;
-                                //console.log('PUSHING:', $cand);
+                                console.log('PUSHING:', $cand);
                                 $roots[$iArs].push($cand);
                                 $tmp.__list[$2][$3][$4].__used = true;
                                 $tmp = $tmp.__list[$2][$3][$4].$d;
