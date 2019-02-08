@@ -49,9 +49,13 @@ function $StateToUrlMapper($p_statesObj){
                     $3.__list.unshift($3);
                     $stack.unshift($3);
                 }
+                else{
+                    $0[$1][$2].__list = $0.__list;
+                }
             }
         }
     }
+    console.log('TREE: ', this.$_tree);//----
     /*$stack = [this.$_tree];
     $tmp = [this.$_tree];
     // наполняем $tmp

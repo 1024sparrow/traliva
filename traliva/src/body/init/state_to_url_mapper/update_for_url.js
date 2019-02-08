@@ -61,7 +61,7 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
         $appliedAr = [];
         $for_1: for ($1 = 0 ; $1 < $oAr.length ; ++$1){
             console.log('-- 1 --');
-            console.log('$tmp:', JSON.stringify($tmp));
+            //console.log('$tmp:', JSON.stringify($tmp));
             $used = false;
             if ($tmp){
                 $for_2: for ($2 = 0 ; $2 < $tmp.__list.length ; ++$2){
@@ -103,7 +103,9 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
                                 console.log('PUSHING:', $cand);
                                 $roots[$iArs].push($cand);
                                 $tmp.__list[$2][$3][$4].__used = true;
-                                $tmp = $tmp.__list[$2][$3][$4].$d;
+                                $tmp = $tmp.__list[$2][$3][$4];
+                                if ($tmp.$d)
+                                    $tmp = $tmp.$d;
                                 continue $for_1;
                             }
                         } // for $4
@@ -160,7 +162,7 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
         $3 = this.$_fGetTreeObject($3);
         if (!$2){
             // есть в prevAr, но нет в ar - деструкция
-            console.log('деструкция: ', JSON.stringify($3, undefined, 2));
+            //console.log('деструкция: ', JSON.stringify($3, undefined, 2));
             this.$setSubstate($3.$substate);
             $stateChanged = true;
             if ($3.$extender){
@@ -177,7 +179,7 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
         $3 = this.$_fGetTreeObject($3);
         if ($2){
             // есть и в ar, и в prevAr - обновляем параметры
-            console.log('обновляем параметры: ', JSON.stringify($3, undefined, 2));
+            //console.log('обновляем параметры: ', JSON.stringify($3, undefined, 2));
             if ($3.$params){
                 for ($4 = 0 ; $4 < $3.$params.length ; ++$4){
                     console.log($3.$params[$4] + ' -- ' + $3.$paramValues[$4]);
@@ -187,7 +189,7 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
         }
         else{
             // есть в ar, но нет в prevAr - конструкция
-            console.log('конструкция: ', JSON.stringify($3, undefined, 2));
+            //console.log('конструкция: ', JSON.stringify($3, undefined, 2));
             this.$setSubstate($3.$substate, $3.$name || true);
             if ($3.$extender){
                 //this.$_ajax.$request($p_url, $p_paramObject, $p_okFunc, $p_errorFunc, $p_ignoreOkFunc, $p_ignoreErrorFunc); // boris here 1
