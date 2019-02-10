@@ -10,6 +10,8 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
         $eTree
     ;
     $0 = $p_url.slice(this.$initPathLength); // boris here
+    if ($0[$0.length - 1] !== '/')
+        $0 += '/';
     console.log('##', $0, this.$initPathLength);//
     //var i, ii, cand, o, tmp;
     for ($1 = $0.indexOf('/', 1) ; $1 >= 0 ; $1 = $0.indexOf('/', 1)){
@@ -60,7 +62,7 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
         $tmp = this.$_tree;
         $appliedAr = [];
         $for_1: for ($1 = 0 ; $1 < $oAr.length ; ++$1){
-            console.log('-- 1 --');
+            console.log('-- 1 --', $oAr[$1]);
             //console.log('$tmp:', JSON.stringify($tmp));
             $used = false;
             if ($tmp){
@@ -78,7 +80,7 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
                                 };
                                 //console.log('&*%*&%*&%&*^%&*^%', $tmp.__list[$2][$3]);//
                                 if ($tmp.__list[$2][$3][$4].$params){
-                                    //console.log('parameters detected');//
+                                    console.log('parameters detected');
                                     if ($tmp.__list[$2][$3][$4].$params.length >= ($oAr.length - $1)){
                                         // отображаем текущий узел - не указано необходимых параметров
                                         console.log('error: не указано необходимое количество параметров');
@@ -96,7 +98,7 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
                                     }
                                 }
                                 else{
-                                    //console.log('no parameters');
+                                    console.log('no parameters');
                                     $appliedAr.push($oAr[$1]);
                                 }
                                 $used = true;
