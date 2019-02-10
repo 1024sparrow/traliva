@@ -1,12 +1,12 @@
 $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
     if (this.$urlUpdating)
         return;
-    console.group('update for URL:', $p_url);
+    console.group('update for URL:', $p_url, 'init:', $p_ifInit);
     //console.log('--', $p_url, '-- initPath:', this.$initPath);
     //this.$_tree, this.$initPath, this.$initPathLength
     var $0, $1, $2, $3, $4, $5, $roots,
         $tmp, $cand,
-        $ar = [], $stateChanged = false,
+        $ar = [], $stateChanged = $p_ifInit,
         $eTree
     ;
     $0 = $p_url.slice(this.$initPathLength); // boris here
@@ -92,7 +92,7 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
                                         }
                                         $5 = $tmp.__list[$2][$3][$4].$params.length;
                                         $cand.$params = $oAr.slice($1 + 1, $1 + 1 + $5);
-                                        $tmp.__list[$2][$3][$4].$paramValues = $oAr.slice($1 + 1, 1 + $tmp.__list[$2][$3][$4].$params.length);
+                                        $tmp.__list[$2][$3][$4].$paramValues = $oAr.slice($1 + 1, 1 + $tmp.__list[$2][$3][$4].$params.length + 1);
                                         $1 += $5;
                                         //console.log('===', JSON.stringify($appliedAr), $oAr);//
                                     }
@@ -193,6 +193,12 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
             // есть в ar, но нет в prevAr - конструкция
             //console.log('конструкция: ', JSON.stringify($3, undefined, 2));
             this.$setSubstate($3.$substate, $3.$name || true);
+            if ($3.$params){
+                for ($4 = 0 ; $4 < $3.$params.length ; ++$4){
+                    console.log($3.$params[$4] + ' -- ' + $3.$paramValues[$4]);
+                    this.$setSubstate($3.$params[$4], $3.$paramValues[$4]);
+                }
+            }
             if ($3.$extender){
                 //this.$_ajax.$request($p_url, $p_paramObject, $p_okFunc, $p_errorFunc, $p_ignoreOkFunc, $p_ignoreErrorFunc); // boris here 1
                 /*(function(){

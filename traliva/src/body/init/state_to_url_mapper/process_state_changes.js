@@ -40,7 +40,7 @@ $StateToUrlMapper.prototype.$processStateChanges = function(s){
                         console.log('ERROR: подсостояние параметра не доступно: ' + $1.$params[$4]);
                         break $for_2;
                     }
-                    $3.push($5.toString() + '/');
+                    $3 += $5.toString() + '/';
                 }
             }
             if ($3){
