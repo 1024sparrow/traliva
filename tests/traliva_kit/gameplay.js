@@ -1,4 +1,281 @@
 'use strict';
+//=========== STRIP ==============
+// -- class ss__Strip --
+var ss__Strip__Orient__hor = 1,
+    ss__Strip__Orient__vert = 2;
+function ss__Strip(ss__p_orient, ss__p_parentWidget, ss__p_attr){
+	this.ss____orient = ss__p_orient;
+	this.ss____items = [];
+	this.ss____sizes = [];
+	this.ss____w;
+	this.ss____h;
+
+	this.ss___eTable = document.createElement('table');
+	this.ss___eTable.style.border = 'none';
+	this.ss___eTable.cellSpacing = '0';
+	if (this.ss____orient == ss__Strip__Orient__hor){
+		this.ss___eRowSingle = this.ss___eTable.insertRow(0);
+	}
+	ss__Traliva.ss___WidgetBase.call(this, ss__p_parentWidget, ss__p_attr);
+};
+ss__Strip.prototype = Object.create(ss__Traliva.ss___WidgetBase.prototype);
+ss__Strip.prototype.constructor = ss__Strip;
+ss__Strip.prototype.ss___createContentElem = function(){
+	return this.ss___eTable;
+};
+ss__Strip.prototype.ss___onResized = function(ss__w,ss__h){
+	this.ss____w = ss__w;
+	this.ss____h = ss__h;
+	this.ss____updateSizes();
+};
+ss__Strip.prototype.ss___onChildVisibilityChanged = function(ss__wChild){
+	this.ss____updateSizes();
+};
+ss__Strip.prototype.ss____updateSizes = function(){
+	var ss__totalForParts = (this.ss____orient == ss__Strip__Orient__hor) ? this.ss____w : this.ss____h;
+	if (ss__totalForParts < 0)
+		return;
+	var ss__totalParts = 0;
+	for (var ss__0 = 0 ; ss__0 < this.ss____items.length ; ss__0++){
+        if (!this.ss____items[ss__0].ss__isVisible())
+            continue;
+		if (this.ss____sizes[ss__0].ss__unit == 'px'){
+			ss__totalForParts -= this.ss____sizes[ss__0].ss__value;
+		}
+		else if (this.ss____sizes[ss__0].ss__unit == 'part'){
+			ss__totalParts += this.ss____sizes[ss__0].ss__value;
+		}
+	}
+	for (var ss__0 = 0 ; ss__0 < this.ss____items.length ; ss__0++){
+        if (!this.ss____items[ss__0].ss__isVisible())
+            continue;
+		var ss__tmpSize = undefined;
+		if (this.ss____sizes[ss__0].ss__unit == 'px'){
+			ss__tmpSize = this.ss____sizes[ss__0].ss__value;
+		}
+		else if (this.ss____sizes[ss__0].ss__unit == 'part'){
+			ss__tmpSize = this.ss____sizes[ss__0].ss__value * ss__totalForParts / ss__totalParts;
+		}
+		if (!ss__tmpSize){
+			console.log('epic fail');
+			continue;
+		}
+
+		var ss__1 = this.ss____items[ss__0];
+		if (this.ss____orient == ss__Strip__Orient__hor)
+			ss__1.ss__resize(ss__tmpSize,this.ss____h);
+		else
+			ss__1.ss__resize(this.ss____w, ss__tmpSize);
+	}
+};
+ss__Strip.prototype.ss__addItem = function(ss__p_itemWidget, ss__p_size){
+	if (typeof ss__p_itemWidget != 'object'){
+		console.log('epic fail');
+		return;
+	}
+	if (!(ss__p_itemWidget instanceof ss__Traliva.ss___WidgetBase)){
+		console.log('epic fail');
+		return;
+	}
+	var ss__size = this.ss___transformStringSize(ss__p_size);
+
+	var ss__eCell;
+	if (this.ss____orient == ss__Strip__Orient__hor){
+		ss__eCell = this.ss___eRowSingle.insertCell(this.ss___eRowSingle.cells.length);
+	}
+	else {
+		var ss__eRow = this.ss___eTable.insertRow(this.ss___eTable.rows.length);
+		ss__eCell = ss__eRow.insertCell(0);
+	}
+	ss__eCell.appendChild(ss__p_itemWidget.ss___div);
+	ss__eCell.style.padding = '0';
+	this.ss____items.push(ss__p_itemWidget);
+	this.ss____sizes.push(ss__size);
+};
+var ss__Strip__reSize = /^(\d+)(\s*)((px)|(part))/;
+ss__Strip.prototype.ss___transformStringSize = function(ss__str){
+	//Почему невалидное значение по умолчанию - чтобы для программиста не прошло незамеченным.
+	var ss__retVal = {ss__value:undefined, ss__unit:undefined};
+	if (ss__str){
+		//работа с регулярными выражениями
+		var ss__0 = ss__str.match(ss__Strip__reSize);
+		if (ss__0){
+			ss__retVal.ss__value = parseInt(ss__0[1]);
+			ss__retVal.ss__unit = ss__0[3];
+		}
+		else{
+			console.log('error: incorrect size parameter (incorrect string)');
+		}
+	}
+	else{
+		ss__retVal.ss__value = 1;
+		ss__retVal.ss__unit = 'part';
+	}
+	//console.log(JSON.stringify(ss__retVal));
+	return ss__retVal;
+};
+
+ss__Strip.prototype.ss__addSplitter = function(){
+	if (!this.ss____sizes.length){
+		//Проверка сильно усложнится, когда будет добавлена поддержка сокрытия элементов
+		console.log('impossible insert splitter into the start of a strip');
+		return;
+	}
+	var splitter = new ss__Traliva.Widget(this);
+	//Если стиль не установлен, то будет цвета подложки (сейчас это тёмно-серый #444)
+	//splitter.setContent(undefined, '#f00');//установка цвета по умолчанию
+	splitter._content.className = 'b__splitter';
+	splitter._content.style.cursor =
+		(this.ss____orient == ss__Strip__Orient__hor) ? 'col-resize' : 'row-resize';
+	splitter._content.addEventListener('mousedown', onMouseDown);
+	var splitterItemIndex = this.ss____sizes.length;
+	this.ss__addItem(splitter, '8px');
+	splitter._splitterClientPos;
+	
+	var strip = this;
+	splitter.__lastPos;
+	function onMouseDown(e){
+		splitter._content.removeEventListener('mousedown', onMouseDown);
+		if (strip.ss____sizes.length < (splitterItemIndex + 2)){
+			console.log('impossible insert splitter into the end of a strip');
+			return;
+		}
+		splitter._splitterClientPos = (strip.ss____orient == ss__Strip__Orient__hor) ?
+			e.clientX : e.clientY;
+		strip._content.addEventListener('mousemove', onMouseMove);
+		strip._content.addEventListener('mouseup', onMouseUp);
+		splitter.__lastPos =
+			(strip.ss____orient == ss__Strip__Orient__hor) ? e.clientX : e.clientY;
+		splitter.__lastPos -= splitter._splitterClientPos;
+		splitter.__prevInitSize = Object.create(strip.ss____sizes[splitterItemIndex - 1]);
+		splitter.__nextInitSize = Object.create(strip.ss____sizes[splitterItemIndex + 1]);
+	}
+	function onMouseUp(e){
+		strip._content.removeEventListener('mousemove', onMouseMove);
+		strip._content.removeEventListener('mouseup', onMouseUp);
+		splitter._content.addEventListener('mousedown', onMouseDown);
+		applyPosition(splitter.__lastPos);
+	}
+	function onMouseMove(e){
+		var nowPos = (strip.ss____orient == ss__Strip__Orient__hor) ? e.clientX : e.clientY;
+		nowPos = nowPos - splitter._splitterClientPos;
+		applyPosition(nowPos);
+		splitter.__lastPos = nowPos;
+	}
+	function applyPosition(nowPos){
+		//var dx = nowPos - splitter.__lastPos;
+		console.log(nowPos);
+		// копируем, потому что после изменений, возможно, придётся отказаться от них
+		//var prevSize = Object.create(strip.ss____sizes[splitterItemIndex - 1]);
+		//var nextSize = Object.create(strip.ss____sizes[splitterItemIndex + 1]);
+		var prevSize = strip.ss____sizes[splitterItemIndex - 1];
+		var nextSize = strip.ss____sizes[splitterItemIndex + 1];
+		console.log(JSON.stringify(prevSize));
+		
+		var a = prevSize.ss__unit == 'px';
+		var b = nextSize.ss__unit == 'px';
+		/*
+		Если слева в пикселях, а справа нет, то меняем размер только у левого
+		Если справа в пикселях, а слева нет, то
+			из общего размера вычитаем 
+		Если с обоих сторон в пикселях, то меняем оба значения
+		Если с обоих сторон в частях, то меняем оба значения
+		*/
+		if (a != b){
+			//var target = a ? prevSize : nextSize;
+			var targetInit = a ? splitter.__prevInitSize : splitter.__nextInitSize;
+			var candidate = nowPos - targetInit.ss__value;
+			if (a){
+				var candidate = splitter.__prevInitSize.ss__value + nowPos;
+				if (candidate >= 50){
+					var i = {};
+					i[splitterItemIndex - 1] = candidate + 'px';
+					strip.ss__setItemSize(i);
+				}
+			}
+			else{
+				//console.log(1);//boris here
+			}
+		}
+	}
+};
+ss__Strip.prototype.ss__setItemSize = function(ss__sizeMap){//usage example: wRoot.ss__setItemSize({0:'2part'});
+	for (var ss__0 in ss__sizeMap){
+		if (ss__0 >= this.ss____sizes){
+			console.log('epic fail');
+			continue;
+		}
+		var ss__1 = this.ss___transformStringSize(ss__sizeMap[ss__0]);
+		this.ss____sizes[ss__0] = ss__1;
+	}
+	this.ss____updateSizes();
+};
+// -- end class ss__Strip --
+
+// -- class ss__Stack --
+function ss__Stack(ss__p_parentWidget, ss__p_attr){
+	this.ss____items = [];
+	this.ss____zIndexCounter = 1;
+    this.ss___w = undefined;
+    this.ss___h = undefined;
+
+	this.ss___eStack = document.createElement('div');
+	this.ss___eStack.style.position = 'relative';
+	ss__Traliva.ss___WidgetBase.call(this, ss__p_parentWidget, ss__p_attr);
+};
+ss__Stack.prototype = Object.create(ss__Traliva.ss___WidgetBase.prototype);
+ss__Stack.prototype.constructor = ss__Stack;
+ss__Stack.prototype.ss___createContentElem = function(){
+	return this.ss___eStack;
+};
+ss__Stack.prototype.ss___onResized = function(ss__w,ss__h){
+    this.ss___w = ss__w;
+    this.ss___h = ss__h;
+	for (var ss__0 = 0 ; ss__0 < this.ss____items.length ; ss__0++){
+		var ss__item = this.ss____items[ss__0];
+		ss__item.ss__resize(ss__w,ss__h);
+	}
+};
+ss__Stack.prototype.ss__addItem = function(ss__p_itemWidget){
+	if (typeof ss__p_itemWidget != 'object'){
+		console.log('epic fail');
+		return;
+	}
+	if (!(ss__p_itemWidget instanceof ss__Traliva.ss___WidgetBase)){
+		console.log('epic fail');
+		return;
+	}
+	ss__p_itemWidget.ss___div.style.position = 'absolute';
+	ss__p_itemWidget.ss___div.style.zIndex = this.ss____zIndexCounter;
+	ss__p_itemWidget.ss___div.style.left = '0';
+	ss__p_itemWidget.ss___div.style.top = '0';
+	this.ss___eStack.appendChild(ss__p_itemWidget.ss___div);
+	this.ss____items.push(ss__p_itemWidget);
+    if (this.ss___w)
+        ss__p_itemWidget.ss__resize(this.ss___w, this.ss___h);
+
+	this.ss____zIndexCounter++;
+};
+ss__Stack.prototype.ss__removeItem = function(ss__p_index){
+    if (ss__p_index >= this.ss____items.length){
+        console.log('epic fail');
+        return;
+    }
+    this.ss___eStack.removeChild(this.ss____items[ss__p_index].ss___div);
+    this.ss____items.splice(ss__p_index, 1);
+};
+ss__Stack.prototype.ss___onChildVisibilityChanged = function(ss__wChild){
+    var ss__0, ss__1, ss__2;//ss__1 - top level widget index
+    for (ss__0 = 0 ; ss__0 < this.ss____items.length ; ss__0++){
+        if (this.ss____items[ss__0].ss__isVisible())
+            ss__1 = ss__0;
+    }
+    for (ss__0 = 0 ; ss__0 < this.ss____items.length ; ss__0++){
+        ss__2 = this.ss____items[ss__0];
+        ss__2.ss__setMouseEventsBlocked(ss__0 !== ss__1);
+    }
+};
+
 /*registerHelp('Label', {
             title: 'Виджет Label - тупо отображает текст',
             options:{
@@ -340,9 +617,9 @@ Logics.prototype.ss__processStateChanges = function(s){
     }
 }
 
-var wRoot = new ss__Traliva.ss__Strip(ss__Traliva.ss__Strip__Orient__hor);
+var wRoot = new ss__Strip(ss__Strip__Orient__hor);
 
-var wH1 = new ss__Traliva.ss__Strip(ss__Traliva.ss__Strip__Orient__vert, wRoot);
+var wH1 = new ss__Strip(ss__Strip__Orient__vert, wRoot);
     var wSelectComponent = new ss__Traliva.ss__Widget(wH1);
     wH1.ss__addItem(wSelectComponent, '48px');
     var wOptionsTitle = new ss__Traliva.ss__Widget(wH1);
@@ -351,8 +628,8 @@ var wH1 = new ss__Traliva.ss__Strip(ss__Traliva.ss__Strip__Orient__vert, wRoot);
     wH1.ss__addItem(wOptions);
 wRoot.ss__addItem(wH1);
 
-var wH2 = new ss__Traliva.ss__Strip(ss__Traliva.ss__Strip__Orient__vert, wRoot);
-    var wButtons = new ss__Traliva.ss__Strip(ss__Traliva.ss__Strip__Orient__hor, wH2);
+var wH2 = new ss__Strip(ss__Strip__Orient__vert, wRoot);
+    var wButtons = new ss__Strip(ss__Strip__Orient__hor, wH2);
         var wBnCreate = new ss__Traliva.ss__Widget(wButtons);
         wButtons.ss__addItem(wBnCreate);
         var wBnApplyState = new ss__Traliva.ss__Widget(wButtons);

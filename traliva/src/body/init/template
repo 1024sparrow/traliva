@@ -11,7 +11,7 @@ $Traliva.$LogicsStateSubscriber = $LogicsStateSubscriber;
 $Traliva.$StubWidget = $StubWidget;
 
 {%% slot_widget.js %%}
-$Traliva.$SlotWidget = $SlotWidget;
+//$Traliva.$SlotWidget = $SlotWidget;
 
 {%% construct_layout.js %%}
 {%% extender.js %%}
