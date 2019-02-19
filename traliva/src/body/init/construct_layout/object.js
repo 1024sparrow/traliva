@@ -37,13 +37,20 @@ for ($1 in $p_oLayout){
                 }
                 #USAGE_END#debug##
             }
-            $3.$_widget = $construct_layout($retVal, $3.$_widget, $p_oLayout.$bg || $p_defaultBackground, $p_widgets, $p_widgetScope, $p_innerCall || $used);
+            $3.$_widget = $construct_layout($retVal, $3.$_widget, $p_oLayout.$bg || $p_defaultBackground, $p_widgets, $p_widgetScope, $used);
             $children[$1].push($3);
         }
     }
 }
 $options.$_children = $children;
 $cand = new $p_oLayout.$type($retVal, $options);
+if ($p_oLayout.$_substate){
+    $cand.$useSubstate($p_oLayout.$_substate);
+    $p_widgetScope._.push($cand);
+    $Traliva.$__d.$publisher.$registerSubscriber($cand);
+}
+
+
 //$p_widgetScope[$p_oLayout.$id] = $cand;
 
 

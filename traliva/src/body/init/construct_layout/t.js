@@ -13,6 +13,16 @@ function $construct_layout($p_wParent, $p_oLayout, $p_defaultBackground, $p_widg
         $retVal,
         $used = $p_innerCall || {}// множество использованных в новом лэйауте id-шников
     ;
+    if (!$p_innerCall){
+        if (!$p_widgetScope._)
+            $p_widgetScope._ = [];
+        for ($1 = 0 ; $1 < $p_widgetScope._.length ; ++$1){
+            $0 = $p_widgetScope._[$1];
+            $Traliva.$__d.$publisher.$unregisterSubscriber($0);
+            $0.$destroy();
+        }
+        $p_widgetScope._ = [];
+    }
     if (!$p_oLayout){
         // (пружинка)
     }
@@ -31,6 +41,8 @@ function $construct_layout($p_wParent, $p_oLayout, $p_defaultBackground, $p_widg
     if (!$p_innerCall){
         // уничтожаем те виджеты, $id которых не попали в $used
         for ($0 in $p_widgetScope){
+            if ($0 === '_') // здесь у нас массив виджетов-контейнеров. Они всегда уничтожаются при смене лейаута.
+                continue;
             if (!$used.hasOwnProperty($0)){
                 $Traliva.$__d.$publisher.$unregisterSubscriber($p_widgetScope[$0]);
                 $w = $p_widgetScope[$0].$destroy(); // $w - DOM-элемент...
