@@ -17,4 +17,5 @@ $Traliva.$StubWidget = $StubWidget;
 {%% extender.js %%}
 {%% fill_param.js %%}
 {%% state_to_url_mapper.js %%}
+{%% visibility_switcher.js %%}
 {%% init.js %%}

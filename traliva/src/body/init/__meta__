@@ -15,7 +15,8 @@
                     "fill_param.js",
                     "init.js",
                     "history.js",
-                    "state_to_url_mapper.js"
+                    "state_to_url_mapper.js",
+                    "visibility_switcher.js"
                 ]
             }
         }

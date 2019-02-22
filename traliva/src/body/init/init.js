@@ -126,14 +126,17 @@ $Traliva.$init = function($o){
     
     $d.$wRoot.$_div.className = '$wRoot';//
     $d.$curLayout = undefined;
-    $d.$wRoot.$_onResized = function($d, $f){return function($w,$h){
-        var $lay = $d.$o.$get_layout($w,$h,$d.$o.$target);
+    $1 = new $VisibilitySwitcher();
+    $d.$publisher.$registerSubscriber($1);
+    $d.$wRoot.$_onResized = function($d, $f, $visibilitySwitcher){return function($w,$h){
+        var $0, $lay = $d.$o.$get_layout($w,$h,$d.$o.$target);
         $Widget.prototype.$_onResized.call($d.$wRoot, $w, $h);
         $f($lay);
+        $visibilitySwitcher.$_update();
         for ($0 = 0 ; $0 < $d.$logics.length ; $0++){
             $d.$logics[$0].$initializeGui($d.$o.$target, $lay);
         }
-    };}($d, $switchToLayout);
+    };}($d, $switchToLayout, $1);
 
     for ($0 = 0 ; $0 < $o.$states.$stateSubscribers.length ; $0++){
         $1 = $o.$states.$stateSubscribers[$0];

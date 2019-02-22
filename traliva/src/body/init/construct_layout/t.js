@@ -22,6 +22,7 @@ function $construct_layout($p_wParent, $p_oLayout, $p_defaultBackground, $p_widg
             $0.$destroy();
         }
         $p_widgetScope._ = [];
+        $Traliva.$__d.$visibilityMap = {}; // связь виджетов с подсостояниями, в которых описывается их видимость (для тех виджетов, у которых видимость устанавливается в лейауте)
     }
     if (!$p_oLayout){
         // (пружинка)

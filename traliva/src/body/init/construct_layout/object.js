@@ -13,7 +13,24 @@ $retVal = new $Widget($p_wParent);
 $childrenFields = $p_oLayout.$type.$widgetsFields;
 $children = {};
 $options = {};
+
+if ($p_oLayout.hasOwnProperty('$_visibleSubstate')){
+    console.log('*** *** *** ***');//
+    if (!$Traliva.$__d.$visibilityMap.hasOwnProperty($p_oLayout.$_visibleSubstate))
+        $Traliva.$__d.$visibilityMap[$p_oLayout.$_visibleSubstate] = {};
+    $1 = $Traliva.$__d.$visibilityMap[$p_oLayout.$_visibleSubstate];
+    $0 = $p_oLayout.$_visibleValue || '_';
+    if (!$1.hasOwnProperty($0))
+        $1[$0] = [];
+    $1 = $1[$0];
+    $1.push($retVal);
+}
+else
+    console.log('*** ***', $p_oLayout);//
+
 for ($1 in $p_oLayout){
+    if ($1 === '$_visibleSubstate' || $1 === '$_visibleValue')
+        continue;
     if (($childrenFields === undefined) || ($childrenFields.indexOf($1) < 0))
         $options[$1] = $p_oLayout[$1];
     else{
