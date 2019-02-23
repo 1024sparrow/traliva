@@ -9,7 +9,7 @@ function $construct_layout($p_wParent, $p_oLayout, $p_defaultBackground, $p_widg
 
     var $0, $cand, $w, $type = typeof $p_oLayout, $tmp,
         $options, $children, $childrenFields,
-        $1, $2, $3, $4,
+        $1, $2, $3, $4, $5,
         $retVal,
         $used = $p_innerCall || {}// множество использованных в новом лэйауте id-шников
     ;

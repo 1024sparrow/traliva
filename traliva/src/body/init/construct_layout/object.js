@@ -14,20 +14,6 @@ $childrenFields = $p_oLayout.$type.$widgetsFields;
 $children = {};
 $options = {};
 
-if ($p_oLayout.hasOwnProperty('$_visibleSubstate')){
-    console.log('*** *** *** ***');//
-    if (!$Traliva.$__d.$visibilityMap.hasOwnProperty($p_oLayout.$_visibleSubstate))
-        $Traliva.$__d.$visibilityMap[$p_oLayout.$_visibleSubstate] = {};
-    $1 = $Traliva.$__d.$visibilityMap[$p_oLayout.$_visibleSubstate];
-    $0 = $p_oLayout.$_visibleValue || '_';
-    if (!$1.hasOwnProperty($0))
-        $1[$0] = [];
-    $1 = $1[$0];
-    $1.push($retVal);
-}
-else
-    console.log('*** ***', $p_oLayout);//
-
 for ($1 in $p_oLayout){
     if ($1 === '$_visibleSubstate' || $1 === '$_visibleValue')
         continue;
@@ -55,6 +41,17 @@ for ($1 in $p_oLayout){
                 #USAGE_END#debug##
             }
             $3.$_widget = $construct_layout($retVal, $3.$_widget, $p_oLayout.$bg || $p_defaultBackground, $p_widgets, $p_widgetScope, $used);
+            if ($3.hasOwnProperty('$_visibleSubstate')){
+                console.log('*** *** *** ***');
+                if (!$Traliva.$__d.$visibilityMap.hasOwnProperty($3.$_visibleSubstate))
+                    $Traliva.$__d.$visibilityMap[$3.$_visibleSubstate] = {};
+                $4 = $Traliva.$__d.$visibilityMap[$3.$_visibleSubstate];
+                $5 = $3.$_visibleValue || '_';
+                if (!$4.hasOwnProperty($5))
+                    $4[$5] = [];
+                $4 = $4[$5];
+                $4.push($3.$_widget);
+            }
             $children[$1].push($3);
         }
     }
