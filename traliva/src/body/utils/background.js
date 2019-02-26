@@ -30,9 +30,9 @@
 */
 var $background__cache = {};
 function $background($p_e, $p_o){
-    #USAGE_BEGIN#debug##
+    //#USAGE_BEGIN#debug##
     if (typeof $p_o === 'string'){
-        $p_e.style.$background = 'url("' + $p_o + '") 0 0 no-repeat';
+        $p_e.style.background = 'url("' + $p_o + '") 0 0 no-repeat';
     }
     else{
         var $apply = function($p_e, $p_o, $p_id){ // $p_o - содержимое файла .sprite в виде JS-объекта
@@ -74,5 +74,5 @@ function $background($p_e, $p_o){
             });
         }
     }
-    #USAGE_END#debug##
+    //#USAGE_END#debug##
 };
