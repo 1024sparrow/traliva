@@ -33,6 +33,7 @@ for ($1 in $p_oLayout){
             if (typeof $3 === 'string')
                 $3 = {$_widget: $3};
             else{
+                $3 = Object.create($3); // само исходное описание лейаута нам нужно оставить немодифицированным, чтоб по нему можно было ещё раз сгенерировать
                 #USAGE_BEGIN#debug##
                 if (!$3.$_widget){
                     console.log('error');
