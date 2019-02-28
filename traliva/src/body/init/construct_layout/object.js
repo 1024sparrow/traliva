@@ -60,9 +60,9 @@ $options.$_children = $children;
 $cand = new $p_oLayout.$type($retVal, $options);
 if ($p_oLayout.$_substate){
     $cand.$useSubstate($p_oLayout.$_substate);
-    $p_widgetScope._.push($cand);
-    $Traliva.$__d.$publisher.$registerSubscriber($cand);
 }
+$p_widgetScope._.push($cand);
+$Traliva.$__d.$publisher.$registerSubscriber($cand);
 
 
 //$p_widgetScope[$p_oLayout.$id] = $cand;
