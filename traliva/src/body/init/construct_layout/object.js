@@ -42,7 +42,7 @@ for ($1 in $p_oLayout){
                 #USAGE_END#debug##
             }
             $3.$_widget = $construct_layout($retVal, $3.$_widget, $p_oLayout.$bg || $p_defaultBackground, $p_widgets, $p_widgetScope, $used);
-            if ($3.hasOwnProperty('$_visibleSubstate')){
+            if ($3.$_visibleSubstate){
                 if (!$Traliva.$__d.$visibilityMap.hasOwnProperty($3.$_visibleSubstate))
                     $Traliva.$__d.$visibilityMap[$3.$_visibleSubstate] = {};
                 $4 = $Traliva.$__d.$visibilityMap[$3.$_visibleSubstate];
