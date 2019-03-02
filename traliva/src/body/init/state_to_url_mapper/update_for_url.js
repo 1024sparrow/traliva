@@ -57,6 +57,7 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
     var $iArs, $oAr;
     var $used;
     var $appliedAr;//та часть ar, что была обработана и является корректной. Используется в случае некорректного URL для генерации корректного URL.
+    var $title;
     $for_iArs: for ($iArs = 0 ; $iArs < 2 ; ++$iArs){
         $oAr = $ars[$iArs];
         $tmp = this.$_tree;
@@ -100,6 +101,7 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
                                 else{
                                     console.log('no parameters');
                                     $appliedAr.push($oAr[$1]);
+                                    $title = $tmp.__list[$2][$3][$4].$title;
                                 }
                                 $used = true;
                                 console.log('PUSHING:', $cand);
@@ -134,6 +136,10 @@ $StateToUrlMapper.prototype.$updateForUrl = function($p_url, $p_ifInit){
         $fCleanUsed($roots[$iArs]);
     } // for $iArs
     //console.log('roots: ', JSON.stringify($roots, undefined, 2));
+    if (typeof $title === 'function'){
+        $title = $title(this.$_state);
+    }
+    document.title = $title || '';
 
     //console.log('==============================');
     if (!this.$_fContains){

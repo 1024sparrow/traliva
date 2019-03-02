@@ -20,6 +20,7 @@ $StateToUrlMapper.prototype.$processStateChanges = function(s){
     console.log('init path: ', $cand);
     var $stack = this.$_tree.slice();
     //console.log('**', this.$_tree);//
+    var $title;
     while ($stack.length){
         $0 = $stack.shift();
         console.log('----', $0);
@@ -44,6 +45,7 @@ $StateToUrlMapper.prototype.$processStateChanges = function(s){
                 }
             }
             if ($3){
+                $title = $1.$title;
                 $cand += $2 + '/';
                 if ($1.$params){
                     $cand += $3;
@@ -61,6 +63,10 @@ $StateToUrlMapper.prototype.$processStateChanges = function(s){
     $0 = $Traliva.$history.$_current();
     //console.log('current URL:', $Traliva.$history.$_current());
     if ($cand !== $0){
+        if (typeof $title === 'function'){
+            $title = $title(s);
+        }
+        document.title = $title || '';
         this.$urlUpdating = true;
         $Traliva.$history.replaceState({}, '', $cand);
         this.$urlUpdating = false;
