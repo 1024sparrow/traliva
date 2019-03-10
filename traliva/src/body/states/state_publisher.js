@@ -21,8 +21,8 @@ $StatePublisher.prototype.$setState = function($0){//parameter is an Object
     //$2 - subscr
     //$3 - s
 	this.$__state = $0;
-    if (!this.$_nodebug)
-        console.log('set state: '+JSON.stringify($0));
+    //if (!this.$_nodebug)
+    //    console.log('set state: '+JSON.stringify($0));
 	for (var $1 = 0 ; $1 < this.$__subscribers.length ; $1++){
 		var $2 = this.$__subscribers[$1];
         $2.$__d.$state = $0;
@@ -39,8 +39,8 @@ $StatePublisher.prototype.$registerSubscriber = function($0){
     //$0 - state
     //$1 - e
     //$2 - s
-    if ($Traliva.$debug && $Traliva.$debug.$state)
-        console.log('%cregister '+$0.constructor.name, 'color:#ffa');
+    /*if ($Traliva.$debug && $Traliva.$debug.$state)
+        console.log('%cregister '+$0.constructor.name, 'color:#ffa');*/
 	$0.$__m_publisher = this;
     try{
         $0.$__d.$state = this.$__state;
@@ -107,10 +107,11 @@ $StatePublisher.prototype.$__debugState = function($0, $1, $2){
     //$2 - p_action
     if (this.$_nodebug)
         return;
-    if ($2)
-        console.log('%c' + $2 + ' ' + $0.constructor.name + ': ' + JSON.stringify($1), 'color:#ffa');
+    if ($2){
+        //console.log('%c' + $2 + ' ' + $0.constructor.name + ': ' + JSON.stringify($1), 'color:#ffa');
+    }
     else{
-        console.log('%cprocess ' + $0.constructor.name + ': ' + JSON.stringify($1), 'color:#ffa');
+        //console.log('%cprocess ' + $0.constructor.name + ': ' + JSON.stringify($1), 'color:#ffa');
         $Traliva.$__d.$__debug.$debugStatesStatesWidget.$processState($0, this.$__state);
     }
 };
