@@ -33,19 +33,7 @@ function $switchToLayout($layId){
     $d.$layout = $layId;
 };
 
-$Traliva.$init = function($o){
-    #USAGE_BEGIN#debug##
-    if ($Traliva.hasOwnProperty('$__d')){
-        console.log('Пресечена попытка повторного вызова $Traliva.$init().');
-        return;
-    }
-    #USAGE_END#debug##
-
-    var $0, $1, $3;
-    //$0 - i
-    //$1 - tmp
-    //$3 - cand
-
+(function(){
     if (document){ // этот скрипт, помимо того как из браузера, вызывается также и из генератора серверного кода на NodeJS, а там нет document.
         $1 = document.createElement('div');
         $1.style.height = '1in';
@@ -62,6 +50,20 @@ $Traliva.$init = function($o){
         };
         document.body.removeChild($1);
     }
+})();
+
+$Traliva.$init = function($o){
+    #USAGE_BEGIN#debug##
+    if ($Traliva.hasOwnProperty('$__d')){
+        console.log('Пресечена попытка повторного вызова $Traliva.$init().');
+        return;
+    }
+    #USAGE_END#debug##
+
+    var $0, $1, $3;
+    //$0 - i
+    //$1 - tmp
+    //$3 - cand
 
     #USAGE_BEGIN#debug##
     console.log('начинаю инициализацию');
