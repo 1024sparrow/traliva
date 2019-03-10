@@ -46,6 +46,21 @@ $Traliva.$init = function($o){
     //$1 - tmp
     //$3 - cand
 
+    $1 = document.createElement('div');
+    $1.style.height = '1in';
+    $1.style.width = '1in';
+    document.body.appendChild($1);
+    $0 = $1.clientHeight;
+    $3 = $1.clientWidth;
+    $Traliva.$pixelPerInch = ($0 && $3) ? {
+        $hor: $3,
+        $vert: $0
+    } : {
+        $hor: 96,
+        $vert: 96
+    };
+    document.body.removeChild($1);
+
     #USAGE_BEGIN#debug##
     console.log('начинаю инициализацию');
     #USAGE_END#debug##
