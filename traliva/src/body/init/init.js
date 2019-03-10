@@ -34,7 +34,8 @@ function $switchToLayout($layId){
 };
 
 (function(){
-    if (document){ // этот скрипт, помимо того как из браузера, вызывается также и из генератора серверного кода на NodeJS, а там нет document.
+    var $0, $1, $3;
+    try{ // этот скрипт, помимо того как из браузера, вызывается также и из генератора серверного кода на NodeJS, а там нет document.
         $1 = document.createElement('div');
         $1.style.height = '1in';
         $1.style.width = '1in';
@@ -49,6 +50,8 @@ function $switchToLayout($layId){
             $vert: 96
         };
         document.body.removeChild($1);
+    }
+    catch(e){
     }
 })();
 
