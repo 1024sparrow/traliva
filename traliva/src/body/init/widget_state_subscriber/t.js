@@ -10,7 +10,7 @@ $p_descr - если виджет-подписчик, создаётся по с�
 #MASK#$Traliva$scroll:v,h##
 function $WidgetStateSubscriber($p_wContainer, $p_options, $p_descr){
     $StateSubscriber.call(this);
-    var $1;
+    var $0, $1, $2, $3, $4, $background, $overflow, $display;
     this.$__WidgetStateSubscriber = {
         $wContainer: $p_wContainer,
         $descr: $p_descr,
@@ -39,8 +39,24 @@ function $WidgetStateSubscriber($p_wContainer, $p_options, $p_descr){
         this.$__WidgetStateSubscriber.$children = $p_descr.$children || {}; // подсостояния-массивы
     }
     else{
-        if ($p_options)
-            return $p_options.$_children;
+        if ($p_options){
+            if ($1 = $p_options.$_children){
+                for ($2 in $1){
+                    for ($3 = 0 ; $3 < $1[$2].length ; ++$3){
+                        $0 = $1[$2][$3].$_widget.$_div;
+                        $background = $0.style.background;
+                        $overflow = $0.style.overflow;
+                        $display = $0.style.display;
+                        $0.removeAttribute('style');
+                        $0.style.background = $background;
+                        $0.style.overflow = $overflow;
+                        $0.style.display = $display;
+                    }
+                }
+            }
+            return $1;
+            //return $p_options.$_children;
+        }
     }
     // return undefined;
 };
