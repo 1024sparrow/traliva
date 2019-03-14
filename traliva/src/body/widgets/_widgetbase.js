@@ -138,7 +138,18 @@ $_WidgetBase.prototype.$resize = function($w, $h){
 	this.$_content.style.width = $w + 'px';
 	this.$_content.style.maxWidth = $w + 'px';
 	this.$_content.style.minWidth = $w + 'px';*/
-	this.$_onResized($w, $h);
+	if ($1 = this.$_onResized($w, $h)){
+        if ($1.$w){
+            $0.width = $2.$w + 'px';
+            $0.maxWidth = $2.$w + 'px';
+            $0.minWidth = $2.$w + 'px';
+        }
+        if ($1.$h){
+            $0.height = $1.$h + 'px';
+            $0.maxHeight = $1.$h + 'px';
+            $0.minHeight = $1.$h + 'px';
+        }
+    }
     //if (this.$_div.scrollHeight > this.$_div.clientHeight){
     /*if (this.$_content.scrollHeight > $h){
         this.$_div.onscroll = (function($self){

@@ -14,8 +14,10 @@ if ($p_oLayout.hasOwnProperty('$id')){
         console.error('Обнаружено дублирование идентификаторов виджетов. Идентификатор конфликта - ' + $p_oLayout.$id);
 }
 #USAGE_END#debug##
-if ($p_widgetScope.hasOwnProperty($p_oLayout))
+if ($p_widgetScope.hasOwnProperty($p_oLayout)){
     $retVal = $p_widgetScope[$p_oLayout].$__WidgetStateSubscriber.$wContainer;
+    $retVal.$cleanInlineStyles();
+}
 else{
     $retVal = new $Widget($p_wParent);
     if ($p_widgets.hasOwnProperty($p_oLayout)){

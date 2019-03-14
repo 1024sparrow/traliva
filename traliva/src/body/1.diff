@@ -1,0 +1,103 @@
+diff --git a/src/project b/src/project
+--- a/src/project
++++ b/src/project
+@@ -1 +1 @@
+-Subproject commit b6d86236a4bf1851303887a50a88d4403222d5b3
++Subproject commit b6d86236a4bf1851303887a50a88d4403222d5b3-dirty
+diff --git a/traliva/src/body/init/construct_layout/string.js b/traliva/src/body/init/construct_layout/string.js
+index d789aba..3602887 100644
+--- a/traliva/src/body/init/construct_layout/string.js
++++ b/traliva/src/body/init/construct_layout/string.js
+@@ -14,8 +14,10 @@ if ($p_oLayout.hasOwnProperty('$id')){
+         console.error('Обнаружено дублирование идентификаторов виджетов. Идентификатор конфликта - ' + $p_oLayout.$id);
+ }
+ #USAGE_END#debug##
+-if ($p_widgetScope.hasOwnProperty($p_oLayout))
++if ($p_widgetScope.hasOwnProperty($p_oLayout)){
+     $retVal = $p_widgetScope[$p_oLayout].$__WidgetStateSubscriber.$wContainer;
++    $retVal.$cleanInlineStyles();
++}
+ else{
+     $retVal = new $Widget($p_wParent);
+     if ($p_widgets.hasOwnProperty($p_oLayout)){
+diff --git a/traliva/src/body/init/widget_state_subscriber/t.js b/traliva/src/body/init/widget_state_subscriber/t.js
+index 91efe0e..be89947 100644
+--- a/traliva/src/body/init/widget_state_subscriber/t.js
++++ b/traliva/src/body/init/widget_state_subscriber/t.js
+@@ -10,7 +10,7 @@ $p_descr - если виджет-подписчик, создаётся по с
+ #MASK#$Traliva$scroll:v,h##
+ function $WidgetStateSubscriber($p_wContainer, $p_options, $p_descr){
+     $StateSubscriber.call(this);
+-    var $0, $1, $2, $3, $4, $background, $overflow, $display;
++    var $0, $1, $2, $3, $4;
+     this.$__WidgetStateSubscriber = {
+         $wContainer: $p_wContainer,
+         $descr: $p_descr,
+@@ -43,14 +43,7 @@ function $WidgetStateSubscriber($p_wContainer, $p_options, $p_descr){
+             if ($1 = $p_options.$_children){
+                 for ($2 in $1){
+                     for ($3 = 0 ; $3 < $1[$2].length ; ++$3){
+-                        $0 = $1[$2][$3].$_widget.$_div;
+-                        $background = $0.style.background;
+-                        $overflow = $0.style.overflow;
+-                        $display = $0.style.display;
+-                        $0.removeAttribute('style');
+-                        $0.style.background = $background;
+-                        $0.style.overflow = $overflow;
+-                        $0.style.display = $display;
++                        $1[$2][$3].$_widget.$cleanInlineStyles();
+                     }
+                 }
+             }
+diff --git a/traliva/src/body/widgets/_widgetbase.js b/traliva/src/body/widgets/_widgetbase.js
+index 33f4167..e37ae43 100644
+--- a/traliva/src/body/widgets/_widgetbase.js
++++ b/traliva/src/body/widgets/_widgetbase.js
+@@ -138,7 +138,18 @@ $_WidgetBase.prototype.$resize = function($w, $h){
+ 	this.$_content.style.width = $w + 'px';
+ 	this.$_content.style.maxWidth = $w + 'px';
+ 	this.$_content.style.minWidth = $w + 'px';*/
+-	this.$_onResized($w, $h);
++	if ($1 = this.$_onResized($w, $h)){
++        if ($1.$w){
++            $0.width = $2.$w + 'px';
++            $0.maxWidth = $2.$w + 'px';
++            $0.minWidth = $2.$w + 'px';
++        }
++        if ($1.$h){
++            $0.height = $1.$h + 'px';
++            $0.maxHeight = $1.$h + 'px';
++            $0.minHeight = $1.$h + 'px';
++        }
++    }
+     //if (this.$_div.scrollHeight > this.$_div.clientHeight){
+     /*if (this.$_content.scrollHeight > $h){
+         this.$_div.onscroll = (function($self){
+diff --git a/traliva/src/body/widgets/widget.js b/traliva/src/body/widgets/widget.js
+index dded260..105aacd 100644
+--- a/traliva/src/body/widgets/widget.js
++++ b/traliva/src/body/widgets/widget.js
+@@ -22,6 +22,16 @@ function $Widget($p_parentWidget, $p_attr){
+ };
+ $Widget.prototype = Object.create($_WidgetBase.prototype);
+ $Widget.prototype.constructor = $Widget;
++$Widget.prototype.$cleanInlineStyles = function(){
++    var $0 = this.$_div, $background, $overflow, $display;
++    $background = $0.style.background;
++    $overflow = $0.style.overflow;
++    $display = $0.style.display;
++    $0.removeAttribute('style');
++    $0.style.background = $background;
++    $0.style.overflow = $overflow;
++    $0.style.display = $display;
++};
+ $Widget.prototype.$_onResized = function($w, $h){
+ 	this.$__w = $w;
+ 	this.$__h = $h;
+diff --git a/traliva_kit b/traliva_kit
+index ea80114..6ed0c1f 160000
+--- a/traliva_kit
++++ b/traliva_kit
+@@ -1 +1 @@
+-Subproject commit ea80114db940e2feabec523789ac841fd56b0d8b
++Subproject commit 6ed0c1f0b7f283758b247fc9a10f170c0f9892ff

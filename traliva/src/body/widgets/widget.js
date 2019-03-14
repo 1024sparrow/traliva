@@ -22,6 +22,16 @@ function $Widget($p_parentWidget, $p_attr){
 };
 $Widget.prototype = Object.create($_WidgetBase.prototype);
 $Widget.prototype.constructor = $Widget;
+$Widget.prototype.$cleanInlineStyles = function(){
+    var $0 = this.$_div, $background, $overflow, $display;
+    $background = $0.style.background;
+    $overflow = $0.style.overflow;
+    $display = $0.style.display;
+    $0.removeAttribute('style');
+    $0.style.background = $background;
+    $0.style.overflow = $overflow;
+    $0.style.display = $display;
+};
 $Widget.prototype.$_onResized = function($w, $h){
 	this.$__w = $w;
 	this.$__h = $h;
