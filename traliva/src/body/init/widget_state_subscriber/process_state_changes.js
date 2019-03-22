@@ -17,7 +17,7 @@ $WidgetStateSubscriber.prototype.$processStateChanges = function(s){
     ;
     if ($descr && $descr.$children){
         console.log('-------- children detected:', JSON.stringify($descr.$children), $descr.$children);//
-        $0 = $descr
+        $0 = $descr;
         for ($1 in $descr.$children){
             $arrSubstate = s;
             if ($descr.$children[$1].$substate){

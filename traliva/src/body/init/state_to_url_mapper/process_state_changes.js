@@ -59,8 +59,11 @@ $StateToUrlMapper.prototype.$processStateChanges = function(s){
             }
         }
     }
-    //console.log('test URL: ', $cand);
-    $0 = $Traliva.$history.$_current();
+    console.log('test URL: ', $cand);
+    if ($Traliva.$debug && $Traliva.$debug.$url)
+        $0 = $Traliva.$history.$_current();
+    else
+        $0 = location.href;
     //console.log('current URL:', $Traliva.$history.$_current());
     if ($cand !== $0){
         if (typeof $title === 'function'){

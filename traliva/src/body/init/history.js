@@ -5,57 +5,59 @@
 };*/
 
 // Альтернативная версия Истории, используемая только в случае режима отладки 'url'
-$Traliva.$history = {
-    $__paths: ['/'],
-    $__currentIndex: 0,
-    replaceState: function($p_a, $p_b, $p_path){
-        console.log('%creplaceState(url) --> '+$p_path, 'color: #faa');
-        if ($Traliva.$debug.$url){
-            this.$__paths[this.$__currentIndex] = $p_path;
-            this.$__aa($p_path);
-        }
-        else{
-            history.replaceState($p_a, $p_b, $p_path);
-        }
-    },
-    pushState: function($p_a, $p_b, $p_path){
-        console.log('%cpushState(url) --> '+$p_path, 'color: #faa');
-        if ($Traliva.$debug.$url){
-            this.$__currentIndex++;
-            if (this.$__currentIndex < this.$__paths.length)
+if ($Traliva.$debug && $Traliva.$debug.$url){
+    $Traliva.$history = {
+        $__paths: ['/'],
+        $__currentIndex: 0,
+        replaceState: function($p_a, $p_b, $p_path){
+            console.log('%creplaceState(url) --> '+$p_path, 'color: #faa');
+            if ($Traliva.$debug.$url){
                 this.$__paths[this.$__currentIndex] = $p_path;
-            else
-                this.$__paths.push($p_path);
-            this.$__aa($p_path)
-        }
-        else{
-            history.pushState($p_a, $p_b, $p_path);
-        }
-    },
-    $_goNext: function(){
-        if ((this.$__currentIndex + 1) < this.$__paths.length){
-            this.$__currentIndex++;
-            this.$__aa(this.$__paths[this.$__currentIndex])
-        }
-    },
-    $_goBack: function(){
-        if (this.$__currentIndex > 0){
-            this.$__currentIndex--;
-            this.$__aa(this.$__paths[this.$__currentIndex])
-        }
-    },
-    $_goCurrent: function(){
-        this.$__aa(this.$__paths[this.$__currentIndex]);
-    },
-    $_current: function(){
-        return this.$__paths[this.$__currentIndex];
-    },
-    $__aa: function(p){
-        this.$_updateUrl(p);
-        if ($Traliva.$__d.hasOwnProperty('$stateToUrlMapper'))
-            $Traliva.$__d.$stateToUrlMapper.$updateForUrl(p);
-    },
-    // сюда в классе виджета,отображающего URL в отладочной панели, должна быть записана функция, обновляющая URL в отладочной панели.
-    $_updateUrl: function(){console.log('oops..');}
-};
+                this.$__aa($p_path);
+            }
+            else{
+                history.replaceState($p_a, $p_b, $p_path);
+            }
+        },
+        pushState: function($p_a, $p_b, $p_path){
+            console.log('%cpushState(url) --> '+$p_path, 'color: #faa');
+            if ($Traliva.$debug.$url){
+                this.$__currentIndex++;
+                if (this.$__currentIndex < this.$__paths.length)
+                    this.$__paths[this.$__currentIndex] = $p_path;
+                else
+                    this.$__paths.push($p_path);
+                this.$__aa($p_path)
+            }
+            else{
+                history.pushState($p_a, $p_b, $p_path);
+            }
+        },
+        $_goNext: function(){
+            if ((this.$__currentIndex + 1) < this.$__paths.length){
+                this.$__currentIndex++;
+                this.$__aa(this.$__paths[this.$__currentIndex])
+            }
+        },
+        $_goBack: function(){
+            if (this.$__currentIndex > 0){
+                this.$__currentIndex--;
+                this.$__aa(this.$__paths[this.$__currentIndex])
+            }
+        },
+        $_goCurrent: function(){
+            this.$__aa(this.$__paths[this.$__currentIndex]);
+        },
+        $_current: function(){
+            return this.$__paths[this.$__currentIndex];
+        },
+        $__aa: function(p){
+            this.$_updateUrl(p);
+            if ($Traliva.$__d.hasOwnProperty('$stateToUrlMapper'))
+                $Traliva.$__d.$stateToUrlMapper.$updateForUrl(p);
+        },
+        // сюда в классе виджета,отображающего URL в отладочной панели, должна быть записана функция, обновляющая URL в отладочной панели.
+        $_updateUrl: function(){console.log('oops..');}
+    };
+}
 //'---------------init/history.js---------------';
