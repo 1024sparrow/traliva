@@ -125,6 +125,7 @@ def process(p_js, p_css, p_js_css):
         cur_blocks = []
         ifEnable = True
         #id_cand = ''
+        fragments = []
         for fragment in fil['text']:
             s = 0
             cand = ''
@@ -213,7 +214,10 @@ def process(p_js, p_css, p_js_css):
                 if s == 0 and ifEnable:
                     cand += i
             cand += broken
-            fragment['text'] = cand
+            if len(cand):
+                fragment['text'] = cand
+                fragments.append(fragment)
+        fil['text'] = fragments # во fragments нет фрагментов с пустым текстом
 
 def _updateEnableState(p_curBlocks, p_activatedSet):
     for i in p_curBlocks:
