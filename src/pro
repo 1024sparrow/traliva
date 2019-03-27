@@ -1,0 +1,10 @@
+module.exports = {
+    target: '../compiled',
+    file:{
+    },
+    dir:{
+        proj: 'build_scripts/proj.sh',
+        project_final: 'build_scripts/project_final.sh',
+        traliva_final: 'build_scripts/traliva_final.sh'
+    }
+}

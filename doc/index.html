@@ -1,0 +1,93 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Фреймворк Тралива</title>
+<link rel="stylesheet" type="text/css" href="style/style.css">
+</head>
+<body>
+<h1>Фреймворк Тралива</h1>
+<p>Версия 2.1</p>
+<p><a href="spec_changes/index.html">Изменения относительно предыдущей версии спецификации</a></p>
+<p>Проект Тралива предназначен для упрощения и унификации процесса создания веб-приложений (сайтов) и нативных приложений. Тралива должна давать возможность программисту разрабатывать приложения для разных платформ, но сама сборка целевого приложения работает только на платформах Unix & Linux. Это допущение сделано для максимального упрощения кода проекта.</p>
+<p>Для сборки необходима сборочная утилита <a href="https://github.com/1024sparrow/compiler" target="_blank">compiler</a>.</p>
+<p>После того, как склонировали репозиторий traliva, вам необходимо выполнить находящийся там скрипт <hl>init_submodules.sh</hl>, и вы увидите следующие файлы:</p>
+<ul>
+    <!--<li><a href="xxx_doc/index.html">xxx_doc/</a> - директория для спецификации проекта xxx</li>-->
+    <li><hl>init_submodules.sh</hl> - скрипт для инициальной настройки git-подмодулей.</li>
+    <li><hl>traliva/</hl> - исходники фреймфорка Тралива (не для правки)</li>
+    <li><a href="traliva_kit/index.html">traliva_kit/</a> - набор компонентов для вашего проекта</li>
+
+    <li><a href="src/index.html">src/</a> - исходники проекта</li>
+    <li><hl>src/build_scripts/targets/</hl> - директория с правилами сборки под разные платформы (они хранятся в отдельных репозиториях)</li>
+    <li><hl>src/project_compiled/</hl> - директория с бессерверным вариантом сборки (для разработчика)</li>
+    <li><hl>compiled/</hl> - результат компиляции исходников. Это ещё не рузультат разработки.</li>
+    <li><a href="compiled_project/index.html">compiled/project/</a> - результат сборки JavaScript-овой части приложения. Это то, что идёт на вход скриптам, генерирующим результат под разные платформы.</li>
+    <li><hl>compiled/targets/</hl> - результат сборки под разные платформы. Этот код не для правки программистом - при ближайшей пересборке изменения, внесённые программистом, будут затёрты.</li>
+    <li><hl>targets/</hl> - результат сборки под разные платформы. Это копия из compiled/targets, модифицируемая программистом. При пересборке проекта будет осуществлён git-merge с результатом сборки в compiled/targets</li>
+</ul>
+<h2>Порядок работы с проектом</h2>
+<p>Для начала убедитесь, что сборочная утилита <a href="https://github.com/1024sparrow/compiler">compiler</a> у вас установлена:</p><c><prebash>$</prebash> compile --help</c>
+<p>Разработку кода можно условно разбить на следующие 4 этапа:</p>
+<ol>
+    <li><a href="stage_1/index.html">Этап 1. Разработка спецификации программного изделия.</a> Можно пропустить, если вы не собираетесь распределять работу над проектом между несколькими разработчиками.</li>
+    <li><a href="stage_2/index.html">Этап 2. Разработка библиотеки компонентов.</a> Можно пропустить, если в стандартной библиотеке компонентов есть все необходимые вам компоненты.</li>
+    <li><a href="stage_3/index.html">Этап 3. Разработка интерфейса программы.</a></li>
+    <li><a href="stage_4/index.html">Этап 4. Реализация низкоуровнего API (серверной части).</a> Можно пропустить в тех случаях, когда скрипты, генерирующие результаты под нужные платформы, генерируют ровно то, что вам нужно.</li>
+</ol>
+
+<h3>Варианты сборки:</h3>
+<ul>
+    <li><c><prebash>$</prebash> compile tests/src/tests.pro<comment> - сборка тестового приложения для демонстрации работы компонентов TralivaKit</comment></c></li>
+    <li><c><prebash>$</prebash> compile src/project/project.pro<comment> - сборка бессерверной части (для разработчика). Под платформы код не формируется</comment></c></li>
+    <li><c><prebash>$</prebash> compile src/pro<comment> - сборка под платформы. Бессерверный вариант не собирается</comment></c></li>
+</ul>
+<h3>Поиграйтесь с примерами</h3>
+<!--<p>После того как склонировали репозиторий traliva, вам необходимо выполнить находящийся там скрипт <hl>init_submodules.sh</hl></p>-->
+<p>В разных ветках git-подподулей <a href="https://github.com/1024sparrow/traliva_example">src/project</a> и <a href="https://github.com/1024sparrow/traliva_kit">traliva_kit</a> находятся разные преднастроенные примеры преоктов и библиотеки компонентов соответственно.</p>
+<p>Перед началом работы вам необходимо либо явно переключиться на нужную ветку в вышеуказанных подмодулях и сделать git-pull, либо просто выполнить скрипт <hl>init_submodules.sh</hl>, который настроит всё по-дефолту.</p>
+<h3>Создайте свой проект</h3>
+<p>Ваш проект - это ваш проект. И для начала вам необходимо сделать своё ответвление проекта.</p>
+<p>Т.е. вы не клонируете проект с github-а, а инициализируете новый репозиторий, и сливаете туда код из репозитория с github-а, либо клонируте уже ваш собственный ранее созданный репозиторий. Инициализация такого репозитория называется fork(ответвление). Ниже описывается процедура ответвления.</p>
+<p>Допустим, ваш проект называется <hl>abc</hl>. В выбранной для проекта директории (которая, наверное, так и называется - abc) выполните следующие команды:</p>
+<c>
+<prebash>$</prebash> mkdir repos && cd repos
+<prebash>repos$</prebash> for i in {abc,abc_kit,abc_proj}; do git init --bare --shared $i.git; done
+<prebash>repos$</prebash> cd ..
+<prebash>$</prebash> git clone repos/abc.git && cd abc
+<prebash>abc$</prebash> git remote add parent_github https://github.com/1024sparrow/traliva.git
+<prebash>abc$</prebash> git remote set-url parent_github --push "Вы не можете заливать изменения в репозиторий родительского проекта"
+<prebash>abc$</prebash> git pull parent_github master
+<prebash>abc$</prebash> git push --set-upstream origin master
+<prebash>abc$</prebash> vim .gitmodules
+    <comment>здесь мы заменяем адреса гитхабовские на свои собственные
+    [submodule "project"]
+        path = src/project
+<span style="color:#a00">-       url = https://github.com/1024sparrow/traliva_example.git</span>
+<span style="color:#0a0">+       url = ../abc_proj.git - относительные пути - относительно пути расположения репозитория abc.git</span>
+        branch = master
+    [submodule "traliva_kit"]
+        path = traliva_kit
+<span style="color:#a00">-       url = https://github.com/1024sparrow/traliva_kit.git</span>
+<span style="color:#0a0">+       url = ../abc_kit.git</span>
+        branch = master</comment>
+
+<prebash>abc$</prebash> ./init_submodules.sh
+<prebash>abc$</prebash> pushd traliva_kit
+<prebash>abc/traliva_kit$</prebash> git remote add parent_github https://github.com/1024sparrow/traliva_kit.git
+<prebash>abc/traliva_kit$</prebash> git remote set-url parent_github --push "Вы не можете заливать изменения в репозиторий родительского проекта"
+<prebash>abc/traliva_kit$</prebash> git pull parent_github master <comment><-- вместо master - та ветка, которую бы вы хотели "форкнуть"</comment>
+<prebash>abc/traliva_kit$</prebash> git push --set-upstream origin master <comment><-- здесь master - это уже в вашем собственном репозитории</comment>
+<prebash>abc/traliva_kit$</prebash> popd
+<prebash>abc$</prebash> pushd src/project
+<prebash>abc/src/project$</prebash> git remote add parent_github https://github.com/1024sparrow/traliva_example.git
+<prebash>abc/src/project$</prebash> git remote set-url parent_github --push "Вы не можете заливать изменения в репозиторий родительского проекта"
+<prebash>abc/src/project$</prebash> git pull parent_github master <comment><-- вместо master - та ветка, которую бы вы хотели "форкнуть"</comment>
+<prebash>abc/src/project$</prebash> git push --set-upstream origin master <comment><-- здесь master - это уже в вашем собственном репозитории</comment>
+<prebash>abc/src/project$</prebash> popd
+<prebash>abc$</prebash> git add .
+<prebash>abc$</prebash> git commit -m"first commit after fork"
+<prebash>abc$</prebash> git push
+</c>
+
+</body>
+</html>

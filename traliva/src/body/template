@@ -1,0 +1,20 @@
+var $Traliva;
+if ($Traliva)
+	console.log('epic fail');
+else {
+    (function(){
+	$Traliva = {
+        $history: history
+    };
+    // ---- begin of states block ----
+    {%% states.js %%}
+    // ---- begin of widgets block ----
+    {%% widgets.js %%}
+    // ---- begin of init block ----
+    {%% init.js %%}
+    // ---- begin of utils block ----
+    {%% utils.js %%}
+    // ---- begin of network block ----
+    {%% network.js %%}
+    })(); // end of "$Traliva = {..."
+}

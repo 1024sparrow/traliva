@@ -1,0 +1,44 @@
+//$Traliva.$pixelPerInch
+/*(function(){
+    var $0, $1, $3;
+    try{ // этот скрипт, помимо того как из браузера, вызывается также и из генератора серверного кода на NodeJS, а там нет document.
+        $1 = document.createElement('div');
+        $1.style.height = '1in';
+        $1.style.width = '1in';
+        document.body.appendChild($1);
+        $0 = $1.clientHeight;
+        $3 = $1.clientWidth;
+        $Traliva.$pixelPerInch = ($0 && $3) ? {
+            $hor: $3,
+            $vert: $0
+        } : {
+            $hor: 0,
+            $vert: 0
+        };
+        document.body.removeChild($1);
+    }
+    catch(e){
+    }
+})();*/
+
+{%% history.js %%}
+{%% debug.js %%}
+
+{%% widget_state_subscriber.js %%}
+$Traliva.$WidgetStateSubscriber = $WidgetStateSubscriber;
+
+{%% logics_state_subscriber.js %%}
+$Traliva.$LogicsStateSubscriber = $LogicsStateSubscriber;
+
+{%% stub_widget.js %%}
+$Traliva.$StubWidget = $StubWidget;
+
+{%% slot_widget.js %%}
+//$Traliva.$SlotWidget = $SlotWidget;
+
+{%% construct_layout.js %%}
+{%% extender.js %%}
+{%% fill_param.js %%}
+{%% state_to_url_mapper.js %%}
+{%% visibility_switcher.js %%}
+{%% init.js %%}

@@ -1,12 +1,3 @@
 {
-    "files":[
-        {
-            "target": "traliva.js",
-            "source":{
-                "template": "template",
-                "list": ["body.js"]
-            }
-        }
-    ],
-    "dir_proc":["deploy"]
+    "dir_proc":["traliva_final"]
 }

@@ -1,0 +1,15 @@
+{
+    "files":[
+        {
+            "target": "state_to_url_mapper.js",
+            "source":{
+                "template": "t.js",
+                "list":[
+                    "constructor.js",
+                    "process_state_changes.js",
+                    "update_for_url.js"
+                ]
+            }
+        }
+    ]
+}

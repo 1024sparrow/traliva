@@ -1,0 +1,127 @@
+Поиграйтесь с примерами.
+------------------------
+
+После того как склонировали репозиторий traliva, вам необходимо выполнить находящийся там скрипт init_submodules.sh
+
+src/ - исходники traliva
+src/build_scripts/targets/ - директория с правилами сборки под разные платформы (они хранятся в отдельных репозиториях)
+src/project_compiled/ - директория с бессерверным вариантом сборки (для разработчика)
+compiled/ - результат компиляции исходников. Это ещё не рузультат разработки.
+targets/ - проекты под разные платформы. Это копия из compiled, модифицируемая программистом.
+
+Сборка:
+compile src/pro - сборка под платформы. Бессерверный вариант не собирается.
+compile src/project/project.pro - сборка бессерверной части (для разработчика). Под платформы код не формируется.
+compile tests/src/tests.pro - сборка тестового приложения для демонстрации работы компонентов TralivaKit.
+
+Создайте свой проект.
+---------------------
+Ваш проект - это ваш проект. И для начала вам необходимо сделать своё ответвление проекта.
+Т.е. вы не клонируете проект с github-а, а инициализируете новый репозиторий, и сливаете туда код из репозитория с github-а, либо клонируте уже ваш собственный ранее созданный репозиторий. Инициализация такого репозитория называется fork. Ниже описывается процедура fork:
+Допустим, ваш проект называется abc. В выбранной для проекта директории (которая, наверное, так и называется - abc) выполните следующие команды:
+
+$ mkdir repos && cd repos
+repos$ for i in {abc,abc_kit,abc_proj}; do git init --bare --shared $i.git; done
+repos$ cd ..
+$ git clone repos/abc.git && cd abc
+abc$ git remote add parent_github https://github.com/1024sparrow/traliva.git
+abc$ git remote set-url parent_github --push "Вы не можете заливать изменения в репозиторий родительского проекта"
+abc$ git pull parent_github master
+abc$ git push --set-upstream origin master
+abc$ vim .gitmodules
+ здесь мы заменяем адреса гитхабовские на свои собственные
+    [submodule "project"]
+        path = src/project
+-       url = https://github.com/1024sparrow/traliva_example.git
++       url = ../abc_proj.git - относительные пути - относительно пути расположения репозитория abc.git
+        branch = master
+    [submodule "traliva_kit"]
+        path = traliva_kit
+-       url = https://github.com/1024sparrow/traliva_kit.git
++       url = ../abc_kit.git
+        branch = master
+
+abc$ ./init_submodules.sh
+abc$ pushd traliva_kit
+abc/traliva_kit$ git remote add parent_github https://github.com/1024sparrow/traliva_kit.git
+abc/traliva_kit$ git remote set-url parent_github --push "Вы не можете заливать изменения в репозиторий родительского проекта"
+abc/traliva_kit$ git pull parent_github master
+abc/traliva_kit$ git push --set-upstream origin master
+abc/traliva_kit$ popd
+abc$ pushd src/project
+abc/src/project$ git remote add parent_github https://github.com/1024sparrow/traliva_example.git
+abc/src/project$ git remote set-url parent_github --push "Вы не можете заливать изменения в репозиторий родительского проекта"
+abc/src/project$ git pull parent_github master
+abc/src/project$ git push --set-upstream origin master
+abc/src/project$ popd
+abc$ git add .
+abc$ git commit -m"first commit after fork"
+abc$ git push
+
+Когда выходит новая версия Traliva
+----------------------------------
+Будьте осторожны с обновлением Traliva: необходимо сохранить резервную копию директории с вашим проектом - просто скопируйте директорию abc. Репозитории копировать не надо - пока вы изменения не за-push-ите, там ничего сломаться не может.
+Процедура получения обновлений из родительского проекта (который вы в своё время форкнули) следующая: заходите в соответствующую директорию и выполняете git pull parent_github <ветка>. Обновление всего: сначала обновляете корневой проект (потомок traliva.git), затем выполняете скрипт init_submodules.sh, и только потом обновляете отдельно каждый подмодуль (потомки traliva_kit.git и traliva_example.git).
+
+
+
+===============================================
+
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<!--[if IE 8 ]><html dir="ltr" lang="ru" class="ie8"><![endif]-->
+<!--[if IE 9 ]><html dir="ltr" lang="ru" class="ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html dir="ltr" lang="ru">
+<!--<![endif]-->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Уличный стиль и минимализм | Одежда из натуральных тканей | Гнездо Маркет</title>
+<base href="https://gnezdo-market.ru/" />
+<meta name="description" content="Одежда с дизайнерскими принтами – лимитированные коллекции, экологичные материалы, минимализм. 
+Без котиков и сисек, но в центре внимания!" />
+<meta name="keywords" content= "дизайнерская одежда, футболки, свитшоты, платья, мандалы, принты, минимализм, уличный стиль, экологичные материалы " />
+<meta property="og:title" content="Уличный стиль и минимализм | Одежда из натуральных тканей | Гнездо Маркет" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://gnezdo-market.ru/" /><meta property="og:image" content="https://gnezdo-market.ru/image/catalog/gnezdo/og_image.png" />
+<meta property="og:site_name" content="Гнездо Маркет" />
+
+/robots.txt
+
+----------------------------------------------
+
+    Traliva.debug = true;
+    var Traliva__log__re = /\(([^\)]*)\)/gi;
+    Traliva.log = function(){
+        var $0, error, $1;
+        if (Traliva.debug){
+            error = new Error();
+            $0 = error.stack.match(Traliva__log__re);
+            $1 = Array.prototype.slice.call(arguments);
+            $0 = $0[1];
+            $1.unshift($0.substr(1, $0.length - 2) + ':\n');
+            console.log.apply(console, $1);
+        }
+    };
+
+    Traliva.log('update arrows data:', s.data);//
+
+----------------------------------------------
+
+
+console.log('1. ', ss__Traliva, $0);
+var $0;
+(function(){
+var text = 'class A{constructor(){console.log(\'constructor A\');}};class B{constructor(){console.log(\'constructor B\');}};ss__Traliva.ss__init({a: new A(),b: new B()});';
+var ss__Traliva = {
+    ss__init: function($1){
+        $0 = $1;
+    }
+};
+console.log('2. ', ss__Traliva, $0);
+eval(text);
+console.log('3. ', ss__Traliva, $0);
+})();
+console.log('4. ', ss__Traliva, $0);

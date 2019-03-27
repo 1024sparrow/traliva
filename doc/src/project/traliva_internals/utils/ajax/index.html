@@ -1,0 +1,116 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>ajax</title>
+<link rel="stylesheet" type="text/css" href="style/style.css">
+<style>
+td.th{
+    border-bottom: 1px solid #ffa;
+    border-left: 2px solid #ffa;
+    padding: 0 10px 0 10px;
+}
+td{
+    border-bottom: 1px solid #222;
+    padding: 0 10px 0 10px;
+}
+</style>
+</head>
+<body>
+<a href="../index.html" style="font-size=2em;color:#f60;border:1px solid #f60;border-radius:5px;">НАВЕРХ</a>
+<h1>ajax</h1>
+<p>Функция загрузки данных с удалённого сервера (роль которого, возможно, играет локальный перехватчик запросов, если целевая платформа - десктопное или мобильное приложение).</p>
+<p>Загрузка (как с сервера, так и на сервер) данных производится асинхронно и только асинхронно.</p>
+<p>Возвращаемое значение - отсутствует.</p>
+<p>Принимаемые параметры: принимает единственный параметр - объект со следующими свойствами:</p>
+<ul>
+<table>
+<tr>
+    <td class="th">Тип</td>
+    <td class="th">Название</td>
+    <td class="th">Обязательный</td>
+    <td class="th">Значение<br/>по умолчанию</td>
+    <td class="th">Назначение</td>
+</tr>
+<tr>
+    <td><li>строка</li></td>
+    <td>sourcePath</td>
+    <td>да</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr>
+    <td><li>функция</li></td>
+    <td>readyFunc</td>
+    <td>нет</td>
+    <td>отсутствует</td>
+    <td></td>
+</tr>
+<tr>
+    <td><li>функция</li></td>
+    <td>errorFunc</td>
+    <td>нет</td>
+    <td>отсутствует</td>
+    <td></td>
+</tr>
+<tr>
+    <td><li>int</li></td>
+    <td>timeout</td>
+    <td>нет</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr>
+    <td><li>111</li></td>
+    <td>dataToPost</td>
+    <td>нет</td>
+    <td>отсутствует</td>
+    <td></td>
+</tr>
+<tr>
+    <td><li>method</li></td>
+    <td></td>
+    <td>нет</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr>
+    <td><li></li></td>
+    <td>mimetype</td>
+    <td>нет</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr>
+    <td><li>111</li></td>
+    <td>addonHttpHeaders</td>
+    <td>нет</td>
+    <td>отсутствует</td>
+    <td></td>
+</tr>
+</table>
+<!--<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>-->
+</ul>
+function ajax - take data from server (always asynchroniusly!). Realized partially (just simplest realization).
+return value - none
+if called without parameter will be printed short help in console
+parameter is an object with the following fields:
+	type		name		description
+	+===		+===		+==========
+	string		sourcePath	network path to load data from
+	function	readyFunc(result) take result in this function
+	function	errorFunc(isNetworkProblem)
+					parameter of this function is Boolean
+					("true" if caused of timeout or network connection breakup)
+					default is write error to console
+	int		timeout		timeout in milliseconds. default is 3000.
+	string		dataToPost	if set, method is "post" instead of default "get". This data will be sent to server.
+	string		mimetype	mimetype of content. default is "text/plain"
+Caution: if some fields in parameter "p" absense, it will be added as undefined. Take this into account if you would use that object later.
+</body>
+</html>

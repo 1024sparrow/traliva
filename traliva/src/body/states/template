@@ -1,0 +1,12 @@
+//(function(){
+{%% state_publisher.js %%}
+$Traliva.$StatePublisher = $StatePublisher;
+
+{%% state_subscriber.js %%}
+$Traliva.$StateSubscriber = $StateSubscriber;
+
+#USAGE_BEGIN#disabled##
+{%% state_debug_widget.js %%}
+$Traliva.$StateDebugWidget = $StateDebugWidget;
+#USAGE_END#disabled##
+//})();

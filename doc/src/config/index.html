@@ -1,0 +1,32 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>config</title>
+<link rel="stylesheet" type="text/css" href="style/style.css">
+</head>
+<body>
+<a href="../index.html" style="font-size=2em;color:#f60;border:1px solid #f60;border-radius:5px;">НАВЕРХ</a>
+<h1>config</h1>
+<p></p>
+<c>
+<comment>## СЖАТИЕ КОДА **************</comment>
+
+<comment># заменять имена переменных на наиболее короткие. Настройка не действует, если не активирована CO_RELEASE.</comment>
+COMPRESS_NAMES=true
+
+<comment># убирать пробельные символы в началах строк и символы переноса строки. Настройка не действует, если не активирована CO_RELEASE.</comment>
+COMPRESS_LINEBREAKS=true
+
+<comment>## ОПЦИИ КОМПИЛЯЦИИ **************</comment>
+
+<comment># наличие отладочной панели(может быть и не задействована, но сам код панели остаётся) и отладочного вывода в консоль</comment>
+CO_DEBUG=true
+
+<comment># активирует опции сжатия кода, после применения которых отлаживаться будет затруднительно (удаляются комментарии, переменовываются переменные и функции, убираются переносы строк и отступы).
+#CO_RELEASE=true
+
+# Если включена опция CO_DEBUG, игнорируются опции COMPRESS_LINEBREAKS и COMPRESS_LINEBREAKS</comment>
+</c>
+<p>Когда закончите с разработкой JavaScript-овой части, закомментируйте строку с <hl>CO_DEBUG</hl> и раскомментируйте строку с <hl>CO_RELEASE</hl> - код резко сократится в размерах.</p>
+</body>
+</html>

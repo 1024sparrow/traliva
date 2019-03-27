@@ -1,0 +1,11 @@
+[submodule "project"]
+	path = src/project
+	url = https://github.com/1024sparrow/traliva_example.git
+	branch = master
+[submodule "traliva_kit"]
+	path = traliva_kit
+	url = https://github.com/1024sparrow/traliva_kit.git
+	branch = master
+[submodule "src/build_scripts/targets"]
+	path = src/build_scripts/targets
+	url = https://github.com/1024sparrow/traliva_platforms.git

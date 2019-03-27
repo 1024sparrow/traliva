@@ -1,0 +1,24 @@
+{
+    "files":[
+        {
+            "target":"init.js",
+            "source":{
+                "template": "template",
+                "list":[
+                    "debug.js",
+                    "widget_state_subscriber.js",
+                    "logics_state_subscriber.js",
+                    "stub_widget.js",
+                    "slot_widget.js",
+                    "construct_layout.js",
+                    "extender.js",
+                    "fill_param.js",
+                    "init.js",
+                    "history.js",
+                    "state_to_url_mapper.js",
+                    "visibility_switcher.js"
+                ]
+            }
+        }
+    ]
+}

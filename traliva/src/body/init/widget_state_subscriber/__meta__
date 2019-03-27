@@ -1,0 +1,14 @@
+{
+    "files":[
+        {
+            "target":"widget_state_subscriber.js",
+            "source":{
+                "template": "t.js",
+                "list":[
+                    "array.js",
+                    "process_state_changes.js"
+                ]
+            }
+        }
+    ]
+}

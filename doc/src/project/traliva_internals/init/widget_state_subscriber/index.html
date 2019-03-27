@@ -1,0 +1,73 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>$WidgetStateSubscriber</title>
+<link rel="stylesheet" type="text/css" href="style/style.css">
+</head>
+<body>
+<a href="../index.html" style="font-size=2em;color:#f60;border:1px solid #f60;border-radius:5px;">НАВЕРХ</a>
+<h1>$WidgetStateSubscriber</h1>
+<img src="uml.png"></img>
+<p>Данный класс наследуется от класса <a href="../../states/index.html">StateSubscriber</a>.</p>
+<p>Является базовым для классов для описания виджета (возможно, контейнера для каких-то априорно неизвестных дочерних виджетов). Конструктор пользовательского класса, отнаследованного от данного класса, используется в свойствах <a href="../../../gameplay/init_object/layouts/index.html">$layouts и $widgets</a> объекта, передаваемого параметром в функцию <a href="../../../gameplay/index.html">Traliva.init()</a>.</p>
+<p>В том случае, когда пользовательский класс описывает контейнер виджетов, в пользовательском классе (у самой функции конструктора) должно быть определёно свойство <hl>widgetsFields</hl> (список свойств, указанных в <a href="../../../gameplay/init_object/layouts/layout_format/containers/index.html">объекте, описывающем элемент лэйаута</a>, по которым будут генерироваться виджеты, передаваемые третим параметром в конструктор при создании экземпляра данного класса).</p>
+<c>
+function $Strip(<a href="p_wcontainer/index.html">$p_wContainer</a>, <a href="p_wcontainer/index.html">$p_options</a>, <a href="p_wcontainer/index.html">$p_descr</a>){
+    var $children = $Traliva.$WidgetStateSubscriber.call(this, $p_wContainer, $p_options, $p_descr);
+    ...
+    if ($children)
+        this.$_updateLayout($children);
+};
+$Strip.prototype = Object.create($Traliva.$WidgetStateSubscriber.prototype);
+$Strip.prototype.constructor = $Strip;
+$Strip.$widgetsFields = ['$items'];
+$Strip.$processStateChanges = function(s){
+    $Traliva.$WidgetStateSubscriber.prototype.$processStateChanges.call(this, s);
+    if (!s){
+        console.error('epic fail');
+        return;
+    }
+    ...
+};
+$Strip.prototype.$_updateLayout = function($p){
+    ...
+};
+</c>
+
+<p>Экземпляр класса $WidgetStateSubscriber получать детей может как статически при создании (см. <a href="../../../gameplay/init_object/layouts/layouts/index.html">сюда</a>), так и динамически при изменении данных в объекте состояния (см. <a href="../../../gameplay/init_object/layouts/widgets/index.html">сюда</a>).</p>
+<!--<p>Обозначим через <hl>CHILDREN</hl> объект, в котором по ключам из <hl>$widgetsFields</hl> хранятся опции </p>-->
+<p>В первом случае конструктор ...<ul>
+    <li>
+        первым параметром получает экземпляр класса <a href="../../widgets/index.html">$Widget</a>, в который необходимо встроить содержимое виджета (методом <hl>$Widget::$setContent(...)</hl>)
+    </li>
+    <li>
+        вторым параметром получает объект, как было указано при описании лейаута, только оттуда будут убраны свойства из <hl>$widgetsFields</hl>, но добавлено свойство <hl>$_children</hl>: по ключам из <hl>$widgetsFields</hl> предварительно созданные дочерние виджеты (экземпляры класса <a href="../../widgets/index.html">$Widget</a>)
+    </li>
+    <li>
+        не получает третий параметр
+    </li>
+</ul>
+</p>
+<p>Во втором случае конструктор ...<ul>
+    <li>
+        первым параметром получает экземпляр класса <a href="../../widgets/index.html">$Widget</a>, в который необходимо встроить содержимое виджета (методом <hl>$Widget::$setContent(...)</hl>)
+    </li>
+    <li>
+        вторым параметром получает объект, как было указано при описании лейаута, только оттуда будут убраны свойства из <hl>$widgetsFields</hl>
+    </li>
+    <li>
+        третим параметром получает объект, как было указано в описании виджета. Если этот параметр ненулевой (т.е. вообще есть), то базовый вызов конструктора вернёт такой же объект, какой бы пришёл вторым параметром, если бы мы задавали детей статически (в <hl>$layouts</hl>), т.е. что-то вроде <c>{$items: {$_widget: <$Widget>} }</c> или <c>{ $items: { {$_widget: <$Widget>, $size: '32px'} }</c>.
+    </li>
+</ul>
+</p>
+<p>Если $WidgetStateSubscriber представляет контейнер, то при корректной параметризации экземпляра определяемого вами класса, конструктор базового класса $WidgetStateSubscriber всегда должен возвращать объект с дочерними виджетами.</p>
+<p>Обращаем ваше внимание на то, что в случае, когда в <hl>$widgetsFields</hl> указано несколько полей, возможно гибридное создание экземпляра виджета: часть дочерних виджетов определяется статически при создании, а часть - динамически по мере изменения объекта состояния.</p>
+
+<p>При наследовании программист (которого мы обычно называем пользователем..) должен не забыть сделать следующие вещи:</p>
+<ul>
+    <li>установить содержимое виджету, передаваемому первым параметром в конструктор.</li>
+    <li>Если пользовательский класс представляет контейнер, то необходимо встроить (и/или встраивать) дочерние виджеты в тот виджет, который устанавливается в объект, передаваемый первым параметром</li>
+    <li>Возможно, программист должен обеспечить изменение размеров и позиций дочерних виджетов при изменении размеров виджета, передаваемого первым параметром</li>
+</ul>
+</body>
+</html>
