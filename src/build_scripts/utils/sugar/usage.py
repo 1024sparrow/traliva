@@ -185,8 +185,8 @@ def process(p_js, p_css, p_js_css):
                         id_cand += i
                     elif s == 113 and i == '#':
                         s = 115
-                        if id_cand != cur_blocks[-1]:
-                            print('SYNTAX ERROR!!')
+                        if len(cur_blocks) < 1 or id_cand != cur_blocks[-1]:
+                            print('SYNTAX ERROR in file "%s". Fragment text:\n %s' % (fil['filepath'], fragment['text']))
                         cur_blocks = cur_blocks[:-1]
                         ifEnable = _updateEnableState(cur_blocks, activated_ids)
                     elif s == 115 and i == '#':

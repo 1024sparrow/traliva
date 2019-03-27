@@ -13,6 +13,9 @@ $Traliva.$createElement = function($p_html, $p_variables, $p_classname){
             for ($0 = 0 ; $0 < $list.length ; $0++){
                 if ($list[$0].name === 'traliva'){
                     $p_variables[$list[$0].value] = $parent;
+                    #USAGE_BEGIN#release##
+                    $parent.removeAttribute('traliva');
+                    #USAGE_END#release##
                     break;
                 }
             }

@@ -56,13 +56,6 @@ $WidgetStateSubscriber.prototype.$processStateChanges = function(s){
             }
         */
 
-        /* убираем лишние
-        for ($1 = $p_content.length ; $1 < this.$__items.length ; ++$1){
-        }
-
-        // добавляем новые
-        for ($1 = this.$__items.length ? this.$__items.length - 1 : 0 ; $1 < $p_content.length ; ++$1){*/
-
         if ($cand){
             $0 = {};
             for ($1 in $cand){
@@ -93,18 +86,8 @@ $WidgetStateSubscriber.prototype.$processStateChanges = function(s){
                         $w: $tmp.$_widget,
                         $o: $3
                     });
-                    //$tmp.$_widget = this.$__WidgetStateSubscriber.$childrenWidgets[$1][$2];
                     $0[$1].push($tmp);
                 }
-
-                /*$0[$1] = [];
-                if (this.$__WidgetStateSubscriber.$childrenWidgets[$1]){
-                    for ($2 = 0 ; $2 < this.$__WidgetStateSubscriber.$childrenWidgets[$1].length; ++$2){
-                        $tmp = Object.create($descr.$children[$1].$options || null);
-                        $tmp.$_widget = this.$__WidgetStateSubscriber.$childrenWidgets[$1][$2];
-                        $0[$1].push($tmp);
-                    }
-                }*/
             }
             console.log('XX:', $0);
             this.$_updateLayout($0);

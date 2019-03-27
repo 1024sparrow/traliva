@@ -21,10 +21,10 @@ function $WidgetStateSubscriber($p_wContainer, $p_options, $p_descr){
         if ($p_options.hasOwnProperty('$bg'))
             $p_wContainer.$_div.style.background = $p_options.$bg;
         if ($p_options.hasOwnProperty('$scroll')){
-            #USAGE_BEGIN#debug##
+            //#USAGE_BEGIN#debug##
             if (typeof $p_otions.$scroll !== 'number' || ($p_otions.$scroll & 0xff !== #m#$Traliva$scroll##))
                 console.log('error: опция $scroll должна иметь тип маски {$Traliva$scroll:v,h}');
-            #USAGE_END#debug##
+            //#USAGE_END#debug##
             $1 = $p_options.$scroll & #m#$Traliva$scroll:v##;
             if ($1 === ($p_options.$scroll & #m#$Traliva$scroll:h##))
                 $p_wContainer.$_div.style.overflow = $1 ? 'auto' : 'hidden';
@@ -66,7 +66,7 @@ $WidgetStateSubscriber.prototype.$_updateLayout = function($p){
 var $WidgetStateSubscriber__reSize = /^(\d+)(\s*)((px)|(part))$/;
 $WidgetStateSubscriber.prototype.$_transformStringSize = function($str){
 	//Почему невалидное значение по умолчанию - чтобы для программиста не прошло незамеченным.
-	var $retVal = {#USAGE_BEGIN#debug##$value:undefined, $unit:undefined}#USAGE_END#debug##};
+	var $retVal = {#USAGE_BEGIN#debug##$value:undefined, $unit:undefined#USAGE_END#debug##};
 	if ($str){
 		//работа с регулярными выражениями
 		var $0 = $str.match($WidgetStateSubscriber__reSize);
