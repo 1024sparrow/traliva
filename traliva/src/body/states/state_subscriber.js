@@ -1,12 +1,14 @@
 /****** class StateSubscriber ************************
  */
 
-var $StateSubscriber = function(){
+var $StateSubscriber = function($1){
+    // $1 - changeFlags
 	//this._state = {};//empty state by default untill be set
     this.$__d = {
         $substateMapper: undefined,
         $substateMapperType: undefined,
-        $state: {}
+        $state: {},
+        $changeFlags: $1
     };
     this._state = this.$__d.$state;//undefined untill be set
 };

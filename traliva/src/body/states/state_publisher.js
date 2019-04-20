@@ -75,6 +75,7 @@ $StatePublisher.prototype.$_processStateChanges = function($0, $1){
     //$3 - subscr
     //$4 - s
 	this.$__state = $0.$__d.$state;
+    var $2, $3, $4, $5 = $0.$__d.$changeFlags, $6;
     if ($1){
         if (this.$__recursionLevel > 128){
             throw 'Предотвращена гонка состояний.';
@@ -84,19 +85,29 @@ $StatePublisher.prototype.$_processStateChanges = function($0, $1){
     else {
         this.$__recursionLevel = 0;
     }
-	for (var $2 = 0 ; $2 < this.$__subscribers.length ; $2++){
-		var $3 = this.$__subscribers[$2];
+	for ($2 = 0 ; $2 < this.$__subscribers.length ; $2++){
+		$3 = this.$__subscribers[$2];
 		if ($3 == $0)
 			continue;
         $3.$__d.$state = this.$__state;
         //console.log('%csetState: '+JSON.stringify(this.$__state), 'color: #f00');//<--
-        var $4 = $3.$__getSubstate(this.$__state);
+        $4 = $3.$__getSubstate(this.$__state);
 		$3.$_state = $4;
         if ($Traliva.$debug && $Traliva.$debug.$state)
             this.$__debugState($3, $4);
         //console.log('%c> setState: '+JSON.stringify(this.$__state), 'color: #f00');//<--
 		$3.$processStateChanges($4, false);
 	}
+    // Удаляем свойства, зарегистрированные как changeFlags
+    if (!$1){
+        if ($2 = $0.$__d.$changeFlags){
+            for ($3 in $2){
+                if (typeof $2[$3] === 'function')
+                    $2[$3](this.$_state);
+                delete this.$_state[$3];
+            }
+        }
+    }
     //if ($Traliva.$debug && $Traliva.$debug.$state){
     //    console.log('--');
     //}
