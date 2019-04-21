@@ -61,7 +61,7 @@ $Extender.prototype.$ok = function($o){
             console.log('epic fail: ' + $0);
             continue;
         }
-        $content = $construct_layout($slotWidget, $o.$layouts[$0], $o.$widgets, this.$_scope);//
+        $content = $construct_layout($slotWidget, $o.$layouts[$0], $o.$widgets, this.$_scope);// boris here: неполный набор параметров
         if ($content){
             $slotWidget.$setContent($content);
         }

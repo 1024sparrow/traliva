@@ -41,7 +41,7 @@ for ($1 in $p_oLayout){
                 }
                 #USAGE_END#debug##
             }
-            $3.$_widget = $construct_layout($retVal, $3.$_widget, $p_oLayout.$bg || $p_defaultBackground, $p_widgets, $p_widgetScope, $used);
+            $3.$_widget = $construct_layout($retVal, $3.$_widget, $p_oLayout.$bg || $p_defaultBackground, $p_widgets, $p_widgetScope, $statePublisher, $used);
             if ($3.$_visibleSubstate){
                 if (!$Traliva.$__d.$visibilityMap.hasOwnProperty($3.$_visibleSubstate))
                     $Traliva.$__d.$visibilityMap[$3.$_visibleSubstate] = {};
@@ -62,7 +62,7 @@ if ($p_oLayout.$_substate){
     $cand.$useSubstate($p_oLayout.$_substate);
 }
 $p_widgetScope._.push($cand);
-$Traliva.$__d.$publisher.$registerSubscriber($cand);
+$statePublisher.$registerSubscriber($cand);
 
 
 //$p_widgetScope[$p_oLayout.$id] = $cand;
