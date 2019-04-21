@@ -56,4 +56,5 @@ function $construct_layout($p_wParent, $p_oLayout, $p_defaultBackground, $p_widg
     }
     return $retVal; // возврат из функции должен быть здесь
 };
+$Traliva.$_constructLayout = $construct_layout;
 //'---------------init/construct_layout.js---------------';
