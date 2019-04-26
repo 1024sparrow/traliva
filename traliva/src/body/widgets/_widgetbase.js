@@ -7,8 +7,6 @@ p_sroll - политика скрола. Строка. Возможные зна
 // -- class $_WidgetBase --
 function $_WidgetBase($0){
     //$0 - p_parentWidget
-    //$1 - p_scroll (уже не используется)
-    //$2 - e
 
     this.$__onscrollOkFunc;
     this.$__isVisible = true;
@@ -174,7 +172,10 @@ $_WidgetBase.prototype.$setVisible = function($p_visible){
 $_WidgetBase.prototype.$_onChildVisibilityChanged = function($wChild){};
 $_WidgetBase.prototype.$isVisible = function(){return this.$__isVisible;};
 $_WidgetBase.prototype.$_onResized = function($w, $h){
-	console.log('this method must be reimplemented: update content or child elements sizes for <this.$_content> for given in parameters new size');
+	//console.log('this method must be reimplemented: update content or child elements sizes for <this.$_content> for given in parameters new size');
+    // В ходе переопределения данного метода не забудьте вызвать реализацию базового класса.
+    this.$__w = $w;
+    this.$__h = $h;
 };
 $_WidgetBase.prototype.$_onScrolled = function($pos){
 	// reimplement this method if you need

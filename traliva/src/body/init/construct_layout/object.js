@@ -41,11 +41,11 @@ for ($1 in $p_oLayout){
                 }
                 #USAGE_END#debug##
             }
-            $3.$_widget = $construct_layout($retVal, $3.$_widget, $p_oLayout.$bg || $p_defaultBackground, $p_widgets, $p_widgetScope, $statePublisher, $used);
+            $3.$_widget = $construct_layout($retVal, $3.$_widget, $p_oLayout.$bg || $p_defaultBackground, $p_widgets, $p_widgetScope, $context, $used);
             if ($3.$_visibleSubstate){
-                if (!$Traliva.$__d.$visibilityMap.hasOwnProperty($3.$_visibleSubstate))
-                    $Traliva.$__d.$visibilityMap[$3.$_visibleSubstate] = {};
-                $4 = $Traliva.$__d.$visibilityMap[$3.$_visibleSubstate];
+                if (!$context.$visibilityMap.hasOwnProperty($3.$_visibleSubstate))
+                    $context.$visibilityMap[$3.$_visibleSubstate] = {};
+                $4 = $context.$visibilityMap[$3.$_visibleSubstate];
                 $5 = $3.$_visibleValue || '_';
                 if (!$4.hasOwnProperty($5))
                     $4[$5] = [];
@@ -62,7 +62,7 @@ if ($p_oLayout.$_substate){
     $cand.$useSubstate($p_oLayout.$_substate);
 }
 $p_widgetScope._.push($cand);
-$statePublisher.$registerSubscriber($cand);
+$context.$statePublisher.$registerSubscriber($cand);
 
 
 //$p_widgetScope[$p_oLayout.$id] = $cand;
