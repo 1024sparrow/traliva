@@ -223,7 +223,6 @@ def _get_text_as_array(p_text, pp_comment, pp_newlines):
                     #skip_current = True
                     if in_string_3:
                         #in_string_3 = False
-                        print('')
                         if string_type == 0 or string_type == 3:
                             tmp = string_content
                         else:
@@ -268,8 +267,7 @@ def _get_text_as_array(p_text, pp_comment, pp_newlines):
                     in_string = False
                 else:
                     skip_current = True
-                    _accumulate_array_by_symbols(1, code_cand + "'", retval)
-                    code_cand = ''
+                    #print('::',prev_char,'::::::::::', code_cand)
                     in_string_3 = True
                     in_string = True
                     string_type = 0
@@ -278,10 +276,15 @@ def _get_text_as_array(p_text, pp_comment, pp_newlines):
                     string_indent = 0
                     if prev_char == '1':
                         string_type = 1
+                        code_cand = code_cand[:-1]
                     elif prev_char == '2':
                         string_type = 2
+                        code_cand = code_cand[:-1]
                     elif prev_char == '3':
                         string_type = 3
+                        code_cand = code_cand[:-1]
+                    _accumulate_array_by_symbols(1, code_cand + "'", retval)
+                    code_cand = ''
         if (not in_comment) and (not skip_current):
             if in_string:
                 if in_string_3:
