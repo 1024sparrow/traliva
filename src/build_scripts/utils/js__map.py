@@ -87,6 +87,32 @@ def _get_text_as_array(p_text, pp_comment, pp_newlines):
     in_comment = False
     in_string_1 = False # '
     in_string_2 = False # "
+    in_string_3 = False # ``
+    string_type = 0 # for in_string_3
+    """
+    `` - тупое экранирование. Сохраняются переносы строки и все символы между '`'
+    `
+        asd
+    ` --> '\n\t\tasd\n\t'
+    1`` - как ``, но дополнительно обрезаются первая и последняя строки
+    1`
+        asd
+    ` --> '\t\tasd'
+    2`` - как 1``, но дополнительно убираются отступы
+    var a = 2`
+        var a =
+            5;
+    `; --> var a ='var a =\n\t5;';
+    3`` - убираются крайние пробельные символы и все переносы строки. Если последний символ в строке отличен от '>', то в результат вставляется пробел
+    var a = 3`
+        <table>
+            <tr>
+            </tr>
+            <tr>
+            </tr>
+        </table>
+    ` --> var a = '<table><tr></tr><tr></tr></table>'
+    """
     in_string = False
     prev_char = 's' # nor '\\' or '/' or '*'
     code_cand = ''
@@ -155,12 +181,13 @@ def _get_text_as_array(p_text, pp_comment, pp_newlines):
             _accumulate_array_by_symbols(__type, i, retval)
             continue
         elif prev_char != '\\' and i == '"':
-            if not in_comment and not in_string_1:
+            if not in_comment and not in_string_1 and not in_string_3:
                 if in_string:
                     if in_string_2:
                         in_string_2 = False
                     else:
                         in_string_1 = False
+                        in_string_3 = False
                     in_string = False
                 else:
                     #b += process_code_fragment(code_cand + '"')
@@ -171,12 +198,13 @@ def _get_text_as_array(p_text, pp_comment, pp_newlines):
                     in_string_2 = True
                     in_string = True
         elif prev_char != '\\' and i == "'":
-            if not in_comment and not in_string_2:
+            if not in_comment and not in_string_2 and not in_string_3:
                 if in_string:
                     if in_string_1:
                         in_string_1 = False
                     else:
                         in_string_2 = False
+                        in_string_3 = False
                     in_string = False
                 else:
                     #b += process_code_fragment(code_cand + "'")
@@ -186,18 +214,56 @@ def _get_text_as_array(p_text, pp_comment, pp_newlines):
                     code_cand = ''
                     in_string_1 = True
                     in_string = True
+        elif prev_char != '\\' and i == "`":
+            if not in_comment and not in_string_1 and not in_string_2:
+                if in_string:
+                    #skip_current = True
+                    _accumulate_array_by_symbols(1, code_cand + "'", retval)
+                    if in_string_3:
+                        #in_string_3 = False
+                        print('')
+                    else:
+                        in_string_1 = False
+                        in_string_2 = False
+                    in_string = False
+                else:
+                    skip_current = True
+                    _accumulate_array_by_symbols(1, code_cand + "'", retval)
+                    code_cand = ''
+                    in_string_3 = True
+                    in_string = True
+                    string_type = 0
+                    if prev_char == '1':
+                        string_type = 1
+                    elif prev_char == '2':
+                        string_type = 2
+                    elif prev_char == '3':
+                        string_type = 3
         if (not in_comment) and (not skip_current):
             if in_string:
-                #b += i
-                _accumulate_array_by_symbols(2, i, retval)
+                if in_string_3:
+                    if string_type == 0 and i != '\n':
+                        ca = i
+                        if i == "'":
+                            ca = '\\\''
+                        _accumulate_array_by_symbols(2, ca, retval)
+                else:
+                    #b += i
+                    _accumulate_array_by_symbols(2, i, retval)
             else:
-                code_cand += i
+                if in_string_3:
+                    #_accumulate_array_by_symbols(1, "'", retval)
+                    #code_cand += "'"
+                    in_string_3 = False
+                else:
+                    code_cand += i
         else: # комментарии /* ... */
             if not in_string:
                 if pp_comment:
                     #b += i
                     _accumulate_array_by_symbols(0, i, retval)
         prev_char = i
+        prev_instring = in_string
     #b += process_code_fragment(code_cand)
     _accumulate_array_by_symbols(1, code_cand, retval)
     _stop_accumulating_array_by_symbols(retval)
