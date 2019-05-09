@@ -89,6 +89,9 @@ def _get_text_as_array(p_text, pp_comment, pp_newlines):
     in_string_2 = False # "
     in_string_3 = False # ``
     string_type = 0 # for in_string_3
+    #string_content = [] # for in_string_3
+    #string_state = 0 # for in_string_3
+    #string_indent = 0 # for in_string_3
     """
     `` - тупое экранирование. Сохраняются переносы строки и все символы между '`'
     `
@@ -98,12 +101,12 @@ def _get_text_as_array(p_text, pp_comment, pp_newlines):
     1`
         asd
     ` --> '\t\tasd'
-    2`` - как 1``, но дополнительно убираются отступы
+    2`` - как 1``, но дополнительно убираются отступы. Вычисляется наибольший общий отступ, и он отрезается. Отступы работают только с пробелами - символ табуляции не считается за отступ.
     var a = 2`
         var a =
             5;
     `; --> var a ='var a =\n\t5;';
-    3`` - убираются крайние пробельные символы и все переносы строки. Если последний символ в строке отличен от '>', то в результат вставляется пробел
+    3`` - убираются крайние пробельные символы и все переносы строки. Если последний символ в строке отличен от '>' и первый символ следующей строки отличен от '<', то в результат вставляется пробел. Первая и последняя строки не обрезаются (так, если что..).
     var a = 3`
         <table>
             <tr>
@@ -218,13 +221,50 @@ def _get_text_as_array(p_text, pp_comment, pp_newlines):
             if not in_comment and not in_string_1 and not in_string_2:
                 if in_string:
                     #skip_current = True
-                    _accumulate_array_by_symbols(1, code_cand + "'", retval)
                     if in_string_3:
                         #in_string_3 = False
                         print('')
+                        if string_type == 0 or string_type == 3:
+                            tmp = string_content
+                        else:
+                            tmp = string_content[1:-1] # обрезаем первую и последнюю строки
+                        if string_type == 2:
+                            indent = 10000
+                            for ca in tmp:
+                                cand = 0
+                                for ca_i in ca:
+                                    if ca_i == ' ':
+                                        cand += 1
+                                    else:
+                                        break
+                                if cand < indent:
+                                    indent = cand
+                        if string_type == 3:
+                            prev = 'q' # any letter symbol
+                            tmp_between_parath = False
+                            for ca in [tmp2.strip() for tmp2 in tmp]:
+                                if len(ca) and len(prev) and prev[-1] != '>' and ca[0] != '<':
+                                    _accumulate_array_by_symbols(2, ' ', retval)
+                                    tmp_between_parath = False
+                                else:
+                                    tmp_between_parath = True
+                                cand = ca
+                                if tmp_between_parath:
+                                    while len(cand) and cand[0] == ' ':
+                                        cand = cand[1:]
+                                _accumulate_array_by_symbols(2, ca, retval)
+                                prev = ca
+                        else:
+                            for ca in tmp:
+                                if string_type == 2:
+                                    cand = ca[indent:]
+                                else:
+                                    cand = ca
+                                _accumulate_array_by_symbols(2, cand, retval)
                     else:
                         in_string_1 = False
                         in_string_2 = False
+                    _accumulate_array_by_symbols(1, code_cand + "'", retval)
                     in_string = False
                 else:
                     skip_current = True
@@ -233,6 +273,9 @@ def _get_text_as_array(p_text, pp_comment, pp_newlines):
                     in_string_3 = True
                     in_string = True
                     string_type = 0
+                    string_content = ['']
+                    string_state = 0
+                    string_indent = 0
                     if prev_char == '1':
                         string_type = 1
                     elif prev_char == '2':
@@ -242,11 +285,13 @@ def _get_text_as_array(p_text, pp_comment, pp_newlines):
         if (not in_comment) and (not skip_current):
             if in_string:
                 if in_string_3:
-                    if string_type == 0 and i != '\n':
+                    if i == '\n':
+                        string_content.append('')
+                    else:
                         ca = i
                         if i == "'":
                             ca = '\\\''
-                        _accumulate_array_by_symbols(2, ca, retval)
+                        string_content[-1] += ca
                 else:
                     #b += i
                     _accumulate_array_by_symbols(2, i, retval)
