@@ -1,0 +1,34 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Strip</title>
+<link rel="stylesheet" type="text/css" href="style/style.css">
+</head>
+<body>
+<a href="../index.html" style="font-size=2em;color:#f60;border:1px solid #f60;border-radius:5px;">НАВЕРХ</a>
+<h1>Strip</h1>
+<p>Данный лэйаут представляет собой линейный контейнер - в строку или в колонку выстраивает дочерние виджеты (которые, в свою очередь, тоже могут быть контейнерами). Представляется объектом с обязательными свойствами: type, orient и items. </p>
+<p>Опционально, данный элемент лэйаута может иметь свойство id - идентификатор, по которому в коде вдальнейшем можно будет получить доступ к данному элементу (Traliva.widgets.<id>, имеет тип <a href="../../../../../traliva_internals/widgets/strip/index.html">Traliva.Strip</a>).</p>
+<p>Свойство type должно иметь значение 'strip'. По этому свойству фреймворк определяет тип элемента лэйаута.</p>
+<p>Свойство orient определяет ориентацию лэйаута: значение 'v' (сокращение от vertical) задаёт расположение элементов в колонку, значение 'h' (сокращение от horizontal) задаёт расположение элементов в строку.</p>
+<p>Свойство items - массив с дочерними элементами лэйаута.</p>
+<p>Пример:</p>
+<c>{
+    type: 'strip',
+    orient: 'h',
+    items: [
+        'my_beautifulWidget',
+        {
+            'type': 'strip',
+            'orient': 'v',
+            'items': [...]
+        },
+        {
+            'type': 'stack',
+            ...
+        },
+        'const myAnotherBeautifulWidget'
+    ]
+}</c>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width; user-scalable=0;" />
+<meta charset="utf-8"/>
+<title>Спецификация фреймворка Тралива</title>
+<link rel="stylesheet" href="style.css"/>
+<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet"/>
+<style>
+*{font-family:'Open Sans',sans-serif;}
+figure{font-family:'Source Code Pro';}
+ww{
+    font-family:'Source Code Pro';
+    background-color: #ffc;
+}
+</style>
+</head>
+<body style="background:#ffa">
+<h1>Спецификация фреймворка Тралива</h1>
+<a href="suggestions.html" target="_blank">Текущие предложения по изменениям в спецификации.</a>
+<div id="b"></div>
+<script>
+	var xhttp=new XMLHttpRequest();
+	xhttp.addEventListener(
+		'load',
+		function(e){
+            document.getElementById('b').innerHTML = xhttp.responseText;
+		}
+	);
+    xhttp.open("GET", 'spec.html', true);
+	xhttp.send();
+</script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>build_scripts/targets/</title>
+<link rel="stylesheet" type="text/css" href="style/style.css">
+</head>
+<body>
+<a href="../index.html" style="font-size=2em;color:#f60;border:1px solid #f60;border-radius:5px;">НАВЕРХ</a>
+<a href="../../../src/build_scripts/targets/_doc/index.html" style="font-size=2em;color:#ffa;border:1px solid #f60;border-radius:5px;">К текущей релизации</a>
+<h1>build_scripts/targets/</h1>
+<p>Здесь должны находиться директории, в каждой из которых должен находиться свой скрипт <hl>init.sh</hl>. Отдельная директория под каждую целевую платформу.</p>
+<p>Скрипт <hl>init.sh</hl> принимает два аргумента:</p>
+<ol>
+<li>
+Путь до директории с результатом сборки <a href="../project/index.html">project</a>
+</li>
+<li>
+Путь до директории, в которой нужно нагенерировать исходники проекта
+</li>
+</ol>
+<h2>Пример содержимого директории со сборочными скриптами</h2>
+<p>Директория с шаблоном кода проекта <hl></hl>: там у нас main.cpp и прочие h-ники и cpp-шники, а также Makefile.</p>
+<p>Скрипт <hl>init.sh</hl>:</p>
+<c>
+#!/bin/bash
+
+echo "Местонахождение скрипита: $0"
+echo "Первый параметр: $1" # путь до директории с project
+echo "Второй параметр: $2" # путь до директории, в которой нужно нагенерировать исходники проекта
+
+DIR="$(dirname $0)" <comment># путь, где лежит этот скрипт</comment>
+
+cp -r "$DIR"/t/* "$2"/
+cp "$1"/gameplay.js "$2"/web_content/
+sed "s/#RES#/res/g" "$1"/style.css > "$2"/web_content/style.css
+cp -r "$1"/res "$2"/web_content/
+</c>
+</body>
+</html>
