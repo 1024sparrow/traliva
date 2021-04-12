@@ -1,0 +1,36 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>init</title>
+<link rel="stylesheet" type="text/css" href="style/style.css">
+</head>
+<body>
+<a href="../index.html" style="font-size=2em;color:#f60;border:1px solid #f60;border-radius:5px;">НАВЕРХ</a>
+<h1>init</h1>
+<p>Здесь реализована функция Traliva.init(), а также здесь определены следующие классы, не имеющие смысла за пределами функции Traliva.init(): WidgetStateSubscriber и LogicsStateSubscriber.</p>
+
+<h2>WidgetStateSubscriber</h2>
+<p>Данный класс наследуется от класса <a href="../states/index.html">StateSubscriber</a>.</p>
+<p>Является базовым для классов для описания виджета (возможно, контейнера для каких-то априорно неизвестных дочерних виджетов). Конструктор пользовательского класса, отнаследованного от данного класса, используется в свойстве <a href="../../gameplay/init_object/layouts/index.html">widgets</a> объекта, передаваемого параметром в функцию Traliva.init().</p>
+<p>В том случае, когда пользовательский класс описывает контейнер виджетов, в пользовательском классе должен быть определён метод (статический) <span style="color:#FAA">widgetsFields</span> (без параметров), возвращающий список свойств, указанных в <a href="../../gameplay/init_object/layouts/layout_format/containers/index.html">объекте, описывающем элемент лэйаута</a>, по которым будут генерироваться виджеты, передаваемые третим параметром в конструктор при создании экземпляра данного класса.</p>
+<p>Принимает три параметра:</p>
+<ul>
+    <li>p_wContainer - экземпляр класса <a href="../widgets/widget/index.html">Widget</a> - в который в конструкторе пользовательского класса должно устанавливаться содержимое (метод setContent() класса Widget).</li>
+    <li>p_options - набор опций (options), который задал пользователь в объекте, передаваемом в Trliva.init(), в свойстве <a href="../../gameplay/init_object/layouts/index.html">объекта widgets</a>, соответствующего <a href="../../gameplay/init_object/layouts/layout_format/widgets/index.html">пользовательскому виджету</a> или <a href="../../gameplay/init_object/layouts/layout_format/containers/index.html">пользовательскому контейнеру</a>.</li>
+    <li>p_widgets - используется только для элементов типа <a href="../../gameplay/init_object/layouts/layout_format/containers/index.html">container</a> - объект, в котором свойства такие, как указано в результате выполнения статического метода <span style="color:#FAA">widgetsFields</span>, а значения этих свойств - соответвующие виджеты.</li>
+</ul>
+<p>При наследовании программист (которого мы обычно называем польозователем..) должен не забыть сделать следующие вещи:</p>
+<ul>
+    <li>установить содержимое виджету, передаваемому первым параметром в конструктор.</li>
+    <li>Если пользовательский класс представляет контейнер, то необходимо встроить дочерние виджеты(третий параметр) в тот виджет, который устанавливается в объект, передаваемый первым параметром</li>
+    <li>Возможно, программист должен обеспечить изменение размеров и позиций дочерних виджетов при изменении размеров виджета, передаваемого первым параметром</li>
+</ul>
+
+<h2>LogicsStateSubscriber</h2>
+<p>Данный класс наследуется от класса <a href="../states/index.html">StateSubscriber</a>.</p>
+<p></p>
+<p></p>
+<p></p>
+
+</body>
+</html>

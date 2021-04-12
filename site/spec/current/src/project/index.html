@@ -1,0 +1,22 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Формат описания приложения</title>
+<link rel="stylesheet" type="text/css" href="style/style.css">
+</head>
+<body>
+<a href="../index.html" style="font-size=2em;color:#f60;border:1px solid #f60;border-radius:5px;">НАВЕРХ</a>
+<h1>Формат описания приложения</h1>
+<p>В данной директории предполагается наличие двух диреторий (res и children) и трёх файлов (style.css, gameplay.js и project). Если вам не удобно всё писать в одном файле, вы можете разбить его на части, но обеспечить <a href="compiler/index.html">сборку вашего проекта</a> в вышеуказанные две директории и три файла.</p>
+<p>Итак, в результате компиляции (или просто сразу так) в данной директории должны находиться следующие файлы:</p>
+<ul>
+<li><a href="res/index.html">res/</a> - ресурсы, такие как картинки</li>
+<li><a href="children/index.html">children/</a> - подгружаемые части приложения (если, конечно, такие у вас есть)</li>
+<li><a href="gameplay/index.html">gameplay.js</a> - код корневой части приложения (если есть подгружаемые части, то они описываются отдельно)</li>
+<li><a href="style_css/index.html">style.css</a> - файл стилей проекта</li>
+<li><a href="project/index.html">project</a> - файл проекта</li>
+</ul>
+<p><a href="traliva_internals/index.html">Здесь</a> описаны классы, определённые внутри фреймворка Тралива.</p>
+<p>Весь код пишется на <a href="https://es5.javascript.ru/">ECMAScript 5</a> (а не на последней версии - (<a href="http://es6.neperevodi.ru">ECMAScript 6</a>)) с некоторыми <a href="js_sugar/index.html">дополнительно поддерживаемыми конструкциями</a>. Использование ECMAScript 5 связано с тем, что последняя версия ECMAScript поддерживается не всеми браузерами, поддерживается не в полном объёме, из-за чего использование ECMAScript 6 требует использование <a href="https://ru.wikipedia.org/wiki/%D0%9F%D0%BE%D0%BB%D0%B8%D1%84%D0%B8%D0%BB">полифилов</a>, что, по мнению автора, является неоправданным усложнением клиентского кода.</p>
+</body>
+</html>
