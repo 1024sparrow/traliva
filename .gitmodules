@@ -1,11 +1,11 @@
 [submodule "project"]
 	path = src/project
 	url = ../boris_proj.git
-	branch = master
+	branch = develop
 [submodule "traliva_kit"]
 	path = traliva_kit
 	url = ../boris_kit.git
-	branch = master
+	branch = develop
 [submodule "src/build_scripts/targets"]
 	path = src/build_scripts/targets
 	url = ../boris_platforms.git
