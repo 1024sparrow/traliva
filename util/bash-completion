@@ -1,0 +1,91 @@
+#!/bin/bash
+
+function _traliva_module {
+	local cur prev words cword
+	_init_completion -n = || return
+	# COMP_WORDS
+	local state=0
+	#echo -n > /home/boris/traliva_args
+	#echo -n > /home/boris/traliva_com.debug #
+	#echo -n > /home/boris/traliva_2.debug
+
+	local finished=false
+	for arg in $COMP_LINE
+	do
+		#echo "$arg" >> /home/boris/traliva_args
+		if $finished
+		then
+			COMPREPLY=($(compgen -- "$cur"))
+			return 0
+		fi
+		if [ $state == 0 ]
+		then
+			if [ "$arg" == traliva ]
+			then
+				state=1
+			else
+				state=-1
+			fi
+		elif [ $state == 1 ]
+		then
+			if [ "$arg" == init ]
+			then
+				state=init
+			#elif [ "$arg" == add ]
+			#then
+			#	state=add
+			else
+				finished=true
+			fi
+		elif [ $state == init ]
+		then
+			if [ "$arg" == traliva ]
+			then
+				state=init_traliva
+				finished=true
+			elif [ "$arg" == bare ]
+			then
+				state=init_bare
+				finished=true
+			elif [ "$arg" == cmake ]
+			then
+				state=init_cmake
+			else
+				state=-1
+			fi
+		elif [ $state == init_cmake ]
+		then
+			if [ "$arg" == qt5 ]
+			then
+				state=init_cmake_qt5
+				finished=true
+			else
+				state=-1
+			fi
+		fi
+		#elif [ $state == add ]
+		#then
+		#fi
+	done
+
+	if [ $state == 0 ]
+	then
+		COMPREPLY=($(compgen -- "$cur"))
+	elif [ $state == 1 ]
+	then
+		COMPREPLY=($(compgen -W "init" "$cur"))
+	elif [ $state == init ]
+	then
+		COMPREPLY=($(compgen -W "traliva bare cmake" "$cur"))
+	elif [ $state == init_cmake ]
+	then
+		COMPREPLY=($(compgen -W "qt5" "$cur"))
+	#elif [ $state == add ]
+	#then
+	#	COMPREPLY=($(compgen -W "repo directory" "$cur"))
+	else
+		COMPREPLY=($(compgen -- "$cur"))
+	fi
+	#echo $state > /home/boris/traliva_com.debug #
+	#echo "$COMP_LINE" > /home/boris/traliva_2.debug
+} && complete -F _traliva_module traliva

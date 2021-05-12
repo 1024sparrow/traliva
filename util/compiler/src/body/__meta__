@@ -1,0 +1,27 @@
+{
+	"files": [
+		{
+			"target": "body.js",
+			"source": {
+				"template": "compile.js",
+				"list": [
+					"help.txt",
+					"applymeta.js",
+					"utils.js",
+					"process.js",
+					"master.js",
+					"version",
+					"changelog"
+				],
+				"types": {
+					"help.txt": [
+						"text"
+					],
+					"changelog": [
+						"text"
+					]
+				}
+			}
+		}
+	]
+}
