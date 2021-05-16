@@ -8,7 +8,7 @@ mkdir repos
 pushd repos > /dev/null
 	for i in $projectName ${projectName}_kit ${projectName}_proj ${projectName}_platforms
 	do
-		git init --bare --shared $i.git
+		git init --bare --shared=true $i.git
 	done
 popd > /dev/null
 
