@@ -77,9 +77,9 @@ popd > /dev/null
 function forkSubmodules()
 {
 	local -a submodulesSrc=(
-		src/project                https://github.com/1024sparrow/traliva_example.git
-		traliva_kit                https://github.com/1024sparrow/traliva_kit.git
-		src/build_scripts/targets  https://github.com/1024sparrow/traliva_platforms.git
+		src/project                $gitpath_traliva_example
+		traliva_kit                $gitpath_traliva_kit
+		src/build_scripts/targets  $gitpath_traliva_platforms
 	)
 	local -i state=0
 	for i in ${submodulesSrc[@]}
@@ -108,7 +108,7 @@ function forkSubmodules()
 
 git clone repos/${projectName}.git
 pushd ${projectName} > /dev/null
-	git remote add parent_github https://github.com/1024sparrow/traliva.git
+	git remote add parent_github $gitpath_traliva
 	git remote set-url parent_github --push "Вы не можете заливать изменения в репозиторий родительского проекта"
 	echo -n 'Выберите ветку исходного репозитория traliva. "master" или "develop": '
 	read branch
