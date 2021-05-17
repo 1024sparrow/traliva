@@ -37,6 +37,10 @@ do
     then
         continue
     fi
+    if [ $state == init_traliva ]
+    then
+        continue
+    fi
 	#echo "**$arg**" $state
 	if [ $state == 0 ]
 	then

@@ -1,8 +1,13 @@
 #!/bin/bash
 
 projectName=boris
+gitpath_traliva=https://github.com/1024sparrow/traliva.git
+gitpath_traliva_kit=https://github.com/1024sparrow/traliva_kit.git
+gitpath_traliva_example=https://github.com/1024sparrow/traliva_example.git
+gitpath_traliva_platforms=https://github.com/1024sparrow/traliva_platforms.git
 
 function tuneSettings {
+    local state=init
     for arg in $*
     do
         if [ $arg == help ]
@@ -22,24 +27,42 @@ But you can point alternate paths to them. Generate config-file with key \"--con
     do
         if [ $arg == --config-gen ]
         then
-            echo "
-gitpath_traliva=https://github.com/1024sparrow/traliva.git
-gitpath_traliva_kit=https://github.com/1024sparrow/traliva_kit.git
-# boris here
-"
+            echo "\
+gitpath_traliva=$gitpath_traliva
+gitpath_traliva_kit=$gitpath_traliva_kit
+gitpath_traliva_example=$gitpath_traliva_example
+gitpath_traliva_platforms=$gitpath_traliva_platforms"
             exit 0
         elif [ $arg == --config ]
         then
-            echo "config set"
+            state=config
         elif [ ${arg:0:1} == - ]
         then
             echo "Unknown key: \"$arg\""
             exit 1
+        else
+            if [ $state == config ]
+            then
+                if [ ! -r "$arg" ]
+                then
+                    echo "File \"$arg\" not found"
+                    exit 1
+                fi
+                source "$arg"
+                state=init
+            fi
         fi
     done
+    if [ ! $state == init ]
+    then
+        echo "incorrect arguments. See help."
+        exit 1
+    fi
 }
 
 tuneSettings $*
+echo "not implemented"
+exit 0
 
 echo -n 'Название вашего проекта (одним словом - это будет частью имён нескольких репозиториев): '
 read projectName
