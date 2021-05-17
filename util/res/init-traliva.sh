@@ -2,6 +2,45 @@
 
 projectName=boris
 
+function tuneSettings {
+    for arg in $*
+    do
+        if [ $arg == help ]
+        then
+            echo "Generate your traliva project. By default all code copyes from traliva's github repositories.
+But you can point alternate paths to them. Generate config-file with key \"--config-gen\", modify it run with that config using key \"config\"
+--config-gen
+    print config default content to stdout
+--config <PATH>
+    use config file to get actual project settings
+"
+            exit 0
+        fi
+    done
+
+    for arg in $*
+    do
+        if [ $arg == --config-gen ]
+        then
+            echo "
+gitpath_traliva=https://github.com/1024sparrow/traliva.git
+gitpath_traliva_kit=https://github.com/1024sparrow/traliva_kit.git
+# boris here
+"
+            exit 0
+        elif [ $arg == --config ]
+        then
+            echo "config set"
+        elif [ ${arg:0:1} == - ]
+        then
+            echo "Unknown key: \"$arg\""
+            exit 1
+        fi
+    done
+}
+
+tuneSettings $*
+
 echo -n 'Название вашего проекта (одним словом - это будет частью имён нескольких репозиториев): '
 read projectName
 mkdir repos
