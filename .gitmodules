@@ -1,14 +1,14 @@
 [submodule "project"]
 	path = src/project
 	#url = ../boris_proj.git
-    url = https://github.com/1024sparrow/traliva_example.git
+	url = https://github.com/1024sparrow/traliva_example.git
 	branch = develop
 [submodule "traliva_kit"]
 	path = traliva_kit
 	#url = ../boris_kit.git
-    url = https://github.com/1024sparrow/traliva_kit.git
+	url = https://github.com/1024sparrow/traliva_kit.git
 	branch = develop
 [submodule "src/build_scripts/targets"]
 	path = src/build_scripts/targets
 	#url = ../boris_platforms.git
-    url = https://github.com/1024sparrow/traliva_platforms.git
+	url = https://github.com/1024sparrow/traliva_platforms.git
