@@ -90,15 +90,15 @@ function forkSubmodules()
 			state=1
 		elif [ $state -eq 1 ]
 		then
-			git remote add parent_github $i
-			#git remote set-url parent_github --push "Вы не можете заливать изменения в репозиторий родительского проекта"
+			git remote add parent $i
+			#git remote set-url parent --push "Вы не можете заливать изменения в репозиторий родительского проекта"
 			echo -n "Выберите ветку исходного репозитория $i [default - master]:"
 			read branchName
 			if [ -z "$branchName" ]
 			then
 				branchName=master
 			fi
-			git pull parent_github "$branchName"
+			git pull parent "$branchName"
 			git push --set-upstream origin master # master - это ветка уже вашего репозитория
 			popd
 			state=0
@@ -108,11 +108,11 @@ function forkSubmodules()
 
 git clone repos/${projectName}.git
 pushd ${projectName} > /dev/null
-	git remote add parent_github $gitpath_traliva
-	#git remote set-url parent_github --push "Вы не можете заливать изменения в репозиторий родительского проекта"
+	git remote add parent $gitpath_traliva
+	#git remote set-url parent --push "Вы не можете заливать изменения в репозиторий родительского проекта"
 	echo -n 'Выберите ветку исходного репозитория traliva. "master" или "develop": '
 	read branch
-	git pull parent_github $branch
+	git pull parent $branch
 	git push --set-upstream origin master # master - это ветка уже вашего репозитория
 
 	tmpGitmodules=$(mktemp)

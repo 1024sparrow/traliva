@@ -1,4 +1,4 @@
-compiler/node_modules/
-compiler/package-lock.json
+#compiler/node_modules/
+#compiler/package-lock.json
 *.swo
 *.swp
