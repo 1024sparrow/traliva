@@ -1,9 +1,9 @@
 [submodule "project"]
 	path = src/project
-	url = https://github.com/1024sparrow/traliva_example.git
+	url = ../kuku_proj.git
 [submodule "traliva_kit"]
 	path = traliva_kit
-	url = https://github.com/1024sparrow/traliva_kit.git
+	url = ../kuku_kit.git
 [submodule "src/build_scripts/targets"]
 	path = src/build_scripts/targets
-	url = https://github.com/1024sparrow/traliva_platforms.git
+	url = ../kuku_platforms.git
