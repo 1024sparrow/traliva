@@ -28,6 +28,7 @@ But you can point alternate paths to them. Generate config-file with key \"--con
         if [ $arg == --config-gen ]
         then
             echo "\
+# Если указываете путь в файловой системе, то, пожалуйста, указывайте полный путь до репозитория (от корня файловой системы)
 gitpath_traliva=$gitpath_traliva
 gitpath_traliva_kit=$gitpath_traliva_kit
 gitpath_traliva_example=$gitpath_traliva_example
@@ -61,8 +62,6 @@ gitpath_traliva_platforms=$gitpath_traliva_platforms"
 }
 
 tuneSettings $*
-echo "not implemented"
-exit 0
 
 echo -n 'Название вашего проекта (одним словом - это будет частью имён нескольких репозиториев): '
 read projectName
@@ -82,6 +81,7 @@ function forkSubmodules()
 		src/build_scripts/targets  $gitpath_traliva_platforms
 	)
 	local -i state=0
+    echo "boris debug: forkSubmodules initial path: $(pwd)"
 	for i in ${submodulesSrc[@]}
 	do
 		if [ $state -eq 0 ]
@@ -91,7 +91,7 @@ function forkSubmodules()
 		elif [ $state -eq 1 ]
 		then
 			git remote add parent_github $i
-			git remote set-url parent_github --push "Вы не можете заливать изменения в репозиторий родительского проекта"
+			#git remote set-url parent_github --push "Вы не можете заливать изменения в репозиторий родительского проекта"
 			echo -n "Выберите ветку исходного репозитория $i [default - master]:"
 			read branchName
 			if [ -z "$branchName" ]
@@ -109,7 +109,7 @@ function forkSubmodules()
 git clone repos/${projectName}.git
 pushd ${projectName} > /dev/null
 	git remote add parent_github $gitpath_traliva
-	git remote set-url parent_github --push "Вы не можете заливать изменения в репозиторий родительского проекта"
+	#git remote set-url parent_github --push "Вы не можете заливать изменения в репозиторий родительского проекта"
 	echo -n 'Выберите ветку исходного репозитория traliva. "master" или "develop": '
 	read branch
 	git pull parent_github $branch
@@ -118,13 +118,16 @@ pushd ${projectName} > /dev/null
 	tmpGitmodules=$(mktemp)
 	while IFS= read -r line
 	do
-		if [[ "$line" == "	url = https://github.com/1024sparrow/traliva_example.git" ]]
+		if [[ "$line" == "	url = https://github.com/1024sparrow/traliva_example.git" ]] # boris e: после всех настроек traliva: раскомментировать подлежащие строчки вместо этих, и переклонировать github в локальные репозитории
+		#if [[ "$line" == "	url = $gitpath_traliva_example" ]]
 		then
 			echo "	url = ../${projectName}_proj.git" >> $tmpGitmodules # относительные пути. Относительно пути расположения репозитория ${projectName}.git
 		elif [[ "$line" == "	url = https://github.com/1024sparrow/traliva_kit.git" ]]
+		#elif [[ "$line" == "	url = $gitpath_traliva_kit" ]]
 		then
 			echo "	url = ../${projectName}_kit.git" >> $tmpGitmodules # относительные пути. Относительно пути расположения репозитория ${projectName}.git
 		elif [[ "$line" == "	url = https://github.com/1024sparrow/traliva_platforms.git" ]]
+		#elif [[ "$line" == "	url = $gitpath_traliva_platforms" ]]
 		then
 			echo "	url = ../${projectName}_platforms.git" >> $tmpGitmodules # относительные пути. Относительно пути расположения репозитория ${projectName}.git
 		else
