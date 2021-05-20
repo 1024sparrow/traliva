@@ -92,14 +92,15 @@ function forkSubmodules()
 		then
 			git remote add parent $i
 			#git remote set-url parent --push "Вы не можете заливать изменения в репозиторий родительского проекта"
-			echo -n "Выберите ветку исходного репозитория $i [default - master]:"
+			echo -n "Выберите ветку исходного репозитория $i [default - master]: "
 			read branchName
 			if [ -z "$branchName" ]
 			then
 				branchName=master
 			fi
+            git checkout -b "$branchName"
 			git pull parent "$branchName"
-			git push --set-upstream origin master # master - это ветка уже вашего репозитория
+			git push --set-upstream origin $branchName # master - это ветка уже вашего репозитория
 			popd
 			state=0
 		fi
@@ -112,8 +113,9 @@ pushd ${projectName} > /dev/null
 	#git remote set-url parent --push "Вы не можете заливать изменения в репозиторий родительского проекта"
 	echo -n 'Выберите ветку исходного репозитория traliva. "master" или "develop": '
 	read branch
+    git checkout -b $branch
 	git pull parent $branch
-	git push --set-upstream origin master # master - это ветка уже вашего репозитория
+	git push --set-upstream origin $branch # master - это ветка уже вашего репозитория
 
 	tmpGitmodules=$(mktemp)
 	while IFS= read -r line
@@ -135,6 +137,25 @@ pushd ${projectName} > /dev/null
 		fi
 	done < .gitmodules
 	mv $tmpGitmodules .gitmodules
+
+    echo "#!/bin/bash
+
+PROTECTED_FILE=.gitmodules
+
+if [ \$1 == parent ]
+then
+	if [ ! -z \"\$(git diff parent/$branch \${PROTECTED_FILE})\" ]
+	then
+		cp \${PROTECTED_FILE} .\${PROTECTED_FILE}__copy
+		git checkout parent/$branch -- \${PROTECTED_FILE}
+		git add \${PROTECTED_FILE}
+		git commit -m\"restored ${PROTECTED_FILE} (can not change on parent remote)\"
+		mv .\${PROTECTED_FILE}__copy \${PROTECTED_FILE}
+	fi
+fi
+" > .git/hooks/pre-push
+    chmod +x .git/hooks/pre-push
+
 	git add .gitmodules && git commit -m"First after-fork commit" && git push
 	git submodule update --init
 	git submodule foreach 'git checkout master'
