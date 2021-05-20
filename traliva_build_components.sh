@@ -1,3 +1,3 @@
 #!/bin/bash
 
-compile tests/src/tests.pro
+/usr/share/traliva/compile.js tests/src/tests.pro
