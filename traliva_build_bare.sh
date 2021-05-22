@@ -1,3 +1,3 @@
 #!/bin/bash
 
-compile src/project/project.pro
+/usr/share/traliva/compile.js src/project/project.pro

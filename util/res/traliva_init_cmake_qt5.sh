@@ -10,7 +10,8 @@ then
 fi
 
 mkdir -p $projectName/$projectName &&
-echo "cmake_minimum_required(VERSION 3.10.2)
+#echo "cmake_minimum_required(VERSION 3.10.2)
+echo "cmake_minimum_required(VERSION 2.8)
 project(${projectName}_project CXX)
 
 SET(CMAKE_CXX_FLAGS "$\{CMAKE_CXX_FLAGS\}" \"-lpthread\")
@@ -18,7 +19,8 @@ SET(CMAKE_CXX_STANDARD 14)
 
 add_subdirectory($projectName)" > $projectName/CMakeLists.txt &&
 
-echo "cmake_minimum_required(VERSION 3.10.2)
+#echo "cmake_minimum_required(VERSION 3.10.2)
+echo "cmake_minimum_required(VERSION 2.8)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
@@ -49,7 +51,7 @@ int main(int argc, char **argv)
 		char *arg = argv[iArg];
 		if (!strcmp(arg, \"--help\"))
 		{
-			puts(R\"(Program $projectName)\");
+			puts(\"Program $projectName\");
 			return 0;
 		}
 		else if (arg[0] == '-')

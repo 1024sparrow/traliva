@@ -33,6 +33,14 @@ done
 declare state=0
 for arg in $*
 do
+    if [ $arg == help ]
+    then
+        continue
+    fi
+    if [ $state == init_traliva ]
+    then
+        continue
+    fi
 	#echo "**$arg**" $state
 	if [ $state == 0 ]
 	then
@@ -70,7 +78,7 @@ do
 done
 if [ $state == init_traliva ]
 then
-	"$USER_SHARE"/res/init-traliva.sh
+	"$USER_SHARE"/res/init-traliva.sh $*
 elif [ $state == init_bare ]
 then
 	echo not implemented
