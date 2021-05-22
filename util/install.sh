@@ -8,6 +8,18 @@ then
 	exit 1
 fi
 
+for i in python python3 node realpath
+do
+	if ! which $i > /dev/null
+	then
+		echo "Install \"$i\" please and repeate installing"
+		exit 1
+	fi
+done
+
+echo not implemented
+exit 1
+
 if [ -f /usr/local/bin/traliva ] || [ -d /usr/share/traliva ]
 then
 	echo "already installed. Error."
