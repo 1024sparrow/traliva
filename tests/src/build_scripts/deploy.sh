@@ -12,7 +12,7 @@ echo '{{{{{{ boris debug'
 ls # boris debug
 echo '---'
 ls -l *
-sed -e "s/#RES#/traliva_kit\/res/g" style.css > style.css_tmp
+sed -e "s/#RES#/..\/traliva_kit\/res/g" style.css > style.css_tmp
 mv style.css_tmp style.css
 echo '}}}}}} boris debug'
 popd
