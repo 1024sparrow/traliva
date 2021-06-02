@@ -7,13 +7,12 @@ p_sroll - политика скрола. Строка. Возможные зна
 // -- class $_WidgetBase --
 function $_WidgetBase($0){
     //$0 - p_parentWidget
-    //$1 - p_scroll (уже не используется)
-    //$2 - e
 
     this.$__onscrollOkFunc;
     this.$__isVisible = true;
     this.$__isMouseEventsBlocked = false;
     this.$__wParent = $0;
+    //this.$__planedResize = undefined;
 
     this.$_div = document.createElement('div');
     /* сейчас врйчную запускать _WidgetBase не предполагается - только через $Traliva.$WidgetStateSubscriber */
@@ -123,6 +122,17 @@ $_WidgetBase.prototype.$_createContentElem = function(){
 	return $retVal;
 };
 $_WidgetBase.prototype.$resize = function($w, $h){
+    if (!this.$__isVisible){
+        this.$__planedResize = ($w === this.$__w && $h === this.$__h)?
+                                    undefined :
+                                    {
+                                        $w: $w,
+                                        $h: $h
+                                    };
+        return;
+    }
+    this.$__w = $w;
+    this.$__h = $h;
     var $1 = $h + 'px', $2 = $w + 'px', $0 = this.$_div.style;
 	$0.height = $1;
 	$0.maxHeight = $1;
@@ -163,22 +173,33 @@ $_WidgetBase.prototype.$resize = function($w, $h){
     }*/
 };
 $_WidgetBase.prototype.$setVisible = function($p_visible){
+    var $1;
     if ($p_visible !== this.$__isVisible){
     	this.$_div.style.display = $p_visible ? this.$_divInitialDisplayProperty : 'none';
-        this.$__isVisible = $p_visible;
-        //должны оповерстить родительские элементы об изменении видимости дочернего элемента
-        if (this.$__wParent)
-            this.$__wParent.$_onChildVisibilityChanged(this);
+        if (this.$__isVisible !== $p_visible){
+            this.$__isVisible = $p_visible;
+            this.$_onVisibilityChanged($p_visible);
+            if ($1 = this.$__planedResize){
+                this.$resize($1.$w, $1.$h);
+                this.$__planedResize = undefined;
+            }
+            //должны оповерстить родительские элементы об изменении видимости дочернего элемента
+            if (this.$__wParent)
+                this.$__wParent.$_onChildVisibilityChanged(this);
+        }
     }
 };
 $_WidgetBase.prototype.$_onChildVisibilityChanged = function($wChild){};
 $_WidgetBase.prototype.$isVisible = function(){return this.$__isVisible;};
 $_WidgetBase.prototype.$_onResized = function($w, $h){
-	console.log('this method must be reimplemented: update content or child elements sizes for <this.$_content> for given in parameters new size');
+	//console.log('this method must be reimplemented: update content or child elements sizes for <this.$_content> for given in parameters new size');
+    // В ходе переопределения данного метода не забудьте вызвать реализацию базового класса.
+    this.$__w = $w;
+    this.$__h = $h;
 };
 $_WidgetBase.prototype.$_onScrolled = function($pos){
 	// reimplement this method if you need
 };
-$_WidgetBase.prototype.$_onVisibilityChanged = function($p_childWidget, $p_visible){
+$_WidgetBase.prototype.$_onVisibilityChanged = function($p_visible){
 };
 // -- end class $_WidgetBase --

@@ -31,6 +31,9 @@ function $switchToLayout($layId){
         }
     }
     $d.$layout = $layId;
+    setTimeout(function(){
+        $d.$wRoot.$resize($d.$wRoot.$__w, $d.$wRoot.$__h);
+    }, 20);
 };
 
 $Traliva.$init = function($o){

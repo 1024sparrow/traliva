@@ -122,7 +122,6 @@ $Strip.prototype.$addSplitter = function(){
 	}
 	var splitter = new $Traliva.Widget(this);
 	//Если стиль не установлен, то будет цвета подложки (сейчас это тёмно-серый #444)
-	//splitter.setContent(undefined, '#f00');//установка цвета по умолчанию
 	splitter._content.className = 'b__splitter';
 	splitter._content.style.cursor =
 		(this.$__orient == $Traliva.$Strip__Orient__hor) ? 'col-resize' : 'row-resize';

@@ -8,8 +8,8 @@ $p_descr - если виджет-подписчик, создаётся по с�
 
 {%% array.js %%}
 #MASK#$Traliva$scroll:v,h##
-function $WidgetStateSubscriber($p_wContainer, $p_options, $p_descr){
-    $StateSubscriber.call(this);
+function $WidgetStateSubscriber($p_wContainer, $p_options, $p_descr, $p_changeFlags){
+    $StateSubscriber.call(this, $p_changeFlags);
     var $0, $1, $2, $3, $4;
     this.$__WidgetStateSubscriber = {
         $wContainer: $p_wContainer,

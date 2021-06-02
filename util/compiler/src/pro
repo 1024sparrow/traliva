@@ -1,0 +1,15 @@
+module.exports = {
+    target: '../compiled',
+    file:{
+        text: function(s) {
+            return s
+                .replace(/"/g, '\\"')
+                .replace(/'/g, '\\\'')
+                .replace(/\n/g, '\\n')
+            ;
+        },
+        minify:function(s){return s;}
+    },
+    dir:{
+    }
+}

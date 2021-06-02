@@ -1,0 +1,19 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>style.css и res/</title>
+<link rel="stylesheet" type="text/css" href="style/style.css">
+</head>
+<body>
+<a href="../index.html" style="font-size=2em;color:#f60;border:1px solid #f60;border-radius:5px;">НАВЕРХ</a>
+<h1>style.css и res/</h1>
+<p>В файле <hl>style.css</hl> описываются стили приложения (или отдельной его части). Особенности следующие:</p>
+<ul>
+<li>Комментарии можно использовать как <hl>/*...*/</hl>, так и <hl>//...</hl> - как в JavaScript и C/C++</li>
+<li>При указании пути к файлу необходимо его предварять <hl>#RES#/</hl>. Например,
+<c>background: url(#RES#/header_logo.png)</c>
+</li>
+<li>Все файлы, на которые ссылается файл стилей <hl>style.css</hl>, должны пасполагаться в директории <hl>res/</hl>, которая располагается на том же уровне, что и сам файл <hl>style.css</hl> (или иметь там символическую ссылку)</li>
+</ul>
+</body>
+</html>

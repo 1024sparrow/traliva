@@ -33,8 +33,6 @@ $Widget.prototype.$cleanInlineStyles = function(){
     $0.style.display = $display;
 };
 $Widget.prototype.$_onResized = function($w, $h){
-	this.$__w = $w;
-	this.$__h = $h;
 	if (this.$__contentWidget)
 		this.$__contentWidget.$resize($w,$h);
     // boris here: вызвать родительскую реализацию этого метода

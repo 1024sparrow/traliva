@@ -1,0 +1,32 @@
+body{
+    color: #afa;
+    background: #000;
+    font-family: mono;
+}
+h1,h2,h3,h4,h5,h6{
+    color: #ffa;
+}
+/*код*/
+c{
+    color: #48f;
+    white-space: pre;
+}
+c prebash{
+    color: #ffa;
+}
+c comment{
+    color: #666;
+}
+comment{
+    color: #220;
+    font-size: 80%;
+}
+/*подсветка текста*/
+hl{
+    color: #faa;
+    /*border-bottom: 1px solid #ffa;*/
+}
+
+a{
+    color: #48f;
+}

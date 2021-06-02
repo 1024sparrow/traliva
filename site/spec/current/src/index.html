@@ -1,0 +1,20 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>src</title>
+<link rel="stylesheet" type="text/css" href="style/style.css">
+</head>
+<body>
+<a href="../index.html" style="font-size=2em;color:#f60;border:1px solid #f60;border-radius:5px;">НАВЕРХ</a>
+<h1>src</h1>
+<p>В данной директории располагаются исходники проекта. Перечислим файлы и директории, которые здесь можно найти:</p>
+<ul>
+<li><hl>pro</hl> - файл проекта, который вам понадобится для сборки проекта под заданные платформы с помощью утилиты <a href="https://github.com/1024sparrow/compiler">compiler</a></li>
+<li><a href="config/index.html">config</a> - файл параметров сборки. Здесь задаются параметры сборки: включать ли отладочный код в результат сборки, сжимать ли JavaScript (ускоряется загрузка и исполнение, но файл становится нечитаемым - переменные будут переименованы, и весь код будет в одну строку)</li>
+<li><hl>target_platforms</hl> - в этом файле перечисляются названия платформ, под которые нужно осуществлять сборку (по именам соответствующих директорий в src/build_scripts/targets/). Этот файл используется, если в config-файле не указана опция TARGET, которая задаёт единственную платформу, под которую будет осуществляться сборка</li>
+<li><hl>build_scripts/</hl> - в данной директории находятся скрипты, участвующие в сборке.</li>
+<li><a href="build_scripts__targets/index.html">build_scripts/targets/</a> - в данной директории располагаются директории со скриптами, генерирующими код под различные платформы. git-подмодуль, уазывающий на github.com/1024sparrow/traliva_platforms или его форк.</li>
+<li><a href="project/index.html">project</a> - директория с кодом вашего приложения. git-подмодуль, указывающий на github.com/1024sparrow/traliva_example или его форк.</li>
+</ul>
+</body>
+</html>

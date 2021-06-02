@@ -1,5 +1,5 @@
-function $LogicsStateSubscriber(){
-    $StateSubscriber.call(this);
+function $LogicsStateSubscriber($p_changeFlags){
+    $StateSubscriber.call(this, $p_changeFlags);
 };
 $LogicsStateSubscriber.prototype = Object.create($StateSubscriber.prototype);
 $LogicsStateSubscriber.prototype.constructor = $LogicsStateSubscriber;

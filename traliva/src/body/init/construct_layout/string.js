@@ -10,7 +10,8 @@ $p_widgetScope[$p_oLayout] - виджет-подписчик
 }*/
 #USAGE_BEGIN#debug##
 if ($p_oLayout.hasOwnProperty('$id')){
-    if ($Traliva.$widgets.hasOwnProperty($p_oLayout.$id))
+    //if ($Traliva.$widgets.hasOwnProperty($p_oLayout.$id))
+    if ($context.$widgets.hasOwnProperty($p_oLayout.$id))
         console.error('Обнаружено дублирование идентификаторов виджетов. Идентификатор конфликта - ' + $p_oLayout.$id);
 }
 #USAGE_END#debug##
@@ -35,7 +36,7 @@ else{
             $cand = new $0.$constructor($retVal, $tmp, $0);
             if ($0.hasOwnProperty('$substate'))
                 $cand = $cand.$useSubstate($0.$substate);
-            //$3.$_widget = $construct_layout($retVal, $3.$_widget, $p_oLayout.$bg || $p_defaultBackground, $p_widgets, $p_widgetScope, $p_innerCall || $used);
+            //$3.$_widget = $construct_layout($retVal, $3.$_widget, $p_oLayout.$bg || $p_defaultBackground, $p_widgets, $p_widgetScope, $context, $p_innerCall || $used);
         }
     }
     else{
@@ -44,8 +45,9 @@ else{
         $cand = new $StubWidget($retVal, $p_oLayout);
     }
     //$retVal.setContent($cand);$cand - не виджет, а его представитель из мира Подписчиков
-    $Traliva.$__d.$widgets[$p_oLayout] = $retVal;
+    //$Traliva.$__d.$widgets[$p_oLayout] = $retVal;
+    $context.$widgets[$p_oLayout] = $retVal;
     $p_widgetScope[$p_oLayout] = $cand;
-    $Traliva.$__d.$publisher.$registerSubscriber($cand);
+    $context.$statePublisher.$registerSubscriber($cand);
 }
 $used[$p_oLayout] = 1;
