@@ -17,9 +17,6 @@ do
 	fi
 done
 
-echo not implemented
-exit 1
-
 if [ -f /usr/local/bin/traliva ] || [ -d /usr/share/traliva ]
 then
 	echo "already installed. Error."
