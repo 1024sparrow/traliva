@@ -6,88 +6,146 @@
 </head>
 <body>
 <h1>Спецификация фреймворка Тралива</h1>
-<p>Версия 2</p>
+<p>Версия 3</p>
 <p><a href="spec_changes/index.html">Изменения относительно предыдущей версии спецификации</a></p>
-<p>Проект Тралива предназначен для упрощения и унификации процесса создания веб-приложений (сайтов) и нативных приложений. Тралива должна давать возможность программисту разрабатывать приложения для разных платформ, но сама сборка целевого приложения работает только на платформах Unix & Linux. Это допущение сделано для максимального упрощения кода проекта.</p>
-<p>Для сборки необходима сборочная утилита <a href="https://github.com/1024sparrow/compiler" target="_blank">compiler</a>.</p>
-<p>После того, как склонировали репозиторий traliva, вам необходимо выполнить находящийся там скрипт <hl>init_submodules.sh</hl>, и вы увидите следующие файлы:</p>
-<ul>
-    <!--<li><a href="xxx_doc/index.html">xxx_doc/</a> - директория для спецификации проекта xxx</li>-->
-    <li><hl>init_submodules.sh</hl> - скрипт для инициальной настройки git-подмодулей.</li>
-    <li><hl>traliva/</hl> - исходники фреймфорка Тралива (не для правки)</li>
-    <li><a href="traliva_kit/index.html">traliva_kit/</a> - набор компонентов для вашего проекта</li>
 
-    <li><a href="src/index.html">src/</a> - исходники проекта</li>
-    <li><hl>src/build_scripts/targets/</hl> - директория с правилами сборки под разные платформы (они хранятся в отдельных репозиториях)</li>
-    <li><hl>src/project_compiled/</hl> - директория с бессерверным вариантом сборки (для разработчика)</li>
-    <li><hl>compiled/</hl> - результат компиляции исходников. Это ещё не рузультат разработки.</li>
-    <li><a href="compiled_project/index.html">compiled/project/</a> - результат сборки JavaScript-овой части приложения. Это то, что идёт на вход скриптам, генерирующим результат под разные платформы.</li>
-    <li><hl>compiled/targets/</hl> - результат сборки под разные платформы. Этот код не для правки программистом - при ближайшей пересборке изменения, внесённые программистом, будут затёрты.</li>
-    <li><hl>targets/</hl> - результат сборки под разные платформы. Это копия из compiled/targets, модифицируемая программистом. При пересборке проекта будет осуществлён git-merge с результатом сборки в compiled/targets</li>
-</ul>
-<h2>Порядок работы с проектом</h2>
-<p>Для начала убедитесь, что сборочная утилита <a href="https://github.com/1024sparrow/compiler">compiler</a> у вас установлена:</p><c><prebash>$</prebash> compile --help</c>
-<p>Разработку кода можно условно разбить на следующие 4 этапа:</p>
-<ol>
-    <li><a href="stage_1/index.html">Этап 1. Разработка спецификации программного изделия.</a> Можно пропустить, если вы не собираетесь распределять работу над проектом между несколькими разработчиками.</li>
-    <li><a href="stage_2/index.html">Этап 2. Разработка библиотеки компонентов.</a> Можно пропустить, если в стандартной библиотеке компонентов есть все необходимые вам компоненты.</li>
-    <li><a href="stage_3/index.html">Этап 3. Разработка интерфейса программы.</a></li>
-    <li><a href="stage_4/index.html">Этап 4. Реализация низкоуровнего API (серверной части).</a> Можно пропустить в тех случаях, когда скрипты, генерирующие результаты под нужные платформы, генерируют ровно то, что вам нужно.</li>
-</ol>
+<h2>Назначение программы</h2>
 
-<h3>Варианты сборки:</h3>
+<p>Проект Тралива предназначен для упрощения и унификации процесса создания веб-приложений (сайтов) и нативных приложений (графическая часть представлена нативным webview, отбражающим наш web-контент). Тралива должна давать возможность программисту разрабатывать приложения для разных платформ, но сама сборка целевого приложения работает только на платформе Linux. Это допущение сделано для максимального упрощения кода проекта.</p>
+
+Разработка приложения (и/или сайта) включает в себя следующие этапы разрботки:
 <ul>
-    <li><c><prebash>$</prebash> compile tests/src/tests.pro<comment> - сборка тестового приложения для демонстрации работы компонентов TralivaKit</comment></c></li>
-    <li><c><prebash>$</prebash> compile src/project/project.pro<comment> - сборка бессерверной части (для разработчика). Под платформы код не формируется</comment></c></li>
-    <li><c><prebash>$</prebash> compile src/pro<comment> - сборка под платформы. Бессерверный вариант не собирается</comment></c></li>
+    <li>
+        Разработка спецификации. Мы должны выполнить следующие действия:
+        <ul>
+            <li>
+                Убедиться, что под целевые платформы есть сответствующие скрипты кодогенерации. Базовый набор находится по <a href=https://github.com/1024sparrow/traliva_components> адресу</a>.
+            </li>
+            <li>Экранные формы, описать интерфейс и бизнес-логику програмы. Неободимо определиться с общей стилистикой программы: шрифты, палитра цветов. Необходимо определиться, как графический интерфейс должен выглядеть на разных размеров экранах, на разных платформах (например, сайт и мобильное приложение)</li>
+            <li>Выделить компоненты, необходимые для построения графического интерфейса, описать их. Какие параметры задаются на этапе запуска программы, а какие должны иметь возможность меняться в процессе работы приложения.</li>
+            <li>Определить единый объект Состояния (иерархическя модель даных), представляющая состояние всей программы. Определить, какие компоненты будут отрисовывать какие подсостояния единого объекта Состояния. Описать необходимые логические компоненты. Определить API работы с нижним уровнем: для сайтов это веб-сервер, для десктопных и мобильных приложений это код приложения (C++)</li>
+        </ul>
+    </li>
+    <li>
+        Разработка компонентов. Для запуска, отладки и тестирования отдельных компонентов есть отдельный инструмент (traliva-run-components)
+    </li>
+    <li>
+        Разработка графического интерфейса. Есть возможность запуска графического интрфейса на заглушках API нижнего уровня (traliva-run-bare). Следует обратить внимание на то, что при измении размеров экрана графический интерфейс должен меняться. Можно также сделать адаптивность и по платформе: на разных платформах (например, сайт и мобильное приложение) интерфейс может быть разным
+    </li>
+    <li>
+        Релизация низкоуровнего API для каждой из целевых платформ.
+    </li>
 </ul>
-<h3>Поиграйтесь с примерами</h3>
-<!--<p>После того как склонировали репозиторий traliva, вам необходимо выполнить находящийся там скрипт <hl>init_submodules.sh</hl></p>-->
-<p>В разных ветках git-подподулей <a href="https://github.com/1024sparrow/traliva_example">src/project</a> и <a href="https://github.com/1024sparrow/traliva_kit">traliva_kit</a> находятся разные преднастроенные примеры преоктов и библиотеки компонентов соответственно.</p>
-<p>Перед началом работы вам необходимо либо явно переключиться на нужную ветку в вышеуказанных подмодулях и сделать git-pull, либо просто выполнить скрипт <hl>init_submodules.sh</hl>, который настроит всё по-дефолту.</p>
-<h3>Создайте свой проект</h3>
-<p>Ваш проект - это ваш проект. И для начала вам необходимо сделать своё ответвление проекта.</p>
-<p>Т.е. вы не клонируете проект с github-а, а инициализируете новый репозиторий, и сливаете туда код из репозитория с github-а, либо клонируте уже ваш собственный ранее созданный репозиторий. Инициализация такого репозитория называется fork(ответвление). Ниже описывается процедура ответвления.</p>
-<p>Допустим, ваш проект называется <hl>abc</hl>. В выбранной для проекта директории (которая, наверное, так и называется - abc) выполните следующие команды:</p>
+
+<h2>Руководство пользователя, или как работать с Тралива</h2>
+
+<h3>Установка Тралива</h3>
+
+<p>Для начала работы с Тралива неоходимо установить себе в оперционную систему (GNU/Linux) утилиту traliva. Для этого необходимо выполнить следующие действия:</p>
+<ul>
+<li>
+    Установить все зависимости: git, nodejs, firefox для самого Тралива, зависимости для генерации кода под целевые платформы - см. документацию к соответствующим генераторам.
+</li>
+<li>
+    Скачать репозиторий traliva. Например, в директорию opt в домашней директории (любое место, лишь бы вы по ошибке со временем не удалили, не переместили, не переименовали)
+</li>
+</ul>
 <c>
-<prebash>$</prebash> mkdir repos && cd repos
-<prebash>repos$</prebash> for i in {abc,abc_kit,abc_proj}; do git init --bare --shared $i.git; done
-<prebash>repos$</prebash> cd ..
-<prebash>$</prebash> git clone repos/abc.git && cd abc
-<prebash>abc$</prebash> git remote add parent_github https://github.com/1024sparrow/traliva.git
-<prebash>abc$</prebash> git remote set-url parent_github --push "Вы не можете заливать изменения в репозиторий родительского проекта"
-<prebash>abc$</prebash> git pull parent_github master
-<prebash>abc$</prebash> git push --set-upstream origin master
-<prebash>abc$</prebash> vim .gitmodules
-    <comment>здесь мы заменяем адреса гитхабовские на свои собственные
-    [submodule "project"]
-        path = src/project
-<span style="color:#a00">-       url = https://github.com/1024sparrow/traliva_example.git</span>
-<span style="color:#0a0">+       url = ../abc_proj.git - относительные пути - относительно пути расположения репозитория abc.git</span>
-        branch = master
-    [submodule "traliva_kit"]
-        path = traliva_kit
-<span style="color:#a00">-       url = https://github.com/1024sparrow/traliva_kit.git</span>
-<span style="color:#0a0">+       url = ../abc_kit.git</span>
-        branch = master</comment>
-
-<prebash>abc$</prebash> ./init_submodules.sh
-<prebash>abc$</prebash> pushd traliva_kit
-<prebash>abc/traliva_kit$</prebash> git remote add parent_github https://github.com/1024sparrow/traliva_kit.git
-<prebash>abc/traliva_kit$</prebash> git remote set-url parent_github --push "Вы не можете заливать изменения в репозиторий родительского проекта"
-<prebash>abc/traliva_kit$</prebash> git pull parent_github master <comment><-- вместо master - та ветка, которую бы вы хотели "форкнуть"</comment>
-<prebash>abc/traliva_kit$</prebash> git push --set-upstream origin master <comment><-- здесь master - это уже в вашем собственном репозитории</comment>
-<prebash>abc/traliva_kit$</prebash> popd
-<prebash>abc$</prebash> pushd src/project
-<prebash>abc/src/project$</prebash> git remote add parent_github https://github.com/1024sparrow/traliva_example.git
-<prebash>abc/src/project$</prebash> git remote set-url parent_github --push "Вы не можете заливать изменения в репозиторий родительского проекта"
-<prebash>abc/src/project$</prebash> git pull parent_github master <comment><-- вместо master - та ветка, которую бы вы хотели "форкнуть"</comment>
-<prebash>abc/src/project$</prebash> git push --set-upstream origin master <comment><-- здесь master - это уже в вашем собственном репозитории</comment>
-<prebash>abc/src/project$</prebash> popd
-<prebash>abc$</prebash> git add .
-<prebash>abc$</prebash> git commit -m"first commit after fork"
-<prebash>abc$</prebash> git push
+<prebash>$</prebash> git clone https://github.com/1024sparrow/traliva.git
+<prebash>$</prebash> cd traliva/util
+<prebash>traliva/util$</prebash> sudo ./install.sh # важно, что запуск из той директории, где этот скрипт находится
 </c>
+<p> После этого в системе доступна утилита traliva. Справка по работе с этой утилите отображается при запуске с ключом <hl>--help</hl>.  </p>
+<p>Утилита traliva позволяет генерировать проекты:</p>
+<ul>
+<li>traliva. Для этого утилита, собственно, и предназначена</li>
+<li>cmake - проект с использованием Qt5</li>
+</ul>
+<p>После запуска утилита спросит у пользователя название проекта и параметры генерируемого проекта.</p>
+<p>Мы будем создавать проект типа traliva, поэтому выполним в консоли команду</p>
+<c>
+<prebash>$</prebash> traliva init traliva
+<prebash>Название вашего проекта (одним словом - это будет частью имён нескольких репозиториев):</prebash> MyApp
+<prebash>...</prebash>
+<prebash>Выберите ветку исходного репозитория traliva. "master" или "develop":</prebash> develop
+<prebash>...</prebash>
+<prebash>Выберите ветку исходного репозитория https://github.com/1024sparrow/traliva_example.git [default - master]: </prebash>
+<prebash>...</prebash>
+<prebash>Выберите ветку исходного репозитория https://github.com/1024sparrow/traliva_kit.git [default - master]: </prebash>
+<prebash>...</prebash>
+<prebash>Выберите ветку исходного репозитория https://github.com/1024sparrow/traliva_platforms.git [default - master]: </prebash>
+<prebash>...</prebash>
+<prebash>Сохраните ссылку на локальную документацию по вашему проекту: file:///home/boris/da/tmp/10612/doc/index.html</prebash>
+</c>
+<p>Как видите, исходных код для вашего проекта взят из четырёх репозиториев на github-е. Однако вы уже сейчас можете комитить и пушить (<c><prebash>$</prebash> git push</c>), и ваши комиты утелят... в локальную папочку с локально расшаренным репозиторием.</p>
+<p>После того, как команда отработала, в текущей директории вы найдёте две директории:</p>
+<c>
+<prebash>$</prebash> ls
+<prebash>MyApp repos</prebash>
+</c>
+<p>Содержимое локальных репозиториев склонировано из репозиториев Тралива на github-е. Однако, если у вас есть свои ответвления от тех репозиториев (форки), то есть возможность указать местоположение исходных репозиториев. Это использование дополнительных аргументов <hl>--config-gen</hl> и <hl>--config</hl>:</p>
+<c>
+<prebash>$</prebash> traliva init traliva --config-gen
+<prebash># Если указываете путь в файловой системе, то, пожалуйста, указывайте полный путь до репозитория (от корня файловой системы)</prebash>
+<prebash>gitpath_traliva=https://github.com/1024sparrow/traliva.git</prebash>
+<prebash>gitpath_traliva_kit=https://github.com/1024sparrow/traliva_kit.git</prebash>
+<prebash>gitpath_traliva_example=https://github.com/1024sparrow/traliva_example.git</prebash>
+<prebash>gitpath_traliva_platforms=https://github.com/1024sparrow/traliva_platforms.git</prebash>
+<prebash>$</prebash> traliva init traliva --config-gen &gt; traliva.conf
+... (поправьте пути в файле traliva.conf на ваши)
+<prebash>$</prebash> traliva init traliva --config traliva.conf
+</c>
+
+<p>"<c>git push</c>" отправит ваши локальные комиты в локальный репозиторий, <c>git push parent</c> отправит ваши комиты в родительский репозиторий (на github, если вы не подменяли родительский репозиторий)</p>
+
+<p>Рассмотрим, что в каком репозитории находится:</p>
+<ul>
+<li>traliva.git (форкается в локальный репозиторий MyApp.git) - исходный код самого фреймворка Тралива. Сюда входят также утилита traliva, документация и содержмое сайта traliva.ru на момент создания проекта</li>
+<li>traliva_kit.git (форкается в локальный репозиторий MyApp_kit.git) - библиотека компонентов Тралива. Всякие кнопочки, переключалки, поля ввода, анимированные контейнеры, а также, возможно, логические компоненты для вашего проекта (компонент загрузки контента, компонент воспроизведения аудио и т.д.)</li>
+<li>traliva_example.git (форкается в локальный репозиторий MyApp_proj.git) - это репозиторий вашего проекта, где из компонентов собирается проект</li>
+<li>traliva_platforms.git (форкается в локальный репозиторий MyApp_platforms.git) - репозиторий со скриптами генерации платформоспецифичного кода (генерация проекта с webview для разных платформ)</li>
+</ul>
+
+<h3>Ваш первый проект на Тралива</h3>
+
+<p>Инициализируем проект:</p>
+<c>
+<prebash>$</prebash> traliva init traliva
+<prebash>Название вашего проекта (одним словом - это будет частью имён нескольких репозиториев):</prebash> MyApp
+<prebash>...</prebash>
+<prebash>Выберите ветку исходного репозитория traliva. "master" или "develop":</prebash> develop
+<prebash>...</prebash>
+<prebash>Выберите ветку исходного репозитория https://github.com/1024sparrow/traliva_example.git [default - master]: </prebash>
+<prebash>...</prebash>
+<prebash>Выберите ветку исходного репозитория https://github.com/1024sparrow/traliva_kit.git [default - master]: </prebash>
+<prebash>...</prebash>
+<prebash>Выберите ветку исходного репозитория https://github.com/1024sparrow/traliva_platforms.git [default - master]: </prebash>
+<prebash>...</prebash>
+<prebash>Сохраните ссылку на локальную документацию по вашему проекту: file:///home/boris/da/tmp/10612/doc/index.html</prebash>
+<prebash>$</prebash> ls
+<prebash>MyApp   repos</prebash>
+<prebash>$</prebash> cd MyApp
+</c>
+
+<p>Сейчас мы имеем код примера. Мы имеем базовый набор компонентов. Этот пример мы можем модифицировать под наши нужды, а недостающие компоненты добавить.</p>
+<p>Есть три варианта сборки:</p>
+<ul>
+<li>Сборка только компонентов и специального инструмента для тестирования компонентов</li>
+<li>Сборка только графического интерфейса для запуска в firefox из локальной файловой системы</li>
+<li>Сборка только итогового кода под целевые платформы</li>
+</ul>
+<p>Нас интересует сразу последний вариант: сборка кода под целевые платформы. По умолчанию в этом режиме сборка производится под все платформы, которые есть в репозитории traliva_platforms.git . Для того, чтобы уточнить, под какую платформу надо собрать, необходимо целевую платформу (одну или несколько) указать в файле <hl>src/target_platforms</hl>. Также есть конфигурационный файл <hl>src/config</hl>, в котором задаются такие параметры сжатия веб-контента (убирание комментариев из кода, переименовывание переменных, делать ли весь JS- и CSS-код становится однострочным)</p>
+<p>Мы никакие настройки менять не будем, и запустим сборку сразу под все платформы:</p>
+<c><prebash>MyApp$</prebash> ./traliva_build_targets.sh</c>
+<p>В директории targets находим две диретории: ubuntu_desktop и web_django.</p>
+<p>Заходим в ubuntu_desktop, собираем, запускаем, радуемся.</p>
+
+<h3>Исходники проекта. Где чего править.</h3>
+
+<h2>Устройство Тралива</h2>
+
+
+
 
 </body>
 </html>
