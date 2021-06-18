@@ -4,7 +4,7 @@ function $switchToLayout($layId){
     //console.log('switch to $layout ' + $layId);
     var $d = $Traliva.$__d;
     if ($d.$layout === $layId)
-        return;
+        return false;
     #USAGE_BEGIN#debug##
     if (!$d.$o.$layouts.hasOwnProperty($layId)){
         console.log('Указанный лэйаут не описан');
@@ -25,7 +25,15 @@ function $switchToLayout($layId){
         for ($0 in $Traliva.$widgets){
             delete $Traliva.$widgets[$0];
         }
-        var $content = $construct_layout($d.$wRoot, $d.$o.$layouts[$layId], undefined, $d.$o.$widgets, $d.$w);
+        var $content =
+            $construct_layout(
+                $d.$wRoot,
+                $d.$o.$layouts[$layId],
+                undefined,
+                $d.$o.$widgets,
+                $d.$w
+            )
+        ;
         if ($content){
             $d.$wRoot.$setContent($content);
         }
@@ -34,6 +42,7 @@ function $switchToLayout($layId){
     setTimeout(function(){
         $d.$wRoot.$resize($d.$wRoot.$__w, $d.$wRoot.$__h);
     }, 20);
+    return true;
 };
 
 $Traliva.$init = function($o){
@@ -134,10 +143,11 @@ $Traliva.$init = function($o){
     $d.$wRoot.$_onResized = function($d, $f, $visibilitySwitcher){return function($w,$h){
         var $0, $lay = $d.$o.$get_layout($w,$h,$d.$o.$target);
         $Widget.prototype.$_onResized.call($d.$wRoot, $w, $h);
-        $f($lay);
-        $visibilitySwitcher.$_update();
-        for ($0 = 0 ; $0 < $d.$logics.length ; $0++){
-            $d.$logics[$0].$initializeGui($d.$o.$target, $lay);
+        if ($0 = $f($lay)){
+            $visibilitySwitcher.$_update();
+            for ($0 = 0 ; $0 < $d.$logics.length ; $0++){
+                $d.$logics[$0].$initializeGui($d.$o.$target, $lay);
+            }
         }
     };}($d, $switchToLayout, $1);
 
