@@ -2,7 +2,15 @@
 // $p_widgets - конструкторы виджетов
 // $p_widgetScope - здесь мы сохраняем наши виджеты
 // в случае аварийного выхода (некорректные параметры) мы заботимся о корректном освобождении памяти и о снятии ненужных подписчиков
-function $construct_layout($p_wParent, $p_oLayout, $p_defaultBackground, $p_widgets, $p_widgetScope, $p_context,$p_innerCall){
+function $construct_layout(
+    $p_wParent,
+    $p_oLayout,
+    $p_defaultBackground,
+    $p_widgets,
+    $p_widgetScope,
+    $p_context,
+    $p_innerCall
+){
     #USAGE_BEGIN#debug##
     //console.log('$construct_layout: ' + JSON.stringify($p_oLayout));
     #USAGE_END#debug##
