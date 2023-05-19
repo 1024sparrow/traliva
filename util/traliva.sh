@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "$*" > /home/boris/traliva_hist
+#echo "$*" > /home/boris/traliva_hist
 
 declare USER_SHARE=/usr/share/traliva
 

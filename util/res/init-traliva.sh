@@ -1,10 +1,10 @@
 #!/bin/bash
 
-projectName=boris
-gitpath_traliva=https://github.com/1024sparrow/traliva.git
-gitpath_traliva_kit=https://github.com/1024sparrow/traliva_kit.git
-gitpath_traliva_example=https://github.com/1024sparrow/traliva_example.git
-gitpath_traliva_platforms=https://github.com/1024sparrow/traliva_platforms.git
+declare projectName
+declare gitpath_traliva=https://github.com/1024sparrow/traliva.git
+declare gitpath_traliva_kit=https://github.com/1024sparrow/traliva_kit.git
+declare gitpath_traliva_example=https://github.com/1024sparrow/traliva_example.git
+declare gitpath_traliva_platforms=https://github.com/1024sparrow/traliva_platforms.git
 
 function tuneSettings {
     local state=init
