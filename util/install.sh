@@ -8,7 +8,7 @@ then
 	exit 1
 fi
 
-for i in python python3 node realpath
+for i in python3 node realpath
 do
 	if ! which $i > /dev/null
 	then
