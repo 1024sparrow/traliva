@@ -1,6 +1,6 @@
 #!/bin/bash
 
-dd=src/build_scripts/targets
+dd=$(dirname $0)/src/build_scripts/targets
 for i in $(ls -1 $dd)
 do
 	if [ -d $dd/"$i" ] && [[ ! "$i" =~ ^_ ]]

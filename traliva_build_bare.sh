@@ -1,3 +1,3 @@
 #!/bin/bash
 
-/usr/share/traliva/compile.js src/project/project.pro
+/usr/share/traliva/compile.js $(dirname $0)/src/project/project.pro
