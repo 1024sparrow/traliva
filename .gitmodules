@@ -1,4 +1,4 @@
-[submodule "project"]
+[submodule "src/project"]
 	path = src/project
 	url = https://github.com/1024sparrow/traliva_example.git
 [submodule "traliva_kit"]
