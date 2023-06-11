@@ -156,7 +156,7 @@ then
 			state=codePath
 			cloneRepo "$codePath" "$repositoryForkFrom" "$repositoryPushTo" "$branch"
 		fi
-	done < <(node $(dirname $0)/readConfig.js --list-git-submodules "$argConfigPath" || ERROR 'Не удалось получить список адресов репозиториев')
+	done < <(node /usr/share/traliva/res/readConfig.js --list-git-submodules "$argConfigPath" || ERROR 'Не удалось получить список адресов репозиториев')
 
 	echo -n "Сохраните ссылку на локальную документацию по вашему проекту: file://"
 	readlink -f "$dirName"/doc/index.html
