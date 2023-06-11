@@ -1,164 +1,165 @@
 #!/bin/bash
 
-declare projectName
-declare gitpath_traliva=https://github.com/1024sparrow/traliva.git
-declare gitpath_traliva_kit=https://github.com/1024sparrow/traliva_kit.git
-declare gitpath_traliva_example=https://github.com/1024sparrow/traliva_example.git
-declare gitpath_traliva_platforms=https://github.com/1024sparrow/traliva_platforms.git
+for oArg in $@
+do
+	if [ "$oArg" == --help ]
+	then
+		echo "
+Процесс генерации проекта следующий:
 
-function tuneSettings {
-	local state=init
-	for arg in $*
-	do
-		if [ $arg == help ]
-		then
-			echo "Generate your traliva project. By default all code copyes from traliva's github repositories.
-But you can point alternate paths to them. Generate config-file with key \"--config-gen\", modify it run with that config using key \"config\"
---config-gen
-	print config default content to stdout
---config <PATH>
-	use config file to get actual project settings
+1. Генерирация конфигурационного файла проекта.
+$0 --config-gen > путь/по/которому/создать/кофигурационный/файл
+
+2. Правим конфигурационный файл в текстовом редакторе. Предполагатся, что один или несколько репозиториев разработчик (дабы не публиковать свои разработки!) форкает в свои собственные репозитории. Если разработчик указывает свои репозитории, то он должен позаботиться о том, чтобы эти репозитории существовали.
+
+3. Инициализируем Проект.
+$0 --config <путь/до/конфига>
 "
-			exit 0
-		fi
-	done
-
-	for arg in $*
-	do
-		if [ $arg == --config-gen ]
-		then
-			echo "\
-# Если указываете путь в файловой системе, то, пожалуйста, указывайте полный путь до репозитория (от корня файловой системы)
-gitpath_traliva=$gitpath_traliva
-gitpath_traliva_kit=$gitpath_traliva_kit
-gitpath_traliva_example=$gitpath_traliva_example
-gitpath_traliva_platforms=$gitpath_traliva_platforms"
-			exit 0
-		elif [ $arg == --config ]
-		then
-			state=config
-		elif [ ${arg:0:1} == - ]
-		then
-			echo "Unknown key: \"$arg\""
-			exit 1
-		else
-			if [ $state == config ]
-			then
-				if [ ! -r "$arg" ]
-				then
-					echo "File \"$arg\" not found"
-					exit 1
-				fi
-				source "$arg"
-				state=init
-			fi
-		fi
-	done
-	if [ ! $state == init ]
-	then
-		echo "incorrect arguments. See help."
-		exit 1
+		exit 0
 	fi
+done
+
+declare state=init
+declare argConfigPath
+
+function ERROR {
+	echo "Ошибка: $1"
+	exit 1
+}
+function fErrorArg {
+	echo "неожиданный аргумент: \"$1\". См. справку."
 }
 
-tuneSettings $*
-
-echo -n 'Название вашего проекта (одним словом - это будет частью имён нескольких репозиториев): '
-read projectName
-mkdir repos
-pushd repos > /dev/null
-	for i in $projectName ${projectName}_kit ${projectName}_proj ${projectName}_platforms
-	do
-		git init --bare --shared $i.git
-	done
-popd > /dev/null
-
-function forkSubmodules()
-{
-	local -a submodulesSrc=(
-		src/project				   $gitpath_traliva_example
-		traliva_kit				   $gitpath_traliva_kit
-		src/build_scripts/targets  $gitpath_traliva_platforms
-	)
-	local -i state=0
-	echo "boris debug: forkSubmodules initial path: $(pwd)"
-	for i in ${submodulesSrc[@]}
-	do
-		if [ $state -eq 0 ]
+for oArg in $@
+do
+	if [ $state == init ]
+	then
+		if [ "$oArg" == --config-gen ]
 		then
-			pushd $i
-			state=1
-		elif [ $state -eq 1 ]
+			state=configGen.ready
+		elif [ "$oArg" == --config ]
 		then
-			git remote add parent $i
-			#git remote set-url parent --push "Вы не можете заливать изменения в репозиторий родительского проекта"
-			echo -n "Выберите ветку исходного репозитория $i [default - master]: "
-			read branchName
-			if [ -z "$branchName" ]
-			then
-				branchName=master
-			fi
-			git checkout -b "$branchName"
-			git pull parent "$branchName"
-			git push --set-upstream origin $branchName # master - это ветка уже вашего репозитория
+			state=config.init
+		else
+			fErrorArg "oArg"
+		fi
+	elif [ $state == config.init ]
+	then
+		argConfigPath="$oArg"
+		state=config.ready
+	else
+		ERROR 'лишние параметры указаны. См. справку.'
+	fi
+done
+
+function cloneRepo {
+# Arguments:
+# 1. codePath
+# 2. repositoryForkFrom
+# 3. repositoryPushTo
+# 4. branch
+
+	local argCodePath="$1"
+	local argRepoForkFrom="$2"
+	local argRepoPushTo="$3"
+	local argBranch="$4"
+
+#	echo "
+#	argCodePath=$argCodePath
+#	argRepoForkFrom=$argRepoForkFrom
+#	argRepoPushTo=$argRepoPushTo
+#	argBranch=$argBranch
+#"
+
+	if [ -z "$argCodePath" ]
+	then
+		git clone "$argRepoForkFrom" "$dirName" --branch "$argBranch" || ERROR boris\ 0
+	else
+		pushd "$dirName"
+			git submodule set-url "$argCodePath" "$argRepoForkFrom" || ERROR boris\ 1
+			git submodule update --init "$argCodePath" || ERROR boris\ 2
+			pushd "$argCodePath"
+				git checkout "$argBranch" || ERROR boris\ 3
 			popd
-			state=0
-		fi
-	done
+			if ! [ "$argRepoForkFrom" == "$argRepoPushTo" ]
+			then
+				git submodule set-url "$argCodePath" "$argRepoPushTo" || ERROR boris\ 4
+				git submodule init "$argCodePath" || ERROR boris\ 5
+			fi
+		popd
+	fi
 }
 
-git clone repos/${projectName}.git
-pushd ${projectName} > /dev/null
-	git remote add parent $gitpath_traliva
-	#git remote set-url parent --push "Вы не можете заливать изменения в репозиторий родительского проекта"
-	echo -n 'Выберите ветку исходного репозитория traliva. "master" или "develop": '
-	read branch
-	git checkout -b $branch
-	git pull parent $branch
-	git push --set-upstream origin $branch # master - это ветка уже вашего репозитория
-
-	tmpGitmodules=$(mktemp)
-	while IFS= read -r line
-	do
-		if [[ "$line" == "	url = https://github.com/1024sparrow/traliva_example.git" ]] # boris e: после всех настроек traliva: раскомментировать подлежащие строчки вместо этих, и переклонировать github в локальные репозитории
-		#if [[ "$line" == "	url = $gitpath_traliva_example" ]]
-		then
-			echo "	url = ../${projectName}_proj.git" >> $tmpGitmodules # относительные пути. Относительно пути расположения репозитория ${projectName}.git
-		elif [[ "$line" == "	url = https://github.com/1024sparrow/traliva_kit.git" ]]
-		#elif [[ "$line" == "	url = $gitpath_traliva_kit" ]]
-		then
-			echo "	url = ../${projectName}_kit.git" >> $tmpGitmodules # относительные пути. Относительно пути расположения репозитория ${projectName}.git
-		elif [[ "$line" == "	url = https://github.com/1024sparrow/traliva_platforms.git" ]]
-		#elif [[ "$line" == "	url = $gitpath_traliva_platforms" ]]
-		then
-			echo "	url = ../${projectName}_platforms.git" >> $tmpGitmodules # относительные пути. Относительно пути расположения репозитория ${projectName}.git
-		else
-			echo "$line" >> $tmpGitmodules
-		fi
-	done < .gitmodules
-	mv $tmpGitmodules .gitmodules
-
-	echo "#!/bin/bash
-
-PROTECTED_FILE=.gitmodules
-
-if [ \$1 == parent ]
+if [ $state == configGen.ready ]
 then
-	if [ ! -z \"\$(git diff parent/$branch \${PROTECTED_FILE})\" ]
-	then
-		cp \${PROTECTED_FILE} .\${PROTECTED_FILE}__copy
-		git checkout parent/$branch -- \${PROTECTED_FILE}
-		git add \${PROTECTED_FILE}
-		git commit -m\"restored ${PROTECTED_FILE} (can not change on parent remote)\"
-		mv .\${PROTECTED_FILE}__copy \${PROTECTED_FILE}
-	fi
-fi
-" > .git/hooks/pre-push
-	chmod +x .git/hooks/pre-push
+	echo "// nodejs module
 
-	git add .gitmodules && git commit -m"First after-fork commit" && git push
-	git submodule update --init
-	git submodule foreach 'git checkout master'
-	forkSubmodules
-	echo "Сохраните ссылку на локальную документацию по вашему проекту: file://$(pwd)/doc/index.html"
-popd > /dev/null
+module.exports = {
+	gitSubmodules:[
+		{
+			codePath: '',
+			repositoryForkFrom: 'https://github.com/1024sparrow/traliva.git',
+			repositoryPushTo: 'https://github.com/1024sparrow/traliva.git',
+			branch: 'develop-v2.2'
+		},
+		{
+			codePath: 'traliva_kit',
+			repositoryForkFrom: 'https://github.com/1024sparrow/traliva_kit.git',
+			repositoryPushTo: 'https://github.com/1024sparrow/traliva_kit.git',
+			branch: 'develop-v2.2'
+		},
+		{
+			codePath: 'src/project',
+			repositoryForkFrom: 'https://github.com/1024sparrow/traliva_example.git',
+			repositoryPushTo: 'https://github.com/1024sparrow/traliva_example.git',
+			branch: 'develop-v2.2'
+		},
+		{
+			codePath: 'src/build_scripts/targets',
+			repositoryForkFrom: 'https://github.com/1024sparrow/traliva_platforms.git',
+			repositoryPushTo: 'https://github.com/1024sparrow/traliva_platforms.git',
+			branch: 'develop-v2.2'
+		},
+	]
+};"
+elif [ $state == config.ready ]
+then
+	declare codePath
+	declare repositoryForkFrom
+	declare repositoryPushTo
+	declare branch
+
+	read -p 'Как назвать директорию: ' dirName
+	state=codePath
+	while read line
+	do
+		#echo "$line"
+		#if [ -z "$line" ]
+		#then
+		#	continue
+		#fi
+		if [ $state == codePath ]
+		then
+			codePath="$line"
+			state=repositoryForkFrom
+		elif [ $state == repositoryForkFrom ]
+		then
+			repositoryForkFrom="$line"
+			state=repositoryPushTo
+		elif [ $state == repositoryPushTo ]
+		then
+			repositoryPushTo="$line"
+			state=branch
+		elif [ $state == branch ]
+		then
+			branch="$line"
+			state=codePath
+			cloneRepo "$codePath" "$repositoryForkFrom" "$repositoryPushTo" "$branch"
+		fi
+	done < <(node $(dirname $0)/readConfig.js --list-git-submodules "$argConfigPath" || ERROR 'Не удалось получить список адресов репозиториев')
+
+	echo -n "Сохраните ссылку на локальную документацию по вашему проекту: file://"
+	readlink -f "$dirName"/doc/index.html
+else
+	ERROR 'Не хватает аргументов. См. справку.'
+fi
