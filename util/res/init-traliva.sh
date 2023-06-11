@@ -40,6 +40,9 @@ do
 		elif [ "$oArg" == --config ]
 		then
 			state=config.init
+		elif [ "$oArg" == traliva ] || [ "$oArg" == init ]
+		then
+			echo -n
 		else
 			fErrorArg "$oArg"
 		fi
