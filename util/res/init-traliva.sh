@@ -41,7 +41,7 @@ do
 		then
 			state=config.init
 		else
-			fErrorArg "oArg"
+			fErrorArg "$oArg"
 		fi
 	elif [ $state == config.init ]
 	then
