@@ -139,6 +139,7 @@ then
 
 	read -p 'Как назвать директорию: ' dirName
 	state=codePath
+	argConfigPath="$(readlink -f $argConfigPath)"
 	while read line
 	do
 		#echo "$line"

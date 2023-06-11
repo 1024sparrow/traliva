@@ -101,7 +101,7 @@ function testConfig(a) {
 }
 
 function listGit(a) {
-	var conf = require(`./${a}`);
+	var conf = require(a);
 	for (const oSubmodule of conf.gitSubmodules){
 		for (oField of [
 			'codePath',
