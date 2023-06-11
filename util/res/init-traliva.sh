@@ -127,6 +127,11 @@ module.exports = {
 };"
 elif [ $state == config.ready ]
 then
+	if ! [ "${argConfigPath: -3}" == .js ]
+	then
+		ERROR 'Конфигурационный файл должен иметь расширение *.js'
+	fi
+
 	declare codePath
 	declare repositoryForkFrom
 	declare repositoryPushTo
