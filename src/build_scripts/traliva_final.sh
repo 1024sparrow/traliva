@@ -22,14 +22,25 @@ do
 		continue
 	fi
 	echo "Запускается скрипт генерации исходного кода под платформу \"$i\""
-	mkdir "$targets_dir"/"$i"
+	if ! [ -d "$targets_dir"/"$i" ]
+	then
+		continue
+	fi
 
-	pushd "$targets_dir"/"$i"
-		if [ ! -d .git ]
-		then
-			git init
-		fi
-	popd
+	#pushd "$targets_dir"/"$i"
+	#	if [ ! -d .git ]
+	#	then
+	#		git init
+	#	fi
+	#popd
+
+	if ! [ -d "$compiled_dir"/"$i" ]
+	then
+		mkdir "$compiled_dir"/"$i"
+		pushd "$compiled_dir"/"$i"
+			git init -b skeleton
+		popd
+	fi
 
 	pushd "$compiled_dir"/"$i"
 		rm -r * # скрытые файлы и директории, в том чисел и .git, никуда не деваются
@@ -58,9 +69,9 @@ do
 	#	popd
 	#popd
 
-	pushd "$targets_dir"/"$i"
-		git stash
-		git merge skeleton
-		git stash pop
-	popd
+	#pushd "$targets_dir"/"$i"
+	#	git stash
+	#	git merge skeleton
+	#	git stash pop
+	#popd
 done
