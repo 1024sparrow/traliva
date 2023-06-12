@@ -50,6 +50,10 @@ do
 		pushd "$targets_dir"/"$i"
 			git apply $tempFile
 		popd
+		if [ -n "$(cat $tempFile)" ]
+		then
+			git add . && git commit -m "traliva: skeleton changed for target \"$i\""
+		fi
 		rm $tempFile
 	popd
 
