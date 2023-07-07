@@ -29,8 +29,10 @@ $StatePublisher.prototype.$setState = function($0){//parameter is an Object
 		//console.log('%csetState: '+JSON.stringify(this.$__state), 'color: #f00');//<--
 		var $3 = $2.$__getSubstate($0);
 		$2.$_state = $3;
+#USAGE_BEGIN#debug##
 		if ($Traliva.$debug && $Traliva.$debug.$state)
 			this.$__debugState($2, $3);
+#USAGE_END#debug##
 		$2.$processStateChanges($3, true);
 		//console.log('%c> setState: '+JSON.stringify(this.$__state), 'color: #f00');//<--
 	}
@@ -51,8 +53,10 @@ $StatePublisher.prototype.$registerSubscriber = function($0){
 	//console.log('%csetState: '+JSON.stringify(this.$__state), 'color: #f00');//<--
 	var $2 = $0.$__getSubstate(this.$__state);
 	$0.$_state = $2;
+#USAGE_BEGIN#debug##
 	if ($Traliva.$debug && $Traliva.$debug.$state)
 		this.$__debugState($0, $2);
+#USAGE_END#debug##
 	$0.$processStateChanges($2, true);
 	this.$__subscribers.push($0);
 	//console.log('%c> setState: '+JSON.stringify(this.$__state), 'color: #f00');//<--
@@ -60,8 +64,10 @@ $StatePublisher.prototype.$registerSubscriber = function($0){
 $StatePublisher.prototype.$unregisterSubscriber = function($0){
 	//$0 - state
 	//$1 - index
+#USAGE_BEGIN#debug##
 	if ($Traliva.$debug && $Traliva.$debug.$state)
 		console.log('%cunregister '+$0.constructor.name, 'color:#ffa');
+#USAGE_END#debug##
 	var $1 = this.$__subscribers.indexOf($0);
 	if ($1 > -1)
 		this.$__subscribers.splice($1, 1);
@@ -93,8 +99,10 @@ $StatePublisher.prototype.$_processStateChanges = function($0, $1){
 		//console.log('%csetState: '+JSON.stringify(this.$__state), 'color: #f00');//<--
 		$4 = $3.$__getSubstate(this.$__state);
 		$3.$_state = $4;
+#USAGE_BEGIN#debug##
 		if ($Traliva.$debug && $Traliva.$debug.$state)
 			this.$__debugState($3, $4);
+#USAGE_END#debug##
 		//console.log('%c> setState: '+JSON.stringify(this.$__state), 'color: #f00');//<--
 		$3.$processStateChanges($4, false);
 	}
@@ -112,6 +120,7 @@ $StatePublisher.prototype.$_processStateChanges = function($0, $1){
 	//	  console.log('--');
 	//}
 };
+#USAGE_BEGIN#debug##
 $StatePublisher.prototype.$__debugState = function($0, $1, $2){
 	//$0 - p_subscriber
 	//$1 - p_state
@@ -132,5 +141,6 @@ function $StatePublisherNoDebug(){
 };
 $StatePublisherNoDebug.prototype = Object.create($StatePublisher.prototype);
 $StatePublisherNoDebug.prototype.constructor = $StatePublisherNoDebug;
+#USAGE_END#debug##
 
 // -- end of class $StatePublisher --
