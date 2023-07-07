@@ -16,14 +16,14 @@ var $StateSubscriber = function($1){
 /*
 Этот метод будет вызываться при любом изменении объекта состояния (не только косающихся подсостояния данного подписчика, если такое задано). Реализация данного метода должна начинаться с проверки, изменились ли те элементы объекта состояния, которые используются в данном подписчике.
 */
-#USAGE_BEGIN#release##
+#USAGE_BEGIN#debug##
 $StateSubscriber.prototype.$processStateChanges = function($0, $1){
     //$0 - state
     //$1 - ifResetStateChain
 	console.log("critical error: method $processStateChanges must be reimplemented! class '"+this.constructor.name+"'");
 	console.log("Class name: "+this.constructor);//
 };
-#USAGE_END#release##
+#USAGE_END#debug##
 
 $StateSubscriber.prototype.$_registerStateChanges = function(){
 	if (this.$__m_publisher)
