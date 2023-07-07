@@ -72,6 +72,7 @@ $Traliva.$init = function($o){
 
     $d.$publisher = new $StatePublisher();
     $d.$publisher.$setState($o.$states.$initState);
+#USAGE_BEGIN#debug##
     if ($Traliva.$debug){
         $d.$__debug = {
             $publisher: new $StatePublisherNoDebug()
@@ -116,6 +117,7 @@ $Traliva.$init = function($o){
         $d.$__debug.$publisher.$registerSubscriber(new $DebugConsole());
     }
     else
+#USAGE_END#debug##
         $d.$wRoot = new $Widget();
     if ($o.$states.hasOwnProperty('$tree')){
         $d.$stateToUrlMapper = new $StateToUrlMapper({

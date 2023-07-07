@@ -126,7 +126,12 @@ done
 flags=0
 if [ "$COMPRESS_NAMES" = true ]; then flags=$(($flags|0x2)); echo "FLAG names: compress_names"; fi
 if [ "$COMPRESS_LINEBREAKS" = true ]; then flags=$(($flags|0x4)); echo "FLAG linebreaks: compress_linebreaks"; fi
-if [ "$CO_RELEASE" = true ]; then flags=$(($flags|0x8)); echo "FLAG release: release"; fi
+if [ "$CO_RELEASE" = true ]
+then
+	flags=$(($flags|0x8))
+	echo " #u#release##" >> ${all_js[0]}
+	echo "FLAG release: release"
+fi
 if [ "$CO_DEBUG" = true ]
 then
     echo " #u#traliva_kit_debug## #u#debug##" >> ${all_js[0]}

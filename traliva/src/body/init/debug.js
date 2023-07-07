@@ -1,13 +1,12 @@
 //'---------------init/debug.js---------------';
+#USAGE_BEGIN#debug##
 function $DebugConsole(){
     $StateSubscriber.call(this);
 };
 $DebugConsole.prototype = Object.create($StateSubscriber.prototype);
 $DebugConsole.prototype.constructor = $DebugConsole.prototype;
 $DebugConsole.prototype.$processStateChanges = function($s){
-#USAGE_BEGIN#debug##
     console.log('%cDEBUG:%c ' + JSON.stringify($s), 'color: #afa', 'color: #f80');
-#USAGE_END#debug##
 };
 
 function $Button($p_wContainer, $p_options){// $options: $title, color('#f00'), valueVarName - имя свойства, в которое сохранять значение
@@ -176,4 +175,5 @@ $DebugStatesExtenderWidget.prototype = Object.create($StateSubscriber.prototype)
 $DebugStatesExtenderWidget.prototype.constructor = $DebugStatesExtenderWidget;
 $DebugStatesExtenderWidget.prototype.$processStateChanges = function($s){
 };
+#USAGE_END#debug##
 //'---------------init/debug.js---------------';

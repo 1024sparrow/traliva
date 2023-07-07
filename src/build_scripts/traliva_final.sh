@@ -55,7 +55,7 @@ do
 		then
 			tempFile=$(mktemp)
 			git diff > $tempFile
-			cat $tempFile > /home/boris/da/tmp/230611
+			#cat $tempFile > /home/boris/da/tmp/230611
 			pushd "$targets_dir"/"$i"
 				git apply $tempFile
 			popd
