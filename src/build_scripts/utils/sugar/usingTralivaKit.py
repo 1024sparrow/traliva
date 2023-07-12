@@ -7,6 +7,10 @@ def process(p_js, p_css, p_js_css):
 	# Ищем '[ ,\t]$type: $TralivaKit.XXXXXX[\n,\,]'
 	# Первым делом находим в мапе имён переименованные 
 
+	usedComponents = set()
+
+	# $type: $TralivaKit.XXXX,
+	# $constructor: $TralivaKit.XXXX,
 	for fil in p_js_css:
 		for fragment in fil['text']:
 			if fragment['type'] == 1:
@@ -21,12 +25,37 @@ def process(p_js, p_css, p_js_css):
 						s = 2
 					elif s == 2 and i == 't':
 						s = 3
+					elif s == 2 and i == 'c':
+						s = 103
 					elif s == 3 and i == 'y':
 						s = 4
 					elif s == 4 and i == 'p':
 						s = 5
 					elif s == 5 and i == 'e':
 						s = 6
+
+					elif s == 103 and i == 'o':
+						s = 104
+					elif s == 104 and i == 'n':
+						s = 105
+					elif s == 105 and i == 's':
+						s = 106
+					elif s == 106 and i == 't':
+						s = 107
+					elif s == 107 and i == 'r':
+						s = 108
+					elif s == 108 and i == 'u':
+						s = 109
+					elif s == 109 and i == 'c':
+						s = 110
+					elif s == 110 and i == 't':
+						s = 111
+					elif s == 111 and i == 'o':
+						s = 112
+					elif s == 112 and i == 'r':
+						s = 6
+
+
 					elif s == 6 and i == ':':
 						s = 7
 					elif s == 7 and i.isspace():
@@ -63,8 +92,13 @@ def process(p_js, p_css, p_js_css):
 					elif s == 20 and (i.isspace() or i == ','):
 						# boris here 230711 ffd1
 						# в копилку кандидата
-						print('################: "' + t + '"') #
+						#print('################: "' + t + '"') #
+						usedComponents.add(t)
 						s = 0 # do nothing
+						t = ''
 					else:
 						ordinary = True
 						s = 0
+
+	for i in usedComponents:
+		print('################: "' + i + '"') #
