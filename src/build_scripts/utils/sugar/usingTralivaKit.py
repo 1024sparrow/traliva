@@ -102,6 +102,7 @@ def process(p_js, p_css, p_js_css):
 						s = 0
 
 	for i in usedComponents:
+		# boris here: (230713) привести в соответствие id подключаемых фрагментов c теми id, с которыми они реально подключаются
 		strAddon += '#u#' + i  + '## '
 
 	finished =  False
