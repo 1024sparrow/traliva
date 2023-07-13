@@ -8,20 +8,15 @@ def process(p_js, p_css, p_js_css):
 	# Первым делом находим в мапе имён переименованные 
 
 	usedComponents = set()
-	lastFil = None
-	lastFragment = None
 	strAddon = ''
 
 	# $type: $TralivaKit.XXXX,
 	# $constructor: $TralivaKit.XXXX,
 	for fil in p_js_css:
-		fragments = []
-		lastFil = fil
 		for fragment in fil['text']:
 			lastFragment = fragment
 			if fragment['type'] == 1:
 				s = 0
-				#cand = '' #
 				t = '' # текущий кандидат на добавление
 
 				for i in fragment['text']:
@@ -99,28 +94,21 @@ def process(p_js, p_css, p_js_css):
 					elif s == 20 and (i.isspace() or i == ','):
 						# в копилку кандидата
 						usedComponents.add(t)
-						fragment['text'] = fragment['text'] + ' #120713#' + t  + '## '
+						#fragment['text'] = fragment['text'] + ' #120713#' + t  + '## '
 						s = 0
 						t = ''
 					else:
 						ordinary = True
 						s = 0
-				#and=fragment['text'] #
-			#fil['text'].append()
-			fragment['text'] = fragment['text'] + ' 230713 '
-			fragments.append(fragment)
-		fil['text'] = fragments
-		#il['text'] = fragments
 
 	for i in usedComponents:
 		strAddon += '#u#' + i  + '## '
 
-	lastFragment['text'] += ' 230713 '; #
-	lastFil['text'].append(lastFragment);
-
-	print('ttt', strAddon) # 
-
-	#lastFil. boris here 230712: добавить strAddon в конец результирующего файла
-	#p_js_css.append()
-	#lastFragment['text'] += '############# boris 230712 #####################';
-	#lastFil['text'] =  
+	finished =  False
+	for fil in p_js_css:
+		fragments = []
+		for fragment in fil['text']:
+			fragment['text'] = fragment['text'] + strAddon
+			strAddon = ''
+			fragments.append(fragment)
+		fil['text'] = fragments
