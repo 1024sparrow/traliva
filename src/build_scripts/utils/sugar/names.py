@@ -82,6 +82,7 @@ def process(p_js, p_css, p_js_css, p_targetProjMap, p_justRemoveDollar):
 	if p_justRemoveDollar:
 		for i in vars:
 			cand = 'ss__' + i[1]
+			#cand = '$' + i[1] #
 			var_names_map[i[1]] = cand
 	else:
 		counter = 0

@@ -12,7 +12,7 @@ def process(p_js, p_css, p_js_css):
 
 	# $type: $TralivaKit.XXXX,
 	# $constructor: $TralivaKit.XXXX,
-	for fil in p_js_css:
+	for fil in p_js:
 		for fragment in fil['text']:
 			lastFragment = fragment
 			if fragment['type'] == 1:
@@ -21,7 +21,9 @@ def process(p_js, p_css, p_js_css):
 
 				for i in fragment['text']:
 					ordinary = False
-					if s == 0 and i.isspace():
+					if s == 0 and (i == ' ' or i == '\t'):
+						s = 1
+					elif s == 0 and i.isspace():
 						s = 1
 					elif s == 1 and i == '$':
 						s = 2
@@ -94,16 +96,18 @@ def process(p_js, p_css, p_js_css):
 					elif s == 20 and (i.isspace() or i == ','):
 						# в копилку кандидата
 						usedComponents.add(t)
-						#fragment['text'] = fragment['text'] + ' #120713#' + t  + '## '
 						s = 0
 						t = ''
 					else:
+						if i == ' ' or i == '\t' or i.isspace():
+							s = 1
+						else:
+							s = 0
 						ordinary = True
-						s = 0
 
 	for i in usedComponents:
-		# boris here: (230713) привести в соответствие id подключаемых фрагментов c теми id, с которыми они реально подключаются
-		strAddon += '#u#' + i  + '## '
+		print(i) #
+		strAddon += ' #u#TralivaKit__' + i[1:]  + '## '
 
 	finished =  False
 	for fil in p_js_css:
@@ -113,3 +117,4 @@ def process(p_js, p_css, p_js_css):
 			strAddon = ''
 			fragments.append(fragment)
 		fil['text'] = fragments
+		break
