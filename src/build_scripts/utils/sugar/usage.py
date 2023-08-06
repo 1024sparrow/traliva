@@ -93,6 +93,7 @@ def process(p_js, p_css, p_js_css):
 					else:
 						ordinary = True
 						s = 0
+
 					if ordinary:
 						a += t + i
 						t = ''
@@ -200,7 +201,8 @@ def process(p_js, p_css, p_js_css):
 						elif s == 115:
 							print('ERROR')
 						elif s != 0:
-							cand += broken
+							if _updateEnableState(cur_blocks, activated_ids):
+								cand += broken
 							s = 0
 					#if s == 0:
 					#	 cand += broken

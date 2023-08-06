@@ -4,7 +4,10 @@ __pycache__/
 *.swp
 *.swo
 *~
+
 src/build_scripts/utils/test_data/
+src/build_scripts/utils/namesMap.json
+
 src/project_compiled/
 build_tests/ubuntu_desktop/qt4webkit
 build_tests/ubuntu_desktop/Makefile

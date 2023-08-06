@@ -3,6 +3,11 @@
 
 var $ee, $234;
 #u#loop##
+#USAGE_BEGIN#loopa##
+sdd
+var e = #e#qweqw##
+# ss
+#USAGE_END#loopa##
 #USAGE_BEGIN#loop##
 for (var $0 = 0 ; $0 < 5 ; $0++){
     //ee
