@@ -2,65 +2,43 @@
 # Финальная сборка всего проекта. Сборка уже кода под каждую целевую платформу.
 
 #echo $1 -- /home/boris/da/pro/traliva
-#echo $2 -- compiled
+#echo $2 -- compiled (не используется)
 
-source $1/src/config
+: || "
+Если директория targets/<platform_id> существует,
+	обновляем статику.
+Иначе
+	генерируем полностью проект
+"
 
-readonly compiled_dir="$1/$2/targets"
-readonly targets_dir="$1/targets"
-declare compiled
-declare compiledPrev
-declare init
+function ERROR {
+	echo "Ошибка: $1"
+	exit 1
+}
 
-mkdir "$compiled_dir"
-mkdir "$targets_dir"
-declare tempFile
-if ! [ -d "$1"/compiledPrev ]
-then
-	mkdir "$1"/compiledPrev
-fi
-for i in $(ls -1 $1/src/build_scripts/targets)
+declare ifInit
+
+source $1/src/config || ERROR 'не удалось считать параметры сборки'
+source $1/src/target_platforms || ERROR 'не удалось загрузить список целевых платформ'
+
+for oTarget in ${targets[@]} # Список targets загружается из $1/src/target_platforms
 do
-	if [ ! -d "$1/src/build_scripts/targets/$i" ]
+	if ! [ -d $1/targets ]
 	then
-		continue
+		mkdir $1/targets
 	fi
-	if [[ "$i" =~ ^_ ]]
+	if [ -d $1/targets/$oTarget ]
 	then
-		continue
+		ifInit=false
+	else
+		ifInit=true
+		mkdir $1/targets/$oTarget
 	fi
-	if ! [ -d "$targets_dir"/"$i" ]
+	echo "Запускается скрипт генерации исходного кода под платформу \"$oTarget\""
+	if $ifInit
 	then
-		continue
+		$1/src/build_scripts/targets/"$oTarget"/init.sh "$1/compiled/project" compiled --init
+	else
+		$1/src/build_scripts/targets/"$oTarget"/init.sh "$1/compiled/project" compiled --update
 	fi
-	echo "Запускается скрипт генерации исходного кода под платформу \"$i\""
-
-	compiled="$compiled_dir"/"$i"
-	compiledPrev="$1"/compiledPrev/targets/"$i"
-	init=false
-
-	if ! [ -d "$compiledPrev" ]
-	then
-		init=true
-		mkdir -p $compiledPrev
-		pushd $compiledPrev
-			git init -b skeleton
-		popd
-	fi
-	$1/src/build_scripts/targets/"$i"/init.sh "$1/$2/project" "$compiled"
-	pushd "$compiledPrev"
-		rm -rf *
-		cp -r "$compiled"/* ./
-		if ! $init
-		then
-			tempFile=$(mktemp)
-			git diff > $tempFile
-			#cat $tempFile > /home/boris/da/tmp/230611
-			pushd "$targets_dir"/"$i"
-				git apply $tempFile
-			popd
-			rm $tempFile
-		fi
-		git add . && git commit -m "traliva: skeleton changed for target \"$i\""
-	popd
 done
