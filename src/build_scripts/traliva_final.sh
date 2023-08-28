@@ -47,15 +47,15 @@ do
 	then
 		cp -rf $ROOT/targets/$iTarget $tmpDir/ || ERROR 1
 		#rm -rf $ROOT/targets/$iTarget || ERROR 2
-		init=update.sh
+		init=--update
 		echo "Обновляется статика в директории \"targets/$iTarget\""
 	else
-		init=init.sh
+		init=--init
 		echo "Генерируется код в директории \"targets/$iTarget\""
 	fi
-	if ! [ -x $ROOT/src/build_scripts/targets/$iTarget/$init ]
+	if ! [ -x $ROOT/src/build_scripts/targets/$iTarget/init.sh ]
 	then
-		echo "Скрипт \"$ROOT/src/build_scripts/targets/$iTarget/$init\" отсутствует или не является исполняемым"
+		echo "Скрипт \"$ROOT/src/build_scripts/targets/$iTarget/init.sh\" отсутствует или не является исполняемым"
 		echo "Под платформу \"$iTarget\" сборка пропущена"
 		continue
 	fi
@@ -64,7 +64,8 @@ do
 		then
 			mkdir $iTarget
 		fi
-		$ROOT/src/build_scripts/targets/$iTarget/$init \
+		$ROOT/src/build_scripts/targets/$iTarget/init.sh \
+			$init \
 			$ROOT/compiled/project \
 			$tmpDir/$iTarget &&
 		echo "Сборка под платформу $iTarget прошла успешно" ||
